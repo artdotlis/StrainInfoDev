@@ -7,6 +7,7 @@
 [![ESLint Enabled](https://img.shields.io/badge/ESLint-enabled-brightgreen.svg?style=flat-square)](https://github.com/eslint/eslint)
 [![Prettier Enabled](https://img.shields.io/badge/Prettier-enabled-brightgreen.svg?style=flat-square)](https://github.com/prettier/prettier)
 
+[![DOI](https://zenodo.org/badge/932778634.svg)](https://doi.org/10.5281/zenodo.14872436)
 
 ---
 
