@@ -1,0 +1,97 @@
+openapi: 3.1.1
+security: []
+servers:
+    - url: '/'
+info:
+    title: StrainInfo - API
+    version: 2.0.0
+    license:
+        name: 'CC BY 4.0'
+        url: 'https://creativecommons.org/licenses/by/4.0/'
+    description: >-
+        # Notice
+
+        This is the current stable version for the StrainInfo API. 
+        We take the liberty to add more features 
+        and additional information to the responses.
+        If we make any breaking changes we will publish those in the next version.
+
+        # Privacy Policy
+
+        We are collecting anonymized data and use it to evaluate the website performance 
+        and use. You may choose to prevent this website from aggregating and analyzing 
+        the actions you take here. To opt out please add 'do_not_track'
+        argument to your API request.
+
+        # Terms of use
+
+        All information provided by this web service is carefully checked for accuracy 
+        and is continuously up-dated. However, we cannot guarantee the completeness,
+        the correctness and the topicality. Liability claims regarding damage
+        caused by the use of any information provided, including any 
+        kind of information which is incomplete or incorrect, will therefore be rejected.
+
+        According to the verdict passed by the District Court in Hamburg the owner 
+        of a website is responsible for the contents which appear in the links. 
+        This can only be prevented when the owner explicitly dissociates itself to 
+        these contents. We offer links to other homepages in the internet 
+        and we would like to emphasize that we have no influence 
+        on the contents and design of these pages. Therefore, herewith we explicitly
+        dissociate ourselves from all the contents linked through our web service and that 
+        we take no responsibility for these contents. This statement applies to all 
+        the links offered by our web service.
+paths:
+    /v2/count/strains:
+        $ref: paths/count_strains.yaml
+    /v2/count/strains/type:
+        $ref: paths/count_type_strains.yaml
+    /v2/count/archive:
+        $ref: paths/count_archive.yaml
+    /v2/count/species:
+        $ref: paths/count_species.yaml
+    /v2/count/designations:
+        $ref: paths/count_designations.yaml
+    /v2/count/deposits:
+        $ref: paths/count_deposits.yaml
+    /v2/count/deposits/strainregistry:
+        $ref: paths/count_deposits_sr.yaml
+
+    /v2/search/strain/si_dp/{si_dp}:
+        $ref: paths/sea_strain_{si_dp}.yaml
+    /v2/search/strain/cc_no/{cc_no}:
+        $ref: paths/sea_strain_{cc_no}.yaml
+    /v2/search/strain/des/{des}:
+        $ref: paths/sea_strain_{des}.yaml
+    /v2/search/strain/tax_name/{taxon_name}:
+        $ref: paths/sea_strain_{taxon_name}.yaml
+    /v2/search/strain/seq_acc/{seq_acc}:
+        $ref: paths/sea_strain_{seq_acc}.yaml
+    /v2/search/strain/cc/{cc}:
+        $ref: paths/sea_strain_{cc}.yaml
+
+    /v2/search/deposit/si_id/{si_id}:
+        $ref: paths/sea_deposit_{si_id}.yaml
+    /v2/search/deposit/cc_no/{cc_no}:
+        $ref: paths/sea_deposit_{cc_no}.yaml
+    /v2/search/deposit/des/{des}:
+        $ref: paths/sea_deposit_{des}.yaml
+    /v2/search/deposit/tax_name/{taxon_name}:
+        $ref: paths/sea_deposit_{taxon_name}.yaml
+    /v2/search/deposit/seq_acc/{seq_acc}:
+        $ref: paths/sea_deposit_{seq_acc}.yaml
+    /v2/search/deposit/cc/{cc}:
+        $ref: paths/sea_deposit_{cc}.yaml
+
+    /v2/data/strain/min/{si_id}:
+        $ref: paths/data_strain_v2_min_{si_id}.yaml
+    /v2/data/strain/avg/{si_id}:
+        $ref: paths/data_strain_v2_avg_{si_id}.yaml
+    /v2/data/strain/max/{si_id}:
+        $ref: paths/data_strain_v2_max_{si_id}.yaml
+
+    /v2/data/deposit/min/{si_dp}:
+        $ref: paths/data_deposit_v2_min_{si_dp}.yaml
+    /v2/data/deposit/avg/{si_dp}:
+        $ref: paths/data_deposit_v2_avg_{si_dp}.yaml
+    /v2/data/deposit/max/{si_dp}:
+        $ref: paths/data_deposit_v2_max_{si_dp}.yaml

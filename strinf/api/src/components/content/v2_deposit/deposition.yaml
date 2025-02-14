@@ -1,0 +1,26 @@
+type: object
+properties:
+    deposition:
+        type: object
+        properties:
+            designation:
+                type: string
+                minLength: 3
+            origin:
+                type: integer
+                minimum: 1
+                examples: [2]
+            year:
+                type: integer
+                minimum: 1000
+                maximum: 9999
+                examples: [2023]
+            depositor:
+                type: array
+                items:
+                    type: object
+                    allOf:
+                        - $ref: '../v2_str_dep/entities.yaml'
+                    properties:
+                        contributor:
+                            type: boolean

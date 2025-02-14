@@ -1,0 +1,14 @@
+get:
+    operationId: cnt-typ-str
+    summary: Count of all type strains
+    description: |
+        Retrieves the count of all type strains stored in the database.
+    tags:
+        - Statistic
+    responses:
+        '200':
+            description: OK
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/stat_cnt.yaml

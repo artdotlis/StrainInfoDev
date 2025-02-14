@@ -1,0 +1,102 @@
+<?php
+
+declare(strict_types=1);
+
+namespace straininfo\server\mvvm\view\routes\ctrl;
+
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use function Safe\json_encode;
+
+use function straininfo\server\shared\mvvm\view\add_default_headers;
+use straininfo\server\shared\mvvm\view\HeadArgs;
+
+final class RootCtrl
+{
+    private ?\DateTime $time;
+    private ?\DateTimeZone $zone;
+    private bool $maintenance;
+
+    private readonly string $version;
+
+    private readonly string $charset;
+
+    /** @var array<string> $private */
+    private readonly array $private;
+
+    /** @param array<string> $private */
+    public function __construct(
+        string $charset,
+        array $private,
+        string $version,
+        bool $maintenance,
+        ?\DateTime $time,
+        ?\DateTimeZone $zone,
+    ) {
+        $this->charset = $charset;
+        $this->version = $version;
+        $this->private = $private;
+        $this->time = $time;
+        $this->zone = $zone;
+        $this->maintenance = $maintenance;
+    }
+
+    public function getRoot(
+        ServerRequestInterface $request,
+        ResponseInterface $response
+    ): ResponseInterface {
+        $response->getBody()->write(json_encode([
+            'private' => $this->checkPrivate($request),
+            'maintenance' => $this->createMaintenanceNotice(),
+            'version' => $this->version,
+        ]));
+        $response = $response->withHeader(
+            'Content-Type',
+            'application/json'
+        );
+        return add_default_headers(
+            $response,
+            new HeadArgs(
+                $request->getHeader('Origin'),
+                [],
+                $this->charset,
+                true
+            )
+        );
+    }
+
+    public function setMaintenance(?\DateTime $time, ?\DateTimeZone $zone): void
+    {
+        $this->time = $time;
+        $this->zone = $zone;
+        $this->maintenance = true;
+    }
+
+    public function unsetMaintenance(): void
+    {
+        $this->maintenance = false;
+    }
+
+    /** @return array<string, bool|string> */
+    private function createMaintenanceNotice(): array
+    {
+        $time = '';
+        $zone = '';
+        if (!(is_null($this->time) || is_null($this->zone))) {
+            $this->time->setTimezone($this->zone);
+            $time = $this->time->format(\DateTimeInterface::ATOM);
+            $zone = $this->zone->getName();
+        }
+        return [
+            'status' => $this->maintenance,
+            'duration' => $time,
+            'zone' => $zone,
+        ];
+    }
+
+    private function checkPrivate(ServerRequestInterface $request): bool
+    {
+        $host = $request->getServerParams()['HTTP_HOST'];
+        return in_array($host, $this->private);
+    }
+}

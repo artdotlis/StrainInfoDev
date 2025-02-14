@@ -1,0 +1,14 @@
+type: object
+properties:
+    registration:
+        type: object
+        required:
+            - date
+        properties:
+            date:
+                type: string
+                examples: ['2023-02-03']
+                description: The culture registration date
+                format: date
+            submitter:
+                $ref: ../str_cul/entity.yaml

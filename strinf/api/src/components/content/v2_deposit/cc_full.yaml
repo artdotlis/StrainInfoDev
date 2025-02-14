@@ -1,0 +1,39 @@
+type: object
+required:
+    - cultureCollection
+allOf:
+    - $ref: './cc_min.yaml'
+properties:
+    cultureCollection:
+        type: object
+        required:
+            - countryCode
+            - active
+            - deprecated
+        properties:
+            countryCode:
+                type: string
+                minLength: 2
+                maxLength: 2
+                examples: [DE]
+            ror:
+                type: string
+                minLength: 1
+            active:
+                type: boolean
+            deprecated:
+                type: boolean
+            gbif:
+                type: string
+                minLength: 1
+            homepage:
+                type: object
+                required: ['url', 'online']
+                properties:
+                    url:
+                        type: string
+                        minLength: 10
+                        format: uri
+                        pattern: "^https?:\/\/.+$"
+                    online:
+                        type: boolean

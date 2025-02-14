@@ -1,0 +1,12 @@
+description: Placeholder for a taxon name
+name: taxon_name
+in: path
+required: true
+schema:
+    type: array
+    items:
+        type: string
+        minLength: 3
+        pattern: '^(\s*[a-zA-Z\.0-9]{3,}\s*)+$'
+    examples: [Acetobacter aceti, Eubacterium limosum]
+style: simple

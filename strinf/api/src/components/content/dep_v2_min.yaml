@@ -1,0 +1,14 @@
+type: array
+minItems: 1
+items:
+    type: object
+    required:
+        - deposit
+    properties:
+        deposit:
+            allOf:
+                - $ref: ./v2_deposit/si_dps.yaml
+                - $ref: ./v2_deposit/cc_min.yaml
+                - $ref: ./v2_deposit/dep_inf.yaml
+                - $ref: ./v2_deposit/registration_min.yaml
+                - $ref: ./v2_str_dep/taxon.yaml

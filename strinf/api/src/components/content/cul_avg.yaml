@@ -1,0 +1,20 @@
+type: array
+minItems: 1
+items:
+    type: object
+    required:
+        - strain
+        - culture
+    properties:
+        culture:
+            allOf:
+                - $ref: ./culture/cul_ids.yaml
+                - $ref: ./culture/cul_inf.yaml
+                - $ref: ./culture/cul_ext.yaml
+                - $ref: ./str_cul/taxon.yaml
+                - $ref: ./culture/registration.yaml
+                - $ref: ./culture/deposition.yaml
+                - $ref: ./culture/isolation.yaml
+        strain:
+            allOf:
+                - $ref: ./strain/str_ids.yaml

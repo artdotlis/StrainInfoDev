@@ -1,0 +1,29 @@
+.dropdown {
+    overflow-x: visible !important;
+}
+
+.dropdown button {
+    display: flex !important;
+    flex-flow: row nowrap !important;
+    justify-content: space-between !important;
+    width: 100%;
+    padding: 0.78rem 1rem;
+    color: #878787;
+}
+
+.dropdown button:hover {
+    text-decoration: none;
+    background-color: var(--body-color);
+}
+
+.dropdown span {
+    white-space: nowrap !important;
+}
+
+.dropdown span:last-child {
+    padding-left: 10px;
+    padding-right: 4px;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}

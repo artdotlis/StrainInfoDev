@@ -1,0 +1,11 @@
+description: Placeholder for a culture collection number
+name: cc_no
+in: path
+required: true
+schema:
+    type: array
+    items:
+        type: string
+        minLength: 4
+    examples: [DSM 10, LMG 1445]
+style: simple

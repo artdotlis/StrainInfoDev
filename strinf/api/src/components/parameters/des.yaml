@@ -1,0 +1,11 @@
+description: Placeholder for a designation
+name: des
+in: path
+required: true
+schema:
+    type: array
+    items:
+        type: string
+        minLength: 4
+    examples: [Delft L 40, STAFF 1027]
+style: simple

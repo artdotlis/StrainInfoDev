@@ -1,0 +1,39 @@
+services:
+    redis:
+        image: docker.io/redis:alpine
+        restart: always
+        healthcheck:
+            test: ['CMD', 'redis-cli', 'ping']
+            interval: 6s
+            timeout: 6s
+            retries: 10
+        ports:
+            - 6380:6379
+        networks:
+            - straininfo
+    app:
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+            args:
+                BIN_DEPLOY: ${BIN_DEPLOY}
+                BIN_DEPLOY_REQ_NGINX: ${BIN_DEPLOY_REQ_NGINX}
+                BIN_DEPLOY_ADD_CRON: ${BIN_DEPLOY_ADD_CRON}
+                DOCKER_ENV_DIR: ${DOCKER_ENV_DIR}
+                DOCKER_ENV_BE: ${DOCKER_ENV_BE}
+                FIX_CONFIG: 'true'
+                STAGE: 'false'
+                SERVER_WEB_CONFS_DIR: ${SERVER_WEB_CONFS_DIR}
+                SERVER_PHP_CONFS_DIR: ${SERVER_PHP_CONFS_DIR}
+        ports:
+            - 9002:9002
+            - 3002:3002
+        networks:
+            - straininfo
+        depends_on:
+            redis:
+                condition: service_healthy
+networks:
+    straininfo:
+        name: straininfo
+        driver: bridge

@@ -1,0 +1,26 @@
+get:
+    parameters:
+        - $ref: ../components/parameters/str_des.yaml
+    operationId: sea-cul-str-des
+    summary: >-
+        All cultures with the given strain designation
+    description: >-
+        Retrieves all the culture ids from the database that are
+        connected with the provided strain designation.
+        A designation can be any name or identifier used for a microbial strain,
+        thus can also be a strain number.
+    tags:
+        - Search culture
+    responses:
+        '404':
+            description: NOT FOUND
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/err_404.yaml
+        '200':
+            description: OK
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/res_ids.yaml

@@ -1,0 +1,24 @@
+get:
+    parameters:
+        - $ref: ../components/parameters/str_no.yaml
+    operationId: sea-cul-str-no
+    summary: All cultures with the given strain number
+    description: >-
+        Retrieves all the culture ids from the database that are
+        connected with the provided strain number.
+        A strain number can be a culture collection number or a registered designation.
+    tags:
+        - Search culture
+    responses:
+        '404':
+            description: NOT FOUND
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/err_404.yaml
+        '200':
+            description: OK
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/res_ids.yaml

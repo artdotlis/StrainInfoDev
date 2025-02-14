@@ -1,0 +1,29 @@
+type: object
+required:
+    - archive
+properties:
+    archive:
+        type: array
+        minItems: 1
+        items:
+            type: object
+            required:
+                - doi
+                - date
+                - title
+            properties:
+                doi:
+                    type: string
+                    description: The strain DOI
+                    examples: [10.60712/SI-ID 1.1]
+                    pattern: '^10\.\d{4,}(?:\.\d+)*/SI-ID\s+\d+(\.\d+)?$'
+                date:
+                    type: string
+                    examples: ['2023-02-03']
+                    description: The strain archive creation date
+                    format: date
+                title:
+                    type: string
+                    examples: ['Strain Title']
+                    description: The strain title
+                    minLength: 1

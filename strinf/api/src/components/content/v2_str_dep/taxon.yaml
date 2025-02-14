@@ -1,0 +1,16 @@
+type: object
+properties:
+    taxon:
+        type: object
+        required: [name]
+        properties:
+            name:
+                type: string
+                minLength: 4
+                examples: [Enterobacter aerogenes]
+            ncbi:
+                type: integer
+                examples: [548]
+            lpsn:
+                type: integer
+                examples: [775928]

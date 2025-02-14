@@ -1,0 +1,12 @@
+:target {
+    scroll-margin-top: calc(var(--navbar-bottom-height) + 6rem);
+}
+
+/* TODO remove later when added to external style */
+.content-container:first-child {
+    min-height: calc(100vh - 14rem) !important;
+}
+
+.title-bar + .content-container {
+    min-height: calc(100vh - 19.5rem) !important;
+}

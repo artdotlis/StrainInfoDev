@@ -1,0 +1,15 @@
+get:
+    operationId: cnt-dep-sr
+    summary: Count of all deposit accepted in StrainRegistry
+    description: |
+        Retrieves the count of all deposits accepted in StrainRegistry 
+        that are stored in StrainInfo.
+    tags:
+        - Statistic
+    responses:
+        '200':
+            description: OK
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/stat_cnt.yaml

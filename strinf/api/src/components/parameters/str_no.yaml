@@ -1,0 +1,11 @@
+description: Placeholder for a strain number
+name: str_no
+in: path
+required: true
+schema:
+    type: array
+    items:
+        type: string
+        minLength: 4
+    examples: [DSM 10, LMG 1445]
+style: simple

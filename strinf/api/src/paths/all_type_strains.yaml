@@ -1,0 +1,23 @@
+get:
+    operationId: all-typ-str
+    summary: All type strain ids
+    description: |
+        Retrieves all strain ids, representing type strains, 
+        stored in the database.
+
+        > **Note:**
+        >  Only visible and reachable from inside the intranet.
+
+        ---
+
+        > **Warning:**
+        > The interface does not follow versioning!
+    tags:
+        - Identifier [Intranet]
+    responses:
+        '200':
+            description: OK
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/res_ids.yaml

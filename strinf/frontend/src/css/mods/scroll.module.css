@@ -1,0 +1,9 @@
+.disable {
+    overflow: hidden;
+    height: 100%;
+}
+
+.mobile {
+    overflow-x: auto;
+    overflow-y: hidden;
+}

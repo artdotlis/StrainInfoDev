@@ -1,0 +1,18 @@
+type: array
+minItems: 1
+items:
+    type: object
+    required:
+        - strain
+    properties:
+        strain:
+            required:
+                - relation
+            allOf:
+                - $ref: ./v2_strain/si_ids.yaml
+                - $ref: ./v2_strain/str_inf.yaml
+                - $ref: ./v2_str_dep/taxon.yaml
+            properties:
+                relation:
+                    allOf:
+                        - $ref: ./v2_strain/rel_dep_con.yaml

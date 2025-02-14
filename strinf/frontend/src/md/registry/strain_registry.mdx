@@ -1,0 +1,70 @@
+import { Container, ContentContainer } from '@strinf/ts/mvc/vdom/fun/content/content';
+import LogoStrainRegistryVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoStrainRegistryVD';
+import ProcStrainRegistryVD from '@strinf/ts/mvc/vdom/static/images/docu/ProcStrainRegistryVD';
+import { ClHtml, Wid, Col, Pad } from '@strinf/ts/constants/style/ClHtml';
+import { DSMZ_BULK } from '@strinf/ts/constants/links/dsmz';
+
+<ContentContainer>
+
+<Container>
+<div className={ClHtml.cnt} style={{
+"overflow-x": "scroll"
+}}>
+
+<LogoStrainRegistryVD />
+
+# A central registry for microbial strains
+
+</div>
+<div className={`${ClHtml.cnt} ${ClHtml.row}`}>
+<div className={Col.lN6}>
+
+We are developing a novel strain registration and deposition management service to
+streamline the deposition process in culture collections and to make strains and
+associated data easier to track by registering StrainInfo DOIs early and encouraging
+consistent referencing of strains.
+
+# Why develop a strain registry?
+
+Increasingly, large microbiome studies generate considerable numbers of isolates.
+Depositing these isolates in culture collections is not only in the interest of open
+science, but is also required to formally name any new taxa found among them.
+This is a challenge for both researchers and culture collections. While the former
+wish to receive culture collection numbers as soon as possible to use as persistent
+identifiers in publications, the latter do not have the capacity to process these sizable
+collections simultaneously.
+
+# How will StrainRegistry work?
+
+StrainRegistry will allow microbiologists to register strains that they want to
+deposit with strain meta- and deposition data, and directly submit strains for
+deposition with participating culture collections. The StrainRegistry user interface
+will visualize strain related data as well as the deposition status of each strain in a
+private view and facilitate communication between the depositor and the responsible
+culture collection curator, who will be able to view strain information, demand
+further data, request shipping of biological material and change strain status.
+When strains are accepted for deposition at a collection, they will receive a persistent
+StrainInfo DOI and be published in the database, where they can later be linked with
+culture collection numbers, sequences and publications.
+This procedure is currently being developed in collaboration with the curators of the
+DSMZ to simplify bulk deposition at the DSMZ and with the ambition to engage other
+culture collections and standardize microbial strain deposition worldwide.
+
+# DSMZ bulk deposition with early StrainInfo integration
+
+While the StrainRegistry GUI is still under development, the general process of
+bulk deposits with early integration in the StrainInfo database is already in place at
+the DSMZ. If you are interested in depositing a set of isolates,
+please see <a href={DSMZ_BULK}>DSMZ bulk deposition</a>.
+
+</div>
+<div className={`${Col.lN6} ${Pad.lN15}`} style={{
+    "overflow-x": "scroll"
+}}>
+
+<ProcStrainRegistryVD />
+
+</div>
+</div>
+</Container>
+</ContentContainer>

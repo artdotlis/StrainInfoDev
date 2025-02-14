@@ -1,0 +1,178 @@
+type: array
+minItems: 1
+items:
+    type: object
+    required: [strain, deposits]
+    properties:
+        strain:
+            type: object
+            required: ['si_id', 'type_strain', 'designations']
+            allOf:
+                - $ref: ./str_cul/taxon.yaml
+            properties:
+                si_id:
+                    type: integer
+                    minimum: 1
+                    examples: [1]
+                merged:
+                    type: array
+                    minItems: 1
+                    items:
+                        type: integer
+                        minimum: 1
+                        examples: [2]
+                type_strain:
+                    type: boolean
+                sample:
+                    $ref: './str_cul/sample.yaml'
+                designations:
+                    type: array
+                    minItems: 1
+                    items:
+                        type: string
+                        examples: [CCUG 17367]
+                        minLength: 1
+                sequence:
+                    type: array
+                    items:
+                        type: string
+                        minLength: 6
+                        maxLength: 10
+                        pattern: "^([A-Z]\\d{5}|[A-Z]{2}\\d{6}|[A-Z]{2}\\d{8}\
+                            |[A-Z]{4}\\d{2}\\d{6,}|[A-Z]{6}\\d{2}\\d{7,}\
+                            |[A-Z]{5}\\d{7}\
+                            |(?:AC_|NC_|NG_|NT_|NW_|NZ_|NM_|NR_|XM_|XR_)\\d+\
+                            |(GCA_|GCF_)\\d+)$"
+                        examples: [AJ519476]
+                literature:
+                    type: array
+                    items:
+                        type: object
+                        anyOf:
+                            - properties:
+                                  doi:
+                                      type: string
+                                      minLength: 1
+                                      pattern: '^10\.\d{4,}(?:\.\d+)*/[^\n\r\s\t]+$'
+                                      examples: ['10.1016/j.syapm.2011.01.004']
+                              required: [doi]
+                            - properties:
+                                  pmc:
+                                      type: integer
+                                      minimum: 1
+                                      examples: [1]
+                              required: [pmc]
+                            - properties:
+                                  pubmed:
+                                      type: integer
+                                      minimum: 1
+                                      examples: [1]
+                              required: [pubmed]
+                            - properties:
+                                  issn:
+                                      type: string
+                                      minLength: 1
+                                      pattern: '^\d{4}-\d{3}[0-9xX]$'
+                              required: [issn]
+        deposits:
+            type: array
+            minItems: 1
+            items:
+                type: object
+                required:
+                    [
+                        'si_dp',
+                        'designation',
+                        'type_strain',
+                        'data_source',
+                        'last_update',
+                        'registration',
+                    ]
+                allOf:
+                    - $ref: ./str_cul/taxon.yaml
+                properties:
+                    si_dp:
+                        type: integer
+                        minimum: 1
+                        examples: [1]
+                    designation:
+                        type: string
+                        minLength: 1
+                    type_strain:
+                        type: boolean
+                    history:
+                        $ref: ./culture/history_arc.yaml
+                    culture_collection:
+                        type: object
+                        required: ['cc_id', 'country_code', 'name']
+                        properties:
+                            cc_id:
+                                type: integer
+                                minimum: 1
+                                examples: [1]
+                            country_code:
+                                type: string
+                                examples: [DE]
+                                minLength: 2
+                                maxLength: 2
+                            name:
+                                type: string
+                            ror:
+                                type: string
+                            gbif:
+                                type: string
+                    registration:
+                        type: object
+                        required: [date]
+                        properties:
+                            date:
+                                type: string
+                                examples: ['2023-02-03']
+                                format: date
+                            submitter:
+                                $ref: ./str_cul/entity.yaml
+                            supervisor:
+                                $ref: ./str_cul/entity.yaml
+                    deposition:
+                        type: object
+                        properties:
+                            year:
+                                type: integer
+                                minimum: 1000
+                                maximum: 9999
+                                examples: [2023]
+                            designation:
+                                type: string
+                                minLength: 1
+                            depositor:
+                                $ref: ./str_cul/entity.yaml
+                    isolation:
+                        type: object
+                        properties:
+                            sample:
+                                type: object
+                                allOf:
+                                    - $ref: './str_cul/sample.yaml'
+                                properties:
+                                    date:
+                                        type: string
+                                        minLength: 1
+                                        examples: ['2023-02']
+                                    place:
+                                        type: array
+                                        items:
+                                            type: string
+                                            minLength: 1
+                                            examples: [Germany]
+                            isolator:
+                                $ref: ./str_cul/entity.yaml
+                    last_update:
+                        type: string
+                        examples: ['2023-02-03']
+                        format: date
+                    data_source:
+                        type: array
+                        minItems: 1
+                        items:
+                            type: string
+                            minLength: 1

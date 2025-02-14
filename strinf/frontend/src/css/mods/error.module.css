@@ -1,0 +1,15 @@
+.err {
+    text-align: center;
+}
+
+.err h1 {
+    font-size: calc(12px + 20vw);
+}
+
+.err h2 {
+    font-size: calc(12px + 3vw);
+}
+
+.err .info {
+    font-size: calc(12px + 2vw);
+}

@@ -1,0 +1,13 @@
+{
+    "name": "@straininfo/api",
+    "private": true,
+    "version": "2.0.0",
+    "devDependencies": {
+        "@redocly/cli": "^1.27"
+    },
+    "scripts": {
+        "build": "sh ../../$BIN_API_BUNDLE",
+        "lint": "sh ../../$BIN_API_LINT"
+    },
+    "type": "module"
+}

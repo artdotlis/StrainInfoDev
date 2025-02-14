@@ -1,0 +1,39 @@
+type: object
+required:
+    - status
+    - source
+    - typeStrain
+    - lastUpdate
+allOf:
+    - $ref: ./data_source.yaml
+properties:
+    catalogue:
+        type: object
+        required: ['url', 'online']
+        properties:
+            url:
+                type: string
+                minLength: 10
+                format: uri
+                pattern: "^https?:\/\/.+$"
+                examples:
+                    [https://www.dsmz.de/collection/catalogue/microorganisms/catalogue]
+            online:
+                type: boolean
+    status:
+        type: string
+        examples: ['available']
+        description: The deposit status
+        enum:
+            - private
+            - dead
+            - unknown
+            - available
+            - erroneous data
+    typeStrain:
+        type: boolean
+    lastUpdate:
+        type: string
+        examples: ['2023-02-03']
+        description: The deposit update
+        format: date

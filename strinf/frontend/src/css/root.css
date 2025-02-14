@@ -1,0 +1,12 @@
+:root {
+    --primary-color: var(--color-db-straininfo);
+    --primary-color-20: rgba(236, 175, 0, 0.2);
+    --primary-color-30: rgba(236, 175, 0, 0.3);
+    --primary-color-60: rgba(236, 175, 0, 0.6);
+    --primary-color-light: #ffd24f;
+    --primary-color-very-light: #fff0c5;
+    --primary-color-dark: #ac9040;
+    --primary-color-very-dark: #281e00;
+    --primary-box-shadow-color: rgba(40, 30, 0, 0.3);
+    --primary-box-shadow-color-darker: rgba(40, 30, 0, 0.6);
+}

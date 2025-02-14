@@ -1,0 +1,63 @@
+.pag div {
+    text-align: right;
+    padding-top: 12px;
+}
+
+/* TODO: remove when updated in digidive -> pagination-md */
+.pag button {
+    font-size: 1.4rem;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
+}
+
+.sea {
+    margin-left: auto;
+    margin-right: 0;
+    margin-bottom: 12px;
+}
+
+.seal {
+    margin-right: auto;
+    margin-left: 0;
+    margin-bottom: 12px;
+}
+
+.sort {
+    color: var(--color-gray-80);
+    font-weight: 900;
+    background-color: transparent;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.th div {
+    display: inline-block;
+}
+
+.th button {
+    margin-left: 6px;
+}
+
+.th {
+    position: relative;
+}
+
+.gfmtab td[align='left'],
+th[align='left'] {
+    text-align: left;
+}
+
+.gfmtab td[align='right'],
+th[align='right'] {
+    text-align: right;
+}
+
+.gfmtab td[align='center'],
+th[align='center'] {
+    text-align: center;
+}

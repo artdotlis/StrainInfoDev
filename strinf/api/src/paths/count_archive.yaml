@@ -1,0 +1,14 @@
+get:
+    operationId: cnt-arc
+    summary: Count of all strain DOIs in archive
+    description: |
+        Retrieves the count of all DOIs inside the archive.
+    tags:
+        - Statistic
+    responses:
+        '200':
+            description: OK
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/stat_cnt.yaml

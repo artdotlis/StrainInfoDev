@@ -1,0 +1,25 @@
+type: object
+required:
+    - siID
+    - doi
+    - typeStrain
+properties:
+    siID:
+        type: integer
+        minimum: 1
+        examples: [1]
+        description: The SI-ID
+    doi:
+        type: string
+        description: The strain DOI
+        examples: [10.60712/SI-ID 1.1]
+        pattern: '^10\.\d{4,}(?:\.\d+)*/SI-ID\s+\d+(\.\d+)?$'
+    merged:
+        type: array
+        items:
+            type: integer
+            minimum: 1
+            examples: [2]
+            description: All merged SI-IDs
+    typeStrain:
+        type: boolean

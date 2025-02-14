@@ -1,0 +1,9 @@
+#load div {
+    border-radius: 0px;
+    height: 0.5rem;
+}
+
+/* TODO remove top when page-wrapper-large is added to digidive */
+.alert {
+    top: 15rem !important;
+}

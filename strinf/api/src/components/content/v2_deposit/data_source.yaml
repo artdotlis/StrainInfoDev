@@ -1,0 +1,17 @@
+type: object
+required:
+    - dataSource
+properties:
+    dataSource:
+        type: array
+        minItems: 1
+        items:
+            type: string
+            examples: ['scraped from brc website']
+            description: The deposit source
+            enum:
+                - straininfo archive
+                - scraped from brc website
+                - provided by brc
+                - external database
+                - registration

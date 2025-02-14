@@ -1,0 +1,22 @@
+get:
+    operationId: dis-dps
+    summary: Deposits per strain distribution
+    description: |
+        Retrieves the distribution of "Number of deposits per strain".
+
+        > **Note:**
+        >  Only visible from inside the intranet, but can be used from outside as well.
+
+        ---
+
+        > **Warning:**
+        > The interface does not follow versioning!
+    tags:
+        - Distribution [Intranet]
+    responses:
+        '200':
+            description: OK
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/dis_dps.yaml

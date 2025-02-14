@@ -1,0 +1,9 @@
+description: Placeholder for an index starting at 0
+name: ind
+in: path
+required: true
+schema:
+    type: integer
+    minimum: 0
+    examples: [0, 1, 2]
+style: simple

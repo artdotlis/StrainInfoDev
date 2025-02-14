@@ -1,0 +1,26 @@
+extends:
+    - recommended
+apis:
+    internal@v1:
+        root: ../../strinf/api/src/v1.yaml
+    external@v1:
+        root: ../../strinf/api/src/v1.yaml
+        decorators:
+            remove-x-internal: on
+    internal@v2:
+        root: ../../strinf/api/src/v2.yaml
+    external@v2:
+        root: ../../strinf/api/src/v2.yaml
+        decorators:
+            remove-x-internal: on
+    services:
+        root: ../../strinf/api/src/services.yaml
+rules:
+    operation-4xx-response:
+        severity: off
+    no-unused-components: error
+    response-contains-property:
+        severity: error
+        names:
+            200:
+                - []

@@ -1,0 +1,32 @@
+type: object
+properties:
+    isolation:
+        type: object
+        properties:
+            sample:
+                type: object
+                allOf:
+                    - $ref: ../v2_str_dep/sam_min.yaml
+                properties:
+                    date:
+                        type: string
+                        minLength: 1
+                        examples: ['2023-02']
+                        allOf:
+                            - pattern: '^\/?\d{4}(-\d{2}){0,2}(\/|\/\d{4}(-\d{2}){0,2})?$'
+                            - pattern: '^[^\/]*\/?[^\/]*$'
+                    place:
+                        type: array
+                        items:
+                            type: string
+                            minLength: 1
+                            examples: [Germany]
+            isolator:
+                type: array
+                items:
+                    type: object
+                    allOf:
+                        - $ref: '../v2_str_dep/entities.yaml'
+                    properties:
+                        contributor:
+                            type: boolean

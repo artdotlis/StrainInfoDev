@@ -1,0 +1,68 @@
+import QApiCon from '@strinf/ts/constants/api/q_api';
+
+In Python, API requests can be made using a package called "requests".
+
+```python
+# load requests package to make API requests
+import requests
+```
+
+The get method of the requests package can be used an the URL for an API call.
+In this example a strain designation is stored in a variable, which is then used as
+the variable in a request to the "{QApiCon.seaCulStrDes}" endpoint.
+The response to the request is stored in a variable.
+
+```python
+# Example strain Prevotella bivia 653C
+designation="653C"
+
+# make API request to search deposits connected
+# with the designation using the requests.get()
+# method and saving the response to a
+# variable called 'response'
+response=requests.get("{{API_DOMAIN}}{{API_DES_SEA}}"+designation)
+```
+
+The response can be transformed to a Python object using the json decoder from the requests package.
+In this case, the response is a list of SI-DPs of the deposits connected to the designation.
+
+```python
+# print 'response' using the json decoder
+# from the requests package
+print(response.json())
+```
+
+One of the SI-DPs can then be used to request detailed deposit information.
+
+```python
+# store the first deposit ID of the list
+si_cu=response.json()[0]
+print(si_dp)
+# make API request to search information on the deposit with the SI-DP
+response=requests.get("{{API_DOMAIN}}{{API_DEP_MAX}}"+str(si_dp))
+```
+
+All information is returned as json string, which is decoded into a Python list of nested lists and dictionaries.
+
+```python
+print(response.json())
+```
+
+Using indices and keys, specific data fields can be accessed, for example the SI-ID of the strain
+
+```python
+# store the strain ID (SI-ID) of the strain
+si_id=response.json()[0]["strain"]["id"]
+print(si_id)
+```
+
+or the culture collection number of the deposit and all the other designations used for the deposit.
+
+```python
+# print designation of current deposit
+print(response.json()[0]["deposit"]["designation"])
+# print all deposit designations of the current strain
+print(response.json()[0]["strain"]["relation"]["deposit"])
+# designations, except the one from the previous command
+print(response.json()[0]["strain"]["relation"]["designation"])
+```

@@ -1,0 +1,23 @@
+get:
+    parameters:
+        - $ref: ../components/parameters/si_id_int.yaml
+    operationId: sea-dep-si-id
+    summary: All deposits with the given SI-ID
+    description: >-
+        Retrieves all the deposits from the database that are
+        connected with the provided SI-ID.
+    tags:
+        - Search deposit
+    responses:
+        '404':
+            description: NOT FOUND
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/err_404.yaml
+        '200':
+            description: OK
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/res_ids.yaml

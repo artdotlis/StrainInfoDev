@@ -1,0 +1,27 @@
+type: object
+properties:
+    name:
+        type: string
+        minLength: 1
+    institute:
+        type: string
+        minLength: 1
+        examples: [DSMZ]
+    country_code:
+        type: string
+        minLength: 2
+        maxLength: 2
+        examples: [DE]
+    place:
+        type: array
+        items:
+            type: string
+            minLength: 1
+            examples: [Germany]
+    ror:
+        type: string
+        minLength: 1
+    orcid:
+        type: string
+        minLength: 1
+        pattern: '^(?:[0-9]{4}-){3}[0-9]{4}$'

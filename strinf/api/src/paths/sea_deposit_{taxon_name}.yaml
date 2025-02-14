@@ -1,0 +1,23 @@
+get:
+    parameters:
+        - $ref: ../components/parameters/taxon_name.yaml
+    operationId: sea-dep-taxon-name
+    summary: All deposits with the given taxon name
+    description: >-
+        Retrieves all the deposits from the database that are
+        connected with the provided taxon name.
+    tags:
+        - Search deposit
+    responses:
+        '404':
+            description: NOT FOUND
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/err_404.yaml
+        '200':
+            description: OK
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/res_ids.yaml

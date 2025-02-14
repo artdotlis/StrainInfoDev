@@ -1,0 +1,48 @@
+.tilestext .tiletext {
+    max-height: 3rem;
+    min-height: 2.5rem;
+    max-width: 10rem;
+    min-width: 9.5rem;
+    overflow: hidden;
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 2px;
+    margin-bottom: 0.25px;
+}
+
+.tilestext .tiletext span {
+    width: 9rem;
+}
+
+span.title {
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    color: #006eb7;
+}
+
+span.title:hover,
+span.title:focus {
+    color: #147abd;
+    text-decoration: underline;
+}
+
+.pub {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.cursor {
+    cursor: default;
+}
+
+.tileslogos .tileslogo {
+    min-width: 22rem;
+    max-width: 22rem;
+    overflow: hidden;
+}
+
+.tileslogo img {
+    max-height: 10rem;
+    width: auto;
+    max-width: 20rem;
+}

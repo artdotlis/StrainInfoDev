@@ -1,0 +1,67 @@
+import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
+import tilSty from '@strinf/css/mods/tile.module.css';
+import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
+import {
+    DSMZ,
+    BCCM,
+    CIP,
+    CCUG,
+    CIRM,
+    ICMP,
+    RCC,
+} from '@strinf/ts/constants/links/collection';
+
+To include your data in the StrainInfo database, please <a href={UIApiCon.contact}>contact us</a>.
+With permission, we can continuously retrieve catalogue data directly from your website.
+
+<div className={`${ClHtml.tils} ${tilSty.tileslogos}`}>
+    <a
+        className={`${tilSty.tileslogo} ${ClHtml.til} ${ClHtml.tLin}`}
+        href={DSMZ}
+        target="_blank"
+    >
+        {props.logos.dsmz}
+    </a>
+    <a
+        className={`${tilSty.tileslogo} ${ClHtml.til} ${ClHtml.tLin}`}
+        href={BCCM}
+        target="_blank"
+    >
+        {props.logos.bccm}
+    </a>
+    <a
+        className={`${tilSty.tileslogo} ${ClHtml.til} ${ClHtml.tLin}`}
+        href={CIP}
+        target="_blank"
+    >
+        {props.logos.cip}
+    </a>
+    <a
+        className={`${tilSty.tileslogo} ${ClHtml.til} ${ClHtml.tLin}`}
+        href={CCUG}
+        target="_blank"
+    >
+        {props.logos.ccug}
+    </a>
+    <a
+        className={`${tilSty.tileslogo} ${ClHtml.til} ${ClHtml.tLin}`}
+        href={CIRM}
+        target="_blank"
+    >
+        {props.logos.cirm}
+    </a>
+    <a
+        className={`${tilSty.tileslogo} ${ClHtml.til} ${ClHtml.tLin}`}
+        href={ICMP}
+        target="_blank"
+    >
+        {props.logos.icmp}
+    </a>
+    <a
+        className={`${tilSty.tileslogo} ${ClHtml.til} ${ClHtml.tLin}`}
+        href={RCC}
+        target="_blank"
+    >
+        {props.logos.rcc}
+    </a>
+</div>

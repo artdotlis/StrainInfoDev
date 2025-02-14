@@ -1,0 +1,4 @@
+type: array
+items:
+    $ref: ./search/str_elm.yaml
+    minItems: 1

@@ -1,0 +1,19 @@
+type: array
+minItems: 1
+maxItems: 1
+items:
+    type: object
+    required:
+        - count
+        - deposits per strain
+    properties:
+        count:
+            type: array
+            items:
+                type: integer
+                minimum: 1
+        deposits per strain:
+            type: array
+            items:
+                type: integer
+                minimum: 1

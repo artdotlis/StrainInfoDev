@@ -1,0 +1,10 @@
+type: array
+maxItems: 6
+minItems: 6
+items:
+    oneOf:
+        - type: integer
+        - type: string
+        - type: array
+          items:
+              type: string

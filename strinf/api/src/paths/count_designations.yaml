@@ -1,0 +1,14 @@
+get:
+    operationId: cnt-des
+    summary: Count of all designations
+    description: >-
+        Retrieves the count of all designations stored in the database.
+    tags:
+        - Statistic
+    responses:
+        '200':
+            description: OK
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/stat_cnt.yaml

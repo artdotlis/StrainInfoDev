@@ -1,0 +1,3 @@
+resources:
+    - style: 'http://localhost/digidive_v1.zip'
+      assets: 'http://localhost/assets.tar.gz'

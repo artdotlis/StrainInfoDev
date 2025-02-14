@@ -1,0 +1,9 @@
+type: object
+allOf:
+    - $ref: './si_dps.yaml'
+properties:
+    ccID:
+        type: integer
+        minimum: 1
+        examples: [1]
+        description: The culture collection id

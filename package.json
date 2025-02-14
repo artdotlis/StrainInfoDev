@@ -1,0 +1,81 @@
+{
+    "name": "StrainInfo",
+    "version": "2025.02.0",
+    "description": "StrainInfo is a service developed to provide a resolution of microbial strain identifiers by storing culture collection numbers, their relations, and deposition data.",
+    "private": true,
+    "workspaces": [
+        "strinf/frontend",
+        "strinf/api"
+    ],
+    "author": {
+        "name": "Artur Lissin",
+        "email": "artur.lissin@dsmz.de"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:LeibnizDSMZ/StrainInfo.git"
+    },
+    "keywords": [
+        "straininfo",
+        "typescript",
+        "php",
+        "fullstack"
+    ],
+    "dependencies": {
+        "typescript": "^5.7.3"
+    },
+    "devDependencies": {
+        "@types/bun": "^1.2.2",
+        "@types/node": "^22.13.4",
+        "commitizen": "^4.3.1",
+        "cz-conventional-changelog": "^3.3.0",
+        "husky": "^9.1.7",
+        "lint-staged": "^15.4.3",
+        "prettier": "^3.5.1",
+        "shellcheck": "^3.1.0"
+    },
+    "scripts": {
+        "build:api": "cd $STRINF_API && $BUN run build",
+        "build:backend": "sh $BIN_BACKEND_BUNDLE",
+        "build:frontend": "cd $STRINF_FRONTEND && bun run build",
+        "build": "bun run build:api && bun run build:backend && bun run build:frontend",
+        "serve:frontend": "cd $STRINF_FRONTEND && bun run serve",
+        "serve": "sh $BIN_TRAP_SH 'sh $BIN_BACKEND_RUN_STAGE' 'bun run serve:frontend'",
+        "dev:frontend": "cd $STRINF_FRONTEND && bun run dev",
+        "dev": "sh $BIN_TRAP_SH 'sh $BIN_BACKEND_RUN_DEV' 'bun run dev:frontend'",
+        "profile:backend": "sh $BIN_BACKEND_RUN_PROFILE",
+        "profile": "bun run profile:backend",
+        "lint": "lint-staged --shell '/bin/sh'",
+        "lint:api": "cd $STRINF_API && $BUN run lint",
+        "lint:dev": "bash $BIN_RUN_ENV_LINT",
+        "lint:backend": "cd $STRINF_BACKEND && sh ../../$BIN_BACKEND_LINT",
+        "lint:frontend": "cd $STRINF_FRONTEND && bun run lint",
+        "lint:shell": "shellcheck --rcfile=$CONFIG_SHELL $BIN_DIR/**/*.sh $STRINF/**/bin/*.sh",
+        "lint:prettier": "prettier --config $CONFIG_PRETTIER --ignore-path $CONFIG_PRETTIER_IGNORE -c $STRINF/ --write",
+        "hook": "husky",
+        "prepare": "husky"
+    },
+    "lint-staged": {
+        "**/frontend/**/*.{ts,tsx}": [
+            "cd $STRINF_FRONTEND && bun run lint:eslint --fix"
+        ],
+        "*.{js,jsx,ts,tsx,html,css,md,json,yml,yaml}": [
+            "prettier --config $CONFIG_PRETTIER --ignore-path $CONFIG_PRETTIER_IGNORE --write"
+        ],
+        "**/frontend/**/*.{md,mdx}": [
+            "cd $STRINF_FRONTEND && bun run lint:eslint $CONFIG_ESLINT_MDX --fix"
+        ],
+        "*.sh": [
+            "shellcheck --rcfile=$CONFIG_SHELL"
+        ],
+        "**/backend/**/*.php": [
+            "cd $STRINF_BACKEND && sh ../../$BIN_BACKEND_LINT_STAGED"
+        ]
+    },
+    "config": {
+        "commitizen": {
+            "path": "cz-conventional-changelog"
+        }
+    }
+}

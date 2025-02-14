@@ -1,0 +1,19 @@
+type: object
+required:
+    - fullKey
+    - path
+    - siID
+    - strainCount
+properties:
+    fullKey:
+        type: string
+        minLength: 1
+    path:
+        type: string
+        minLength: 1
+    siID:
+        type: integer
+        minimum: 1
+    strainCount:
+        type: integer
+        minimum: 1

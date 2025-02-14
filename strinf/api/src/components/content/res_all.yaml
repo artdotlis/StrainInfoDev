@@ -1,0 +1,15 @@
+type: object
+required:
+    - data
+    - count
+properties:
+    data:
+        type: array
+        items:
+            $ref: ./search/str_elm.yaml
+    count:
+        type: integer
+        minimum: 1
+    next:
+        type: integer
+        minimum: 1

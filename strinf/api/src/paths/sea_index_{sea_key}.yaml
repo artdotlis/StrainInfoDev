@@ -1,0 +1,33 @@
+get:
+    parameters:
+        - $ref: ../components/parameters/sea_key.yaml
+    operationId: ind-sea-key
+    summary: All terms matching the given key
+    description: |
+        Retrieves all terms from the database that match
+        the given key.
+
+        > **Note:**
+        >  Only visible from inside the intranet, but can be used from outside as well.
+
+        ---
+
+        > **Warning:**
+        > The interface does not follow versioning!
+    tags:
+        - Search service [Intranet]
+    responses:
+        '200':
+            description: OK
+            content:
+                application/json:
+                    schema:
+                        allOf:
+                            - $ref: ../components/content/res_ind.yaml
+        '404':
+            description: NOT FOUND
+            content:
+                application/json:
+                    schema:
+                        allOf:
+                            - $ref: ../components/content/err_404_ind.yaml

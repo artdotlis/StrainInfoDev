@@ -1,0 +1,29 @@
+type: object
+required:
+    - id
+    - doi
+    - type_strain
+properties:
+    id:
+        type: integer
+        minimum: 1
+        examples: [1]
+        description: The strain id
+    doi:
+        type: string
+        description: The strain DOI
+        examples: [10.60712/SI-ID 1.1]
+        pattern: '^10\.\d{4,}(?:\.\d+)*/SI-ID\s+\d+(\.\d+)?$'
+    merged:
+        type: array
+        items:
+            type: integer
+            minimum: 1
+            examples: [2]
+            description: All merged strain ids
+    type_culture:
+        type: integer
+        minimum: 1
+        examples: [1]
+    type_strain:
+        type: boolean

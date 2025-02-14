@@ -1,0 +1,22 @@
+type: array
+minItems: 1
+items:
+    type: object
+    required:
+        - strain
+        - deposit
+    properties:
+        deposit:
+            allOf:
+                - $ref: ./v2_deposit/si_dps.yaml
+                - $ref: ./v2_deposit/cc_full.yaml
+                - $ref: ./v2_deposit/dep_ext.yaml
+                - $ref: ./v2_deposit/dep_inf.yaml
+                - $ref: ./v2_deposit/registration_min.yaml
+                - $ref: ./v2_str_dep/taxon.yaml
+                - $ref: ./v2_deposit/registration.yaml
+                - $ref: ./v2_deposit/deposition.yaml
+                - $ref: ./v2_deposit/isolation.yaml
+        strain:
+            allOf:
+                - $ref: ./v2_strain/si_ids.yaml

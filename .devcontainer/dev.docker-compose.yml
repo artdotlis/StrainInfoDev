@@ -1,0 +1,23 @@
+services:
+    app_dev:
+        user: vscode
+        build:
+            context: .
+            dockerfile: .devcontainer/dev.Dockerfile
+            args:
+                USERNAME: vscode
+                USER_UID: 1000
+                USER_GID: 1000
+                WORK_DIR: /workspace
+                BIN_DEPLOY_PREP: ${BIN_DEPLOY_PREP}
+                BIN_DEPLOY_REQ: ${BIN_DEPLOY_REQ}
+        volumes:
+            - .:/workspace
+            - ~/.gitconfig:/etc/gitconfig:ro
+        ports:
+            - ${BACKEND_DEV_PORT}:${BACKEND_DEV_PORT}
+            - ${BACKEND_STAGE_PORT}:${BACKEND_STAGE_PORT}
+            - ${FRONTEND_DEV_PORT}:${FRONTEND_DEV_PORT}
+            - ${FRONTEND_STAGE_PORT}:${FRONTEND_STAGE_PORT}
+        networks:
+            - straininfo

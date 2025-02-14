@@ -1,0 +1,22 @@
+get:
+    parameters:
+        - $ref: ../components/parameters/cul_id.yaml
+    operationId: avg-cul
+    summary: Culture average information
+    description: >-
+        Culture details with average information.
+    tags:
+        - Culture data
+    responses:
+        '404':
+            description: NOT FOUND
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/err_404.yaml
+        '200':
+            description: OK
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/cul_avg.yaml

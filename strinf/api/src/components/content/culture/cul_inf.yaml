@@ -1,0 +1,42 @@
+type: object
+required:
+    - status
+    - source
+    - type_culture
+    - type_strain
+    - last_update
+allOf:
+    - $ref: ./data_source.yaml
+properties:
+    catalogue:
+        type: object
+        required: ['url', 'online']
+        properties:
+            url:
+                type: string
+                minLength: 10
+                format: uri
+                pattern: "^https?:\/\/.+$"
+                examples:
+                    [https://www.dsmz.de/collection/catalogue/microorganisms/catalogue]
+            online:
+                type: boolean
+    status:
+        type: string
+        examples: ['available']
+        description: The culture status
+        enum:
+            - private
+            - dead
+            - unknown
+            - available
+            - erroneous data
+    type_culture:
+        type: boolean
+    type_strain:
+        type: boolean
+    last_update:
+        type: string
+        examples: ['2023-02-03']
+        description: The culture update
+        format: date

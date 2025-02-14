@@ -1,0 +1,30 @@
+/* Based on default styling example https://popper.js.org/docs/v2/tutorial/ */
+
+.tooltip {
+    background: var(--text-color);
+    color: white;
+    border-radius: 4px;
+    z-index: 999;
+    min-width: 30rem;
+    max-width: 50rem;
+    position: absolute;
+}
+
+.arrow,
+.arrow::before {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: inherit;
+}
+
+.arrow {
+    visibility: hidden;
+}
+
+.arrow::before {
+    z-index: 999;
+    visibility: visible;
+    content: '';
+    transform: rotate(45deg);
+}

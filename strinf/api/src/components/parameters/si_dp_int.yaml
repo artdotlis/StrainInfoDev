@@ -1,0 +1,11 @@
+description: Placeholder for SI-DP
+name: si_dp
+in: path
+required: true
+schema:
+    type: array
+    items:
+        type: integer
+        minimum: 1
+    examples: [1, 134885]
+style: simple

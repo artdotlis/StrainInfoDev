@@ -1,0 +1,14 @@
+get:
+    operationId: cnt-typ-cul
+    summary: Count of all type cultures
+    description: |
+        Retrieves the count of all type cultures stored in the database.
+    tags:
+        - Statistic
+    responses:
+        '200':
+            description: OK
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/stat_cnt.yaml

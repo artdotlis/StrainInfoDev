@@ -1,0 +1,9 @@
+type: object
+allOf:
+    - $ref: ./registration_min.yaml
+properties:
+    registration:
+        type: object
+        properties:
+            supervisor:
+                $ref: ../v2_str_dep/entities.yaml

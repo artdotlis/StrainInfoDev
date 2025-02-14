@@ -1,0 +1,17 @@
+*
+
+!/strinf
+
+!/bin
+!/configs
+!/extra
+!/assets
+
+!Makefile
+
+!README.md
+!LICENSE
+
+!.env
+!package.json
+!bun.lockb

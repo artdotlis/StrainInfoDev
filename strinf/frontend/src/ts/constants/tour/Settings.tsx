@@ -1,0 +1,83 @@
+import { ClHtml, Mar, Pad } from '@strinf/ts/constants/style/ClHtml';
+import { routeUri } from '@strinf/ts/functions/http/http';
+import { enableScroll } from '@strinf/ts/functions/libs/style';
+import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
+import type { Config, Driver, PopoverDOM } from 'driver.js';
+import '@strinf/css/adhoc/driver.css';
+import { render } from 'preact';
+import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
+
+const TOUR_OPTIONS: Config = {
+    animate: false,
+    allowClose: true,
+    overlayOpacity: 0.5,
+    stagePadding: 0,
+    stageRadius: 5,
+    allowKeyboardControl: true,
+    disableActiveInteraction: true,
+    popoverClass: `${ClHtml.al} ${Pad.N15}`,
+    popoverOffset: 10,
+    showProgress: false,
+    showButtons: ['next', 'previous', 'close'],
+};
+
+function onClose(driver: Driver): void {
+    routeUri(UIApiCon.manual, '');
+    driver.destroy();
+    enableScroll();
+}
+
+function createButtons(
+    driver: Driver,
+    popover: PopoverDOM,
+    prev: boolean,
+    next: boolean,
+    done: boolean
+): void {
+    const main = popover.previousButton.parentNode;
+    popover.previousButton.remove();
+    popover.nextButton.remove();
+    popover.closeButton.textContent = '';
+    const prevBtn = prev ? (
+        <button
+            className={`${ClHtml.btn} ${ClHtml.pri} ${ClHtmlI.caretLB}`}
+            type="button"
+            aria-label="previous"
+            onClick={driver.movePrevious}
+        />
+    ) : null;
+    const nextBtn = next ? (
+        <button
+            className={`${ClHtml.btn} ${ClHtml.pri} ${ClHtmlI.caretRB} ${Mar.lN15}`}
+            type="button"
+            aria-label="next"
+            onClick={driver.moveNext}
+        />
+    ) : null;
+    const doneBtn = done ? (
+        <button
+            className={`${ClHtml.btn} ${ClHtml.suc} ${Mar.lN15}`}
+            type="button"
+            aria-label="done"
+            onClick={() => {
+                driver.destroy();
+                routeUri(UIApiCon.manual, '');
+                enableScroll();
+            }}
+        >
+            Exit
+        </button>
+    ) : null;
+    if (main !== null) {
+        render(
+            <>
+                {prevBtn}
+                {nextBtn}
+                {doneBtn}
+            </>,
+            main
+        );
+    }
+}
+
+export { onClose, TOUR_OPTIONS, createButtons };

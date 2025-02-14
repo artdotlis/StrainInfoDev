@@ -1,0 +1,16 @@
+type: object
+required:
+    - culture
+properties:
+    culture:
+        type: array
+        items:
+            type: object
+            allOf:
+                - $ref: '../culture/cul_ids.yaml'
+            properties:
+                origin:
+                    type: integer
+                    minimum: 1
+                    examples: [1]
+                    description: The culture id prior to current deposition

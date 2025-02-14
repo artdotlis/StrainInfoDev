@@ -1,0 +1,13 @@
+type: array
+items:
+    type: object
+    required: [encoded]
+    allOf:
+        - $ref: ./data_source.yaml
+    properties:
+        encoded:
+            type: string
+            minLength: 1
+        dataSource:
+            type: string
+            minLength: 1

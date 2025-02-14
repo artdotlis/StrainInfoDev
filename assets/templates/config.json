@@ -1,0 +1,76 @@
+{
+    "global": {
+        "service": {
+            "timezone": "Europe/Berlin",
+            "charset": "UTF-8",
+            "maintenance": 0,
+            "version": "2024.07"
+        },
+        "logger": {
+            "name": "LogName",
+            "key": "log",
+            "db": 6,
+            "level": "notice",
+            "bubble": false,
+            "cap_size": 0
+        },
+        "redis": {
+            "host": "redis",
+            "port": 6379
+        }
+    },
+    "model": {
+        "database": {
+            "host": "localhost",
+            "db": "straininfo",
+            "user": "strinf",
+            "password": "password2",
+            "port": 3808
+        },
+        "cache": {
+            "db": 7,
+            "expire_h": 6,
+            "tmp_h": 1,
+            "limit": 1000000
+        },
+        "index": {
+            "db": 8,
+            "key_len": 4,
+            "limit": 1
+        }
+    },
+    "frontend": {
+        "web": {
+            "domain": "localhost",
+            "protocol": "http",
+            "port": 8080,
+            "sitemap": "web-sitemap.xml"
+        },
+        "statistic": {
+            "enable": false,
+            "id": 0,
+            "matomo": {
+                "domain": "matomo.local",
+                "protocol": "http",
+                "port": 80
+            },
+            "domain": []
+        }
+    },
+    "backend": {
+        "web": {
+            "domain": "localhost",
+            "protocol": "http",
+            "port": 3000,
+            "cors": ["*"],
+            "private": ["localhost:3000"]
+        },
+        "statistic": {
+            "enable": false,
+            "matomo": "https://matomo.local",
+            "id": 1,
+            "token": "",
+            "ignore": ["http://localhost"]
+        }
+    }
+}

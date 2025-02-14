@@ -1,0 +1,22 @@
+type: object
+required:
+    - cultureCollection
+properties:
+    cultureCollection:
+        type: object
+        required:
+            - ccID
+            - name
+            - code
+        properties:
+            ccID:
+                type: integer
+                minimum: 1
+                examples: [1]
+                description: The culture collection id
+            name:
+                type: string
+                minLength: 1
+            code:
+                type: string
+                minLength: 1

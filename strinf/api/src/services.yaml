@@ -1,0 +1,38 @@
+openapi: 3.1.1
+security: []
+servers:
+    - url: '/'
+info:
+    title: StrainInfo - Web services
+    version: '0'
+    license:
+        name: 'CC BY 4.0'
+        url: 'https://creativecommons.org/licenses/by/4.0/'
+paths:
+    /service/all/strains:
+        x-internal: true
+        $ref: paths/all_strains.yaml
+    /service/all/strains/type:
+        x-internal: true
+        $ref: paths/all_type_strains.yaml
+    /service/all/deposits:
+        x-internal: true
+        $ref: paths/all_deposits.yaml
+    /service/all/deposits/strainregistry:
+        x-internal: true
+        $ref: paths/all_strain_registry.yaml
+    /service/stat/dps_cnt:
+        x-internal: true
+        $ref: paths/dis_dps_cnt.yaml
+    /service/archive/strain/si_id/{si_id}:
+        x-internal: true
+        $ref: paths/arc_strain_{si_id}.yaml
+    /service/search/index/{sea_key}:
+        x-internal: true
+        $ref: paths/sea_index_{sea_key}.yaml
+    /service/search/strain/all/{ind}:
+        x-internal: true
+        $ref: paths/sea_strain_all_{ind}.yaml
+    /service/search/strain/si_id/{str_id}:
+        x-internal: true
+        $ref: paths/sea_strain_si_id_{str_id}.yaml

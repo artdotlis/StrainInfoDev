@@ -1,0 +1,9 @@
+type: object
+properties:
+    alternative:
+        type: array
+        items:
+            type: integer
+            minimum: 1
+            examples: [2]
+            description: All alternative SI-IDs

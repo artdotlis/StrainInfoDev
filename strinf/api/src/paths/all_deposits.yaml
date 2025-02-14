@@ -1,0 +1,22 @@
+get:
+    operationId: all-dep
+    summary: All deposit ids
+    description: |
+        Retrieves all deposit ids stored in the database.
+
+        > **Note:**
+        >  Only visible and reachable from inside the intranet.
+
+        ---
+
+        > **Warning:**
+        > The interface does not follow versioning!
+    tags:
+        - Identifier [Intranet]
+    responses:
+        '200':
+            description: OK
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/res_ids.yaml

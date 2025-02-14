@@ -1,0 +1,43 @@
+import { ClHtml, Mar } from '@strinf/ts/constants/style/ClHtml';
+import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
+import { N4M } from '@strinf/ts/constants/links/collection';
+
+In microbiology, the communication and comparison of research
+findings and data is often complicated by the existence of a
+number of different designations and identifiers for the same strain.
+StrainInfo is a service developed to provide a resolution of microbial
+strain identifiers by storing culture collection numbers, their relations,
+and deposition data.
+
+StrainInfo is part of the <a target="_blank" href={N4M}>NFDI4Microbiota</a>
+consortium.
+
+<div className={ClHtml.til + " " + Mar.N20}>
+
+{props.about}
+
+</div>
+
+StrainInfo provides users with information about strain identities.
+These consist of combined strain identifiers from multiple resources.
+Furthermore, the strains are linked with other comprehensive curated datasets
+about this strain.
+For this purpose, StrainInfo assigns a unique StrainInfo ID (SI-ID)
+and a DOI to each strain and keeps an archive for different versions of
+the strain data.
+A user with limited information about a strain can use the StrainInfo
+Strain Search to find out more about it. The Strain Search takes a wide variety
+of search terms, like the StrainInfo SI-ID, culture collection numbers,
+other strain designations, taxon names, and sequence accession numbers.
+The search results lead the user to a StrainInfo strain page that lists
+culture collection numbers and other designations of the strain, information
+from and links to culture collection catalogues as well as links to other
+data resources, sequence data and publications.
+As a new feature StrainInfo now offers a "Strain Registration Service".
+Researchers can <a href={UIApiCon.contact}>contact StrainInfo</a> to
+register their own strains during the deposition procedure.
+The strain will be assigned a SI-ID and a DOI. Data that is received or gathered
+about this strain in the future will automatically be linked to it.
+The SI-ID and DOI give the researcher unique and
+persistent identifiers for their strain that can be used for publications,
+deposition or identification in general.

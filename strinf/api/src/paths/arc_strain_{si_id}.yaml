@@ -1,0 +1,30 @@
+get:
+    parameters:
+        - $ref: ../components/parameters/si_id.yaml
+    operationId: arc-str-si-id
+    summary: Archived strain information
+    description: |
+        Information about an archived strain with the provided SI-ID.
+
+        > **Note:**
+        >  Only visible from inside the intranet, but can be used from outside as well.
+
+        ---
+
+        > **Warning:**
+        > The interface does not follow versioning!
+    tags:
+        - Archive [Intranet]
+    responses:
+        '404':
+            description: NOT FOUND
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/err_404_ind.yaml
+        '200':
+            description: OK
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/arc_str_siid.yaml

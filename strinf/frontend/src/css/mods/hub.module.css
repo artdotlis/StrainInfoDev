@@ -1,0 +1,48 @@
+@media (min-width: 680px) {
+    .container {
+        flex-direction: row;
+    }
+
+    .logoleft {
+        margin-left: auto;
+    }
+
+    .inputcon {
+        width: 600px;
+    }
+}
+
+@media (max-width: 679px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .logoleft {
+        margin-right: auto;
+    }
+
+    .logoleft img {
+        height: 80px !important;
+    }
+
+    .inputcon {
+        width: 250px;
+    }
+}
+
+/* same appearance to digital diversity */
+.timg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    clip-path: polygon(25% 0%, 100% 0, 100% 100%, 0% 100%);
+}
+
+.tbox {
+    display: flex;
+    position: relative;
+    align-items: center;
+}
+
+/* --- */

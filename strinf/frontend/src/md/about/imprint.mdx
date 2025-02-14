@@ -1,0 +1,72 @@
+import { C_LIC, C_NOT, C_LIC_LIN } from '@strinf/ts/constants/page/copy';
+import { Container, ContentContainer } from '@strinf/ts/mvc/vdom/fun/content/content';
+import { UIApiAnc } from '@strinf/ts/constants/api/ui_api';
+import { ImprintDsmzVD } from '@strinf/ts/constants/links/dsmz';
+
+<ContentContainer>
+<Container>
+
+# Imprint
+
+<ImprintDsmzVD />
+
+**Legal Form:**<br />
+The Leibniz Institute DSMZ-German Collection of
+Microorganisms and Cell Cultures is a Gesellschaft mit beschränkter Haftung (GmbH).<br />
+Registration Number: HRB 2570<br />
+Commercial Register Braunschweig, Germany
+
+**Person authorized to represent:**<br />
+Scientific Director: Prof. Dr. Jörg Overmann<br />
+Administrative Managing Director: Bettina Fischer
+
+**StrainInfo**:<br />
+EMail: {props.mailSI}
+
+</Container>
+
+<Container>
+
+# Terms of use
+
+All information contained on the web site is carefully
+checked for accuracy and is continuously up-dated.
+However, we cannot guarantee the completeness,
+the correctness and the topicality. Liability claims
+regarding damage caused by the use of any information
+provided, including any kind of information which
+is incomplete or incorrect, will therefore be rejected.
+
+According to the verdict passed by the District Court
+in Hamburg the owner of a website is responsible for
+the contents which appear in the links.
+This can only be prevented when the owner explicitly
+dissociates itself to these contents.
+We have placed links to other homepages in the internet
+on our website and we would like to emphasize that we
+have no influence on the contents and design of these pages.
+Therefore, herewith we explicitly dissociate ourselves from all
+the contents linked on our homepage and that we take no
+responsibility for these contents. This statement applies to all
+the links used on our homepage.
+
+</Container>
+
+<span id={UIApiAnc.license}></span>
+<Container>
+
+# Strain data
+
+Strain data provided by <a href="/">StrainInfo</a>{' '}{C_NOT} is licensed under {props.license}<a target="_blank" href={C_LIC_LIN} rel="license">{' '}{C_LIC}</a>
+
+</Container>
+
+<span id={UIApiAnc.privacy}></span>
+<Container>
+
+# Privacy Policy
+
+{props.privacy}
+
+</Container>
+</ContentContainer>

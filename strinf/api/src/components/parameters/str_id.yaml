@@ -1,0 +1,11 @@
+description: Placeholder for a strain id
+name: str_id
+in: path
+required: true
+schema:
+    type: array
+    items:
+        type: integer
+        minimum: 1
+    examples: [1, 14559]
+style: simple

@@ -1,0 +1,66 @@
+type: object
+properties:
+    relation:
+        type: array
+        items:
+            type: string
+            minLength: 1
+            examples: [DSM 20543]
+    comment:
+        type: string
+        minLength: 1
+    history:
+        $ref: ./history.yaml
+    bacdive:
+        type: array
+        items:
+            type: integer
+            minimum: 1
+            examples: [1]
+    brc:
+        type: object
+        required:
+            - id
+            - country_code
+            - name
+            - active
+            - deprecated
+            - code
+        properties:
+            id:
+                type: integer
+                minimum: 1
+                examples: [1]
+                description: The brc id
+            country_code:
+                type: string
+                minLength: 2
+                maxLength: 2
+                examples: [DE]
+            name:
+                type: string
+                minLength: 1
+            code:
+                type: string
+                minLength: 1
+            ror:
+                type: string
+                minLength: 1
+            active:
+                type: boolean
+            deprecated:
+                type: boolean
+            gbif:
+                type: string
+                minLength: 1
+            homepage:
+                type: object
+                required: ['url', 'online']
+                properties:
+                    url:
+                        type: string
+                        minLength: 10
+                        format: uri
+                        pattern: "^https?:\/\/.+$"
+                    online:
+                        type: boolean

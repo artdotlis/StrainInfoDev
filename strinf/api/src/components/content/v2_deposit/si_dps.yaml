@@ -1,0 +1,14 @@
+type: object
+required:
+    - siDP
+    - designation
+properties:
+    siDP:
+        type: integer
+        minimum: 1
+        examples: [1]
+        description: The SI-DP
+    designation:
+        type: string
+        description: The culture collection number or a registered designation
+        minLength: 3

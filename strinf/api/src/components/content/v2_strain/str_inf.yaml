@@ -1,0 +1,16 @@
+type: object
+allOf:
+    - $ref: '../v2_str_dep/sam_min.yaml'
+properties:
+    bdID:
+        type: integer
+        minimum: 1
+        examples: [1]
+    status:
+        type: string
+        examples: ['deposition']
+        description: The strain status
+        enum:
+            - deposition
+            - published online
+            - published offline

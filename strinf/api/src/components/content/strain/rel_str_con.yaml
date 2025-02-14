@@ -1,0 +1,25 @@
+type: object
+properties:
+    strain:
+        type: array
+        items:
+            type: object
+            required:
+                - strain_id
+                - culture_id
+                - strain_number
+            properties:
+                culture_id:
+                    type: integer
+                    minimum: 1
+                    examples: [1]
+                    description: The culture id
+                strain_number:
+                    type: string
+                    description: The culture collection number or a registered designation
+                    minLength: 3
+                strain_id:
+                    type: integer
+                    minimum: 1
+                    examples: [1]
+                    description: The strain id related via species name

@@ -1,0 +1,16 @@
+type: object
+properties:
+    relation:
+        type: array
+        items:
+            type: string
+            minLength: 1
+            examples: [DSM 20543]
+    history:
+        $ref: ./history.yaml
+    bdID:
+        type: array
+        items:
+            type: integer
+            minimum: 1
+            examples: [1]

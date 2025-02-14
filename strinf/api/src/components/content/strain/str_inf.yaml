@@ -1,0 +1,16 @@
+type: object
+properties:
+    bacdive:
+        type: integer
+        minimum: 1
+        examples: [1]
+    sample:
+        $ref: ../str_cul/sample.yaml
+    status:
+        type: string
+        examples: ['deposition']
+        description: The strain status
+        enum:
+            - deposition
+            - published online
+            - published offline

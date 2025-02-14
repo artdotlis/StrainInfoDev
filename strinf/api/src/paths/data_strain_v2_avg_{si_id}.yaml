@@ -1,0 +1,22 @@
+get:
+    parameters:
+        - $ref: ../components/parameters/si_id_int.yaml
+    operationId: avg-str
+    summary: Strain average information
+    description: >-
+        Strain details with average information.
+    tags:
+        - Strain data
+    responses:
+        '404':
+            description: NOT FOUND
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/err_404.yaml
+        '200':
+            description: OK
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/str_v2_avg.yaml

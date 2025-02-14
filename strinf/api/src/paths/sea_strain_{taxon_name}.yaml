@@ -1,0 +1,23 @@
+get:
+    parameters:
+        - $ref: ../components/parameters/taxon_name.yaml
+    operationId: sea-str-taxon-name
+    summary: All strains with the given taxon name
+    description: >-
+        Retrieves all the strain ids from the database that are
+        connected with the provided taxon name.
+    tags:
+        - Search strain
+    responses:
+        '404':
+            description: NOT FOUND
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/err_404.yaml
+        '200':
+            description: OK
+            content:
+                application/json:
+                    schema:
+                        $ref: ../components/content/res_ids.yaml
