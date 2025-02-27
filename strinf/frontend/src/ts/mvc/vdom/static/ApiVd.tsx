@@ -208,7 +208,11 @@ function beforeTry(eve: Event): void {
     if (isRequest(eve)) {
         const req = eve.detail.request;
         const tmpUrl = req.url;
-        if (tmpUrl.includes('/all/') || tmpUrl.includes('/brc/')) {
+        if (
+            tmpUrl.includes('/all/') ||
+            tmpUrl.includes('/brc/') ||
+            tmpUrl.includes('/cc/')
+        ) {
             req.url = `${tmpUrl}${tmpUrl.includes('?') ? '&' : '?'}short`;
         }
     }
