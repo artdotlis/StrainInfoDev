@@ -46,6 +46,7 @@ function DownloadBlobVD({
     }
     const [linkL, nameL] = linkC;
     if (linkL === '' || nameL === '') {
+        let counter = 1;
         return (
             <button
                 className={btnC}
@@ -57,8 +58,11 @@ function DownloadBlobVD({
                         .then((linkCC) => {
                             setLinkC(linkCC);
                             const int = setInterval(() => {
+                                counter++;
                                 if (linKRef.current !== null) {
                                     linKRef.current.click();
+                                    clearInterval(int);
+                                } else if (counter > 2400) {
                                     clearInterval(int);
                                 }
                             }, 100);

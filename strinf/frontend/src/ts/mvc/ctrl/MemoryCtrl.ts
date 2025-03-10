@@ -15,10 +15,14 @@ function awaitResults<T>(cha: Chan<T>, key: number, mem: Map<number, T>): void {
     if (cache !== undefined) {
         cha.res([cache]);
     } else {
+        let counter = 0;
         const awaitInterval = setInterval(() => {
             cache = mem.get(key);
+            counter++;
             if (cache !== undefined) {
                 cha.res([cache]);
+                clearInterval(awaitInterval);
+            } else if (counter > 3000) {
                 clearInterval(awaitInterval);
             }
         }, 100);
