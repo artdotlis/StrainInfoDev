@@ -12,6 +12,7 @@ properties:
             enum:
                 - straininfo archive
                 - scraped from brc website
+                - found on brc website
                 - provided by brc
                 - external database
                 - registration
