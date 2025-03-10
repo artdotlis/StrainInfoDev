@@ -1,5 +1,5 @@
 import type { JSX } from 'preact';
-import { useContext, useEffect, useRef, useState } from 'preact/hooks';
+import { useContext, useRef, useState } from 'preact/hooks';
 import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
 import SideT from '@strinf/ts/constants/type/HeadT';
 import type { BreadCrumbsS } from '@strinf/ts/interfaces/dom/global';
@@ -164,37 +164,41 @@ function isActive(cur: SideT, act: SideT): boolean {
     }
 }
 
+function mapSide(val: SideT, ind: number, act: number): JSX.Element | null {
+    const navC = NAV[val];
+    if (navC !== undefined) {
+        return (
+            <SideEl
+                key={ind}
+                act={isActive(val, act)}
+                ele={mapLink(navC)}
+                tId={mapTour(navC)}
+            />
+        );
+    }
+    return null;
+}
+
 function SideNavVD(): JSX.Element {
     const conf: BreadCrumbsS | undefined = useContext(MainConGl);
     const [act, setAct] = useState<SideT>(0);
     conf?.breadSet('SIDE_BAR_NAV')((actI: number) => {
         setAct(actI);
     });
-    const mapper = (val: SideT, ind: number) => {
-        const navC = NAV[val];
-        if (navC !== undefined) {
-            return (
-                <SideEl
-                    key={ind}
-                    act={isActive(val, act)}
-                    ele={mapLink(navC)}
-                    tId={mapTour(navC)}
-                />
-            );
-        }
-        return null;
-    };
-    useEffect(() => {
-        window.style.initSmallSidebar();
-    }, []);
     return (
         <>
             <h5 className={ClHtml.tit}>Content</h5>
-            {NAV_CON_CNT.map(mapper)}
+            {NAV_CON_CNT.map((val, ind) => mapSide(val, ind, act))}
             <h5 className={ClHtml.tit}>Information</h5>
-            {NAV_CON_INF.map(mapper)}
+            {NAV_CON_INF.map((val, ind) => mapSide(val, ind, act))}
             <h5 className={ClHtml.tit}>About&nbsp;us</h5>
-            {NAV_CON_ABU.map(mapper)}
+            {NAV_CON_ABU.map((val, ind) => mapSide(val, ind, act))}
+            <span
+                ref={() => {
+                    window.style.initSmallSidebar();
+                }}
+                style={{ display: 'none' }}
+            />
         </>
     );
 }
