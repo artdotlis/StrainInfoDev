@@ -77,6 +77,7 @@ function ContentVD({
     const ctx: BreadCrumbsG | undefined = useContext(MainConGl);
     const errR = useRef<HTMLDivElement>(null);
     const conR = useRef<HTMLDivElement>(null);
+    const conP = useRef<HTMLDivElement>(null);
     if (ctx === undefined) {
         return null;
     }
@@ -94,6 +95,7 @@ function ContentVD({
                 <FootVD />
             </div>
             <div className={`${ClHtml.cntWr} ${clC}`} ref={conR}>
+                <div className={ClHtml.cntCon} ref={conP} />
                 <Router
                     onRouteChange={(path) => {
                         if (!error()) {
@@ -109,6 +111,7 @@ function ContentVD({
                             errR.current?.classList.add(Dis.dNone);
                             disable();
                         }
+                        conP.current?.classList.add(Dis.dNone);
                     }}
                 >
                     <Route path={UIApiCon.index} component={INDEX_VD} />
