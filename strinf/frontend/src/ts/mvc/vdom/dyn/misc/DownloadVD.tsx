@@ -84,7 +84,8 @@ function DownloadBlobVD({
                 download={nameL}
                 aria-label={label}
                 className={ancC}
-                target="_blank" rel="noreferrer"
+                target="_blank"
+                rel="noreferrer"
             >
                 <i className={ico} />
                 <span>

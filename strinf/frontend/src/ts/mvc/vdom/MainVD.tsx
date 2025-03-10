@@ -2,7 +2,6 @@ import type { JSX, ErrorInfo, RefObject } from 'preact';
 import { Component, createRef } from 'preact';
 import KnownError from '@strinf/ts/errors/known/main';
 import HeadVD from '@strinf/ts/mvc/vdom/HeadVD';
-import FootVD from '@strinf/ts/mvc/vdom/FootVD';
 import ContentVD from '@strinf/ts/mvc/vdom/ContentVD';
 import GlState, { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import ErrType from '@strinf/ts/constants/type/ErrT';
@@ -183,14 +182,11 @@ class MainVD extends Component<
                         className={`${ClHtml.pgWr} ${getActiveWrapperCookies().join(' ')}`}
                     >
                         <HeadVD />
-                        <div className={ClHtml.cntWr}>
-                            <ContentVD
-                                panic={panic}
-                                error={() => this.errCr}
-                                disable={() => (this.errCr = false)}
-                            />
-                            <FootVD />
-                        </div>
+                        <ContentVD
+                            panic={panic}
+                            error={() => this.errCr}
+                            disable={() => (this.errCr = false)}
+                        />
                     </div>
                 </MainConGl.Provider>
             </>

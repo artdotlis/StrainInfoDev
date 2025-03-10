@@ -1,6 +1,5 @@
 import type { JSX } from 'preact';
 import ErrType, { ERR_MARK } from '@strinf/ts/constants/type/ErrT';
-import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
 import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
 import { trackSearch } from '@strinf/ts/mvc/vdom/fun/mat/track';
 import Known404Error from '@strinf/ts/errors/known/404';
@@ -8,11 +7,8 @@ import errSty from '@strinf/css/mods/error.module.css';
 import Known503Error from '@strinf/ts/errors/known/503';
 import { useContext } from 'preact/hooks';
 import type { ErrStCon } from '@strinf/ts/interfaces/dom/global';
-import { routeUri } from '@strinf/ts/functions/http/http';
-import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
 import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
-import { useLocation } from 'preact-iso';
 
 interface ErrorWrProps {
     errT: ErrType | undefined;
@@ -93,7 +89,6 @@ function Error503({ msgM, msgFM }: EProps): JSX.Element {
 }
 
 function ErrorWr({ errM, errFM, errT, ctx }: ErrorWrProps): JSX.Element | null {
-    const location = useLocation();
     if (ErrType.E404 === errT) {
         return <Error404 msgM={errM} msgFM={errFM} ctx={ctx} />;
     }
@@ -103,9 +98,6 @@ function ErrorWr({ errM, errFM, errT, ctx }: ErrorWrProps): JSX.Element | null {
     if (ErrType.E500 === errT) {
         return <Error500 />;
     }
-    setTimeout(() => {
-        routeUri(UIApiCon.index, UIApiCon.index, location);
-    }, 100);
     return null;
 }
 
@@ -114,11 +106,7 @@ function ErrorVD(): JSX.Element | null {
     if (ctx === undefined) {
         return null;
     }
-    return (
-        <div className={ClHtml.cntCon}>
-            <ErrorWr errT={ctx.errT} errFM={ctx.errS[0]} errM={ctx.errS[1]} ctx={ctx} />
-        </div>
-    );
+    return <ErrorWr errT={ctx.errT} errFM={ctx.errS[0]} errM={ctx.errS[1]} ctx={ctx} />;
 }
 
 export default ErrorVD;

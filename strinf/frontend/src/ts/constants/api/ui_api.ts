@@ -32,8 +32,6 @@ enum UIApiCon {
 
     manual = '/doc',
 
-    error = '/error',
-
     service = '/service',
 
     sitemap = '/sitemap_index.xml',

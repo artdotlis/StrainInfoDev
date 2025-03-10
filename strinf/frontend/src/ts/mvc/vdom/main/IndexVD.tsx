@@ -45,11 +45,11 @@ function Hero(): JSX.Element {
     );
 }
 
-class IndexVD<T> extends Component<T, object> {
+class IndexVD extends Component<unknown, object> {
     private readonly hooks: IndSt;
     private iCtrl?: IndCtrl;
 
-    constructor(props: T) {
+    constructor(props: unknown) {
         super(props);
         this.hooks = new IndSt();
     }
