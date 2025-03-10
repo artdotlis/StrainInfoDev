@@ -17,7 +17,19 @@ const DOCS_VD = lazy(async () => import('@strinf/ts/mvc/vdom/static/DocsVD'));
 const ERROR_VD = lazy(async () => import('@strinf/ts/mvc/vdom/ErrorVD'));
 const PANIC_VD = lazy(async () => import('@strinf/ts/mvc/vdom/PanicVD'));
 const SEA_VD = lazy(async () => import('@strinf/ts/mvc/vdom/main/SearchVD'));
+
+function SeaWrVD(): JSX.Element {
+    const location = useLocation();
+    return <SEA_VD location={location} />;
+}
+
 const PASS_VD = lazy(async () => import('@strinf/ts/mvc/vdom/main/PassVD'));
+
+function PassWrVD({ id }: { id: string }): JSX.Element {
+    const location = useLocation();
+    return <PASS_VD location={location} id={id} />;
+}
+
 const ABOUT_PVD = lazy(async () => import('@strinf/ts/mvc/vdom/static/AboutMainVD'));
 const TEAM_VD = lazy(async () => import('@strinf/ts/mvc/vdom/static/TeamVD'));
 const STR_REG_VD = lazy(
@@ -44,6 +56,14 @@ function onRouteChange(path: string): void {
     }
 }
 
+function PHVD(): JSX.Element {
+    const location = useLocation();
+    if (!window.location.pathname.startsWith(UIApiCon.error)) {
+        routeUri(UIApiCon.error, '', location);
+    }
+    return <div className={`${ClHtml.cntCon} ${Pad.bN0}`} />;
+}
+
 function ContentVD({
     panic,
     error,
@@ -54,23 +74,20 @@ function ContentVD({
     disable: () => void;
 }): JSX.Element | null {
     const ctx: BreadCrumbsG | undefined = useContext(MainConGl);
-    const location = useLocation();
     const ref = useRef<HTMLDivElement>(null);
-    if (error() && !location.path.startsWith(UIApiCon.error)) {
-        routeUri(UIApiCon.error, '', location);
-        return null;
-    }
-    if (error() && location.path.startsWith(UIApiCon.error)) {
-        disable();
-    }
     if (ctx === undefined) {
         return null;
+    }
+    if (error() && !window.location.pathname.startsWith(UIApiCon.error)) {
+        disable();
+        return <PHVD />;
     }
     if (panic) {
         return <PANIC_VD />;
     }
     return (
         <>
+            {<div ref={ref} className={`${ClHtml.cntCon} ${Pad.bN0}`} />}
             <Router
                 onRouteChange={(path) => {
                     onRouteChange(path);
@@ -89,9 +106,9 @@ function ContentVD({
                     to={UIApiCon.index}
                     component={Redirect}
                 />
-                <Route path={UIApiCon.search} component={SEA_VD} location={location} />
-                <Route path={UIApiCon.pass} component={SEA_VD} location={location} />
-                <Route path={PATH_STRAIN} component={PASS_VD} location={location} />
+                <Route path={UIApiCon.search} component={SeaWrVD} />
+                <Route path={UIApiCon.pass} component={SeaWrVD} />
+                <Route path={PATH_STRAIN} component={PassWrVD} />
                 <Route path={UIApiCon.about} component={ABOUT_PVD} />
                 <Route path={UIApiCon.contact} component={CONTACT_VD} />
                 <Route path={UIApiCon.team} component={TEAM_VD} />
@@ -102,7 +119,6 @@ function ContentVD({
                 <Route path={UIApiCon.service} component={API_VD} />
                 <Route default component={EMPTY_VD} />
             </Router>
-            {<div ref={ref} className={`${ClHtml.cntCon} ${Pad.bN0}`} />}
         </>
     );
 }
