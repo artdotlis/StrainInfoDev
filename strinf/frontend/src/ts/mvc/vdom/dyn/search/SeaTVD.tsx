@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'preact/hooks';
+import { useCallback, useState } from 'preact/hooks';
 import type { JSX } from 'preact';
 import {
     Align,
@@ -18,7 +18,6 @@ import {
 } from '@strinf/ts/functions/api/map';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
-import defaultRouteBeh from '@strinf/ts/mvc/vdom/fun/route/default';
 import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
 import type { TableProps } from '@strinf/ts/mvc/vdom/dyn/table/Table';
 import TableCon from '@strinf/ts/mvc/vdom/dyn/table/Table';
@@ -745,9 +744,6 @@ const bgSty = {
 };
 
 function SeaTVD({ res, sea, hook }: SeaTProps): JSX.Element | null {
-    useEffect(() => {
-        defaultRouteBeh();
-    }, [res]);
     if (res.length === 0) {
         return null;
     }

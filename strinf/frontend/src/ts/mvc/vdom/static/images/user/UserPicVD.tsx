@@ -1,7 +1,7 @@
 import { Pad, Tex } from '@strinf/ts/constants/style/ClHtml';
 import type { JSX } from 'preact/jsx-runtime';
 import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
-import { useEffect, useState } from 'preact/hooks';
+import { useState } from 'preact/hooks';
 import hubSty from '@strinf/css/mods/hub.module.css';
 import { createUserPicMap } from '@strinf/ts/constants/resources';
 
@@ -48,18 +48,21 @@ function setPictureSrc(picName: string, setPicP: (src: string) => void): void {
 
 function UserPicVD({ name }: { name: string }): JSX.Element {
     const [picP, setPicP] = useState<string>('');
-    useEffect(() => {
-        if (picP === '') {
-            const pic_n = name.toLocaleLowerCase().replaceAll(/\s+/g, '_');
-            setPictureSrc(pic_n, (src) => {
-                setPicP(src);
-            });
-        }
-    }, []);
     if (picP !== '') {
         return <img className={hubSty.timg} loading="lazy" src={picP} alt={name} />;
     }
-    return <DefaultImage />;
+    return (
+        <i
+            ref={() => {
+                const pic_n = name.toLocaleLowerCase().replaceAll(/\s+/g, '_');
+                setPictureSrc(pic_n, (src) => {
+                    setPicP(src);
+                });
+            }}
+        >
+            <DefaultImage />
+        </i>
+    );
 }
 
 export default UserPicVD;

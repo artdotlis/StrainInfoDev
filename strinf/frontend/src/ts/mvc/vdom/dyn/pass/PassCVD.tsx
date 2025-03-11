@@ -4,7 +4,6 @@ import { memo, useState } from 'preact/compat';
 import { ClHtml, Col } from '@strinf/ts/constants/style/ClHtml';
 import type { DetailsR, PassR, RelT } from '@strinf/ts/interfaces/api/maped';
 import type { TT_GL_TYPE, ToolTipHookInt } from '@strinf/ts/interfaces/dom/tooltip';
-import defaultRouteBeh from '@strinf/ts/mvc/vdom/fun/route/default';
 import DetailsVD, { getAnchorD } from '@strinf/ts/mvc/vdom/dyn/pass/DetailsVD';
 
 import PubVD, { getAnchorP } from '@strinf/ts/mvc/vdom/dyn/pass/PubVD';
@@ -254,13 +253,6 @@ class PassCVD extends Component<PassRProps, object> {
     constructor(props: PassRProps) {
         super(props);
         this.state = {};
-    }
-
-    public override componentDidMount(): void {
-        const { res } = this.props;
-        if (res !== undefined) {
-            defaultRouteBeh();
-        }
     }
 
     public render(): JSX.Element | null {
