@@ -39,9 +39,11 @@ interface PassState {
 }
 
 const REG_ARG = new RegExp(`[?&]{1}${IdAcrTagCon.depId}\\s*(\\d+)`, 'gi');
-const H_DESC = (sid: number | undefined): string => `
-StrainInfo passport depicting all information 
-for the strain with the id ${IdAcrTagCon.strId} ${sid ?? 'unknown'}
+const H_DESC = (sid: number | undefined, tax: string | undefined): string => `
+A strain passport, from the microbial strain database StrainInfo,
+depicting all information for the strain
+${sid !== undefined ? ' with the identifier ' + IdAcrTagCon.strId + ' ' + sid : ''} 
+${tax !== undefined ? ', the name ' + tax : ''}. 
 `;
 
 class PassVD extends Component<PassProps, PassState> {
@@ -110,18 +112,23 @@ class PassVD extends Component<PassProps, PassState> {
         if (this.load !== LoadT.FIN) {
             return <Loading />;
         }
-
         if (tab !== undefined) {
             ctx?.bread.map((actF) => {
                 actF(HeadT.PASS);
             });
         }
         const sid = `${IdAcrTagCon.strId} ${String(tab?.overview[0] ?? 'unknown')}`;
+        const tax = tab?.overview[2][0] ?? 'StrainInfo';
         return (
             <>
                 <Helmet>
-                    <meta name="description" content={H_DESC(tab?.overview[0])} />
-                    <title>StrainInfo - {sid}</title>
+                    <meta
+                        name="description"
+                        content={H_DESC(tab?.overview[0], tab?.overview[2][0])}
+                    />
+                    <title>
+                        {tax} - {sid}
+                    </title>
                     <link rel="canonical" href={getCurFullPath()} />
                 </Helmet>
                 <OverviewVD res={tab?.overview} dCtrl={this.dCtrl} rel={tab?.relations} />

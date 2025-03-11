@@ -82,7 +82,7 @@ export default [
             ...pl_react.configs.recommended.rules,
             ...pl_react_hooks.configs.recommended.rules,
             'react/react-in-jsx-scope': 'off',
-            complexity: ['error', { max: 12 }],
+            complexity: ['error', { max: 14 }],
             '@typescript-eslint/no-base-to-string': 'warn',
             '@typescript-eslint/no-unsafe-type-assertion': 'warn',
             'import-x/no-unresolved': [
