@@ -4,7 +4,7 @@ import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
 import type { DetailsR, RelT } from '@strinf/ts/interfaces/api/maped';
 import type AncT from '@strinf/ts/interfaces/misc/anchor';
 import type DetailCtrl from '@strinf/ts/mvc/ctrl/DetailCtrl';
-import { useContext, useEffect, useRef, useState } from 'preact/hooks';
+import { useContext, useRef, useState } from 'preact/hooks';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/details';
 import scSty from '@strinf/css/mods/scroll.module.css';
 import type { AxisScale, ScaleBand, Axis } from 'd3';
@@ -85,26 +85,29 @@ function AxisXY({
     transLabel,
     tickSize,
 }: AxisProps): JSX.Element {
-    const ref = useRef<SVGGElement>(null);
     const skip = Math.max(Math.floor(tickSize / 12), 1);
-    useEffect(() => {
-        if (ref.current !== null) {
-            let cnt = 0;
-            select(ref.current)
-                .call(scaleFn(scaleB))
-                .selectAll('text')
-                .style('opacity', () => {
-                    cnt++;
-                    if (cnt % skip === 0) {
-                        return 1;
-                    }
-                    return 0;
-                })
-                .style('text-anchor', 'end')
-                .attr('transform', `rotate(-40) ${transLabel}`);
-        }
-    }, [ref]);
-    return <g ref={ref} transform={transform}></g>;
+    return (
+        <g
+            ref={(dom) => {
+                if (dom !== null) {
+                    let cnt = 0;
+                    select(dom)
+                        .call(scaleFn(scaleB))
+                        .selectAll('text')
+                        .style('opacity', () => {
+                            cnt++;
+                            if (cnt % skip === 0) {
+                                return 1;
+                            }
+                            return 0;
+                        })
+                        .style('text-anchor', 'end')
+                        .attr('transform', `rotate(-40) ${transLabel}`);
+                }
+            }}
+            transform={transform}
+        ></g>
+    );
 }
 
 function crFlatDom(data: Map<number, [string, string[]]>): Set<string> {

@@ -6,7 +6,7 @@
  */
 
 import type { JSX } from 'preact';
-import { useContext, useEffect, useRef, useState } from 'preact/hooks';
+import { useContext, useRef, useState } from 'preact/hooks';
 import { Col, Tex } from '@strinf/ts/constants/style/ClHtml';
 import DiaT from '@strinf/ts/constants/type/DiaT';
 import Known500Error from '@strinf/ts/errors/known/500';
@@ -111,15 +111,13 @@ interface ScaleT<T> {
 }
 
 function Scale<T>({ scale, transform, opa, stW, cla }: ScaleT<T>): JSX.Element {
-    const scRef = useRef<SVGGElement>(null);
-    useEffect(() => {
-        if (scRef.current !== null) {
-            select(scRef.current).call(scale);
-        }
-    }, [scRef, scale]);
     return (
         <g
-            ref={scRef}
+            ref={(dom) => {
+                if (dom !== null) {
+                    select(dom).call(scale);
+                }
+            }}
             className={`${Tex.m} ${cla ?? ''}`}
             transform={transform}
             style={{
