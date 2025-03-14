@@ -7,6 +7,7 @@ import DSMZ_L from '@strinf/ts/constants/links/dsmz';
 const DSMZ = createUrlStr(DSMZ_L, '');
 const N4M = 'https://nfdi4microbiota.de';
 const DFG = 'https://www.dfg.de/';
+const GEO_NAME = 'https://www.geonames.org/';
 
 // collections
 const CIP =
@@ -71,4 +72,5 @@ export {
     ROR,
     ORCID,
     RCC,
+    GEO_NAME,
 };
