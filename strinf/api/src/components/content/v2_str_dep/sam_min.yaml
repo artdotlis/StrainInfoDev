@@ -1,15 +1,12 @@
 type: object
+required: [source]
 properties:
-    sample:
-        type: object
-        required: [source]
-        properties:
-            source:
-                type: string
-                minLength: 1
-                examples: [Leaf]
-            countryCode:
-                type: string
-                minLength: 2
-                maxLength: 2
-                examples: [DE]
+    source:
+        type: string
+        minLength: 1
+        examples: [Leaf]
+    countryCode:
+        type: string
+        minLength: 2
+        maxLength: 2
+        examples: [DE]

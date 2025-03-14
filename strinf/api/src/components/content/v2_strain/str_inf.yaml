@@ -1,7 +1,7 @@
 type: object
-allOf:
-    - $ref: '../v2_str_dep/sam_min.yaml'
 properties:
+    sample:
+        $ref: '../v2_str_dep/sam_min.yaml'
     bdID:
         type: integer
         minimum: 1
