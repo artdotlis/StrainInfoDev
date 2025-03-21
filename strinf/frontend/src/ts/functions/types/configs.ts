@@ -122,7 +122,7 @@ const TYPES_CONF_CON: [string, IsTypeCheck][] = [
     [
         'stage',
         (obj: unknown): boolean =>
-            hasProp('production', obj) && typeof obj.production === 'boolean',
+            hasProp('stage', obj) && typeof obj.stage === 'boolean',
     ],
 ];
 
