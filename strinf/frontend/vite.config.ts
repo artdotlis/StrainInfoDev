@@ -59,7 +59,6 @@ const ENV = loadEnv(getEnv(), LOCAL_DIR, '') as {
     STRINF_FRONTEND_SRC: string;
     CONFIG_FE_APP: string;
     ASSETS_FE_DIR: string;
-    STRINF_SRC: string;
     PROFILE_FRONTEND_VITE: string;
     EXTRA_STYLE: string;
 };
@@ -396,11 +395,7 @@ function createServer(): UserConfig {
         server: {
             ...createDefaultServer(getDevPort(), {}),
             watch: {
-                ignored: [
-                    '**/vendor/**',
-                    '**/node_modules/**',
-                    `!**/${ENV.STRINF_SRC}/**`,
-                ],
+                ignored: ['**/vendor/**', '**/node_modules/**'],
             },
         },
         publicDir: Path.resolve(ROOT, ENV.APP_FRONTEND),
