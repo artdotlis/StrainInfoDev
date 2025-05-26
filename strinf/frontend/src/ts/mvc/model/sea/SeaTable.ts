@@ -14,20 +14,6 @@ import type { LoadFS } from '@strinf/ts/interfaces/dom/global';
 
 const REG_NUM = /\d+/;
 
-function getUniqueKeys(data: number[]): number[] {
-    let maxId = 1;
-    for (const rId of data) {
-        if (maxId < rId) {
-            maxId = rId;
-        }
-    }
-    const filA = new Uint8Array(maxId);
-    for (const rId of data) {
-        filA[rId] = 1;
-    }
-    return Array.from(filA.keys()).filter((ind) => filA[ind] !== 0);
-}
-
 function isOneStrain(data: SeaR[]): boolean {
     const index = new Set();
     for (const [strId] of data) {
@@ -343,9 +329,11 @@ class SeaTable {
                     }
                 })
                 .catch((err: unknown) => {
-                    SeaTable.onStop(cha);
-                    if (err instanceof Known500Error) {
-                        onPrError(err);
+                    if (!(err instanceof Known404Error)) {
+                        SeaTable.onStop(cha);
+                        if (err instanceof Known500Error) {
+                            onPrError(err);
+                        }
                     }
                 });
             promises.push(fetchP);
@@ -355,7 +343,7 @@ class SeaTable {
                 try {
                     let res = idRes.data;
                     if (apis.size > 1) {
-                        res = getUniqueKeys(idRes.data);
+                        res = Array.from(new Set(idRes.data));
                     }
                     checkIds(cha, res, args, api);
                 } catch (err) {

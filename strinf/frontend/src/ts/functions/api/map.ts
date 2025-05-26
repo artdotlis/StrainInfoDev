@@ -93,7 +93,7 @@ const SEA_INPUT_COMB: SeaInputCombEl[] = [
                     .filter((arg) => arg.length >= 2)
                     .join(',')
             ),
-        api: `${QApiCon.seaStrTaxName},${QApiCon.seaStrBrc}`,
+        api: QApiCon.seaStrTaxName,
     },
     {
         check: (input: string): void => {
@@ -131,7 +131,7 @@ const SEA_INPUT_COMB: SeaInputCombEl[] = [
                     .filter((arg) => arg.length >= 2)
                     .join(',')
             ),
-        api: QApiCon.seaStrStrDes,
+        api: `${QApiCon.seaStrTaxName},${QApiCon.seaStrStrDes}`,
     },
 ];
 

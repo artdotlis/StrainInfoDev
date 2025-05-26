@@ -24,6 +24,7 @@ enum StatTags {
     sea_str_no = 'Registered strain designation',
     sea_str_des = 'Strain designation',
     sea_tax_brc = 'Taxonomy or collection',
+    sea_tax_des = 'Taxonomy or designation',
     pass_str = 'Passport [Strain ID]',
     strain = 'Strain',
     all_strains = 'All strains',
@@ -65,6 +66,8 @@ const THESAURUS_L: [string, string][] = [
     [QApiCon.seaStrAll, StatTags.all_strains],
     ...createComb([QApiCon.seaStrBrc, QApiCon.seaStrTaxName], StatTags.sea_tax_brc),
     ...createComb([QApiCon.seaCulBrc, QApiCon.seaCulTaxName], StatTags.sea_tax_brc),
+    ...createComb([QApiCon.seaStrStrDes, QApiCon.seaStrTaxName], StatTags.sea_tax_des),
+    ...createComb([QApiCon.seaCulStrDes, QApiCon.seaCulTaxName], StatTags.sea_tax_des),
 ];
 const THESAURUS_MAP = new Map<string, string>(THESAURUS_L);
 const THESAURUS_SHORT_MAP = new Map<string, string>(THESAURUS_SH_L);
