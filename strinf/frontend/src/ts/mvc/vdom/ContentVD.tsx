@@ -1,6 +1,5 @@
 import { Router, Route, lazy, useLocation } from 'preact-iso';
-import { useContext, useRef } from 'preact/hooks';
-import { memo } from 'preact/compat';
+import { useContext, useEffect, useRef } from 'preact/hooks';
 import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
 import type { BreadCrumbsG } from '@strinf/ts/interfaces/dom/global';
 import { trackPageV } from '@strinf/ts/mvc/vdom/fun/mat/track';
@@ -47,11 +46,7 @@ const API_VD = lazy(async () => import('@strinf/ts/mvc/vdom/static/ApiVd'));
 
 const PATH_STRAIN = `${UIApiCon.strain}:id`;
 
-const PATH_PRE = [
-    UIApiCon.strain.toString(),
-    UIApiCon.search.toString(),
-    UIApiCon.pass.toString(),
-] as const;
+const PATH_PRE = [UIApiCon.strain, UIApiCon.search, UIApiCon.pass] as const;
 
 function onRouteChange(path: string): void {
     defaultRouteBeh();
@@ -78,6 +73,14 @@ function ContentVD({
     const errR = useRef<HTMLDivElement>(null);
     const conR = useRef<HTMLDivElement>(null);
     const conP = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        if (error() && (conR.current?.classList.contains(Dis.dNone) ?? false)) {
+            conR.current?.classList.remove(Dis.dNone);
+            errR.current?.classList.add(Dis.dNone);
+            disable();
+        }
+        conP.current?.classList.add(Dis.dNone);
+    }, []);
     if (ctx === undefined) {
         return null;
     }
@@ -101,17 +104,6 @@ function ContentVD({
                         if (!error()) {
                             onRouteChange(path);
                         }
-                    }}
-                    onLoadEnd={() => {
-                        if (
-                            error() &&
-                            (conR.current?.classList.contains(Dis.dNone) ?? false)
-                        ) {
-                            conR.current?.classList.remove(Dis.dNone);
-                            errR.current?.classList.add(Dis.dNone);
-                            disable();
-                        }
-                        conP.current?.classList.add(Dis.dNone);
                     }}
                 >
                     <Route path={UIApiCon.index} component={INDEX_VD} />
@@ -139,4 +131,4 @@ function ContentVD({
     );
 }
 
-export default memo(ContentVD);
+export default ContentVD;
