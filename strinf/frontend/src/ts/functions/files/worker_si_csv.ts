@@ -8,7 +8,7 @@ const ALL_DATA = new Map<number, string>();
 
 function joinCSV(data: MOD_SEA_T): string {
     const cul = data[1].join(';');
-    const sta = String(convertStrainStatusToEnum(data[5]));
+    const sta = convertStrainStatusToEnum(data[5]);
     const country = parseCountryCode(DEC.decode(data[4]));
     return `${data[0]},${cul},${data[2]},${data[3]},${country},${sta}`;
 }

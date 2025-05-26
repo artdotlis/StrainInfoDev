@@ -242,7 +242,7 @@ function crValOut(val: string | number, title: string): string {
         return val > 0 ? 'True' : 'False';
     }
     if (title === STRAIN_STATUS && typeof val === 'number') {
-        return String(convertStrainStatusToEnum(val));
+        return convertStrainStatusToEnum(val);
     }
     return String(val);
 }

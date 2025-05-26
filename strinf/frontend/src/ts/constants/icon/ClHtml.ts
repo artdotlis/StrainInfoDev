@@ -20,7 +20,6 @@ enum ClHtml {
     cont = 'ph ph-shipping-container',
     filter = 'ph ph-funnel',
     youtube = 'ph ph-youtube-logo',
-    x = 'ph ph-x-logo',
     blueS = 'ph ph-butterfly',
     linkedIn = 'ph ph-linkedin-logo',
     per = 'ph ph-person-simple',

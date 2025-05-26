@@ -54,7 +54,6 @@ const REPL_DOM = /{{API_DOMAIN}}\/?/g;
 const REPL_DES = /{{API_DES_SEA}}\/?/g;
 const REPL_DEP_M = /{{API_DEP_MAX}}\/?/g;
 
-/* eslint-disable complexity */
 function correctCode(eleBuf: HTMLSpanElement, api: string): void {
     if (REPL_DOM.test(eleBuf.textContent ?? '')) {
         eleBuf.textContent = eleBuf.textContent?.replaceAll(REPL_DOM, api) ?? '';
@@ -68,7 +67,6 @@ function correctCode(eleBuf: HTMLSpanElement, api: string): void {
             eleBuf.textContent?.replaceAll(REPL_DEP_M, QApiCon.culMax) ?? '';
     }
 }
-/* eslint-enable complexity */
 
 function WebSerPyE(props: DocsPPT): JSX.Element {
     const { api } = props;

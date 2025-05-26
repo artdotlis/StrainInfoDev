@@ -13,20 +13,13 @@ function markErr(inF: HTMLInputElement | null): void {
 
 function addTagToInput(value: string, api: string): string {
     if (
-        [
-            String(QApiCon.seaCulStrId),
-            String(QApiCon.strMin),
-            String(QApiCon.strAvg),
-            String(QApiCon.strMax),
-        ].includes(api)
-    ) {
-        return `${IdAcrTagCon.strId} ${value}`;
-    }
-    if (
-        [String(QApiCon.culMin), String(QApiCon.culAvg), String(QApiCon.culMax)].includes(
+        [QApiCon.seaCulStrId, QApiCon.strMin, QApiCon.strAvg, QApiCon.strMax].includes(
             api
         )
     ) {
+        return `${IdAcrTagCon.strId} ${value}`;
+    }
+    if ([QApiCon.culMin, QApiCon.culAvg, QApiCon.culMax].includes(api)) {
         return `${IdAcrTagCon.strId} ${value}`;
     }
     return value;

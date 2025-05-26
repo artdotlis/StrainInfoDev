@@ -429,9 +429,7 @@ function crEmptyDetC(): DetT {
 function Details({ ctx, data, cid, rel, hookCul, hookInf, ccno }: ResProps): JSX.Element {
     let localData = data;
     const ref = useRef<HTMLDivElement>(null);
-    if (localData === undefined) {
-        localData = crEmptyDetC();
-    }
+    localData ??= crEmptyDetC();
     useTooltipForRef(
         ref,
         hookInf,

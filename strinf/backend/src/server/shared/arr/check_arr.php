@@ -167,7 +167,7 @@ function check_kt_arr_id(array $arr, string $key): ?array
     if (key_exists($key, $arr) && is_array($arr[$key])) {
         $arr = [...array_values(array_filter(
             array_map(
-                parse_to_id(...), // @phpstan-ignore argument.type
+                parse_to_id(...),
                 $arr[$key]
             ),
             static fn (int $val) => $val > 0

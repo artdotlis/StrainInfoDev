@@ -55,8 +55,6 @@ enum QApiCon {
 
     seaKeyInd = '/service/search/index/',
 
-    allStrIds = '/service/all/strains',
-
     seaStrIds = '/service/search/strain/si_id/',
 
     seaStrAll = '/service/search/strain/all/',

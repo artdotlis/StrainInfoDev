@@ -148,17 +148,11 @@ class PassVD extends Component<PassProps, PassState> {
     private startPass(ctx: LoadStMInt & GlobVersionGet): void {
         this.time = Date.now();
         const { id } = this.props;
-        this.dCtrl?.setVersion(ctx.version);
-        this.pCtrl?.setVersion(ctx.version);
-        if (this.dCtrl === undefined) {
-            this.dCtrl = new DetailCtrl(ctx.version);
-        }
-        if (this.pCtrl === undefined) {
-            this.pCtrl = new PassCtrl(ctx.version);
-            this.pCtrl.init(this.hooks, parseInt(id ?? '0', 10));
-        } else {
-            this.pCtrl.init(this.hooks, parseInt(id ?? '0', 10));
-        }
+        this.dCtrl ??= new DetailCtrl(ctx.version);
+        this.dCtrl.setVersion(ctx.version);
+        this.pCtrl ??= new PassCtrl(ctx.version);
+        this.pCtrl.init(this.hooks, parseInt(id ?? '0', 10));
+        this.pCtrl.setVersion(ctx.version);
     }
 
     private difSea(location: LocationHook): boolean {

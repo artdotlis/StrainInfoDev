@@ -394,7 +394,7 @@ function ApiVD(): JSX.Element {
         return <Loading />;
     }
     ctx?.cookieActiveSet('ApiVD', (cookie) => {
-        const newDys = cookie.includes(String(CookieValue.dyslexia));
+        const newDys = cookie.includes(CookieValue.dyslexia);
         if (newDys !== dys) {
             setDys(newDys);
         }

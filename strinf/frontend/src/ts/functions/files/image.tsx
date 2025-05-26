@@ -21,11 +21,7 @@ function selectBannerImage(): string {
     return bgI400;
 }
 
-const BANNER_URL = [
-    String(UIApiCon.index),
-    String(UIApiCon.search),
-    String(UIApiCon.pass),
-] as const;
+const BANNER_URL = [UIApiCon.index, UIApiCon.search, UIApiCon.pass] as const;
 
 function createPreloadBanner(): JSX.Element {
     if (BANNER_URL.includes(window.location.pathname)) {
