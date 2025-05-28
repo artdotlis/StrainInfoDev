@@ -40,10 +40,7 @@ function is_all_api_pr(QAllE $api): bool
 /** @return array<string> */
 function get_all_api_pr(): array
 {
-    return array_values(array_filter(
-        create_all_api_str(),
-        static fn (string $enum_el): bool => $enum_el !== QAllE::STR->value
-    ));
+    return [];
 }
 
 function is_cul_api_pr(QDepEV2 | QCulEV1 $api): bool
@@ -58,7 +55,7 @@ function get_arc_api_pr(): array
     return [];
 }
 
-function is_str_api_pr(QStrEV1  | QStrEV2 $api): bool
+function is_str_api_pr(QStrEV1 | QStrEV2 $api): bool
 {
     $pr_api = get_str_api_pr();
     return in_array($api->value, $pr_api);
