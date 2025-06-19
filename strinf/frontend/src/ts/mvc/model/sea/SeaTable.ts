@@ -36,13 +36,10 @@ class SeaTable {
 
     private static readonly argLen: number = 3000;
 
-    private results: SeaR[];
-
     constructor(apiCall: ApiChanInt) {
         this.apiCall = apiCall;
         this.foundCnt = 0;
         this.fetchedCnt = 0;
-        this.results = [];
     }
 
     private static detectRange(args: number[], start: number): number {
@@ -92,6 +89,7 @@ class SeaTable {
         const resTab: Promise<void>[] = [];
         let [cnt, cntEl] = [0, 0];
         const sortedJson = jsonId.sort((fir, sec) => fir - sec);
+        const res_con: SeaR[] = [];
         while (cnt < jsonId.length) {
             const [argsS, addedN] = SeaTable.createArgs(
                 sortedJson.slice(cnt, cnt + SeaTable.packSize)
@@ -107,7 +105,7 @@ class SeaTable {
                                 checkRespArr<SeaR>(resp, toArrSerSeaRes)
                             )
                             .then((json: SeaR[]): void => {
-                                res(this.getRes(cha, json));
+                                res(this.getRes(cha, json, res_con));
                             })
                             .catch((err: unknown) => {
                                 SeaTable.onStop(cha);
@@ -118,14 +116,15 @@ class SeaTable {
             );
             cntEl += 1;
         }
-        this.awaitRes(cha, resTab, api, args);
+        this.awaitRes(cha, resTab, api, args, res_con);
     }
 
     private runSearchAll(
         cha: ViewChanInt,
         api: string,
         ind: number,
-        resTab: Promise<void>[]
+        resTab: Promise<void>[],
+        res_con: SeaR[]
     ): void {
         const call = this.apiCall.createApiCall(`${api}${ind}`);
         resTab.push(
@@ -147,9 +146,15 @@ class SeaTable {
                                     const valObj =
                                         typeof data === 'object' && data !== null;
                                     if (valObj && 'next' in data) {
-                                        this.runSearchAll(cha, api, ind + 1, resTab);
+                                        this.runSearchAll(
+                                            cha,
+                                            api,
+                                            ind + 1,
+                                            resTab,
+                                            res_con
+                                        );
                                     } else {
-                                        this.awaitRes(cha, resTab, api, '');
+                                        this.awaitRes(cha, resTab, api, '', res_con);
                                     }
                                     return isSerSeaAllJ(data);
                                 });
@@ -157,7 +162,7 @@ class SeaTable {
                             .then((data: SerSeaAllJ) => {
                                 this.foundCnt = data.count;
                                 const json = data.data.map((val) => toArrSerSeaRes(val));
-                                res(this.getRes(cha, json));
+                                res(this.getRes(cha, json, res_con));
                             })
                             .catch((err: unknown) => {
                                 SeaTable.onStop(cha);
@@ -174,7 +179,8 @@ class SeaTable {
         cha: ViewChanInt,
         resTab: Promise<void>[],
         api: string,
-        args: string
+        args: string,
+        res_con: SeaR[]
     ): void {
         Promise.all(resTab)
             .then(() => {
@@ -186,13 +192,12 @@ class SeaTable {
                         )
                     );
                 }
-                const res = this.results;
-                if (isOneStrain(res)) {
-                    const strId = res[0] ? `${res[0][0]}` : '';
+                if (isOneStrain(res_con)) {
+                    const strId = res_con[0] ? `${res_con[0][0]}` : '';
                     this.wrapToPass(cha, api, args, strId);
                 } else {
                     SeaTable.onStop(cha);
-                    cha.tab(res);
+                    cha.tab(res_con);
                 }
             })
             .catch((err: unknown) => {
@@ -201,13 +206,13 @@ class SeaTable {
             });
     }
 
-    private async getRes(cha: ViewChanInt, json: SeaR[]): Promise<void> {
+    private async getRes(cha: ViewChanInt, json: SeaR[], res_con: SeaR[]): Promise<void> {
         this.fetchedCnt += json.length;
         cha.prog(Math.min(Math.round((100 * this.fetchedCnt) / this.foundCnt), 100));
         for (let cnt = 0; cnt < json.length; cnt += 1000) {
             await new Promise<void>((res) => {
                 setTimeout(() => {
-                    this.results.push(...json.slice(cnt, cnt + 1000));
+                    res_con.push(...json.slice(cnt, cnt + 1000));
                     res();
                 }, 1);
             });
@@ -380,12 +385,12 @@ class SeaTable {
             QApiCon.seaStrCulId,
             QApiCon.seaStrAll,
         ];
-        this.results = [];
         if (cApi === QApiCon.seaStrAll) {
             cha.load.map((ele: LoadFS) => {
                 ele(LoadT.STA);
             });
-            this.runSearchAll(cha, api, 0, []);
+            const res_con: SeaR[] = [];
+            this.runSearchAll(cha, api, 0, [], res_con);
         } else if (cApi === QApiCon.seaCulStrId) {
             SeaTable.forwardStrainToPass(cha, args);
         } else if (
