@@ -32,7 +32,10 @@ final class QDConIdEnt
     /** @return array<T, string>*/
     public function getRes(): array
     {
-        $res = [...$this->buf_ent];
+        $res = [];
+        foreach ($this->buf_ent as $key => $val) {
+            $res[$key] = $val;
+        }
         foreach ($this->to_buf_cul as $key => $val) {
             $res[$key] = $val;
         }

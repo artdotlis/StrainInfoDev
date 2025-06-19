@@ -16,10 +16,10 @@ use straininfo\server\interfaces\mvvm\view_model\chan\query\QVMIntCnt;
 use straininfo\server\interfaces\mvvm\view_model\chan\query\QVMIntDat;
 use straininfo\server\interfaces\mvvm\view_model\chan\query\QVMIntStat;
 use straininfo\server\interfaces\mvvm\view_model\chan\search\VMIntSeaOpt;
-use function straininfo\server\shared\arr\count_2d_arr;
 use straininfo\server\shared\mvvm\view\api\VersionE;
-
 use straininfo\server\shared\mvvm\view_model\data\QDConIdEnt;
+
+use function straininfo\server\shared\arr\count_2d_arr;
 
 /**
  * @template T of string|int
@@ -196,7 +196,7 @@ function sea_mic_all(
     $pos = $index * $size;
     $con_ca = $ca_mic_ind->getResult([$index], VersionE::V2);
     if (!$con_ca->getMisIds() && $con_ca->getRes()) {
-        return [$con_ca->getRes()[0], $pos >= $db_size || $pos < 0];
+        return [$con_ca->getRes()[$index], $pos >= $db_size || $pos < 0];
     }
     $si_ids = array_slice($all_ids, $pos, $size);
     $con = get_ent_by_ids(VersionE::V2, $si_ids, $sea_q, $sea_b);
