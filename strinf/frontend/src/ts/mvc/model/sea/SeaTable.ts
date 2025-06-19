@@ -398,6 +398,9 @@ class SeaTable {
             this.runSearchApiComb(cha, api, args, (lCha, lIds, lArg, lApi) => {
                 this.checkStrIds(lCha, lIds, lArg, lApi);
             });
+        } else {
+            SeaTable.onStop(cha);
+            onPrError(new Known500Error(`Unknown arguments detected: ${cApi}`));
         }
     }
 }

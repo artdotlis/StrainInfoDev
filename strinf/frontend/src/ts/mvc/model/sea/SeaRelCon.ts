@@ -117,6 +117,8 @@ class SeaRelCon {
         ) {
             this.ready = false;
             this.runSeaStrIds(cha, api, args, omitStr);
+        } else {
+            this.onError(new Known500Error(`Unknown arguments detected: ${cApi}`));
         }
     }
 }

@@ -63,6 +63,8 @@ class PassCon {
     public initPass(cha: ViewChanInt, strainId: number): void {
         if (strainId > 0) {
             this.runPassApi(cha, QApiCon.strAvg, `${strainId}`);
+        } else {
+            onPrError(new Known500Error(`Negative strain id detected: ${strainId}`));
         }
     }
 }

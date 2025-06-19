@@ -50,6 +50,8 @@ class SeaIndexCon {
         if (!args.includes(',') && args !== '' && this.ready) {
             this.ready = false;
             this.runSeaApi(cha, args);
+        } else {
+            onPrError(new Known500Error(`Unknown arguments detected: ${args}`));
         }
     }
 }

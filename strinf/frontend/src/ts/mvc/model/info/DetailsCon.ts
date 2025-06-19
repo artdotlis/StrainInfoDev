@@ -1,5 +1,6 @@
 import QApiCon from '@strinf/ts/constants/api/q_api';
 import Known404Error from '@strinf/ts/errors/known/404';
+import Known500Error from '@strinf/ts/errors/known/500';
 import { getApiToStr, toArrDetailsRes } from '@strinf/ts/functions/api/map';
 import onPrError from '@strinf/ts/functions/err/async';
 import { checkRespArr, fetchRetry } from '@strinf/ts/functions/http/http';
@@ -42,6 +43,8 @@ class DetailsCon {
         const cApi = api as unknown as QApiCon;
         if (QApiCon.culAvg === cApi) {
             this.runDetApi(cha, api, args);
+        } else {
+            onPrError(new Known500Error(`Unknown arguments detected: ${cApi}`));
         }
     }
 }
