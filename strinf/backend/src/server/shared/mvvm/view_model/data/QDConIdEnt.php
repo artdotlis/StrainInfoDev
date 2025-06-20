@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace straininfo\server\shared\mvvm\view_model\data;
 
-use function straininfo\server\shared\arr\arr_2_set;
+use function Safe\array_replace;
 
 /** @template T of int|string */
 final class QDConIdEnt
@@ -32,14 +32,7 @@ final class QDConIdEnt
     /** @return array<T, string>*/
     public function getRes(): array
     {
-        $res = [];
-        foreach ($this->buf_ent as $key => $val) {
-            $res[$key] = $val;
-        }
-        foreach ($this->to_buf_cul as $key => $val) {
-            $res[$key] = $val;
-        }
-        return $res;
+        return array_replace($this->buf_ent, $this->to_buf_cul);
     }
 
     /** @return array<T> */
@@ -51,10 +44,7 @@ final class QDConIdEnt
     /** @param array<T> $mis_ids */
     public function addToMis(array $mis_ids): void
     {
-        $this->missing_id = arr_2_set(  // @phpstan-ignore assign.propertyType
-            [...$this->missing_id, ...$mis_ids],
-            static fn ($el_v) => $el_v
-        );
+        $this->missing_id = array_unique([...$this->missing_id, ...$mis_ids]);
     }
 
     /** @return array<T, string> */

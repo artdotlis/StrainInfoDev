@@ -42,7 +42,6 @@
             "server/shared/arr/parse_arr.php",
             "server/shared/arr/rem_arr.php",
             "server/shared/arr/merge_arr.php",
-            "server/shared/arr/arr_set.php",
             "server/shared/arr/count_arr.php",
             "server/shared/dbs/connect.php",
             "server/shared/types/parse_type.php",

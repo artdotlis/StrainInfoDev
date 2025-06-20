@@ -15,10 +15,7 @@ use function Safe\preg_replace;
  */
 function parse_str_2_arr(string $to_parse, callable $cast, int $str_len): array
 {
-    $parsed = arr_2_set(
-        explode(',', rtrim($to_parse, ',')),
-        static fn (string|int $el_v): string => (string) $el_v
-    );
+    $parsed = array_unique(explode(',', rtrim($to_parse, ',')));
     return array_map(
         $cast,
         filter_arr(
