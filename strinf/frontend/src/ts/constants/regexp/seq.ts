@@ -2,7 +2,7 @@ const SEQ_ACC = [
     // Nucleotide
     '[A-Z]\\d{5}|[A-Z]{2}\\d{6}|[A-Z]{2}\\d{8}',
     // WGS
-    '[A-Z]{4}\\d{2}\\d{6,}|[A-Z]{6}\\d{2}\\d{7,}',
+    '[A-Z]{4}\\d{8,}|[A-Z]{6}\\d{9,}',
     // MGA
     '[A-Z]{5}\\d{7}',
     // RefSeq - dna/rna only - TODO how many numbers ?
