@@ -78,7 +78,7 @@ function get_taxon_name_entity_index(): string
     LEFT JOIN culture
         ON culture.strain_id = strain.id
     INNER JOIN taxon_name
-        ON taxon_name.id IN (culture.tax_id, strain.tax_id)
+        ON taxon_name.id = strain.tax_id
     LEFT JOIN culture_collection_number
         ON culture_collection_number.id  = culture.ccno_id
     LEFT JOIN culture_collection
@@ -87,6 +87,7 @@ function get_taxon_name_entity_index(): string
     GROUP BY taxon_name.name_canonical;		
     EOF;
 }
+
 
 function get_seq_acc_entity_index(): string
 {

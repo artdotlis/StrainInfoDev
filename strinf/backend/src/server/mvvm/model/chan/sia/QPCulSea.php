@@ -40,20 +40,14 @@ final class QPCulSea extends PdoMWr implements QMIntSeaIdCul
      */
     public function getTaxName(array $tax_name): array
     {
-        $a_val = '+' . implode(' *', $tax_name);
+        $a_val = implode(' ', $tax_name);
         $res_cul = $this->getResCulId(
             get_sea_tax_name_ent('culture', get_cul_base()),
             [$a_val],
             parse_sql_cul_id(...),
             \PDO::PARAM_STR
         );
-        $res_str = $this->getResCulId(
-            get_sea_tax_name_ent('strain', get_cul_base()),
-            [$a_val],
-            parse_sql_cul_id(...),
-            \PDO::PARAM_STR
-        );
-        return array_unique(array_merge($res_str, $res_cul));
+        return array_unique($res_cul);
     }
 
     /**

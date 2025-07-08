@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\chan\sia;
 
-use straininfo\server\interfaces\mvvm\model\chan\query\QMIntSeaIdStr;
 use straininfo\server\mvvm\model\chan\PdoMWr;
+use straininfo\server\interfaces\mvvm\model\chan\query\QMIntSeaIdStr;
 
-use function straininfo\server\shared\mvvm\model\pdo\bind_and_exe;
-use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_designation;
-use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_brc_ent;
-use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_cul_id_str;
-use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_des_ent;
-use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_seq_acc_ent;
-use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_str_no_ent;
-use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_tax_name_ent;
-use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_str_base;
-use function straininfo\server\shared\mvvm\model\sia\sql\parse_sql_des_id;
-use function straininfo\server\shared\mvvm\model\sia\sql\parse_sql_main_str_id;
 use function straininfo\server\shared\text\create_designation_triplet;
+use function straininfo\server\shared\mvvm\model\sia\sql\parse_sql_main_str_id;
+use function straininfo\server\shared\mvvm\model\sia\sql\parse_sql_des_id;
+use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_str_base;
+use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_tax_name_ent;
+use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_str_no_ent;
+use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_seq_acc_ent;
+use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_des_ent;
+use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_cul_id_str;
+use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_brc_ent;
+use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_designation;
+use function straininfo\server\shared\mvvm\model\pdo\bind_and_exe;
 
 final class QPStrSea extends PdoMWr implements QMIntSeaIdStr
 {
@@ -40,20 +40,14 @@ final class QPStrSea extends PdoMWr implements QMIntSeaIdStr
      */
     public function getTaxName(array $tax_name): array
     {
-        $a_val = '+' . implode(' *', $tax_name);
-        $res_cul = $this->getResStrId(
-            get_sea_tax_name_ent('culture', get_str_base()),
-            [$a_val],
-            parse_sql_main_str_id(...),
-            \PDO::PARAM_STR
-        );
+        $a_val = implode(' ', $tax_name);
         $res_str = $this->getResStrId(
             get_sea_tax_name_ent('strain', get_str_base()),
             [$a_val],
             parse_sql_main_str_id(...),
             \PDO::PARAM_STR
         );
-        return array_unique(array_merge($res_str, $res_cul));
+        return array_unique($res_str);
     }
 
     /**

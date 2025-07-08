@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace straininfo\server\shared\mvvm\model\sia\sql\ent;
 
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructCulE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructDesE;
 use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructDesE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructCulE;
 
-use function straininfo\server\shared\mvvm\model\sia\sql\create_sql_in_templ;
-use function straininfo\server\shared\mvvm\model\sia\sql\create_sql_in_tuple_templ;
-use function straininfo\server\shared\mvvm\model\sia\sql\get_col_not_err;
 use function straininfo\server\shared\mvvm\model\sia\sql\get_cul_not_err;
+use function straininfo\server\shared\mvvm\model\sia\sql\get_col_not_err;
+use function straininfo\server\shared\mvvm\model\sia\sql\create_sql_in_tuple_templ;
+use function straininfo\server\shared\mvvm\model\sia\sql\create_sql_in_templ;
 
 /** @return array<string> */
 function create_sql_designation_triplet(int $cntPart): array
@@ -136,7 +136,7 @@ function get_sea_tax_name_ent(string $table, string $slimBase): string
         INNER JOIN taxon_name
             ON {$table}.tax_id=taxon_name.id
         WHERE {$cul} AND {$col}
-            AND MATCH(taxon_name.name_canonical) AGAINST(? IN BOOLEAN MODE)
+            AND taxon_name.name_canonical=?
         GROUP BY strain.main_id
         ORDER BY COUNT(culture.id) DESC;
     EOF;
