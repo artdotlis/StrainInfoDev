@@ -74,36 +74,37 @@ function ContentVD({
     const conR = useRef<HTMLDivElement>(null);
     const conP = useRef<HTMLDivElement>(null);
     useEffect(() => {
-        if (error() && (conR.current?.classList.contains(Dis.dNone) ?? false)) {
+        if (error()) {
+            conR.current?.classList.add(Dis.dNone);
+            errR.current?.classList.remove(Dis.dNone);
+            disable();
+        } else {
             conR.current?.classList.remove(Dis.dNone);
             errR.current?.classList.add(Dis.dNone);
-            disable();
         }
         conP.current?.classList.add(Dis.dNone);
-    }, []);
+    }, [error]);
     if (ctx === undefined) {
         return null;
     }
     if (panic) {
         return <PANIC_VD />;
     }
-    const clE = error() ? '' : Dis.dNone;
-    const clC = error() ? Dis.dNone : '';
     return (
         <>
-            <div className={`${ClHtml.cntWr} ${clE}`} ref={errR}>
+            <div className={`${ClHtml.cntWr} ${Dis.dNone}`} ref={errR}>
                 <div className={ClHtml.cntCon}>
                     <ERROR_VD />
                 </div>
                 <FootVD />
             </div>
-            <div className={`${ClHtml.cntWr} ${clC}`} ref={conR}>
+            <div className={ClHtml.cntWr} ref={conR}>
                 <div className={ClHtml.cntCon} ref={conP} />
                 <Router
                     onRouteChange={(path) => {
-                        if (!error()) {
-                            onRouteChange(path);
-                        }
+                        conR.current?.classList.remove(Dis.dNone);
+                        errR.current?.classList.add(Dis.dNone);
+                        onRouteChange(path);
                     }}
                 >
                     <Route path={UIApiCon.index} component={INDEX_VD} />
