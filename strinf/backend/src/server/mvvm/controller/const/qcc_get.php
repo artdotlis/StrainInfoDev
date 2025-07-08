@@ -16,10 +16,10 @@ use straininfo\server\interfaces\mvvm\view_model\chan\query\QVMIntCnt;
 use straininfo\server\interfaces\mvvm\view_model\chan\query\QVMIntDat;
 use straininfo\server\interfaces\mvvm\view_model\chan\query\QVMIntStat;
 use straininfo\server\interfaces\mvvm\view_model\chan\search\VMIntSeaOpt;
-use straininfo\server\shared\mvvm\view\api\VersionE;
-use straininfo\server\shared\mvvm\view_model\data\QDConIdEnt;
-
 use function straininfo\server\shared\arr\count_2d_arr;
+use straininfo\server\shared\mvvm\view\api\VersionE;
+
+use straininfo\server\shared\mvvm\view_model\data\QDConIdEnt;
 
 /**
  * @template T of string|int

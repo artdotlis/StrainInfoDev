@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace straininfo\server\shared\mvvm\view_model\data;
 
+use function straininfo\server\shared\arr\arr_merge_2_set;
+
 /** @template T of string|int */
 final class QDConSea
 {
@@ -54,6 +56,6 @@ final class QDConSea
     /** @return array<int> */
     public function getRes(): array
     {
-        return array_unique([...$this->getBuf(), ...$this->getToBuf()]);
+        return arr_merge_2_set([...$this->getBuf(), ...$this->getToBuf()]);
     }
 }

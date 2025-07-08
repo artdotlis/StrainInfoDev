@@ -24,3 +24,22 @@ function merge_2d_arr(array $keys, array $values): array
     }
     return $res;
 }
+
+/**
+ * @template T of string|int
+ * @template E of string|int
+ *
+ * @param array<T, array<E>> $arr
+ *
+ * @return array<E>
+ */
+function arr_merge_2_set(array $arr): array
+{
+    $res = [];
+    foreach ($arr as $arr_el) {
+        foreach ($arr_el as $str_el) {
+            $res[$str_el] = 1;
+        }
+    }
+    return array_keys($res);
+}
