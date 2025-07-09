@@ -9,8 +9,7 @@ import tooSty from '@strinf/css/mods/tooltip.module.css';
 import type { TT_GL_TYPE, ToolTipHookInt } from '@strinf/ts/interfaces/dom/tooltip';
 import ToolTipHook from '@strinf/ts/mvc/vdom/state/InfoHk';
 import Known500Error from '@strinf/ts/errors/known/500';
-import type InfoStrCtrl from '@strinf/ts/mvc/ctrl/InfoStrCtrl';
-import type InfoDepCtrl from '@strinf/ts/mvc/ctrl/InfoDepCtrl';
+import type InfoCtrl from '@strinf/ts/mvc/ctrl/InfoCtrl';
 
 interface ToolState<I extends InfoS | InfoR> {
     selId: number;
@@ -24,19 +23,19 @@ interface ToolTipProps<I extends InfoS | InfoR> {
     info: JSX.Element | undefined;
 }
 
-interface ToolProps<T extends InfoStrCtrl | InfoDepCtrl, I extends InfoS | InfoR> {
+interface ToolProps<I extends InfoS | InfoR> {
     hookName: string;
-    createCtrl: (ver: string) => T;
+    createCtrl: (ver: string) => InfoCtrl<I>;
     createTT: (props: ToolTipProps<I>) => JSX.Element;
 }
 
-class ToolTipInfoVD<
-    T extends InfoStrCtrl | InfoDepCtrl,
-    I extends InfoS | InfoR,
-> extends Component<ToolProps<T, I>, ToolState<I>> {
+class ToolTipInfoVD<I extends InfoS | InfoR> extends Component<
+    ToolProps<I>,
+    ToolState<I>
+> {
     private readonly modelH: InfoSt<I>;
 
-    private ctrl?: T;
+    private ctrl?: InfoCtrl<I>;
 
     private readonly tooRef: RefObject<HTMLDivElement>;
 
@@ -48,7 +47,7 @@ class ToolTipInfoVD<
 
     private readonly buffer: Set<number>;
 
-    constructor(props: ToolProps<T, I>) {
+    constructor(props: ToolProps<I>) {
         super(props);
         this.state = { selId: 0 };
         this.modelH = new InfoSt<I>();

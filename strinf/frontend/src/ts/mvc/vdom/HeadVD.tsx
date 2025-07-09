@@ -19,8 +19,9 @@ import linkSty from '@strinf/css/mods/link.module.css';
 import ToolTipInfoVD from '@strinf/ts/mvc/vdom/dyn/tooltip/TTInfoVD';
 import { TT_ID_DEP, ToolTipDepCM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTDepVD';
 import { ToolTipStrCM, TT_ID_STR } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTStrVD';
-import InfoDepCtrl from '@strinf/ts/mvc/ctrl/InfoDepCtrl';
-import InfoStrCtrl from '@strinf/ts/mvc/ctrl/InfoStrCtrl';
+import InfoCtrl from '@strinf/ts/mvc/ctrl/InfoCtrl';
+import { toArrInfoDepRes, toArrInfoStrRes } from '@strinf/ts/functions/api/map';
+import QApiCon from '@strinf/ts/constants/api/q_api';
 
 function Logos(): JSX.Element {
     const dsmCl = `${ClHtml.navBbr} ${Mar.lNAT} ${Dis.dNone} ${Dis.dBS}`;
@@ -72,13 +73,17 @@ function ToolTipCon(): JSX.Element {
         <div>
             <ToolTipInfoVD
                 hookName={TT_ID_DEP}
-                createCtrl={(ver: string) => new InfoDepCtrl(ver)}
-                createTT={(prpos) => <ToolTipStrCM {...prpos} />}
+                createCtrl={(ver: string) =>
+                    new InfoCtrl(ver, toArrInfoDepRes, QApiCon.culMin)
+                }
+                createTT={(prpos) => <ToolTipDepCM {...prpos} />}
             />
             <ToolTipInfoVD
                 hookName={TT_ID_STR}
-                createCtrl={(ver: string) => new InfoStrCtrl(ver)}
-                createTT={(prpos) => <ToolTipDepCM {...prpos} />}
+                createCtrl={(ver: string) =>
+                    new InfoCtrl(ver, toArrInfoStrRes, QApiCon.strMin)
+                }
+                createTT={(prpos) => <ToolTipStrCM {...prpos} />}
             />
             <TTSimVD />
         </div>

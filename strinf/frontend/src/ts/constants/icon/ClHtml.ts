@@ -24,7 +24,6 @@ enum ClHtml {
     linkedIn = 'ph ph-linkedin-logo',
     per = 'ph ph-person-simple',
     reg = 'ph ph-certificate',
-    info = 'ph ph-info',
     undDep = 'ph ph-clock-countdown',
     depOn = 'ph ph-check-circle',
     depOff = 'ph ph-x-circle',

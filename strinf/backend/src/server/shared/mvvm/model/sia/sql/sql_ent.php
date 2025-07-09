@@ -88,7 +88,6 @@ function get_taxon_name_entity_index(): string
     EOF;
 }
 
-
 function get_seq_acc_entity_index(): string
 {
     $cul = get_cul_not_err();
