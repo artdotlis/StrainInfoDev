@@ -6,10 +6,13 @@ import type AncT from '@strinf/ts/interfaces/misc/anchor';
 import type DetailCtrl from '@strinf/ts/mvc/ctrl/DetailCtrl';
 import { useContext, useState } from 'preact/hooks';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/details';
-import scSty from '@strinf/css/mods/scroll.module.css';
 import type { JSX } from 'preact';
 import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
-import type { DatIdTVInt, TT_GL_TYPE, TTSrcTVInt } from '@strinf/ts/interfaces/dom/tooltip';
+import type {
+    DatIdTVInt,
+    TT_GL_TYPE,
+    TTSrcTVInt,
+} from '@strinf/ts/interfaces/dom/tooltip';
 import { createRStrTiles, TooltipWrapper } from '@strinf/ts/mvc/vdom/fun/tab/pass';
 import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
@@ -118,12 +121,8 @@ function AltStrainsVD({ rel, altSiId, dCtrl, hookStr }: AltProps): JSX.Element |
                 {TIT}
                 <span id={ID} />
             </h3>
-            <section className={scSty.mobile}>
-                <div className={ClHtml.row}>
-                    <div className={Col.col} style={{ minWidth: 180 }}>
-                        <AltStrains alt={altSiId} strH={hookStr} />
-                    </div>
-                </div>
+            <section>
+                <AltStrains alt={altSiId} strH={hookStr} />
             </section>
         </div>
     );

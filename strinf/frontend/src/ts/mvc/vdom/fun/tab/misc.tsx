@@ -191,7 +191,7 @@ function createDepositTile(
 }
 
 function createStrainTile(
-    anc: string,
+    _anc: string,
     val: [number, number, string],
     ctx: InValStInt | undefined,
     exCl: string
@@ -203,7 +203,7 @@ function createStrainTile(
         }, 100);
         return true;
     };
-    return createLinkedTile(anc, val, strCl, exCl);
+    return createLinkedTile(createStrainCall(strId), val, strCl, exCl);
 }
 
 function createDoiLink(doi: string | undefined, tit: string): JSX.Element {

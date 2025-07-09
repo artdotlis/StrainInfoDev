@@ -189,9 +189,9 @@ function createRDepTiles<T>(
     return createTiles(values, parser, ctx, props, createDepositTile);
 }
 
-function createRStrTiles<T>(
-    values: T[],
-    parser: (val: T) => [number, string, boolean],
+function createRStrTiles(
+    values: number[],
+    parser: (val: number) => [number, string, boolean],
     ctx: InValStInt | undefined
 ): [JSX.Element, number][] {
     return createTiles(values, parser, ctx, ['', -1], createStrainTile);
