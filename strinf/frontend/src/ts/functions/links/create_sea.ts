@@ -6,6 +6,7 @@ import KnownInWarnError from '@strinf/ts/errors/known/in_warn';
 import type { SeaInputMap } from '@strinf/ts/interfaces/api/maped';
 import { SEA_INPUT_COMB } from '@strinf/ts/functions/api/map';
 import { createStrainCall, createPassCall } from '@strinf/ts/functions/links/create_pass';
+import { getSeaPathFApi } from '@strinf/ts/constants/api/thes_api';
 
 function parseSeaStr<T extends string | number>(sea: T | T[]): string {
     if (sea instanceof Array || `${sea}`.length === 0) {
@@ -30,6 +31,14 @@ function checkSeaTags(sea: string): SeaInputMap {
     );
 }
 
+function parseToPath(api: string, args: string): string {
+    const sea_p = getSeaPathFApi(api);
+    if (sea_p !== '') {
+        return `${UIApiCon.search}/${sea_p}/${args}`;
+    }
+    return `${UIApiCon.search}?${UIArgCon.search}${args}&${UIArgCon.qApi}${api}`;
+}
+
 function createSeaInCall(api: string, args: string): string {
     switch (api) {
         case QApiCon.culMax:
@@ -43,7 +52,7 @@ function createSeaInCall(api: string, args: string): string {
                     'given in a search pass environment'
             );
         default:
-            return `${UIApiCon.search}?${UIArgCon.search}${args}&${UIArgCon.qApi}${api}`;
+            return parseToPath(api, args);
     }
 }
 

@@ -39,9 +39,9 @@ enum QApiCon {
 
     seaCulTaxName = '/v2/search/deposit/tax_name/',
 
-    seaStrStrNo = '/v2/search/strain/cc_no/',
+    seaStrCCNo = '/v2/search/strain/cc_no/',
 
-    seaCulStrNo = '/v2/search/deposit/cc_no/',
+    seaCulCCNo = '/v2/search/deposit/cc_no/',
 
     seaStrBrc = '/v2/search/strain/cc/',
 

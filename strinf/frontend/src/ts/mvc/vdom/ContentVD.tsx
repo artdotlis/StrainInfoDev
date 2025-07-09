@@ -23,9 +23,15 @@ interface ERR_PROP {
     disable: () => void;
 }
 
-function SeaWrVD(): JSX.Element {
+function SeaWrVD({
+    sea_typ,
+    sea_val,
+}: {
+    sea_typ?: string;
+    sea_val?: string;
+}): JSX.Element {
     const location = useLocation();
-    return <SEA_VD location={location} />;
+    return <SEA_VD location={location} typ={sea_typ} val={sea_val} />;
 }
 
 const PASS_VD = lazy(async () => import('@strinf/ts/mvc/vdom/main/PassVD'));
@@ -46,6 +52,7 @@ const EMPTY_VD = lazy(async () => import('@strinf/ts/mvc/vdom/EmptyVD'));
 const API_VD = lazy(async () => import('@strinf/ts/mvc/vdom/static/ApiVd'));
 
 const PATH_STRAIN = `${UIApiCon.strain}:id`;
+const PATH_SEARCH = `${UIApiCon.search}/:sea_typ/:sea_val`;
 
 const PATH_PRE = [UIApiCon.strain, UIApiCon.search, UIApiCon.pass] as const;
 
@@ -115,6 +122,7 @@ function ContentVD({
                         to={UIApiCon.index}
                         component={Redirect}
                     />
+                    <Route path={PATH_SEARCH} component={SeaWrVD} />
                     <Route path={UIApiCon.search} component={SeaWrVD} />
                     <Route path={UIApiCon.pass} component={SeaWrVD} />
                     <Route path={PATH_STRAIN} component={PassWrVD} />

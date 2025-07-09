@@ -287,10 +287,10 @@ class SeaTable {
     private static mapStrApiCul(api: string): string {
         const cApi = api as unknown as QApiCon;
         if (cApi === QApiCon.seaStrStrDes) {
-            return QApiCon.seaCulStrNo;
+            return QApiCon.seaCulCCNo;
         }
-        if (cApi === QApiCon.seaStrStrNo) {
-            return QApiCon.seaCulStrNo;
+        if (cApi === QApiCon.seaStrCCNo) {
+            return QApiCon.seaCulCCNo;
         }
         if (cApi === QApiCon.seaStrSeqAcc) {
             return QApiCon.seaCulSeqAcc;
@@ -378,7 +378,7 @@ class SeaTable {
             QApiCon.seaStrTaxName,
         ]);
         const allowedApis = [
-            QApiCon.seaStrStrNo,
+            QApiCon.seaStrCCNo,
             QApiCon.seaStrStrDes,
             QApiCon.seaStrTaxName,
             QApiCon.seaStrSeqAcc,

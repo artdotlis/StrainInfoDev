@@ -31,6 +31,7 @@ import type { TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
 import { TT_ID_SIM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
 import Loading from '@strinf/ts/mvc/vdom/static/misc/LoadVD';
 import type { LocationHook } from 'preact-iso';
+import { getSeaApiFPath } from '@strinf/ts/constants/api/thes_api';
 
 type CTX = GlobVersionGet & LoadSet & LoadStMInt & BreadCrumbsG & TTHookG<TT_GL_TYPE>;
 interface SearchState {
@@ -47,8 +48,9 @@ const H_DESC = (sTerm: string, sApi: string): string => `
 StrainInfo results for the search term ${sTerm}.
 ${getApiToStr(sApi)} was/were used as search queries.
 `;
+interface SEA_PROP { location: LocationHook; val?: string; typ?: string }
 
-class SearchVD<T extends { location: LocationHook }> extends Component<T, SearchState> {
+class SearchVD<T extends SEA_PROP> extends Component<T, SearchState> {
     private time: number;
 
     private load: LoadT;
@@ -112,8 +114,12 @@ class SearchVD<T extends { location: LocationHook }> extends Component<T, Search
         return pvB;
     }
 
-    private static parseArgs(): [string, string] {
+    private static parseArgs(val?: string, typ?: string): [string, string] {
         let reqVal = getArgs(REG_PASS);
+        const api_p = getSeaApiFPath(typ ?? '');
+        if (val !== undefined && val !== '' && api_p !== '') {
+            return [val, api_p];
+        }
         if (reqVal !== '') {
             return [reqVal, QApiCon.seaStrCulId];
         }
@@ -160,8 +166,9 @@ class SearchVD<T extends { location: LocationHook }> extends Component<T, Search
         const ctx: CTX | undefined = this.context;
         const ttHook = ctx?.getTTHook(TT_ID_SIM);
         const { tab } = this.state;
+        const { val, typ } = this.props;
         if (ctx !== undefined) {
-            this.initCtrl(ctx, SearchVD.parseArgs());
+            this.initCtrl(ctx, SearchVD.parseArgs(val, typ));
         }
         if (this.load !== LoadT.FIN) {
             return (

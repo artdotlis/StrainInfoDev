@@ -107,7 +107,7 @@ class SeaRelCon {
         const cApi = api as unknown as QApiCon;
         if (
             [
-                QApiCon.seaStrStrNo,
+                QApiCon.seaStrCCNo,
                 QApiCon.seaStrStrDes,
                 QApiCon.seaStrTaxName,
                 QApiCon.seaStrSeqAcc,

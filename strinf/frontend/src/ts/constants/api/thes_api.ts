@@ -34,7 +34,7 @@ const THESAURUS_SH_L: [string, string][] = [
     [StatTags.sea_tax_nam, 'Tax.'],
     [StatTags.sea_brc, 'CC'],
     [StatTags.sea_str_des, 'Str. des.'],
-];
+] as const;
 
 const THESAURUS_L: [string, string][] = [
     [QApiCon.cntStr, StatTags.st_str],
@@ -59,8 +59,8 @@ const THESAURUS_L: [string, string][] = [
     [QApiCon.seaCulTaxName, StatTags.sea_tax_nam],
     [QApiCon.seaStrBrc, StatTags.sea_brc],
     [QApiCon.seaCulBrc, StatTags.sea_brc],
-    [QApiCon.seaStrStrNo, StatTags.sea_str_no],
-    [QApiCon.seaCulStrNo, StatTags.sea_str_no],
+    [QApiCon.seaStrCCNo, StatTags.sea_str_no],
+    [QApiCon.seaCulCCNo, StatTags.sea_str_no],
     [QApiCon.seaStrStrDes, StatTags.sea_str_des],
     [QApiCon.seaCulStrDes, StatTags.sea_str_des],
     [QApiCon.seaStrAll, StatTags.all_strains],
@@ -68,7 +68,7 @@ const THESAURUS_L: [string, string][] = [
     ...createComb([QApiCon.seaCulBrc, QApiCon.seaCulTaxName], StatTags.sea_tax_brc),
     ...createComb([QApiCon.seaStrStrDes, QApiCon.seaStrTaxName], StatTags.sea_tax_des),
     ...createComb([QApiCon.seaCulStrDes, QApiCon.seaCulTaxName], StatTags.sea_tax_des),
-];
+] as const;
 const THESAURUS_MAP = new Map<string, string>(THESAURUS_L);
 const THESAURUS_SHORT_MAP = new Map<string, string>(THESAURUS_SH_L);
 
@@ -76,5 +76,33 @@ function getShortText(text: string): string {
     return THESAURUS_SHORT_MAP.get(text) ?? text;
 }
 
+const SEARCH_PATH_MAP: [string, string][] = [
+    [QApiCon.seaStrSeqAcc, 'sequence'],
+    [QApiCon.seaStrTaxName, 'taxonomy'],
+    [QApiCon.seaStrBrc, 'collection'],
+    [QApiCon.seaStrCCNo, 'ccno'],
+    [QApiCon.seaStrStrDes, 'designation'],
+    ...createComb([QApiCon.seaStrBrc, QApiCon.seaStrTaxName], 'taxonomy_collection'),
+    ...createComb([QApiCon.seaStrStrDes, QApiCon.seaStrTaxName], 'taxonomy_designation'),
+] as const;
+
+function getSeaPathFApi(api: string): string {
+    for (const [qapi, sea_p] of SEARCH_PATH_MAP) {
+        if (qapi === api) {
+            return sea_p;
+        }
+    }
+    return '';
+}
+
+function getSeaApiFPath(path: string): string {
+    for (const [qapi, sea_p] of SEARCH_PATH_MAP) {
+        if (path === sea_p) {
+            return qapi;
+        }
+    }
+    return '';
+}
+
 export default THESAURUS_MAP;
-export { StatTags, getShortText };
+export { StatTags, getShortText, getSeaPathFApi, getSeaApiFPath };
