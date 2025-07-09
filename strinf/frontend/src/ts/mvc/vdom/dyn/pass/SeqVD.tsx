@@ -13,7 +13,7 @@ import {
 } from '@strinf/ts/constants/style/ClHtml';
 import { getSeqTuple } from '@strinf/ts/functions/api/map';
 import { filterArrRowStr } from '@strinf/ts/functions/arr/parse';
-import type { SeqT } from '@strinf/ts/interfaces/api/maped';
+import type { SeqT } from '@strinf/ts/interfaces/api/mapped';
 import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
 import type { TT_GL_TYPE, ToolTipHookInt } from '@strinf/ts/interfaces/dom/tooltip';
 import { createSeqAccLink, createSimpleTiles } from '@strinf/ts/mvc/vdom/fun/tab/misc';
@@ -35,7 +35,7 @@ type Events = [() => void, string, Element][];
 interface ResProps {
     detAnc: string;
     res: SeqT[];
-    hookCul: ToolTipHookInt<TT_GL_TYPE>;
+    hookDep: ToolTipHookInt<TT_GL_TYPE>;
     hookInf: ToolTipHookInt<TT_GL_TYPE>;
 }
 
@@ -430,7 +430,7 @@ function getAnchorS(ord: number, rel: SeqT[]): AncT {
 }
 
 function SeqVD(props: ResProps): JSX.Element | null {
-    const { res, detAnc, hookCul, hookInf } = props;
+    const { res, detAnc, hookDep: hookCul, hookInf } = props;
     const resF = filterArrRowStr<SeqT>(res, []);
     if (resF.length === 0) {
         return null;

@@ -1,22 +1,24 @@
 import QApiCon from '@strinf/ts/constants/api/q_api';
 import Known404Error from '@strinf/ts/errors/known/404';
 import Known500Error from '@strinf/ts/errors/known/500';
-import { getApiToStr, toArrInfoRes } from '@strinf/ts/functions/api/map';
+import { getApiToStr } from '@strinf/ts/functions/api/map';
 import onPrError from '@strinf/ts/functions/err/async';
 import { checkRespArr, fetchRetry } from '@strinf/ts/functions/http/http';
-import type { ApiChanInt, InfoR } from '@strinf/ts/interfaces/api/maped';
+import type { ApiChanInt, InfoR, InfoS } from '@strinf/ts/interfaces/api/mapped';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/info';
 
-class InfoCon {
+class InfoCon<T extends InfoR | InfoS> {
     private readonly apiCall: ApiChanInt;
+    private readonly parser: (data: unknown) => T;
 
-    constructor(apiCall: ApiChanInt) {
+    constructor(apiCall: ApiChanInt, parser: (data: unknown) => T) {
         this.apiCall = apiCall;
+        this.parser = parser;
     }
 
-    private static checkInfo(
-        cha: ViewChanInt,
-        json: InfoR[],
+    private static checkInfo<T extends InfoR | InfoS>(
+        cha: ViewChanInt<T>,
+        json: T[],
         args: number[],
         api: string
     ): void {
@@ -27,11 +29,11 @@ class InfoCon {
         }
     }
 
-    private runInfoApi(cha: ViewChanInt, api: string, args: number[]): void {
+    private runInfoApi(cha: ViewChanInt<T>, api: string, args: number[]): void {
         const call = this.apiCall.createApiCall(`${api}${args}`);
         fetchRetry(call)
-            .then(async (resp) => checkRespArr<InfoR>(resp, toArrInfoRes))
-            .then((json: InfoR[]) => {
+            .then(async (resp) => checkRespArr<T>(resp, this.parser))
+            .then((json: T[]) => {
                 InfoCon.checkInfo(cha, json, args, api);
             })
             .catch((err: unknown) => {
@@ -39,9 +41,9 @@ class InfoCon {
             });
     }
 
-    public initInfo(cha: ViewChanInt, args: number[], api: string): void {
+    public initInfo(cha: ViewChanInt<T>, args: number[], api: string): void {
         const cApi = api as unknown as QApiCon;
-        if (QApiCon.culMin === cApi) {
+        if (QApiCon.culMin === cApi || QApiCon.strMin === cApi) {
             this.runInfoApi(cha, api, args);
         } else {
             onPrError(new Known500Error(`Unknown arguments detected: ${cApi}`));

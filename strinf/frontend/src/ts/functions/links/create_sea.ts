@@ -3,7 +3,7 @@ import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
 import UIArgCon from '@strinf/ts/constants/api/ui_arg';
 import Known500Error from '@strinf/ts/errors/known/500';
 import KnownInWarnError from '@strinf/ts/errors/known/in_warn';
-import type { SeaInputMap } from '@strinf/ts/interfaces/api/maped';
+import type { SeaInputMap } from '@strinf/ts/interfaces/api/mapped';
 import { SEA_INPUT_COMB } from '@strinf/ts/functions/api/map';
 import { createStrainCall, createPassCall } from '@strinf/ts/functions/links/create_pass';
 import { getSeaPathFApi } from '@strinf/ts/constants/api/thes_api';

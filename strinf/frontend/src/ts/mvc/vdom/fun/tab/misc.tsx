@@ -157,27 +157,53 @@ function createSimpleTiles<T>(
     return tiles;
 }
 
-function createPassTile(
+function createLinkedTile(
+    anc: string,
+    val: [number, number, string],
+    cal: () => boolean,
+    exCl: string
+): JSX.Element {
+    const [key, , name] = val;
+    let clV = `${exCl} ${tilSty.tiletext} ${Pad.N0} `;
+    clV += `${ClHtml.til} ${ClHtml.tLin}`;
+    const cont = <span className={Tex.tr}>{name}</span>;
+    return crALink(cont, cal, {
+        key,
+        href: anc,
+        className: clV,
+    });
+}
+
+function createDepositTile(
     anc: string,
     val: [number, number, string],
     ctx: InValStInt | undefined,
     exCl: string
 ): JSX.Element {
-    const [key, cul, name] = val;
-    let clV = `${exCl} ${tilSty.tiletext} ${Pad.N0} `;
-    clV += `${ClHtml.til} ${ClHtml.tLin}`;
-    const cont = <span className={Tex.tr}>{name}</span>;
+    const [, depId] = val;
     const culCl = () => {
         setTimeout(() => {
-            updateHrefVal(`${IdAcrTagCon.depId} ${cul}`, ctx);
+            updateHrefVal(`${IdAcrTagCon.depId} ${depId}`, ctx);
         }, 100);
         return true;
     };
-    return crALink(cont, culCl, {
-        key,
-        href: anc,
-        className: clV,
-    });
+    return createLinkedTile(anc, val, culCl, exCl);
+}
+
+function createStrainTile(
+    anc: string,
+    val: [number, number, string],
+    ctx: InValStInt | undefined,
+    exCl: string
+): JSX.Element {
+    const [, strId] = val;
+    const strCl = () => {
+        setTimeout(() => {
+            updateHrefVal(`${IdAcrTagCon.strId} ${strId}`, ctx);
+        }, 100);
+        return true;
+    };
+    return createLinkedTile(anc, val, strCl, exCl);
 }
 
 function createDoiLink(doi: string | undefined, tit: string): JSX.Element {
@@ -342,7 +368,8 @@ export {
     parseVal2Html,
     createDoiLink,
     createSeqAccLink,
-    createPassTile,
+    createDepositTile,
+    createStrainTile,
     createSimpleTiles,
     createPassLinkStrain,
     create2ColDiv,

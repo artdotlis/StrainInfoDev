@@ -3,7 +3,7 @@ import type { JSX } from 'preact';
 import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
 import LoadT from '@strinf/ts/constants/type/LoadT';
 import { getArgs } from '@strinf/ts/functions/api/args';
-import type { PassR } from '@strinf/ts/interfaces/api/maped';
+import type { PassR } from '@strinf/ts/interfaces/api/mapped';
 import type {
     BreadCrumbsG,
     GlobVersionGet,

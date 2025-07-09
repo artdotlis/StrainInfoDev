@@ -1,4 +1,4 @@
-import type { SeaIndR } from '@strinf/ts/interfaces/api/maped';
+import type { SeaIndR } from '@strinf/ts/interfaces/api/mapped';
 
 type TabSetF = (setter: (tab: SeaIndR) => void) => void;
 type TabF = (tab: SeaIndR) => void;

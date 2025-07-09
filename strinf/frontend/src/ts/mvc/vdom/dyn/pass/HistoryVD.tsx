@@ -7,7 +7,7 @@
 
 import type { JSX } from 'preact';
 import PassAncId from '@strinf/ts/constants/page/pass';
-import type { RelT } from '@strinf/ts/interfaces/api/maped';
+import type { RelT } from '@strinf/ts/interfaces/api/mapped';
 import type AncT from '@strinf/ts/interfaces/misc/anchor';
 import * as d3Sankey from 'd3-sankey';
 import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';

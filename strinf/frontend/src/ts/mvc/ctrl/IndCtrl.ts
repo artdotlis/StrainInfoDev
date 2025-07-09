@@ -7,7 +7,7 @@ import getServerStatus from '@strinf/ts/functions/api/status';
 import emptyCall from '@strinf/ts/functions/misc/call';
 import onPrError from '@strinf/ts/functions/err/async';
 import Known500Error from '@strinf/ts/errors/known/500';
-import type { ServerStatusInt } from '@strinf/ts/interfaces/api/maped';
+import type { ServerStatusInt } from '@strinf/ts/interfaces/api/mapped';
 import Controller from '@strinf/ts/mvc/ctrl/Controller';
 
 class IndCtrl extends Controller<ViewChanInt, [undefined]> {

@@ -4,7 +4,7 @@ import Known500Error from '@strinf/ts/errors/known/500';
 import { getApiToStr, toArrDetailsRes } from '@strinf/ts/functions/api/map';
 import onPrError from '@strinf/ts/functions/err/async';
 import { checkRespArr, fetchRetry } from '@strinf/ts/functions/http/http';
-import type { ApiChanInt, DetailsR } from '@strinf/ts/interfaces/api/maped';
+import type { ApiChanInt, DetailsR } from '@strinf/ts/interfaces/api/mapped';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/details';
 
 class DetailsCon {

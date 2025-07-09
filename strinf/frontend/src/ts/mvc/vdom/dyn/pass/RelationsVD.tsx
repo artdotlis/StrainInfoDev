@@ -2,9 +2,9 @@ import { useContext } from 'preact/hooks';
 import type { JSX } from 'preact';
 import { ClHtml, Tex } from '@strinf/ts/constants/style/ClHtml';
 import { filterArrRowStr, filterRowStr } from '@strinf/ts/functions/arr/parse';
-import type { DesT, RelT } from '@strinf/ts/interfaces/api/maped';
+import type { DesT, RelT } from '@strinf/ts/interfaces/api/mapped';
 import type { InValInt, InValStInt } from '@strinf/ts/interfaces/dom/inp';
-import { TooltipWrapper, createRCulTiles } from '@strinf/ts/mvc/vdom/fun/tab/pass';
+import { TooltipWrapper, createRDepTiles } from '@strinf/ts/mvc/vdom/fun/tab/pass';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import tilSty from '@strinf/css/mods/tile.module.css';
 import type {
@@ -25,7 +25,7 @@ interface ResProps {
     rel: RelT[];
     des: DesT[];
     curId: number;
-    hookCul: TTSrcTVInt & DatIdTVInt<TT_GL_TYPE>;
+    hookDep: TTSrcTVInt & DatIdTVInt<TT_GL_TYPE>;
     hookInf: TTSrcTVInt & DatIdTVInt<TT_GL_TYPE>;
 }
 
@@ -93,7 +93,7 @@ function createTilesDes(
 
 function Table({ detAnc, curId, culH, desH, des, rel }: TProps): JSX.Element | null {
     const ctx: InValStInt | undefined = useContext(MainConGl);
-    const tilesCul = createRCulTiles(
+    const tilesCul = createRDepTiles(
         rel,
         (dat: RelT) => [dat[0], dat[1], dat[3] === undefined],
         ctx,
@@ -129,7 +129,7 @@ class RelationsVD extends PureComponent<ResProps, RelState> {
     }
 
     private preFetchInfo(rel: RelT[]): void {
-        const { hookCul } = this.props;
+        const { hookDep: hookCul } = this.props;
         for (const [siCu] of rel) {
             hookCul.data?.(siCu);
         }
@@ -146,7 +146,7 @@ class RelationsVD extends PureComponent<ResProps, RelState> {
                 this.setState({ selID: valInt });
             }
         });
-        const { rel, des, detAnc, hookCul, hookInf } = this.props;
+        const { rel, des, detAnc, hookDep: hookCul, hookInf } = this.props;
         const { selID } = this.state;
         const resFc = filterArrRowStr<RelT>(rel, [1]);
         const resFd = filterRowStr<DesT>(des);

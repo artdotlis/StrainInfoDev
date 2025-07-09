@@ -22,7 +22,8 @@ import type {
     SeaResJ,
     SeaR,
     SeqT,
-    InfoJ,
+    InfoDJ,
+    InfoSJ,
     InfoR,
     DetailsJ,
     DetailsR,
@@ -35,9 +36,10 @@ import type {
     SeaIndR,
     SerSeaR,
     SerSeaAllJ,
-} from '@strinf/ts/interfaces/api/maped';
+    InfoS,
+} from '@strinf/ts/interfaces/api/mapped';
 import type { JSX } from 'preact';
-import { isSlimScreen } from '../misc/screen';
+import { isSlimScreen } from '@strinf/ts/functions/misc/screen';
 
 const SEA_INPUT_COMB: SeaInputCombEl[] = [
     {
@@ -676,28 +678,60 @@ function isServerStatus(data: unknown): data is ServerStatusInt {
     return true;
 }
 
-function isInfoJ(data: unknown): data is InfoJ {
+function isInfoDJ(data: unknown): data is InfoDJ {
     if (skipAPIchecks()) {
         return true;
     }
     if (!(typeof data === 'object') || data === null) {
         return false;
     }
-    const toCh = data as InfoJ;
+    const toCh = data as InfoDJ;
     checkDifCon(toCh, ['deposit']);
     checkDifCon(toCh.deposit, ['siDP', 'designation']);
     return true;
 }
 
-function toArrInfoRes(data: unknown): InfoR {
-    if (!isInfoJ(data)) {
+function isInfoSJ(data: unknown): data is InfoSJ {
+    if (skipAPIchecks()) {
+        return true;
+    }
+    if (!(typeof data === 'object') || data === null) {
+        return false;
+    }
+    const toCh = data as InfoSJ;
+    checkDifCon(toCh, ['strain']);
+    checkDifCon(toCh.strain, ['relation', 'siID']);
+    checkDifCon(toCh.strain.relation, ['deposit']);
+    for (const elem of toCh.strain.relation.deposit) {
+        checkDifCon(elem, ['designation', 'siDP']);
+    }
+    return true;
+}
+
+function toArrInfoDepRes(data: unknown): InfoR {
+    if (!isInfoDJ(data)) {
         throw new Known500Error('Unknown type provided for info results');
     }
     return [data.deposit.siDP, data.deposit.designation, data.deposit.taxon?.name ?? ''];
 }
 
-function getInfoTuple(): string[] {
+function toArrInfoStrRes(data: unknown): InfoS {
+    if (!isInfoSJ(data)) {
+        throw new Known500Error('Unknown type provided for info results');
+    }
+    return [
+        data.strain.siID,
+        data.strain.taxon?.name ?? 'UNKNOWN',
+        data.strain.relation.deposit.map((dat) => dat.designation).join(','),
+    ];
+}
+
+function getInfoDepTuple(): string[] {
     return ['Deposit id', 'Designation', 'Listed taxonomy'];
+}
+
+function getInfoStrTuple(): string[] {
+    return ['Strain id', 'Taxonomy', 'Designations'];
 }
 
 function getInfoDesTuple(): string {
@@ -761,9 +795,11 @@ export {
     getPubTuple,
     getSeqTuple,
     getApiToStr,
-    toArrInfoRes,
+    toArrInfoDepRes,
+    toArrInfoStrRes,
     toArrDetailsRes,
-    getInfoTuple,
+    getInfoDepTuple,
+    getInfoStrTuple,
     mapDetails2DetT,
     getInfoDesTuple,
     getArcTuple,

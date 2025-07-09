@@ -1,18 +1,18 @@
 import type { RefObject, JSX } from 'preact';
-import type { InfoR } from '@strinf/ts/interfaces/api/maped';
+import type { InfoR, InfoS } from '@strinf/ts/interfaces/api/mapped';
 
-type InfSetF = (setter: (res: InfoR[]) => void) => void;
-type InfF = (res: InfoR[]) => void;
+type InfSetF<I extends InfoR | InfoS> = (setter: (res: I[]) => void) => void;
+type InfF<I extends InfoR | InfoS> = (res: I[]) => void;
 
 type DatIdSetF<T> = (setter: (did: T) => void) => void;
 type DatIdF<T> = (did: T) => void;
 
-interface InfoTSet {
-    get resSet(): InfSetF;
+interface InfoTSet<I extends InfoR | InfoS> {
+    get resSet(): InfSetF<I>;
 }
 
-interface InfoTMInt {
-    get res(): InfF;
+interface InfoTMInt<I extends InfoR | InfoS> {
+    get res(): InfF<I>;
 }
 
 interface DatIdTVSet<T> {
@@ -33,7 +33,7 @@ interface TTSrcTVInt {
     get ttSrc(): [RefObject<HTMLDivElement>, RefObject<HTMLDivElement>] | undefined;
 }
 
-type InfoStInt = InfoTMInt & InfoTSet;
+type InfoStInt<I extends InfoR | InfoS> = InfoTMInt<I> & InfoTSet<I>;
 
 type ToolTipHookInt<T> = DatIdTVInt<T> & DatIdTVSet<T> & TTSrcTVSet & TTSrcTVInt;
 

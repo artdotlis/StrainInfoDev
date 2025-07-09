@@ -1,4 +1,4 @@
-import type { SeaR } from '@strinf/ts/interfaces/api/maped';
+import type { SeaR } from '@strinf/ts/interfaces/api/mapped';
 import type { LoadStMInt } from '@strinf/ts/interfaces/dom/global';
 import type LoadStVInt from '@strinf/ts/interfaces/dom/load';
 import type { ProgSet, ProgStMInt } from '@strinf/ts/interfaces/dom/prog';

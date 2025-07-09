@@ -9,12 +9,12 @@ import {
     wrapDetValues,
 } from '@strinf/ts/functions/api/map';
 import { filterArrStr } from '@strinf/ts/functions/arr/parse';
-import type { DetT, DetailsR, RelT } from '@strinf/ts/interfaces/api/maped';
+import type { DetT, DetailsR, RelT } from '@strinf/ts/interfaces/api/mapped';
 import { parseVal2Html } from '@strinf/ts/mvc/vdom/fun/tab/misc';
 import {
     TooltipWrapper,
     createXColTable,
-    createRCulTiles,
+    createRDepTiles,
     useTooltipForRef,
 } from '@strinf/ts/mvc/vdom/fun/tab/pass';
 import type { InValInt, InValStInt } from '@strinf/ts/interfaces/dom/inp';
@@ -100,7 +100,7 @@ function createHistEl(
         return [];
     }
     const [curId, last, lKey] = idInf;
-    const tiles = createRCulTiles(
+    const tiles = createRDepTiles(
         ele,
         (dat: [number, string]) => [dat[0], dat[1], false],
         ctx,
@@ -480,7 +480,7 @@ interface DetailsProps {
     rel: RelT[];
     culId: number;
     culDes: string;
-    hookCul: DatIdTVInt<TT_GL_TYPE> & TTSrcTVInt;
+    hookDep: DatIdTVInt<TT_GL_TYPE> & TTSrcTVInt;
     hookInf: DatIdTVInt<TT_GL_TYPE> & TTSrcTVInt;
     dCtrl: DetailCtrl;
 }
@@ -588,7 +588,7 @@ class DetailsVD extends Component<DetailsProps, DetailsState> {
     }
 
     public render(): JSX.Element | null {
-        const { culId, culDes, rel, hookCul, hookInf } = this.props;
+        const { culId, culDes, rel, hookDep: hookCul, hookInf } = this.props;
         const { res } = this.state;
         const ctx: InValInt | undefined = this.context;
         if (ctx !== undefined) {

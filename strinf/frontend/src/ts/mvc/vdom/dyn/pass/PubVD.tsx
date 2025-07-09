@@ -1,7 +1,7 @@
 import { Component } from 'preact';
 import type { JSX } from 'preact';
 import { Align, ClHtml, Dis, Font } from '@strinf/ts/constants/style/ClHtml';
-import type { PubT } from '@strinf/ts/interfaces/api/maped';
+import type { PubT } from '@strinf/ts/interfaces/api/mapped';
 import { createDoiLink } from '@strinf/ts/mvc/vdom/fun/tab/misc';
 import type AncT from '@strinf/ts/interfaces/misc/anchor';
 import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
@@ -21,7 +21,7 @@ const ID = PassAncId.pub;
 interface TProps {
     res: PubT[];
     detAnc: string;
-    hookCul: ToolTipHookInt<TT_GL_TYPE>;
+    hookDep: ToolTipHookInt<TT_GL_TYPE>;
     hookInf: ToolTipHookInt<TT_GL_TYPE>;
 }
 
@@ -214,7 +214,7 @@ class PubVD extends Component<TProps, object> {
 
     public render(): JSX.Element | null {
         this.events = [];
-        const { res, detAnc, hookCul, hookInf } = this.props;
+        const { res, detAnc, hookDep: hookCul, hookInf } = this.props;
         if (res.length === 0) {
             return null;
         }

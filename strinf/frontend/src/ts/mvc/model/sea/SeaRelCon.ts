@@ -3,7 +3,7 @@ import Known500Error from '@strinf/ts/errors/known/500';
 import { toArrSeaRes } from '@strinf/ts/functions/api/map';
 import onPrError from '@strinf/ts/functions/err/async';
 import { checkRespArr, fetchRetry } from '@strinf/ts/functions/http/http';
-import type { ApiChanInt, SeaR } from '@strinf/ts/interfaces/api/maped';
+import type { ApiChanInt, SeaR } from '@strinf/ts/interfaces/api/mapped';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/sea_rel';
 import type { RelDataT } from '@strinf/ts/interfaces/dom/sea_rel';
 

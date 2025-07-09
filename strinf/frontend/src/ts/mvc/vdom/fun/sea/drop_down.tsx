@@ -2,7 +2,7 @@ import QApiCon from '@strinf/ts/constants/api/q_api';
 import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
 import { StatTags } from '@strinf/ts/constants/api/thes_api';
 import { getApiToStr } from '@strinf/ts/functions/api/map';
-import type { SIndT } from '@strinf/ts/interfaces/api/maped';
+import type { SIndT } from '@strinf/ts/interfaces/api/mapped';
 import type { JSX } from 'preact';
 
 const FULL: [string, string][] = [

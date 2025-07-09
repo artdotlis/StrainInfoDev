@@ -8,7 +8,7 @@ import { isOnlyOneStr } from '@strinf/ts/functions/api/args';
 import { getApiToStr, isSerSeaAllJ, toArrSerSeaRes } from '@strinf/ts/functions/api/map';
 import onPrError from '@strinf/ts/functions/err/async';
 import { checkRespArr, checkRespObj, fetchRetry } from '@strinf/ts/functions/http/http';
-import type { ApiChanInt, SeaR, SerSeaAllJ } from '@strinf/ts/interfaces/api/maped';
+import type { ApiChanInt, SeaR, SerSeaAllJ } from '@strinf/ts/interfaces/api/mapped';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/sea';
 import type { LoadFS } from '@strinf/ts/interfaces/dom/global';
 

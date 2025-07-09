@@ -2,7 +2,7 @@ import { Align, ClHtml, Dis, Font } from '@strinf/ts/constants/style/ClHtml';
 import type AncT from '@strinf/ts/interfaces/misc/anchor';
 import type { JSX } from 'preact';
 import { getArcTuple } from '@strinf/ts/functions/api/map';
-import type { ArcT } from '@strinf/ts/interfaces/api/maped';
+import type { ArcT } from '@strinf/ts/interfaces/api/mapped';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import DoiDownloadGrid from '@strinf/ts/mvc/vdom/dyn/pass/link/DoiDownloadGrid';
 import { defaultSort, sortDate } from '@strinf/ts/functions/arr/sort';

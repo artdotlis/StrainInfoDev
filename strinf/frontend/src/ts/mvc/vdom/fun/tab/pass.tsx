@@ -2,7 +2,11 @@ import type { JSX, RefObject } from 'preact';
 import { useRef, useState } from 'preact/hooks';
 import { BgCol, ClHtml, Font, Tex } from '@strinf/ts/constants/style/ClHtml';
 import Known500Error from '@strinf/ts/errors/known/500';
-import { createPassTile, parseVal2Html } from '@strinf/ts/mvc/vdom/fun/tab/misc';
+import {
+    createDepositTile,
+    createStrainTile,
+    parseVal2Html,
+} from '@strinf/ts/mvc/vdom/fun/tab/misc';
 
 import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
 import type { TTSrcTVInt } from '@strinf/ts/interfaces/dom/tooltip';
@@ -80,16 +84,17 @@ function createXColTable<T>(
     return [createDefTable(null, rows, colGr), rows.length];
 }
 
-function tileClass(curId: number, selId: number, typ: boolean): string {
+function tileClass(curId: number, selId: number, bold: boolean): string {
     let classNames = '';
     if (curId === selId) {
         classNames = `${Tex.w} ${BgCol.prim}`;
     }
-    if (typ) {
+    if (bold) {
         classNames += ` ${Font.bold}`;
     }
     return classNames;
 }
+
 interface TTWrProps {
     chi: JSX.Element;
     srcH: TTSrcTVInt;
@@ -140,37 +145,63 @@ function useTooltipForRef<T extends Element>(
     crToolTip([ref, srcH], upD, storeEv, 0, timeout);
 }
 
-function createRCulTiles<T>(
+type TILE = (
+    anc: string,
+    val: [number, number, string],
+    ctx: InValStInt | undefined,
+    exCl: string
+) => JSX.Element;
+
+function createTiles<T>(
     values: T[],
     parser: (val: T) => [number, string, boolean],
     ctx: InValStInt | undefined,
-    props: [string, number]
+    props: [string, number],
+    tile: TILE
 ): [JSX.Element, number][] {
     const tiles: [JSX.Element, number][] = [];
-    const [detAnc, curId] = props;
+    const [anc, curId] = props;
     for (let ind = 0; ind < values.length; ind += 1) {
         const val = values[ind];
         if (val === undefined) {
             throw new Known500Error(`values [${values}] are undefined!`);
         }
-        const [cul, name, typCul] = parser(val);
+        const [tid, name, bold] = parser(val);
         tiles.push([
-            createPassTile(
-                `#${detAnc}`,
-                [ind, cul, name],
+            tile(
+                anc === '' ? '' : `#${anc}`,
+                [ind, tid, name],
                 ctx,
-                tileClass(curId, cul, typCul)
+                tileClass(curId, tid, bold)
             ),
-            cul,
+            tid,
         ]);
     }
     return tiles;
 }
 
+function createRDepTiles<T>(
+    values: T[],
+    parser: (val: T) => [number, string, boolean],
+    ctx: InValStInt | undefined,
+    props: [string, number]
+): [JSX.Element, number][] {
+    return createTiles(values, parser, ctx, props, createDepositTile);
+}
+
+function createRStrTiles<T>(
+    values: T[],
+    parser: (val: T) => [number, string, boolean],
+    ctx: InValStInt | undefined
+): [JSX.Element, number][] {
+    return createTiles(values, parser, ctx, ['', -1], createStrainTile);
+}
+
 export {
     createStrainTitleBar,
     createXColTable,
-    createRCulTiles,
+    createRDepTiles,
     TooltipWrapper,
     useTooltipForRef,
+    createRStrTiles,
 };

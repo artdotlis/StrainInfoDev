@@ -22,7 +22,7 @@ import type AncT from '@strinf/ts/interfaces/misc/anchor';
 import { memo } from 'preact/compat';
 import { CookieValue } from '@strinf/ts/constants/style/Acc';
 import { isDyslexiaSet } from '@strinf/ts/functions/cookie/acc';
-import type { ServerStatusInt } from '@strinf/ts/interfaces/api/maped';
+import type { ServerStatusInt } from '@strinf/ts/interfaces/api/mapped';
 import emptyCall from '@strinf/ts/functions/misc/call';
 import { Helmet } from 'react-helmet';
 import CONFIG from '@strinf/ts/configs/config';

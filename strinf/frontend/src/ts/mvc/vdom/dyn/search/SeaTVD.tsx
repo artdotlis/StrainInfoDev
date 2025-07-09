@@ -10,7 +10,7 @@ import {
     Tex,
     Wid,
 } from '@strinf/ts/constants/style/ClHtml';
-import type { SeaR } from '@strinf/ts/interfaces/api/maped';
+import type { SeaR } from '@strinf/ts/interfaces/api/mapped';
 import {
     convertStrainStatusToEnum,
     getApiToStr,

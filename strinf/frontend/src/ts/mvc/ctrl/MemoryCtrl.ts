@@ -1,7 +1,7 @@
 import Known500Error from '@strinf/ts/errors/known/500';
 import getServerStatus from '@strinf/ts/functions/api/status';
 import onPrError from '@strinf/ts/functions/err/async';
-import type { ServerStatusInt } from '@strinf/ts/interfaces/api/maped';
+import type { ServerStatusInt } from '@strinf/ts/interfaces/api/mapped';
 import emptyCall from '@strinf/ts/functions/misc/call';
 
 const LIMIT = 200;

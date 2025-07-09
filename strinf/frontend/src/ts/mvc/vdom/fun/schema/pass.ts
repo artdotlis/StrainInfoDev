@@ -3,7 +3,7 @@ import {
     createApiStrainCall,
     createStrainCall,
 } from '@strinf/ts/functions/links/create_pass';
-import type { PassR, SeqT } from '@strinf/ts/interfaces/api/maped';
+import type { PassR, SeqT } from '@strinf/ts/interfaces/api/mapped';
 import type { ConfLinkT } from '@strinf/ts/interfaces/misc/configs';
 import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
 import { DOI_P, LPSN_P, NCBI_P, SCH_ORG } from '@strinf/ts/constants/links/collection';

@@ -8,7 +8,7 @@ import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import IndSeaSt from '@strinf/ts/mvc/vdom/state/IndSeaSt';
 import SeaIndexCtrl from '@strinf/ts/mvc/ctrl/SeaIndexCtrl';
-import type { SeaIndR } from '@strinf/ts/interfaces/api/maped';
+import type { SeaIndR } from '@strinf/ts/interfaces/api/mapped';
 import type { GlobVersionGet } from '@strinf/ts/interfaces/dom/global';
 import CONFIG from '@strinf/ts/configs/config';
 import type { LocationHook } from 'preact-iso';

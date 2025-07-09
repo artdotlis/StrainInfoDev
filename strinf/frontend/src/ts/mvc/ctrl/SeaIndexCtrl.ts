@@ -2,7 +2,7 @@ import Known500Error from '@strinf/ts/errors/known/500';
 import getServerStatus from '@strinf/ts/functions/api/status';
 import onPrError from '@strinf/ts/functions/err/async';
 import emptyCall from '@strinf/ts/functions/misc/call';
-import type { SeaIndR, ServerStatusInt } from '@strinf/ts/interfaces/api/maped';
+import type { SeaIndR, ServerStatusInt } from '@strinf/ts/interfaces/api/mapped';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/sea_ind';
 import ApiChan from '@strinf/ts/mvc/ctrl/chan/ApiChan';
 import SeaIndexCon from '@strinf/ts/mvc/model/sea/SeaIndexCon';

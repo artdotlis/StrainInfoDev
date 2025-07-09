@@ -21,20 +21,29 @@ function selectBannerImage(): string {
     return bgI400;
 }
 
-const BANNER_URL = [UIApiCon.index, UIApiCon.search, UIApiCon.pass] as const;
+const BANNER_URL = [
+    UIApiCon.index,
+    UIApiCon.search,
+    UIApiCon.pass,
+    UIApiCon.strain,
+] as const;
+
+function crBannerHelmet(): JSX.Element {
+    return (
+        <Helmet>
+            <link rel="preload" as="image" href={selectBannerImage()} type="image/webp" />
+        </Helmet>
+    );
+}
 
 function createPreloadBanner(): JSX.Element {
-    if (BANNER_URL.includes(window.location.pathname)) {
-        return (
-            <Helmet>
-                <link
-                    rel="preload"
-                    as="image"
-                    href={selectBannerImage()}
-                    type="image/webp"
-                />
-            </Helmet>
-        );
+    if (UIApiCon.index === window.location.pathname) {
+        return crBannerHelmet();
+    }
+    for (const ban of BANNER_URL) {
+        if (window.location.pathname.startsWith(ban)) {
+            return crBannerHelmet();
+        }
     }
     return <></>;
 }

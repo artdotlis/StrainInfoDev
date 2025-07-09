@@ -1,75 +1,42 @@
 import type { JSX, RefObject } from 'preact';
 import { Component, createRef } from 'preact';
-import { memo } from 'preact/compat';
 import { HIDE_ATTR, TT_ARR, TT_SRC } from '@strinf/ts/constants/style/AtHtml';
-import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
-import { getInfoTuple } from '@strinf/ts/functions/api/map';
-import { filterArrStr } from '@strinf/ts/functions/arr/parse';
-import type { InfoR } from '@strinf/ts/interfaces/api/maped';
+import type { InfoR, InfoS } from '@strinf/ts/interfaces/api/mapped';
 import type { GlobVersionGet, TTHookS } from '@strinf/ts/interfaces/dom/global';
-import InfoCtrl from '@strinf/ts/mvc/ctrl/InfoCtrl';
-import { create2ColDiv, parseVal2Html } from '@strinf/ts/mvc/vdom/fun/tab/misc';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import InfoSt from '@strinf/ts/mvc/vdom/state/InfoSt';
 import tooSty from '@strinf/css/mods/tooltip.module.css';
-import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
 import type { TT_GL_TYPE, ToolTipHookInt } from '@strinf/ts/interfaces/dom/tooltip';
 import ToolTipHook from '@strinf/ts/mvc/vdom/state/InfoHk';
 import Known500Error from '@strinf/ts/errors/known/500';
+import type InfoStrCtrl from '@strinf/ts/mvc/ctrl/InfoStrCtrl';
+import type InfoDepCtrl from '@strinf/ts/mvc/ctrl/InfoDepCtrl';
 
-interface ToolState {
-    culId: number;
-    res?: InfoR;
+interface ToolState<I extends InfoS | InfoR> {
+    selId: number;
+    res?: I;
     info?: JSX.Element | undefined;
 }
 
-type EleT = number | boolean | string | string[] | JSX.Element;
-
-const HEAD = getInfoTuple();
-const TT_ID_CUL = 'tooltip_culture_id';
-
-interface ToolTipProps {
-    res: InfoR;
+interface ToolTipProps<I extends InfoS | InfoR> {
+    res: I;
     loading: boolean;
     info: JSX.Element | undefined;
 }
 
-function crToolTipC(res: JSX.Element): JSX.Element {
-    return (
-        <div className={ClHtml.con}>
-            <div className={ClHtml.cnt}>{res}</div>
-        </div>
-    );
+interface ToolProps<T extends InfoStrCtrl | InfoDepCtrl, I extends InfoS | InfoR> {
+    hookName: string;
+    createCtrl: (ver: string) => T;
+    createTT: (props: ToolTipProps<I>) => JSX.Element;
 }
 
-function ToolTipC({ res, loading, info }: ToolTipProps): JSX.Element {
-    const fixCul = [`${IdAcrTagCon.depId} ${res[0]}`, ...res.slice(1)];
-    const filteredTT: [string[], EleT[]] = filterArrStr(HEAD, fixCul);
-    const ind = filteredTT[0].indexOf(HEAD[2] ?? '');
-    filteredTT[1][ind] = <i>{filteredTT[1][ind]}</i>;
-    const resDiv = create2ColDiv<EleT | JSX.Element>(
-        ...filteredTT,
-        (val: EleT | JSX.Element) => {
-            return parseVal2Html(val);
-        }
-    );
-    if (resDiv[1] === 1 || loading) {
-        resDiv[0] = <div key={0}>Loading ...</div>;
-    }
-    return crToolTipC(
-        <>
-            {resDiv[0]}
-            {info ?? null}
-        </>
-    );
-}
+class ToolTipInfoVD<
+    T extends InfoStrCtrl | InfoDepCtrl,
+    I extends InfoS | InfoR,
+> extends Component<ToolProps<T, I>, ToolState<I>> {
+    private readonly modelH: InfoSt<I>;
 
-const ToolTipCM = memo(ToolTipC);
-
-class ToolTipCulVD extends Component<object, ToolState> {
-    private readonly modelH: InfoSt;
-
-    private ctrl?: InfoCtrl;
+    private ctrl?: T;
 
     private readonly tooRef: RefObject<HTMLDivElement>;
 
@@ -81,21 +48,21 @@ class ToolTipCulVD extends Component<object, ToolState> {
 
     private readonly buffer: Set<number>;
 
-    constructor(props: object) {
+    constructor(props: ToolProps<T, I>) {
         super(props);
-        this.state = { culId: 0 };
-        this.modelH = new InfoSt();
+        this.state = { selId: 0 };
+        this.modelH = new InfoSt<I>();
         this.loading = true;
         this.hook = new ToolTipHook();
         this.buffer = new Set<number>();
-        this.modelH.resSet((results: InfoR[]): void => {
+        this.modelH.resSet((results: I[]): void => {
             for (const res of results) {
                 const [locCid] = res;
                 this.buffer.delete(locCid);
-                const { culId } = this.state;
-                if (culId === locCid) {
+                const { selId } = this.state;
+                if (selId === locCid) {
                     this.loading = false;
-                    this.setState({ culId, res });
+                    this.setState({ selId: selId, res });
                 }
             }
         });
@@ -104,11 +71,12 @@ class ToolTipCulVD extends Component<object, ToolState> {
     }
 
     private startInfo(ctx: GlobVersionGet): void {
-        const { culId } = this.state;
-        this.loading = this.buffer.has(culId);
+        const { selId } = this.state;
+        this.loading = this.buffer.has(selId);
         this.ctrl?.setVersion(ctx.version);
         if (this.ctrl === undefined) {
-            this.ctrl = new InfoCtrl(ctx.version);
+            const { createCtrl } = this.props;
+            this.ctrl = createCtrl(ctx.version);
             this.ctrl.init(this.modelH, [...this.buffer.values()]);
         } else {
             this.ctrl.init(this.modelH, [...this.buffer.values()]);
@@ -117,7 +85,8 @@ class ToolTipCulVD extends Component<object, ToolState> {
 
     private initCtrl(): void {
         const ctx: (TTHookS<TT_GL_TYPE> & GlobVersionGet) | undefined = this.context;
-        ctx?.ttHookSet(TT_ID_CUL)(this.hook);
+        const { hookName } = this.props;
+        ctx?.ttHookSet(hookName)(this.hook);
         this.hook.dataSetter((culIdH: TT_GL_TYPE) => {
             const [selId, info] = Array.isArray(culIdH) ? culIdH : [culIdH, undefined];
             if (typeof selId !== 'number') {
@@ -126,9 +95,9 @@ class ToolTipCulVD extends Component<object, ToolState> {
                 );
             }
             const { res } = this.state;
-            let newState: ToolState = { culId: selId };
+            let newState: ToolState<I> = { selId: selId };
             if (res !== undefined) {
-                newState = { res, culId: selId, info: info };
+                newState = { res, selId: selId, info: info };
             }
             this.buffer.add(selId);
             this.setState(newState);
@@ -141,19 +110,23 @@ class ToolTipCulVD extends Component<object, ToolState> {
 
     public render(): JSX.Element {
         this.initCtrl();
-        const { res, culId, info } = this.state;
+        const { res, selId, info } = this.state;
+        const { createTT } = this.props;
         return (
             <div ref={this.tooRef} className={tooSty.tooltip} {...HIDE_ATTR} {...TT_SRC}>
-                {culId === 0 || res === undefined ? null : (
-                    <ToolTipCM res={res} loading={this.loading} info={info} />
-                )}
+                {selId === 0 || res === undefined
+                    ? null
+                    : createTT({
+                          loading: this.loading,
+                          info: info,
+                          res: res,
+                      })}
                 <div ref={this.arrRef} className={tooSty.arrow} {...TT_ARR} />
             </div>
         );
     }
 }
 
-ToolTipCulVD.contextType = MainConGl;
+ToolTipInfoVD.contextType = MainConGl;
 
-export default ToolTipCulVD;
-export { TT_ID_CUL };
+export default ToolTipInfoVD;

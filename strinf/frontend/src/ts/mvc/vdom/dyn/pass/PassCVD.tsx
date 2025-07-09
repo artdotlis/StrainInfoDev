@@ -2,7 +2,7 @@ import { Component } from 'preact';
 import type { JSX } from 'preact';
 import { memo, useState } from 'preact/compat';
 import { ClHtml, Col } from '@strinf/ts/constants/style/ClHtml';
-import type { DetailsR, PassR, RelT } from '@strinf/ts/interfaces/api/maped';
+import type { DetailsR, PassR, RelT } from '@strinf/ts/interfaces/api/mapped';
 import type { TT_GL_TYPE, ToolTipHookInt } from '@strinf/ts/interfaces/dom/tooltip';
 import DetailsVD, { getAnchorD } from '@strinf/ts/mvc/vdom/dyn/pass/DetailsVD';
 
@@ -20,11 +20,12 @@ import createCVSchema from '@strinf/ts/mvc/vdom/fun/schema/pass';
 import type DetailCtrl from '@strinf/ts/mvc/ctrl/DetailCtrl';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import type { TTHookG } from '@strinf/ts/interfaces/dom/global';
-import { TT_ID_CUL } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTCulVD';
+import { TT_ID_DEP } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTDepVD';
+import { TT_ID_STR } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTStrVD';
 import { TT_ID_SIM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/details';
 import { Helmet } from 'react-helmet';
-import FitnessVD, { getAnchorF } from '@strinf/ts/mvc/vdom/dyn/pass/Fitness';
+import AltStrainsVD, { getAnchorF } from '@strinf/ts/mvc/vdom/dyn/pass/AltStrainsVD';
 
 interface PassRProps {
     res: PassR | undefined;
@@ -41,7 +42,8 @@ interface PassRVerified {
 interface ResProps {
     res: PassR;
     culId: string;
-    hookCul: ToolTipHookInt<TT_GL_TYPE>;
+    hookDep: ToolTipHookInt<TT_GL_TYPE>;
+    hookStr: ToolTipHookInt<TT_GL_TYPE>;
     hookInf: ToolTipHookInt<TT_GL_TYPE>;
     dCtrl: DetailCtrl;
 }
@@ -55,7 +57,7 @@ interface CulVProps {
 const REL_ORD = 1;
 const DET_ORD = 2;
 const HIS_ORD = 3;
-const FIT_ORD = 4;
+const ALT_ORD = 4;
 const SEQ_ORD = 5;
 const PUB_ORD = 6;
 const ARC_ORD = 7;
@@ -105,7 +107,14 @@ function selectCul(culId: number, rel: RelT[]): [number, string] {
     return [ranId, ranDes];
 }
 
-function MainContainer({ res, culId, hookCul, hookInf, dCtrl }: ResProps): JSX.Element {
+function MainContainer({
+    res,
+    culId,
+    hookDep,
+    hookStr,
+    hookInf,
+    dCtrl,
+}: ResProps): JSX.Element {
     const [selId, selDes] = selectCul(
         culId === '' ? 0 : parseInt(culId, 10),
         res.relations
@@ -116,7 +125,7 @@ function MainContainer({ res, culId, hookCul, hookInf, dCtrl }: ResProps): JSX.E
             rel={res.relations}
             des={res.designations}
             curId={selId}
-            hookCul={hookCul}
+            hookDep={hookDep}
             hookInf={hookInf}
         />
     );
@@ -126,7 +135,7 @@ function MainContainer({ res, culId, hookCul, hookInf, dCtrl }: ResProps): JSX.E
             rel={res.relations}
             culId={selId}
             culDes={selDes}
-            hookCul={hookCul}
+            hookDep={hookDep}
             hookInf={hookInf}
         />
     );
@@ -140,25 +149,25 @@ function MainContainer({ res, culId, hookCul, hookInf, dCtrl }: ResProps): JSX.E
             <div className={ClHtml.row}>
                 <HistoryVD
                     detAnc={getAnc4Det()}
-                    hooks={hookCul}
+                    hooks={hookDep}
                     rel={res.relations}
                     selCuId={selId}
                 />
-                <FitnessVD
+                <AltStrainsVD
                     rel={res.relations}
-                    des={res.designations}
                     dCtrl={dCtrl}
                     altSiId={res.altStrIds}
+                    hookStr={hookStr}
                 />
             </div>
             <SeqVD
-                hookCul={hookCul}
+                hookDep={hookDep}
                 hookInf={hookInf}
                 detAnc={getAnc4Det()}
                 res={res.sequences}
             />
             <PubVD
-                hookCul={hookCul}
+                hookDep={hookDep}
                 hookInf={hookInf}
                 detAnc={getAnc4Det()}
                 res={res.publications}
@@ -170,12 +179,12 @@ function MainContainer({ res, culId, hookCul, hookInf, dCtrl }: ResProps): JSX.E
 
 const MainContVD = memo(MainContainer);
 
-function Inner({ res, culId, hookCul, hookInf, dCtrl }: ResProps): JSX.Element {
+function Inner({ res, culId, hookDep, hookStr, hookInf, dCtrl }: ResProps): JSX.Element {
     const anc = {
         ...getAnchorD(DET_ORD, res.relations),
         ...getAnchorR(REL_ORD, res.relations),
         ...getAnchorH(HIS_ORD, res.relations),
-        ...getAnchorF(FIT_ORD, res.relations),
+        ...getAnchorF(ALT_ORD, res.altStrIds),
         ...getAnchorS(SEQ_ORD, res.sequences),
         ...getAnchorP(PUB_ORD, res.publications),
         ...getAnchorA(ARC_ORD, res.archive),
@@ -187,7 +196,8 @@ function Inner({ res, culId, hookCul, hookInf, dCtrl }: ResProps): JSX.Element {
                 res={res}
                 culId={culId}
                 hookInf={hookInf}
-                hookCul={hookCul}
+                hookDep={hookDep}
+                hookStr={hookStr}
             />
             <PassNavVD anc={anc} strId={res.allStrIds} taxN={res.overview[2][0]} />
         </>
@@ -257,10 +267,16 @@ class PassCVD extends Component<PassRProps, object> {
 
     public render(): JSX.Element | null {
         const ctx: TTHookG<TT_GL_TYPE> | undefined = this.context;
-        const hookCul = ctx?.getTTHook(TT_ID_CUL);
+        const hookDep = ctx?.getTTHook(TT_ID_DEP);
+        const hookStr = ctx?.getTTHook(TT_ID_STR);
         const hookInf = ctx?.getTTHook(TT_ID_SIM);
         const verified = this.props;
-        if (hookCul !== undefined && hookInf !== undefined && checkUndefined(verified)) {
+        if (
+            hookStr !== undefined &&
+            hookDep !== undefined &&
+            hookInf !== undefined &&
+            checkUndefined(verified)
+        ) {
             const { res, culId, dCtrl } = verified;
             return (
                 <>
@@ -270,7 +286,8 @@ class PassCVD extends Component<PassRProps, object> {
                             dCtrl={dCtrl}
                             res={res}
                             culId={culId}
-                            hookCul={hookCul}
+                            hookDep={hookDep}
+                            hookStr={hookStr}
                             hookInf={hookInf}
                         />
                     </div>

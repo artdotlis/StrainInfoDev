@@ -5,7 +5,7 @@ import UIArgCon from '@strinf/ts/constants/api/ui_arg';
 import LoadT from '@strinf/ts/constants/type/LoadT';
 import { getArgs } from '@strinf/ts/functions/api/args';
 import callPass from '@strinf/ts/functions/http/pass';
-import type { SeaR } from '@strinf/ts/interfaces/api/maped';
+import type { SeaR } from '@strinf/ts/interfaces/api/mapped';
 import type {
     LoadStMInt,
     LoadSet,
@@ -48,7 +48,11 @@ const H_DESC = (sTerm: string, sApi: string): string => `
 StrainInfo results for the search term ${sTerm}.
 ${getApiToStr(sApi)} was/were used as search queries.
 `;
-interface SEA_PROP { location: LocationHook; val?: string; typ?: string }
+interface SEA_PROP {
+    location: LocationHook;
+    val: string | undefined;
+    typ: string | undefined;
+}
 
 class SearchVD<T extends SEA_PROP> extends Component<T, SearchState> {
     private time: number;

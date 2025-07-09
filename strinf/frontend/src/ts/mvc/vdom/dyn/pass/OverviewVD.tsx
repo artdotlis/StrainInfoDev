@@ -2,7 +2,7 @@ import type { JSX } from 'preact';
 import { ClHtml, Dis, Font, Mar } from '@strinf/ts/constants/style/ClHtml';
 import { getOVTuple } from '@strinf/ts/functions/api/map';
 import { filterArrStr } from '@strinf/ts/functions/arr/parse';
-import type { DetailsR, OvT, RelT } from '@strinf/ts/interfaces/api/maped';
+import type { DetailsR, OvT, RelT } from '@strinf/ts/interfaces/api/mapped';
 import { createStrainTitleBar } from '@strinf/ts/mvc/vdom/fun/tab/pass';
 import TaxLinkVD, { LinkType } from '@strinf/ts/mvc/vdom/dyn/pass/link/TaxLinkVD';
 import BacDiveLinkVD from '@strinf/ts/mvc/vdom/dyn/pass/link/BacDiveLinkVD';

@@ -11,12 +11,16 @@ import LogoStrainInfoVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoStrain
 import { useRef } from 'preact/hooks';
 import SideNavVD from '@strinf/ts/mvc/vdom/dyn/misc/SideNavVD';
 import { SIDE_ID, toggleSideBar } from '@strinf/ts/functions/libs/style';
-import ToolTipCulVD from '@strinf/ts/mvc/vdom/dyn/tooltip/TTCulVD';
 import TTSimVD from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
 import { createUrlStr } from '@strinf/ts/functions/http/http';
 import HUB_L from '@strinf/ts/constants/links/hub_dsmz';
 import LogoHubDsmzVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoHubDsmzVD';
 import linkSty from '@strinf/css/mods/link.module.css';
+import ToolTipInfoVD from '@strinf/ts/mvc/vdom/dyn/tooltip/TTInfoVD';
+import { TT_ID_DEP, ToolTipDepCM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTDepVD';
+import { ToolTipStrCM, TT_ID_STR } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTStrVD';
+import InfoDepCtrl from '@strinf/ts/mvc/ctrl/InfoDepCtrl';
+import InfoStrCtrl from '@strinf/ts/mvc/ctrl/InfoStrCtrl';
 
 function Logos(): JSX.Element {
     const dsmCl = `${ClHtml.navBbr} ${Mar.lNAT} ${Dis.dNone} ${Dis.dBS}`;
@@ -66,7 +70,16 @@ function NavBar(): JSX.Element {
 function ToolTipCon(): JSX.Element {
     return (
         <div>
-            <ToolTipCulVD />
+            <ToolTipInfoVD
+                hookName={TT_ID_DEP}
+                createCtrl={(ver: string) => new InfoDepCtrl(ver)}
+                createTT={(prpos) => <ToolTipStrCM {...prpos} />}
+            />
+            <ToolTipInfoVD
+                hookName={TT_ID_STR}
+                createCtrl={(ver: string) => new InfoStrCtrl(ver)}
+                createTT={(prpos) => <ToolTipDepCM {...prpos} />}
+            />
             <TTSimVD />
         </div>
     );

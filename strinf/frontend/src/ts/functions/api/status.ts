@@ -1,4 +1,4 @@
-import type { ServerStatusInt } from '@strinf/ts/interfaces/api/maped';
+import type { ServerStatusInt } from '@strinf/ts/interfaces/api/mapped';
 import { checkRespObj, createUrlStr, fetchRetry } from '@strinf/ts/functions/http/http';
 import { isServerStatus } from '@strinf/ts/functions/api/map';
 import Known500Error from '@strinf/ts/errors/known/500';

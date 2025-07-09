@@ -3,7 +3,7 @@ import DiaT from '@strinf/ts/constants/type/DiaT';
 import Known500Error from '@strinf/ts/errors/known/500';
 import onPrError from '@strinf/ts/functions/err/async';
 import { checkRespObj, fetchRetry } from '@strinf/ts/functions/http/http';
-import type { ChartData } from '@strinf/ts/interfaces/api/maped';
+import type { ChartData } from '@strinf/ts/interfaces/api/mapped';
 import type DisChartT from '@strinf/ts/interfaces/chan/model';
 import type { DiaCon } from '@strinf/ts/interfaces/dom/dia';
 

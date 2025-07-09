@@ -1,4 +1,4 @@
-import type { DetailsR } from '@strinf/ts/interfaces/api/maped';
+import type { DetailsR } from '@strinf/ts/interfaces/api/mapped';
 
 type DetSetF = (setter: (res: DetailsR[]) => void) => void;
 type DetF = (res: DetailsR[]) => void;

@@ -2,7 +2,7 @@ import type ViewChanInt from '@strinf/ts/interfaces/chan/sea';
 import SeaTable from '@strinf/ts/mvc/model/sea/SeaTable';
 import ApiChan from '@strinf/ts/mvc/ctrl/chan/ApiChan';
 import Known500Error from '@strinf/ts/errors/known/500';
-import type { ServerStatusInt } from '@strinf/ts/interfaces/api/maped';
+import type { ServerStatusInt } from '@strinf/ts/interfaces/api/mapped';
 import getServerStatus from '@strinf/ts/functions/api/status';
 import onPrError from '@strinf/ts/functions/err/async';
 import emptyCall from '@strinf/ts/functions/misc/call';

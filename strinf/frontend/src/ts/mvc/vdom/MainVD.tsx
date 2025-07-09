@@ -14,7 +14,7 @@ import Known500Error from '@strinf/ts/errors/known/500';
 import type { GlStInt } from '@strinf/ts/interfaces/dom/global';
 import { reInitCStyle } from '@strinf/ts/functions/libs/style';
 import type { TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
-import type { ServerStatusInt } from '@strinf/ts/interfaces/api/maped';
+import type { ServerStatusInt } from '@strinf/ts/interfaces/api/mapped';
 import CONFIG from '@strinf/ts/configs/config';
 import initMat from '@strinf/ts/mvc/vdom/fun/mat/init';
 

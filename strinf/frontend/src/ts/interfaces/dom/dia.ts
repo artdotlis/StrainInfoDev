@@ -1,5 +1,5 @@
 import type DiaT from '@strinf/ts/constants/type/DiaT';
-import type { ChartData, ChartKeyXY } from '@strinf/ts/interfaces/api/maped';
+import type { ChartData, ChartKeyXY } from '@strinf/ts/interfaces/api/mapped';
 
 interface DiaDataCPS {
     data: ChartData<number[] | string[]>;

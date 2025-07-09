@@ -3,7 +3,7 @@ import Known500Error from '@strinf/ts/errors/known/500';
 import { toArrIndSeaIndRes } from '@strinf/ts/functions/api/map';
 import onPrError from '@strinf/ts/functions/err/async';
 import { checkRespTyp, fetchRetry } from '@strinf/ts/functions/http/http';
-import type { ApiChanInt, SeaIndR } from '@strinf/ts/interfaces/api/maped';
+import type { ApiChanInt, SeaIndR } from '@strinf/ts/interfaces/api/mapped';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/sea_ind';
 
 class SeaIndexCon {

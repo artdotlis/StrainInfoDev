@@ -6,7 +6,7 @@ import updateHrefVal from '@strinf/ts/functions/links/update_href';
 import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
 import getDDExp, { getDDRes } from '@strinf/ts/mvc/vdom/fun/sea/drop_down';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
-import type { SeaIndR } from '@strinf/ts/interfaces/api/maped';
+import type { SeaIndR } from '@strinf/ts/interfaces/api/mapped';
 
 import linkSty from '@strinf/css/mods/link.module.css';
 import dropdown from '@strinf/css/mods/dropdown.module.css';

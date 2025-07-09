@@ -1,7 +1,7 @@
 import type ViewChanInt from '@strinf/ts/interfaces/chan/details';
 import DetailsCon from '@strinf/ts/mvc/model/info/DetailsCon';
 import ApiChan from '@strinf/ts/mvc/ctrl/chan/ApiChan';
-import type { DetailsR, ServerStatusInt } from '@strinf/ts/interfaces/api/maped';
+import type { DetailsR, ServerStatusInt } from '@strinf/ts/interfaces/api/mapped';
 import QApiCon from '@strinf/ts/constants/api/q_api';
 import Controller from '@strinf/ts/mvc/ctrl/Controller';
 import MemoryCtrl from '@strinf/ts/mvc/ctrl/MemoryCtrl';

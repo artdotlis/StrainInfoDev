@@ -1,5 +1,5 @@
 import CONFIG from '@strinf/ts/configs/config';
-import type { ApiChanInt } from '@strinf/ts/interfaces/api/maped';
+import type { ApiChanInt } from '@strinf/ts/interfaces/api/mapped';
 import type { ConfLinkT } from '@strinf/ts/interfaces/misc/configs';
 
 class ApiChan implements ApiChanInt {

@@ -54,14 +54,17 @@ interface DetailsJ {
     strain: DepositStrMin;
 }
 
-interface InfoJ {
+interface InfoDJ {
     deposit: DepositMin;
+}
+interface InfoSJ {
+    strain: StrainStrMin;
 }
 
 // culture_id, strain_number, species [culture]
 type InfoR = [number, string, string];
-// culture col. no., culture id,
-// taxon name culture, type_strain
+// strain_id, species [strain], designations
+type InfoS = [number, string, string];
 
 // strain id, designation[], taxon name strain, type_strain, sample source cc
 type SeaR = [number, string[], string, boolean, Uint8Array, number];
@@ -201,7 +204,9 @@ export type {
     PassJ,
     PassR,
     InfoR,
-    InfoJ,
+    InfoS,
+    InfoDJ,
+    InfoSJ,
     DetailsR,
     DetailsJ,
     SeqT,

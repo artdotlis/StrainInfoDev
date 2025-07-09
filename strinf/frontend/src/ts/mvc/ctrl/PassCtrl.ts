@@ -1,7 +1,7 @@
 import type ViewChanInt from '@strinf/ts/interfaces/chan/pass';
 import PassCon from '@strinf/ts/mvc/model/pass/PassCon';
 import ApiChan from '@strinf/ts/mvc/ctrl/chan/ApiChan';
-import type { ServerStatusInt } from '@strinf/ts/interfaces/api/maped';
+import type { ServerStatusInt } from '@strinf/ts/interfaces/api/mapped';
 import Known500Error from '@strinf/ts/errors/known/500';
 import onPrError from '@strinf/ts/functions/err/async';
 import emptyCall from '@strinf/ts/functions/misc/call';
