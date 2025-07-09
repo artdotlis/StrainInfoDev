@@ -56,6 +56,9 @@ class PassCon {
                 PassCon.checkPass(cha, json, args, api);
             })
             .catch((err: unknown) => {
+                cha.load.map((ele: LoadFS) => {
+                    ele(LoadT.FIN);
+                });
                 onPrError(err);
             });
     }
