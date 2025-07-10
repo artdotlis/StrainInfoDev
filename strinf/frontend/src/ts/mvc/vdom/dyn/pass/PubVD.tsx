@@ -232,7 +232,7 @@ class PubVD extends Component<TProps, object> {
                         )}
                         anc={detAnc}
                         cul={true}
-                        window={5}
+                        window={20}
                         head={prepareHeader(true)}
                         hookCul={hookCul}
                         hookInf={hookInf}

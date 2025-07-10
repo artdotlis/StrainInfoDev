@@ -19,7 +19,6 @@ import type {
     PubT,
     RelT,
     SeaInputCombEl,
-    SeaResJ,
     SeaR,
     SeqT,
     InfoDJ,
@@ -153,25 +152,6 @@ function checkDifCon(data: object, to_check: string[]): void {
 
 const ENC = new TextEncoder();
 
-function isSeaResJ(data: unknown): data is SeaResJ {
-    if (skipAPIchecks()) {
-        return true;
-    }
-    if (!(typeof data === 'object') || data === null) {
-        return false;
-    }
-    const toCh = data as SeaResJ;
-    checkDifCon(toCh, ['strain']);
-    const { strain } = toCh;
-    checkDifCon(strain, ['siID', 'doi', 'typeStrain', 'status', 'relation']);
-    const { relation } = strain;
-    checkDifCon(relation, ['deposit']);
-    for (const cul of relation.deposit) {
-        checkDifCon(cul, ['siDP', 'designation']);
-    }
-    return true;
-}
-
 function isSerSeaR(data: unknown): data is SerSeaR {
     if (skipAPIchecks()) {
         return true;
@@ -206,16 +186,6 @@ function isSerSeaR(data: unknown): data is SerSeaR {
     return true;
 }
 
-function convertStrainStatusToInt(status: string): number {
-    if (status === StrainStatus.dep) {
-        return 2;
-    }
-    if (status === StrainStatus.pubOn) {
-        return 1;
-    }
-    return 0;
-}
-
 function convertStrainStatusToEnum(status: number): StrainStatus {
     if (status === 1) {
         return StrainStatus.pubOn;
@@ -224,24 +194,6 @@ function convertStrainStatusToEnum(status: number): StrainStatus {
         return StrainStatus.dep;
     }
     return StrainStatus.pubOff;
-}
-
-// TODO deprecate  and move to new service instead?
-function toArrSeaRes(data: unknown): SeaR {
-    if (!isSeaResJ(data)) {
-        throw new Known500Error('Unknown type provided for search results');
-    }
-    const { strain } = data;
-    const { relation, taxon, sample, status } = strain;
-    const code = ENC.encode(sample?.countryCode);
-    return [
-        strain.siID,
-        relation.deposit.map((cul) => cul.designation),
-        taxon?.name ?? '',
-        strain.typeStrain,
-        code,
-        convertStrainStatusToInt(status),
-    ];
 }
 
 function getSeaResTuple(full: boolean): string[] {
@@ -785,7 +737,6 @@ function toArrSerSeaRes(data: unknown): SeaR {
 
 export {
     SEA_INPUT_COMB,
-    toArrSeaRes,
     toArrSerSeaRes,
     isSerSeaAllJ,
     getSeaResTuple,

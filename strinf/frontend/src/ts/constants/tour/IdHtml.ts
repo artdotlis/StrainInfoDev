@@ -12,7 +12,8 @@ enum IdHtmlTour {
     apiHead = 'tour-api-head',
     doiHead = 'tour-doi-head',
     statusHead = 'tour-status-head',
-    strainFitness = 'tour-strain-fitness',
+    strainAlt = 'tour-strain-alt',
+    strainRel = 'tour-strain-rel',
 }
 
 export default IdHtmlTour;

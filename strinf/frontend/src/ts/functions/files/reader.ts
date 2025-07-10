@@ -1,6 +1,6 @@
 import Known500Error from '@strinf/ts/errors/known/500';
 import onPrError from '@strinf/ts/functions/err/async';
-import { fetchRetry } from '../http/http';
+import { fetchRetry } from '@strinf/ts/functions/http/http';
 
 async function readTextFile(file: string): Promise<string> {
     const res = fetchRetry(file).then(async (results: Response): Promise<string> => {

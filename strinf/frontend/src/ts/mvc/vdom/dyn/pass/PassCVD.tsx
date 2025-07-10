@@ -1,6 +1,6 @@
 import { Component } from 'preact';
 import type { JSX } from 'preact';
-import { memo, useState } from 'preact/compat';
+import { memo, useCallback, useState } from 'preact/compat';
 import { ClHtml, Col } from '@strinf/ts/constants/style/ClHtml';
 import type { DetailsR, PassR, RelT } from '@strinf/ts/interfaces/api/mapped';
 import type { TT_GL_TYPE, ToolTipHookInt } from '@strinf/ts/interfaces/dom/tooltip';
@@ -15,7 +15,6 @@ import HistoryVD, { getAnchorH } from '@strinf/ts/mvc/vdom/dyn/pass/HistoryVD';
 import SeqVD, { getAnchorS } from '@strinf/ts/mvc/vdom/dyn/pass/SeqVD';
 
 import ArcVD, { getAnchorA } from '@strinf/ts/mvc/vdom/dyn/pass/ArcVD';
-import PassNavVD from '@strinf/ts/mvc/vdom/dyn/pass/PassNavVD';
 import createCVSchema from '@strinf/ts/mvc/vdom/fun/schema/pass';
 import type DetailCtrl from '@strinf/ts/mvc/ctrl/DetailCtrl';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
@@ -25,7 +24,10 @@ import { TT_ID_STR } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTStrVD';
 import { TT_ID_SIM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/details';
 import { Helmet } from 'react-helmet';
-import AltStrainsVD, { getAnchorF } from '@strinf/ts/mvc/vdom/dyn/pass/AltStrainsVD';
+import AltStrainsVD, { getAnchorAS } from '@strinf/ts/mvc/vdom/dyn/pass/AltStrainsVD';
+import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
+import OnPageNavVD, { createNavLinks } from '@strinf/ts/mvc/vdom/dyn/misc/OnPageNav';
+import RelStrainsVD, { getAnchorRS } from '@strinf/ts/mvc/vdom/dyn/pass/RelStrainsVD';
 
 interface PassRProps {
     res: PassR | undefined;
@@ -54,13 +56,14 @@ interface CulVProps {
     culDet: JSX.Element;
 }
 
-const REL_ORD = 1;
-const DET_ORD = 2;
-const HIS_ORD = 3;
-const ALT_ORD = 4;
-const SEQ_ORD = 5;
-const PUB_ORD = 6;
-const ARC_ORD = 7;
+const REL_ORD = 1 as const;
+const DET_ORD = 2 as const;
+const HIS_ORD = 3 as const;
+const ALT_STR_ORD = 4 as const;
+const SEQ_ORD = 5 as const;
+const PUB_ORD = 6 as const;
+const REL_STR_ORD = 7 as const;
+const ARC_ORD = 8 as const;
 
 function createCultureRow(
     culOv: JSX.Element,
@@ -114,7 +117,10 @@ function MainContainer({
     hookStr,
     hookInf,
     dCtrl,
-}: ResProps): JSX.Element {
+    relEmp,
+}: ResProps & {
+    relEmp: () => void;
+}): JSX.Element {
     const [selId, selDes] = selectCul(
         culId === '' ? 0 : parseInt(culId, 10),
         res.relations
@@ -172,6 +178,11 @@ function MainContainer({
                 detAnc={getAnc4Det()}
                 res={res.publications}
             />
+            <RelStrainsVD
+                strId={res.allStrIds}
+                taxN={res.overview[2][0]}
+                emptyCall={relEmp}
+            />
             <ArcVD res={res.archive} />
         </div>
     );
@@ -180,15 +191,20 @@ function MainContainer({
 const MainContVD = memo(MainContainer);
 
 function Inner({ res, culId, hookDep, hookStr, hookInf, dCtrl }: ResProps): JSX.Element {
+    const [relEmp, setRelEmp] = useState<boolean>(false);
     const anc = {
         ...getAnchorD(DET_ORD, res.relations),
         ...getAnchorR(REL_ORD, res.relations),
         ...getAnchorH(HIS_ORD, res.relations),
-        ...getAnchorF(ALT_ORD, res.altStrIds),
+        ...getAnchorAS(ALT_STR_ORD, res.altStrIds),
         ...getAnchorS(SEQ_ORD, res.sequences),
         ...getAnchorP(PUB_ORD, res.publications),
+        ...getAnchorRS(REL_STR_ORD, res.overview[2][0], relEmp),
         ...getAnchorA(ARC_ORD, res.archive),
     };
+    const empRel = useCallback(() => {
+        setRelEmp(true);
+    }, []);
     return (
         <>
             <MainContVD
@@ -198,8 +214,9 @@ function Inner({ res, culId, hookDep, hookStr, hookInf, dCtrl }: ResProps): JSX.
                 hookInf={hookInf}
                 hookDep={hookDep}
                 hookStr={hookStr}
+                relEmp={empRel}
             />
-            <PassNavVD anc={anc} strId={res.allStrIds} taxN={res.overview[2][0]} />
+            <OnPageNavVD tId={IdHtmlTour.passSid}>{createNavLinks(anc)}</OnPageNavVD>
         </>
     );
 }

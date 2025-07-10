@@ -31,10 +31,6 @@ interface ApiChanInt {
 
 // -------------------------------
 
-interface SeaResJ {
-    strain: StrainStrMin;
-}
-
 interface SerSeaAllJ {
     data: unknown[];
     count: number;
@@ -197,7 +193,6 @@ export type {
     ChartKeyXY,
     SeaInputMap,
     SeaInputCombEl,
-    SeaResJ,
     SerSeaAllJ,
     SeaR,
     SerSeaR,

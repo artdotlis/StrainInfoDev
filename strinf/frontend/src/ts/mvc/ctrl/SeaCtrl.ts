@@ -8,7 +8,7 @@ import onPrError from '@strinf/ts/functions/err/async';
 import emptyCall from '@strinf/ts/functions/misc/call';
 import Controller from '@strinf/ts/mvc/ctrl/Controller';
 
-class SeaCtrl extends Controller<ViewChanInt, [string, string, string]> {
+class SeaCtrl extends Controller<ViewChanInt, [string, string]> {
     private readonly apiChan: ApiChan;
 
     constructor(version: string) {

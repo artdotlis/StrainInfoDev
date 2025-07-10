@@ -3,6 +3,7 @@ enum PassAncId {
     arc = 'section_nav_archive',
     pub = 'section_nav_publications',
     his = 'section_nav_strain_history',
-    fit = 'section_nav_strain_fitness',
+    alt_str = 'section_nav_alternative_strains',
+    rel_str = 'section_nav_related_strains',
 }
 export default PassAncId;

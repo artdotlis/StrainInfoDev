@@ -5,7 +5,6 @@ import type { JSX } from 'preact';
 
 interface PageNav {
     children: JSX.Element[];
-    addCnt?: JSX.Element;
     tId?: string;
 }
 
@@ -25,7 +24,7 @@ function Nav({ children }: NavT): JSX.Element | null {
     );
 }
 
-function OnPageNavVD({ children, addCnt, tId }: PageNav): JSX.Element {
+function OnPageNavVD({ children, tId }: PageNav): JSX.Element {
     return (
         <div
             className={`${Col.lN3} ${Dis.dNone} ${Dis.dBL}`}
@@ -35,7 +34,6 @@ function OnPageNavVD({ children, addCnt, tId }: PageNav): JSX.Element {
                 <div className={ClHtml.cnt}>
                     <Nav>{children}</Nav>
                 </div>
-                {addCnt}
             </div>
         </div>
     );

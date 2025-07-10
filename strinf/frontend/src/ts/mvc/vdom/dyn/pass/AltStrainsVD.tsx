@@ -19,9 +19,9 @@ import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import tilSty from '@strinf/css/mods/tile.module.css';
 
 const TIT = 'Alternative strains';
-const ID = PassAncId.fit;
+const ID = PassAncId.alt_str;
 
-function getAnchorF(ord: number, alt: number[]): AncT {
+function getAnchorAS(ord: number, alt: number[]): AncT {
     if (alt.length > 1) {
         return { [ord]: [ID, TIT] };
     }
@@ -116,7 +116,7 @@ function AltStrainsVD({ rel, altSiId, dCtrl, hookStr }: AltProps): JSX.Element |
         return null;
     }
     return (
-        <div id={IdHtmlTour.strainFitness} className={Col.col}>
+        <div id={IdHtmlTour.strainAlt} className={Col.col}>
             <h3 className={ClHtml.titSec}>
                 {TIT}
                 <span id={ID} />
@@ -130,4 +130,4 @@ function AltStrainsVD({ rel, altSiId, dCtrl, hookStr }: AltProps): JSX.Element |
 
 export default AltStrainsVD;
 
-export { getAnchorF };
+export { getAnchorAS };

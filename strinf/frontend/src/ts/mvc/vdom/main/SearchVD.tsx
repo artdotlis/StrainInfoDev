@@ -204,12 +204,8 @@ class SearchVD<T extends SEA_PROP> extends Component<T, SearchState> {
     private startSea(ctx: LoadStMInt & GlobVersionGet): void {
         this.time = Date.now();
         this.ctrl?.setVersion(ctx.version);
-        if (this.ctrl === undefined) {
-            this.ctrl = new SeaCtrl(ctx.version);
-            this.ctrl.init(this.hooks, ...this.sea);
-        } else {
-            this.ctrl.init(this.hooks, ...this.sea);
-        }
+        this.ctrl ??= new SeaCtrl(ctx.version);
+        this.ctrl.init(this.hooks, ...this.sea);
     }
 
     private track(res: number, page_view: boolean): void {

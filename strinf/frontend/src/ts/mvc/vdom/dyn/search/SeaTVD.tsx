@@ -59,6 +59,7 @@ interface DownloadProps {
     worker: Worker;
     view: number[];
     term: string;
+    showBtn?: boolean | undefined;
 }
 
 interface OptionsProps {
@@ -498,6 +499,7 @@ function SearchFilter({
     filter,
     view,
     term,
+    showBtn,
 }: FilterProps & DownloadProps): JSX.Element {
     const runFilter = useCallback(
         (filterV: FILTER_VALUES) => {
@@ -508,7 +510,7 @@ function SearchFilter({
     let download: JSX.Element | null = (
         <DownloadBtn worker={worker} view={view} term={term} />
     );
-    if (isSmallScreen()) {
+    if (isSmallScreen() || showBtn === false) {
         download = null;
     }
     return (
@@ -593,6 +595,8 @@ function prepCode(codeMap: [string, Uint8Array][], sReg: string): Uint8Array {
 interface SeaTableProps extends TableProps<MOD_SEA_T> {
     hook: ToolTipHookInt<TT_GL_TYPE>;
     term: string;
+    download?: boolean;
+    perPage?: boolean;
 }
 
 class SeaTable extends TableCon<MOD_SEA_T, SeaTableProps> {
@@ -698,7 +702,8 @@ class SeaTable extends TableCon<MOD_SEA_T, SeaTableProps> {
         const claB = `${Mar.tN15} ${Dis.dFlex} ${Align.js} ${Align.jb}`;
         const claT = `${Mar.bN10} ${Dis.dFlex} ${Align.js} ${Align.jb}`;
         let perPag = this.renderWindow();
-        if (isSmallScreen()) {
+        const { perPage } = this.props;
+        if (isSmallScreen() || perPage === false) {
             perPag = null;
         }
         return (
@@ -718,7 +723,7 @@ class SeaTable extends TableCon<MOD_SEA_T, SeaTableProps> {
 
     protected override renderFilter(): JSX.Element {
         const { view } = this.state;
-        const { term } = this.props;
+        const { term, download } = this.props;
         return (
             <SearchFilter
                 worker={this.worker}
@@ -728,6 +733,7 @@ class SeaTable extends TableCon<MOD_SEA_T, SeaTableProps> {
                 filter={(val) => {
                     this.filterAction(val);
                 }}
+                showBtn={download}
             />
         );
     }
@@ -775,3 +781,5 @@ function SeaTVD({ res, sea, hook }: SeaTProps): JSX.Element | null {
 }
 
 export default SeaTVD;
+
+export { SeaTable };
