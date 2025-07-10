@@ -28,7 +28,7 @@ interface NamNavProps {
     emptyCall: () => void;
 }
 
-const TIT = 'Strains related by taxonomy';
+const TIT = 'Related strains';
 const ID = PassAncId.rel_str;
 
 function getAnchorRS(ord: number, taxa: string, empty: boolean): AncT {

@@ -60,9 +60,9 @@ const REL_ORD = 1 as const;
 const DET_ORD = 2 as const;
 const HIS_ORD = 3 as const;
 const ALT_STR_ORD = 4 as const;
-const SEQ_ORD = 5 as const;
-const PUB_ORD = 6 as const;
-const REL_STR_ORD = 7 as const;
+const REL_STR_ORD = 5 as const;
+const SEQ_ORD = 6 as const;
+const PUB_ORD = 7 as const;
 const ARC_ORD = 8 as const;
 
 function createCultureRow(
@@ -169,6 +169,11 @@ function MainContainer({
                     hookStr={hookStr}
                 />
             </div>
+            <RelStrainsVD
+                strId={res.allStrIds}
+                taxN={res.overview[2][0]}
+                emptyCall={relEmp}
+            />
             <SeqVD
                 hookDep={hookDep}
                 hookInf={hookInf}
@@ -180,11 +185,6 @@ function MainContainer({
                 hookInf={hookInf}
                 detAnc={getAnc4Det()}
                 res={res.publications}
-            />
-            <RelStrainsVD
-                strId={res.allStrIds}
-                taxN={res.overview[2][0]}
-                emptyCall={relEmp}
             />
             <ArcVD res={res.archive} />
         </div>
