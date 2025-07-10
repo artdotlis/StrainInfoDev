@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace straininfo\server\shared\mvvm\model\sia\sql;
 
+# ONLY error free stats considered (except designation)
+
 function get_str_cnt(): string
 {
     $cul = get_cul_not_err();

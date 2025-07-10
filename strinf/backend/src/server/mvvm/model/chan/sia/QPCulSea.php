@@ -8,14 +8,14 @@ use straininfo\server\interfaces\mvvm\model\chan\query\QMIntSeaIdCul;
 use straininfo\server\mvvm\model\chan\PdoMWr;
 
 use function straininfo\server\shared\mvvm\model\pdo\bind_and_exe;
+use function straininfo\server\shared\mvvm\model\sia\sql\ent\add_w_sea_brc_ent_2_base;
+use function straininfo\server\shared\mvvm\model\sia\sql\ent\add_w_sea_des_ent_2_base;
+use function straininfo\server\shared\mvvm\model\sia\sql\ent\add_w_sea_seq_acc_ent_2_base;
+use function straininfo\server\shared\mvvm\model\sia\sql\ent\add_w_sea_str_no_ent_2_base;
+use function straininfo\server\shared\mvvm\model\sia\sql\ent\add_w_sea_tax_name_ent_2_base;
 use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_cul_base;
 use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_designation;
-use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_brc_ent;
-use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_des_ent;
-use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_seq_acc_ent;
 use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_str_id_cul;
-use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_str_no_ent;
-use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_tax_name_ent;
 use function straininfo\server\shared\mvvm\model\sia\sql\parse_sql_cul_id;
 use function straininfo\server\shared\mvvm\model\sia\sql\parse_sql_des_id;
 use function straininfo\server\shared\text\create_designation_triplet;
@@ -42,7 +42,7 @@ final class QPCulSea extends PdoMWr implements QMIntSeaIdCul
     {
         $a_val = implode(' ', $tax_name);
         $res_cul = $this->getResCulId(
-            get_sea_tax_name_ent('culture', get_cul_base()),
+            get_cul_base() . ' ' . add_w_sea_tax_name_ent_2_base('culture'),
             [$a_val],
             parse_sql_cul_id(...),
             \PDO::PARAM_STR
@@ -69,11 +69,11 @@ final class QPCulSea extends PdoMWr implements QMIntSeaIdCul
         if ($ids_cnt === 0) {
             return [];
         }
-        $sql_cul = get_sea_des_ent($ids_cnt, get_cul_base());
+        $sql_cul = add_w_sea_des_ent_2_base($ids_cnt);
         $res = [];
         foreach ($sql_cul as $sql_cmd) {
             $res = array_merge($res, $this->getResCulId(
-                $sql_cmd,
+                get_cul_base() . ' ' . $sql_cmd,
                 $des_ids,
                 parse_sql_cul_id(...),
                 \PDO::PARAM_STR
@@ -90,9 +90,9 @@ final class QPCulSea extends PdoMWr implements QMIntSeaIdCul
     public function getStrNo(array $str_no): array
     {
         $des_tri = create_designation_triplet($str_no);
-        $sql = get_sea_str_no_ent(count($str_no), count($des_tri), get_cul_base());
+        $sql = add_w_sea_str_no_ent_2_base(count($str_no), count($des_tri));
         return $this->getResCulId(
-            $sql,
+            get_cul_base() . ' ' . $sql,
             array_merge($str_no, array_merge(...$des_tri)),
             parse_sql_cul_id(...),
             \PDO::PARAM_STR
@@ -117,8 +117,13 @@ final class QPCulSea extends PdoMWr implements QMIntSeaIdCul
      */
     public function getSeqAcc(array $seq_acc): array
     {
-        $sql = get_sea_seq_acc_ent(count($seq_acc), get_cul_base());
-        return $this->getResCulId($sql, $seq_acc, parse_sql_cul_id(...), \PDO::PARAM_STR);
+        $sql = add_w_sea_seq_acc_ent_2_base(count($seq_acc));
+        return $this->getResCulId(
+            get_cul_base() . ' ' . $sql,
+            $seq_acc,
+            parse_sql_cul_id(...),
+            \PDO::PARAM_STR
+        );
     }
 
     /**
@@ -132,9 +137,9 @@ final class QPCulSea extends PdoMWr implements QMIntSeaIdCul
         if ($acr_cnt === 0) {
             return [];
         }
-        $sql = get_sea_brc_ent($acr_cnt, get_cul_base());
+        $sql = add_w_sea_brc_ent_2_base($acr_cnt);
         return $this->getResCulId(
-            $sql,
+            get_cul_base() . ' ' . $sql,
             array_merge($brc, $brc),
             parse_sql_cul_id(...),
             \PDO::PARAM_STR

@@ -9,9 +9,6 @@ use straininfo\server\shared\mvvm\model\sia\fields\DBStructDesE;
 use straininfo\server\shared\mvvm\model\sia\fields\DBStructSeqE;
 use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
 
-use function straininfo\server\shared\mvvm\model\sia\sql\get_col_not_err;
-use function straininfo\server\shared\mvvm\model\sia\sql\get_cul_not_err;
-
 function get_sql_strain_status(): string
 {
     $sta = DBStructStrE::STR_STA_ON->value;
@@ -42,11 +39,9 @@ function get_sql_arc(): string
 
 function get_main_str_con(string $sql): string
 {
-    $cul = get_cul_not_err();
-    $col = get_col_not_err();
     return <<<EOF
     {$sql} 
-    WHERE strain.main_id=? AND {$cul} AND {$col};
+    WHERE strain.main_id=?;
     EOF;
 }
 

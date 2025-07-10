@@ -10,8 +10,6 @@ use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
 
 use function straininfo\server\shared\mvvm\model\sia\sql\create_sql_in_templ;
 use function straininfo\server\shared\mvvm\model\sia\sql\create_sql_in_tuple_templ;
-use function straininfo\server\shared\mvvm\model\sia\sql\get_col_not_err;
-use function straininfo\server\shared\mvvm\model\sia\sql\get_cul_not_err;
 
 /** @return array<string> */
 function create_sql_designation_triplet(int $cntPart): array
@@ -61,109 +59,85 @@ function get_str_base(): string
     $sain = DBStructStrE::MAIN_ID->value;
     return <<<EOF
     SELECT DISTINCT strain.main_id as {$sain}
-    FROM strain
+        FROM strain
         INNER JOIN culture
             ON strain.id=culture.strain_id
     EOF;
 }
 
-function get_str_cul(string $slimBase): string
+function add_l_ccno_2_base(): string
 {
     return <<<EOF
-        {$slimBase}
         LEFT JOIN culture_collection_number
             ON culture.ccno_id=culture_collection_number.id
-        LEFT JOIN culture_collection
-                ON culture_collection.id=culture_collection_number.brc_id
     EOF;
 }
 
-function get_str_no(string $slimBase): string
+function add_l_col_2_ccno(): string
 {
-    $cul = get_cul_not_err();
-    $col = get_col_not_err();
-    return get_str_cul($slimBase) . <<<EOF
+    return <<<EOF
+        LEFT JOIN culture_collection
+            ON culture_collection.id=culture_collection_number.brc_id
+    EOF;
+}
+function add_i_des_2_base(): string
+{
+    return <<<EOF
         INNER JOIN designation
             ON designation.id=culture.designation_id
-        WHERE {$cul} AND {$col}
     EOF;
 }
 
-function get_brc(string $slimBase): string
+function add_i_seq_2_base(): string
 {
-    $cul = get_cul_not_err();
-    $col = get_col_not_err();
-    return get_str_cul($slimBase) . <<<EOF
-        WHERE {$cul} AND {$col}
-    EOF;
-}
-
-function get_seq(string $slimBase): string
-{
-    $cul = get_cul_not_err();
-    $col = get_col_not_err();
     return <<<EOF
-        {$slimBase}
         INNER JOIN sequenced_strain
             ON sequenced_strain.des_id=culture.designation_id
         INNER JOIN sequence
             ON sequenced_strain.seq_id=sequence.id
-        LEFT JOIN culture_collection_number
-            ON culture.ccno_id=culture_collection_number.id
-        LEFT JOIN culture_collection
-                ON culture_collection.id=culture_collection_number.brc_id
-        WHERE {$cul} AND {$col}
     EOF;
 }
 
-function get_sea_brc_ent(int $cnt, string $slimBase): string
+function add_w_sea_brc_ent_2_base(int $cnt): string
 {
     return implode('', [
-        get_brc($slimBase),
-        ' AND (',
+        add_l_ccno_2_base(),
+        add_l_col_2_ccno(),
+        ' WHERE ',
         create_sql_in_templ($cnt, ['culture_collection.acr'], ''),
         ' OR ',
         create_sql_in_templ($cnt, ['culture_collection.code_acr'], ''),
-        ');',
+        ';',
     ]);
 }
 
-function get_sea_tax_name_ent(string $table, string $slimBase): string
+function add_w_sea_tax_name_ent_2_base(string $table): string
 {
-    $cul = get_cul_not_err();
-    $col = get_col_not_err();
-    return get_str_cul($slimBase) . <<<EOF
+    return <<<EOF
         INNER JOIN taxon_name
             ON {$table}.tax_id=taxon_name.id
-        WHERE {$cul} AND {$col}
-            AND taxon_name.name_canonical=?
+        WHERE taxon_name.name_canonical=?
         GROUP BY strain.main_id
         ORDER BY COUNT(culture.id) DESC;
     EOF;
 }
 
 /** @return array<string> */
-function get_sea_des_ent(int $cnt, string $slimBase): array
+function add_w_sea_des_ent_2_base(int $cnt): array
 {
     $des_id = create_sql_in_templ($cnt, ['culture.designation_id'], '');
     $dep_id = create_sql_in_templ($cnt, ['culture_collection_number.dep_des_id'], '');
     $rel_id = create_sql_in_templ($cnt, ['culture_relation.des_id'], '');
-    $cul = get_cul_not_err();
-    $col = get_col_not_err();
-    $cond = <<<EOF
-        LEFT JOIN culture_collection_number
-            ON culture.ccno_id=culture_collection_number.id
-        LEFT JOIN culture_collection
-            ON culture_collection.id=culture_collection_number.brc_id
-        WHERE {$cul} AND {$col} 
-    EOF;
+
+    $add_ccno = add_l_ccno_2_base();
     return [
-        "{$slimBase} {$cond} AND {$des_id};",
-        "{$slimBase} {$cond} AND {$dep_id};",
-        "{$slimBase} " . <<<EOF
+        " WHERE {$des_id};",
+        " {$add_ccno} WHERE {$dep_id};",
+        <<<EOF
         INNER JOIN culture_relation
-            ON culture_relation.cul_id=culture.id AND {$rel_id};
-        EOF . " {$cond};",
+            ON culture_relation.cul_id=culture.id
+        WHERE {$rel_id};
+        EOF,
     ];
 }
 
@@ -177,14 +151,14 @@ function get_sea_str_id_cul(int $cnt): string
     ]);
 }
 
-function get_sea_str_no_ent(int $cntDes, int $cntPart, string $slimBase): string
+function add_w_sea_str_no_ent_2_base(int $cntDes, int $cntPart): string
 {
     return implode('', [
-        get_str_no($slimBase),
-        ' AND (',
+        add_i_des_2_base(),
+        ' WHERE ',
         create_sql_in_templ($cntDes, ['designation.designation'], ''),
         ...create_sql_designation_triplet($cntPart),
-        ');',
+        ';',
     ]);
 }
 
@@ -198,11 +172,11 @@ function get_sea_cul_id_str(int $cnt): string
     ]);
 }
 
-function get_sea_seq_acc_ent(int $cnt, string $slimBase): string
+function add_w_sea_seq_acc_ent_2_base(int $cnt): string
 {
     return implode('', [
-        get_seq($slimBase),
-        ' AND ',
+        add_i_seq_2_base(),
+        ' WHERE ',
         create_sql_in_templ(
             $cnt,
             ['sequence.accession_number'],

@@ -8,13 +8,13 @@ use straininfo\server\interfaces\mvvm\model\chan\query\QMIntSeaIdStr;
 use straininfo\server\mvvm\model\chan\PdoMWr;
 
 use function straininfo\server\shared\mvvm\model\pdo\bind_and_exe;
+use function straininfo\server\shared\mvvm\model\sia\sql\ent\add_w_sea_brc_ent_2_base;
+use function straininfo\server\shared\mvvm\model\sia\sql\ent\add_w_sea_des_ent_2_base;
+use function straininfo\server\shared\mvvm\model\sia\sql\ent\add_w_sea_seq_acc_ent_2_base;
+use function straininfo\server\shared\mvvm\model\sia\sql\ent\add_w_sea_str_no_ent_2_base;
+use function straininfo\server\shared\mvvm\model\sia\sql\ent\add_w_sea_tax_name_ent_2_base;
 use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_designation;
-use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_brc_ent;
 use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_cul_id_str;
-use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_des_ent;
-use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_seq_acc_ent;
-use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_str_no_ent;
-use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_sea_tax_name_ent;
 use function straininfo\server\shared\mvvm\model\sia\sql\ent\get_str_base;
 use function straininfo\server\shared\mvvm\model\sia\sql\parse_sql_des_id;
 use function straininfo\server\shared\mvvm\model\sia\sql\parse_sql_main_str_id;
@@ -42,7 +42,7 @@ final class QPStrSea extends PdoMWr implements QMIntSeaIdStr
     {
         $a_val = implode(' ', $tax_name);
         $res_str = $this->getResStrId(
-            get_sea_tax_name_ent('strain', get_str_base()),
+            get_str_base() . ' ' . add_w_sea_tax_name_ent_2_base('strain'),
             [$a_val],
             parse_sql_main_str_id(...),
             \PDO::PARAM_STR
@@ -69,11 +69,11 @@ final class QPStrSea extends PdoMWr implements QMIntSeaIdStr
         if ($ids_cnt === 0) {
             return [];
         }
-        $sql_cul = get_sea_des_ent($ids_cnt, get_str_base());
+        $sql_cul = add_w_sea_des_ent_2_base($ids_cnt);
         $res = [];
         foreach ($sql_cul as $sql_cmd) {
             $res = array_merge($res, $this->getResStrId(
-                $sql_cmd,
+                get_str_base() . ' ' . $sql_cmd,
                 $des_ids,
                 parse_sql_main_str_id(...),
                 \PDO::PARAM_STR
@@ -90,9 +90,9 @@ final class QPStrSea extends PdoMWr implements QMIntSeaIdStr
     public function getStrNo(array $str_no): array
     {
         $des_tri = create_designation_triplet($str_no);
-        $sql = get_sea_str_no_ent(count($str_no), count($des_tri), get_str_base());
+        $sql = add_w_sea_str_no_ent_2_base(count($str_no), count($des_tri));
         return $this->getResStrId(
-            $sql,
+            get_str_base() . ' ' .$sql,
             array_merge($str_no, array_merge(...$des_tri)),
             parse_sql_main_str_id(...),
             \PDO::PARAM_STR
@@ -106,9 +106,8 @@ final class QPStrSea extends PdoMWr implements QMIntSeaIdStr
      */
     public function getCulId(array $cul_ids): array
     {
-        $sql = get_sea_cul_id_str(count($cul_ids));
         return $this->getResStrId(
-            $sql,
+            get_sea_cul_id_str(count($cul_ids)),
             $cul_ids,
             parse_sql_main_str_id(...),
             \PDO::PARAM_INT
@@ -122,9 +121,9 @@ final class QPStrSea extends PdoMWr implements QMIntSeaIdStr
      */
     public function getSeqAcc(array $seq_acc): array
     {
-        $sql = get_sea_seq_acc_ent(count($seq_acc), get_str_base());
+        $sql = add_w_sea_seq_acc_ent_2_base(count($seq_acc));
         return $this->getResStrId(
-            $sql,
+            get_str_base() . ' ' . $sql,
             $seq_acc,
             parse_sql_main_str_id(...),
             \PDO::PARAM_STR
@@ -142,9 +141,9 @@ final class QPStrSea extends PdoMWr implements QMIntSeaIdStr
         if ($acr_cnt === 0) {
             return [];
         }
-        $sql = get_sea_brc_ent($acr_cnt, get_str_base());
+        $sql = add_w_sea_brc_ent_2_base($acr_cnt);
         return $this->getResStrId(
-            $sql,
+            get_str_base() . ' ' .$sql,
             array_merge($brc, $brc),
             parse_sql_main_str_id(...),
             \PDO::PARAM_STR
