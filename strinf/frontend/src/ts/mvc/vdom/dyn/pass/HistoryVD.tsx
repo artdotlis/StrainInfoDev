@@ -86,13 +86,14 @@ interface RelProps {
     detAnc: string;
     hooks: TTSrcTVInt & DatIdTVInt<TT_GL_TYPE>;
     selCuId: number;
+    hisRec: () => void;
 }
 
 const TIT = 'Strain history';
 const ID = PassAncId.his;
 
-function getAnchorH(ord: number, rel: RelT[]): AncT {
-    if (rel.filter(([, , dep]) => dep !== undefined).length > 0) {
+function getAnchorH(ord: number, rel: RelT[], rec: boolean): AncT {
+    if (!rec && rel.filter(([, , dep]) => dep !== undefined).length > 0) {
         return { [ord]: [ID, TIT] };
     }
     return {};
@@ -405,10 +406,65 @@ function HistoryStrain({ data, hooks, detAnc, selCuId, ctx }: HStrainProps): JSX
     );
 }
 
-function HistoryVD({ rel, hooks, detAnc, selCuId }: RelProps): JSX.Element | null {
+function hasCycle(
+    key: number,
+    graph: Map<number, Set<number>>,
+    visited: Set<number>,
+    verified: Set<number>
+): [boolean, Set<number>] {
+    visited.add(key);
+    for (const target of graph.get(key) ?? []) {
+        if (verified.has(target)) {
+            return [false, visited];
+        }
+        if (visited.has(target)) {
+            return [true, visited];
+        }
+        return hasCycle(target, graph, visited, verified);
+    }
+    return [false, visited];
+}
+
+function detectRec(data: DATA_T): boolean {
+    const graph = new Map<number, Set<number>>();
+    for (const link of data.links) {
+        if (!graph.has(link.source.siCu)) {
+            graph.set(link.source.siCu, new Set<number>());
+        }
+        graph.get(link.source.siCu)?.add(link.target.siCu);
+    }
+    const verified = new Set<number>();
+    for (const src_key of graph.keys()) {
+        if (verified.has(src_key)) {
+            continue;
+        }
+        const [loop, visited] = hasCycle(src_key, graph, new Set<number>(), verified);
+        if (loop) {
+            return true;
+        }
+        verified.union(visited);
+    }
+    return false;
+}
+
+function HistoryVD({
+    rel,
+    hooks,
+    detAnc,
+    selCuId,
+    hisRec,
+}: RelProps): JSX.Element | null {
     const data = formatData(rel);
     const [selSiCu, setSelSiCu] = useState<number>(selCuId);
     const ctx: (InValStInt & InValInt) | undefined = useContext(MainConGl);
+    if (detectRec(data)) {
+        hisRec();
+        console.log('error');
+        return null;
+    }
+    if (data.nodes.length < 2) {
+        return null;
+    }
     ctx?.inValSet('HistoryVD')((val: string) => {
         const valInt = parseInt(
             val.replace(new RegExp(IdAcrTagCon.depId, 'i'), '').replace(/,.*/, ''),
@@ -418,9 +474,6 @@ function HistoryVD({ rel, hooks, detAnc, selCuId }: RelProps): JSX.Element | nul
             setSelSiCu(valInt);
         }
     });
-    if (data.nodes.length < 2) {
-        return null;
-    }
     return (
         <div id={IdHtmlTour.passStrHis} className={Col.col}>
             <h3 className={ClHtml.titSec}>

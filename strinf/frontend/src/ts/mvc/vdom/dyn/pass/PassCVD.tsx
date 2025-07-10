@@ -118,8 +118,10 @@ function MainContainer({
     hookInf,
     dCtrl,
     relEmp,
+    hisRec,
 }: ResProps & {
     relEmp: () => void;
+    hisRec: () => void;
 }): JSX.Element {
     const [selId, selDes] = selectCul(
         culId === '' ? 0 : parseInt(culId, 10),
@@ -158,6 +160,7 @@ function MainContainer({
                     hooks={hookDep}
                     rel={res.relations}
                     selCuId={selId}
+                    hisRec={hisRec}
                 />
                 <AltStrainsVD
                     rel={res.relations}
@@ -192,10 +195,11 @@ const MainContVD = memo(MainContainer);
 
 function Inner({ res, culId, hookDep, hookStr, hookInf, dCtrl }: ResProps): JSX.Element {
     const [relEmp, setRelEmp] = useState<boolean>(false);
+    const [hisRec, setHisRec] = useState<boolean>(false);
     const anc = {
         ...getAnchorD(DET_ORD, res.relations),
         ...getAnchorR(REL_ORD, res.relations),
-        ...getAnchorH(HIS_ORD, res.relations),
+        ...getAnchorH(HIS_ORD, res.relations, hisRec),
         ...getAnchorAS(ALT_STR_ORD, res.altStrIds),
         ...getAnchorS(SEQ_ORD, res.sequences),
         ...getAnchorP(PUB_ORD, res.publications),
@@ -204,6 +208,9 @@ function Inner({ res, culId, hookDep, hookStr, hookInf, dCtrl }: ResProps): JSX.
     };
     const empRel = useCallback(() => {
         setRelEmp(true);
+    }, []);
+    const cirHis = useCallback(() => {
+        setHisRec(true);
     }, []);
     return (
         <>
@@ -215,6 +222,7 @@ function Inner({ res, culId, hookDep, hookStr, hookInf, dCtrl }: ResProps): JSX.
                 hookDep={hookDep}
                 hookStr={hookStr}
                 relEmp={empRel}
+                hisRec={cirHis}
             />
             <OnPageNavVD tId={IdHtmlTour.passSid}>{createNavLinks(anc)}</OnPageNavVD>
         </>
