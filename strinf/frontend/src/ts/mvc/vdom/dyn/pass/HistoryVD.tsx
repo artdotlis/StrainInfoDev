@@ -459,7 +459,6 @@ function HistoryVD({
     const ctx: (InValStInt & InValInt) | undefined = useContext(MainConGl);
     if (detectRec(data)) {
         hisRec();
-        console.log('error');
         return null;
     }
     if (data.nodes.length < 2) {

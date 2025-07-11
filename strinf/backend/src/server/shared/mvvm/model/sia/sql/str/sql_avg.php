@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace straininfo\server\shared\mvvm\model\sia\sql\str;
 
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructArcE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructDesE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructSeqE;
 use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructSeqE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructDesE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructArcE;
 
 function get_sql_strain_status(): string
 {
@@ -19,7 +19,28 @@ function get_sql_strain_status(): string
                 ON culture.strain_id=strain.id
             INNER JOIN culture_collection_number
                 ON culture.ccno_id=culture_collection_number.id
-        WHERE culture_collection_number.online=1 AND strain.main_id=?;
+        WHERE culture.status!="dead" 
+            AND culture_collection_number.online=1
+            AND strain.main_id=?;
+    EOF;
+}
+
+function get_sql_strain_err(): string
+{
+    $err = DBStructStrE::STR_STA_ERR->value;
+    return <<<EOF
+        SELECT COUNT(culture.id) as {$err}
+        FROM strain
+            INNER JOIN culture
+                ON culture.strain_id=strain.id
+            LEFT JOIN culture_collection_number
+                ON culture.ccno_id=culture_collection_number.id            
+            LEFT JOIN culture_collection
+                ON culture_collection.id=culture_collection_number.brc_id      
+        WHERE (
+            culture.status="erroneous data" 
+            OR culture_collection.deprecated=1
+        ) AND strain.main_id=?;
     EOF;
 }
 

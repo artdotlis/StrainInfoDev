@@ -28,6 +28,10 @@
 }
 
 .stina {
+    color: --muted-color-20;
+}
+
+.sterr {
     color: var(--color-warm-red);
 }
 

@@ -16,6 +16,7 @@ import type { TTHookG } from '@strinf/ts/interfaces/dom/global';
 import { TT_ID_SIM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
 import type { TT_GL_TYPE, ToolTipHookInt } from '@strinf/ts/interfaces/dom/tooltip';
 import LightsVD from '@strinf/ts/mvc/vdom/dyn/misc/StrainStatus';
+import { DepositStatus } from '@strinf/ts/constants/api/data';
 
 interface ResProps {
     res: OvT | undefined;
@@ -95,16 +96,44 @@ function modName(
 }
 
 function crUpdater(
-    setDat: (res: Map<number, [boolean, boolean]>) => void,
+    setDat: (res: Map<number, [boolean, boolean, boolean]>) => void,
     allIds: number
 ): ViewChanInt {
-    const resCon = new Map<number, [boolean, boolean]>();
+    const resCon = new Map<number, [boolean, boolean, boolean]>();
     const setter = setDat;
     const limit = allIds;
     return {
         res: (results: DetailsR[]): void => {
-            for (const [, cat, , culID] of results) {
-                resCon.set(culID, [cat[1] !== '', cat[0] !== '']);
+            for (const [
+                ,
+                cat,
+                ,
+                culID,
+                ,
+                ,
+                ,
+                ,
+                ,
+                ,
+                ,
+                ,
+                ,
+                ,
+                ,
+                ,
+                ,
+                ,
+                ,
+                ,
+                ,
+                ,
+                status,
+            ] of results) {
+                resCon.set(culID, [
+                    cat[1] !== '',
+                    cat[0] !== '' && status !== DepositStatus.dead,
+                    cat[6] || status === DepositStatus.err,
+                ]);
             }
             if (resCon.size >= limit) {
                 setter(resCon);
@@ -114,13 +143,13 @@ function crUpdater(
 }
 
 function StrainStatus({ rel, dCtrl, ttHook }: StatusProps): JSX.Element | null {
-    const [dat, setDat] = useState<Map<number, [boolean, boolean]>>(new Map());
+    const [dat, setDat] = useState<Map<number, [boolean, boolean, boolean]>>(new Map());
     if (rel === undefined || dCtrl === undefined) {
         return null;
     }
     const miss = rel.filter(([culId]) => !dat.has(culId));
     if (miss.length !== 0) {
-        const upd = crUpdater((res: Map<number, [boolean, boolean]>) => {
+        const upd = crUpdater((res: Map<number, [boolean, boolean, boolean]>) => {
             setDat(res);
         }, rel.length);
         dCtrl.init(

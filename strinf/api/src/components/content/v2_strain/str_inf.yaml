@@ -11,6 +11,7 @@ properties:
         examples: ['deposition']
         description: The strain status
         enum:
+            - erroneous
             - deposition
             - published online
             - published offline

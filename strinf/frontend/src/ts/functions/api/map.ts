@@ -1,5 +1,5 @@
 import CONFIG from '@strinf/ts/configs/config';
-import StrainStatus from '@strinf/ts/constants/api/data';
+import { StrainStatus } from '@strinf/ts/constants/api/data';
 import QApiCon from '@strinf/ts/constants/api/q_api';
 import {
     SR_BRC,
@@ -187,6 +187,9 @@ function isSerSeaR(data: unknown): data is SerSeaR {
 }
 
 function convertStrainStatusToEnum(status: number): StrainStatus {
+    if (status === 0) {
+        return StrainStatus.err;
+    }
     if (status === 1) {
         return StrainStatus.pubOn;
     }
@@ -249,6 +252,7 @@ function detConMain(data: DetailsJ): DetMT {
             data.deposit.cultureCollection?.countryCode ?? '',
             brc_home,
             data.deposit.cultureCollection?.ror ?? '',
+            data.deposit.cultureCollection?.deprecated ?? false,
         ],
         data.deposit.designation,
         data.deposit.siDP,
@@ -713,6 +717,7 @@ function toArrDetailsRes(data: unknown): DetailsR {
         ...detConMain(data),
         ...detConExtra(data),
         data.deposit.relation ?? [],
+        data.deposit.status,
     ];
 }
 

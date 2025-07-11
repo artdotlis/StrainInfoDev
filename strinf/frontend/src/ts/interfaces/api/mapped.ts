@@ -72,9 +72,10 @@ type SerSeaR = [number, string[], string, number, string, number];
 // submitter, institute, registration date
 // supervisor, institute
 // known related designations
+// status
 type DetailsR = [
     number,
-    [string, string, string, string, string, string],
+    [string, string, string, string, string, string, boolean],
     string,
     number,
     boolean,
@@ -95,6 +96,7 @@ type DetailsR = [
     [string, string],
     string,
     string[],
+    string,
 ];
 
 // culture id, culture col. no., origin
@@ -128,7 +130,7 @@ type SeqT = [
 // supervisor, institute
 // strain history encoded
 type DetMT = [
-    [string, string, string, string, string, string],
+    [string, string, string, string, string, string, boolean],
     string,
     number,
     boolean,

@@ -11,6 +11,7 @@ enum DBStructStrE: string
     case STRAIN_DOI = 'strain_doi';
     case TYP_CUL = 's_type_culture';
     case STR_STA_ON = 's_status_on';
+    case STR_STA_ERR = 's_status_err';
     // max
     case TYP_STR = 's_type_strain';
     case BAC_DIVE = 's_bac_dive';

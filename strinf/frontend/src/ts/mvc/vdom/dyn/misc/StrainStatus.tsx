@@ -9,7 +9,7 @@ import conSty from '@strinf/css/mods/container.module.css';
 import type { TT_GL_TYPE, ToolTipHookInt } from '@strinf/ts/interfaces/dom/tooltip';
 
 import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
-import StrainStatus from '@strinf/ts/constants/api/data';
+import { StrainStatus } from '@strinf/ts/constants/api/data';
 import type { JSX } from 'preact';
 import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
 interface TTProps {
@@ -18,22 +18,26 @@ interface TTProps {
     cla: string;
 }
 
-function getAvailability(dat: Map<number, [boolean, boolean]>): [boolean, boolean] {
+function getAvailability(
+    dat: Map<number, [boolean, boolean, boolean]>
+): [boolean, boolean, boolean] {
     let deposited = false;
     let available = false;
-    for (const [dep, ava] of dat.values()) {
+    let error = 0;
+    for (const [dep, ava, err] of dat.values()) {
         if (dep) {
             deposited = true;
         }
         if (ava) {
             available = true;
         }
+        error += err ? 1 : 0;
     }
-    return [deposited, available];
+    return [deposited, available, error === dat.size && dat.size !== 0];
 }
 
 interface LightsVDProps {
-    dat: Map<number, [boolean, boolean]>;
+    dat: Map<number, [boolean, boolean, boolean]>;
     miss: number;
     ttHook: ToolTipHookInt<TT_GL_TYPE>;
 }
@@ -42,20 +46,30 @@ interface LightsSmVDProps {
     ttHook: ToolTipHookInt<TT_GL_TYPE>;
 }
 
-function crClaSel(id: StrainStatus, deposited: boolean, available: boolean): string {
+function crClaSel(
+    id: StrainStatus,
+    deposited: boolean,
+    available: boolean,
+    error: boolean
+): string {
     switch (id) {
         case StrainStatus.pubOn:
-            if (!(deposited && available)) {
+            if (!(deposited && available) || error) {
                 return Dis.dNone;
             }
             break;
         case StrainStatus.dep:
-            if (deposited) {
+            if (deposited || error) {
+                return Dis.dNone;
+            }
+            break;
+        case StrainStatus.err:
+            if (!error) {
                 return Dis.dNone;
             }
             break;
         default:
-            if (!deposited || available) {
+            if (!deposited || available || error) {
                 return Dis.dNone;
             }
     }
@@ -82,9 +96,17 @@ function createTable(data: [boolean, string][]): JSX.Element {
 function getStatusInf(id: StrainStatus): JSX.Element {
     const req = <span>The strain with this status has following properties:</span>;
     const depR = 'Deposited in at least one culture collection';
-    const onlR = 'Shown on the website of at least one culture collection';
+    const onlR =
+        'Is not dead and shown on the website of at least one culture collection';
     const regR = 'Strain deposition process is active in at least one culture collection';
     switch (id) {
+        case StrainStatus.err:
+            return (
+                <>
+                    <h6>Erroneous strain</h6>
+                    <span>This strain only contains erroneous deposits</span>
+                </>
+            );
         case StrainStatus.pubOn:
             return (
                 <>
@@ -125,6 +147,8 @@ function getStatusInf(id: StrainStatus): JSX.Element {
 
 function crStatusText(id: StrainStatus): string {
     switch (id) {
+        case StrainStatus.err:
+            return 'Erroneous';
         case StrainStatus.pubOn:
             return 'Published';
         case StrainStatus.dep:
@@ -136,6 +160,8 @@ function crStatusText(id: StrainStatus): string {
 
 function crStatusIcon(id: StrainStatus): JSX.Element {
     switch (id) {
+        case StrainStatus.err:
+            return <i className={`${ClHtmlI.err} ${icoSty.sterr}`} />;
         case StrainStatus.pubOn:
             return <i className={`${ClHtmlI.depOn} ${icoSty.stpub}`} />;
         case StrainStatus.dep:
@@ -172,7 +198,7 @@ function TooltipVD({ hook, id, cla }: TTProps): JSX.Element {
 }
 
 function LightsVD({ dat, miss, ttHook }: LightsVDProps): JSX.Element {
-    const [dep, ava] = getAvailability(dat);
+    const [dep, ava, err] = getAvailability(dat);
     if (miss > 0) {
         const loadCl = `${Hei.h} ${ClHtml.btn} ${ClHtml.link} ${ClHtml.load}`;
         return <span className={loadCl}></span>;
@@ -181,31 +207,47 @@ function LightsVD({ dat, miss, ttHook }: LightsVDProps): JSX.Element {
         <span>
             <TooltipVD
                 hook={ttHook}
+                id={StrainStatus.err}
+                cla={crClaSel(StrainStatus.err, dep, ava, err)}
+            />
+            <TooltipVD
+                hook={ttHook}
                 id={StrainStatus.pubOn}
-                cla={crClaSel(StrainStatus.pubOn, dep, ava)}
+                cla={crClaSel(StrainStatus.pubOn, dep, ava, err)}
             />
             <TooltipVD
                 hook={ttHook}
                 id={StrainStatus.dep}
-                cla={crClaSel(StrainStatus.dep, dep, ava)}
+                cla={crClaSel(StrainStatus.dep, dep, ava, err)}
             />
             <TooltipVD
                 hook={ttHook}
                 id={StrainStatus.pubOff}
-                cla={crClaSel(StrainStatus.pubOff, dep, ava)}
+                cla={crClaSel(StrainStatus.pubOff, dep, ava, err)}
             />
         </span>
     );
 }
 
 function LightsSmVD({ status, ttHook }: LightsSmVDProps): JSX.Element {
+    if (status === StrainStatus.err) {
+        return (
+            <span>
+                <TooltipVD
+                    hook={ttHook}
+                    id={StrainStatus.err}
+                    cla={crClaSel(StrainStatus.err, false, false, true)}
+                />
+            </span>
+        );
+    }
     if (status === StrainStatus.pubOn) {
         return (
             <span>
                 <TooltipVD
                     hook={ttHook}
                     id={StrainStatus.pubOn}
-                    cla={crClaSel(StrainStatus.pubOn, true, true)}
+                    cla={crClaSel(StrainStatus.pubOn, true, true, false)}
                 />
             </span>
         );
@@ -216,7 +258,7 @@ function LightsSmVD({ status, ttHook }: LightsSmVDProps): JSX.Element {
                 <TooltipVD
                     hook={ttHook}
                     id={StrainStatus.dep}
-                    cla={crClaSel(StrainStatus.dep, false, false)}
+                    cla={crClaSel(StrainStatus.dep, false, false, false)}
                 />
             </span>
         );
@@ -226,7 +268,7 @@ function LightsSmVD({ status, ttHook }: LightsSmVDProps): JSX.Element {
             <TooltipVD
                 hook={ttHook}
                 id={StrainStatus.pubOff}
-                cla={crClaSel(StrainStatus.pubOff, true, false)}
+                cla={crClaSel(StrainStatus.pubOff, true, false, false)}
             />
         </span>
     );

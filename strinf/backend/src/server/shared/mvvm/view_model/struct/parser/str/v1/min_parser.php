@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace straininfo\server\shared\mvvm\view_model\struct\parser\str\v1;
 
-use straininfo\server\exceptions\mvvm\view_model\KnownViewModelExc;
-use function straininfo\server\shared\arr\check_kt_arr_id;
-use function straininfo\server\shared\arr\check_kt_bool;
-use function straininfo\server\shared\arr\check_kt_f_str;
-use function straininfo\server\shared\arr\check_kt_int;
-use straininfo\server\shared\exc\KEAct;
-use straininfo\server\shared\logger\LogLevE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructTaxE;
-
-use straininfo\server\shared\mvvm\model\struct\DataCon;
-use straininfo\server\shared\mvvm\view_model\struct\json\v1\StRelCulE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v1\StStrE;
 use straininfo\server\shared\mvvm\view_model\struct\json\v1\StTaxE;
-use function straininfo\server\shared\mvvm\view_model\struct\parser\cul\v1\get_max_arr_rel_cul;
+use straininfo\server\shared\mvvm\view_model\struct\json\v1\StStrE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v1\StRelCulE;
+use straininfo\server\shared\mvvm\model\struct\DataCon;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructTaxE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
+use straininfo\server\shared\logger\LogLevE;
+use straininfo\server\shared\exc\KEAct;
+use straininfo\server\exceptions\mvvm\view_model\KnownViewModelExc;
+
 use function straininfo\server\shared\mvvm\view_model\struct\parser\cul\v1\get_strain_status;
+use function straininfo\server\shared\mvvm\view_model\struct\parser\cul\v1\get_max_arr_rel_cul;
+use function straininfo\server\shared\arr\check_kt_int;
+use function straininfo\server\shared\arr\check_kt_f_str;
+use function straininfo\server\shared\arr\check_kt_bool;
+use function straininfo\server\shared\arr\check_kt_arr_id;
 
 /**
  * @template TV
@@ -88,6 +88,7 @@ function get_min_arr_str(array $val, array $strain): array
     $db = DBStructStrE::class;
     $type_cul = check_kt_int($val, $db::TYP_CUL->value);
     $cul_on = check_kt_int($val, $db::STR_STA_ON->value);
+    $cul_err = check_kt_int($val, $db::STR_STA_ERR->value);
     $cul_cnt = getCultureCount($strain);
     return [
         StStrE::CON->value => [
@@ -101,7 +102,7 @@ function get_min_arr_str(array $val, array $strain): array
                 StStrE::SAM_SRC->value => check_kt_f_str($val, $db::SAM_SRC->value),
                 StStrE::SAM_CC->value => check_kt_f_str($val, $db::SAM_CC->value),
             ],
-            StStrE::STA->value => get_strain_status($type_cul, $cul_on, $cul_cnt),
+            StStrE::STA->value => get_strain_status($type_cul, $cul_on, $cul_cnt, $cul_err),
         ],
 
     ];

@@ -6,8 +6,9 @@ namespace straininfo\server\mvvm\model\chan\sia;
 
 use straininfo\server\interfaces\mvvm\model\chan\query\QMIntDat;
 use straininfo\server\mvvm\model\chan\PdoMWr;
-use function straininfo\server\shared\mvvm\model\pdo\bind_and_exe;
+use straininfo\server\shared\mvvm\model\struct\DataCon;
 
+use function straininfo\server\shared\mvvm\model\pdo\bind_and_exe;
 use function straininfo\server\shared\mvvm\model\sia\sql\cul\get_cul_id_avg;
 use function straininfo\server\shared\mvvm\model\sia\sql\cul\get_cul_id_max;
 use function straininfo\server\shared\mvvm\model\sia\sql\cul\get_cul_id_min;
@@ -17,10 +18,10 @@ use function straininfo\server\shared\mvvm\model\sia\sql\parse_sql_merge_str_id;
 use function straininfo\server\shared\mvvm\model\sia\sql\str\get_full_strain;
 use function straininfo\server\shared\mvvm\model\sia\sql\str\get_min_strain;
 use function straininfo\server\shared\mvvm\model\sia\sql\str\get_sql_merge_src_str_id;
+use function straininfo\server\shared\mvvm\model\sia\sql\str\get_sql_strain_err;
 use function straininfo\server\shared\mvvm\model\sia\sql\str\get_sql_strain_status;
 use function straininfo\server\shared\mvvm\model\sia\sql\str\get_str_id_max;
 use function straininfo\server\shared\mvvm\model\sia\sql\str\get_strain_type_cul;
-use straininfo\server\shared\mvvm\model\struct\DataCon;
 
 /** @implements QMIntDat<array<string, mixed>> */
 final class QPCul extends PdoMWr implements QMIntDat
@@ -170,6 +171,10 @@ final class QPCul extends PdoMWr implements QMIntDat
                 $this->getFullStrCon($main_id, $sta_str),
                 ...$this->fetchConSql(
                     get_sql_strain_status(),
+                    [$main_id]
+                ),
+                ...$this->fetchConSql(
+                    get_sql_strain_err(),
                     [$main_id]
                 )
             ));

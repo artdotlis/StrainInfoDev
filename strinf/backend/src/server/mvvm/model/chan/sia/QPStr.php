@@ -4,28 +4,29 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\chan\sia;
 
-use straininfo\server\interfaces\mvvm\model\chan\query\QMIntDat;
-use straininfo\server\mvvm\model\chan\PdoMWr;
-use function straininfo\server\shared\mvvm\model\pdo\bind_and_exe;
-
-use function straininfo\server\shared\mvvm\model\sia\sql\cul\get_cul_min_reg_id;
-use function straininfo\server\shared\mvvm\model\sia\sql\cul\get_cul_min_str_id;
-use function straininfo\server\shared\mvvm\model\sia\sql\parse_sql_alt_str_id;
-use function straininfo\server\shared\mvvm\model\sia\sql\parse_sql_main_str_id;
-use function straininfo\server\shared\mvvm\model\sia\sql\parse_sql_merge_str_id;
-use function straininfo\server\shared\mvvm\model\sia\sql\str\get_alt_si_id;
-use function straininfo\server\shared\mvvm\model\sia\sql\str\get_archive;
-use function straininfo\server\shared\mvvm\model\sia\sql\str\get_full_strain;
-use function straininfo\server\shared\mvvm\model\sia\sql\str\get_main_str_con;
-use function straininfo\server\shared\mvvm\model\sia\sql\str\get_rel_des;
-use function straininfo\server\shared\mvvm\model\sia\sql\str\get_sql_main_str_id;
-use function straininfo\server\shared\mvvm\model\sia\sql\str\get_sql_merge_src_str_id;
-use function straininfo\server\shared\mvvm\model\sia\sql\str\get_sql_pub;
-use function straininfo\server\shared\mvvm\model\sia\sql\str\get_sql_rel_cul;
-use function straininfo\server\shared\mvvm\model\sia\sql\str\get_sql_seq;
-use function straininfo\server\shared\mvvm\model\sia\sql\str\get_sql_strain_status;
-use function straininfo\server\shared\mvvm\model\sia\sql\str\get_strain_type_cul;
 use straininfo\server\shared\mvvm\model\struct\DataCon;
+use straininfo\server\mvvm\model\chan\PdoMWr;
+use straininfo\server\interfaces\mvvm\model\chan\query\QMIntDat;
+
+use function straininfo\server\shared\mvvm\model\sia\sql\str\get_strain_type_cul;
+use function straininfo\server\shared\mvvm\model\sia\sql\str\get_sql_strain_status;
+use function straininfo\server\shared\mvvm\model\sia\sql\str\get_sql_strain_err;
+use function straininfo\server\shared\mvvm\model\sia\sql\str\get_sql_seq;
+use function straininfo\server\shared\mvvm\model\sia\sql\str\get_sql_rel_cul;
+use function straininfo\server\shared\mvvm\model\sia\sql\str\get_sql_pub;
+use function straininfo\server\shared\mvvm\model\sia\sql\str\get_sql_merge_src_str_id;
+use function straininfo\server\shared\mvvm\model\sia\sql\str\get_sql_main_str_id;
+use function straininfo\server\shared\mvvm\model\sia\sql\str\get_rel_des;
+use function straininfo\server\shared\mvvm\model\sia\sql\str\get_main_str_con;
+use function straininfo\server\shared\mvvm\model\sia\sql\str\get_full_strain;
+use function straininfo\server\shared\mvvm\model\sia\sql\str\get_archive;
+use function straininfo\server\shared\mvvm\model\sia\sql\str\get_alt_si_id;
+use function straininfo\server\shared\mvvm\model\sia\sql\parse_sql_merge_str_id;
+use function straininfo\server\shared\mvvm\model\sia\sql\parse_sql_main_str_id;
+use function straininfo\server\shared\mvvm\model\sia\sql\parse_sql_alt_str_id;
+use function straininfo\server\shared\mvvm\model\sia\sql\cul\get_cul_min_str_id;
+use function straininfo\server\shared\mvvm\model\sia\sql\cul\get_cul_min_reg_id;
+use function straininfo\server\shared\mvvm\model\pdo\bind_and_exe;
 
 /**
  * @implements QMIntDat<array<string, mixed>>
@@ -95,6 +96,9 @@ final class QPStr extends PdoMWr implements QMIntDat
         ];
         $merged_con = array_merge($base, $this->fetchConSql(
             get_sql_strain_status(),
+            [$main_id]
+        )[0],$this->fetchConSql(
+            get_sql_strain_err(),
             [$main_id]
         )[0], $rel_cul, $merge);
         if (count($res) > 0) {

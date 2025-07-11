@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace straininfo\server\shared\mvvm\view_model\struct\parser\str\v1;
 
-use function straininfo\server\shared\arr\rem_null_rec;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
-use straininfo\server\shared\mvvm\model\struct\StrainStatus;
-
 use straininfo\server\shared\mvvm\view_model\data\ParStr;
+use straininfo\server\shared\mvvm\model\struct\StrainStatus;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
+
+use function straininfo\server\shared\arr\rem_null_rec;
 
 /**
  * @template TV
@@ -128,15 +128,4 @@ function create_min(array $val): ParStr
         str: rem_null_rec(get_min_arr_str($val, $cultures)),
         tax: rem_null_rec(get_min_arr_tax($val))
     );
-}
-
-function convert_strain_status(string $status): int
-{
-    if ($status === StrainStatus::UND_DEP->value) {
-        return 2;
-    }
-    if ($status === StrainStatus::PUB_ON->value) {
-        return 1;
-    }
-    return 0;
 }

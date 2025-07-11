@@ -27,5 +27,6 @@ enum ClHtml {
     undDep = 'ph ph-clock-countdown',
     depOn = 'ph ph-check-circle',
     depOff = 'ph ph-x-circle',
+    err = 'ph ph-warning-circle',
 }
 export default ClHtml;

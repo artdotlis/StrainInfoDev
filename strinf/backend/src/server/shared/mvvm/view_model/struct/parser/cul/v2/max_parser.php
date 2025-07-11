@@ -4,37 +4,39 @@ declare(strict_types=1);
 
 namespace straininfo\server\shared\mvvm\view_model\struct\parser\cul\v2;
 
-use function straininfo\server\shared\arr\check_kt_arr_id;
-use function straininfo\server\shared\arr\check_kt_bool;
-use function straininfo\server\shared\arr\check_kt_f_str;
-use function straininfo\server\shared\arr\check_kt_int;
-use function straininfo\server\shared\arr\check_kt_str;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructArcE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructPubE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructRelCulE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructSeqE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructTaxE;
-use straininfo\server\shared\mvvm\model\struct\DataCon;
-use straininfo\server\shared\mvvm\model\struct\StrainStatus;
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StArcE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StDepositE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StPubE;
-
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StRelDepositE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StRelDesE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StSeqE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StStrE;
 use straininfo\server\shared\mvvm\view_model\struct\json\v2\StTaxE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StStrE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StSeqE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StRelDesE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StRelDepositE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StPubE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StDepositE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StArcE;
+use straininfo\server\shared\mvvm\model\struct\StrainStatus;
+use straininfo\server\shared\mvvm\model\struct\DataCon;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructTaxE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructSeqE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructRelCulE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructPubE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructArcE;
 
-function get_strain_status(?int $type_cul, ?int $cul_on, int $cul_cnt): StrainStatus
+use function straininfo\server\shared\arr\check_kt_str;
+use function straininfo\server\shared\arr\check_kt_int;
+use function straininfo\server\shared\arr\check_kt_f_str;
+use function straininfo\server\shared\arr\check_kt_bool;
+use function straininfo\server\shared\arr\check_kt_arr_id;
+
+function get_strain_status(?int $type_cul, ?int $cul_on, int $cul_cnt, int $cul_err): StrainStatus
 {
-    $status = StrainStatus::PUB_OFF;
-    if ($cul_on !== null && $cul_on > 0) {
+    $status = StrainStatus::PUB_OFF;    
+    if ($cul_err >= $cul_cnt) {
+        $status = StrainStatus::ERR;
+    } elseif ($cul_on !== null && $cul_on > 0) {
         $status = StrainStatus::PUB_ON;
     } elseif ($cul_cnt === 1 && $type_cul !== null && $type_cul > 0) {
         $status = StrainStatus::UND_DEP;
-    }
+    } 
     return $status;
 }
 
@@ -51,11 +53,12 @@ function get_max_arr_str(array $val, int $cul_cnt): array
     $db = DBStructStrE::class;
     $type_cul = check_kt_int($val, $db::TYP_CUL->value);
     $cul_on = check_kt_int($val, $db::STR_STA_ON->value);
+    $cul_err = check_kt_int($val, $db::STR_STA_ERR->value);
     return [
         StStrE::CON->value => [
             StStrE::SI_ID->value => check_kt_int($val, $db::STRAIN_ID->value),
             StStrE::STR_DOI->value => check_kt_f_str($val, $db::STRAIN_DOI->value),
-            StStrE::STA->value => get_strain_status($type_cul, $cul_on, $cul_cnt),
+            StStrE::STA->value => get_strain_status($type_cul, $cul_on, $cul_cnt, $cul_err),
             StStrE::TYP_STR->value => check_kt_bool($val, $db::TYP_STR->value),
             StStrE::MERGE_CON->value => check_kt_arr_id(
                 $val,
