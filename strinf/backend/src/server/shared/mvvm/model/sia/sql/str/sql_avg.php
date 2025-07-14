@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace straininfo\server\shared\mvvm\model\sia\sql\str;
 
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructSeqE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructDesE;
 use straininfo\server\shared\mvvm\model\sia\fields\DBStructArcE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructDesE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructSeqE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
 
-function get_sql_strain_status(): string
+function get_sql_strain_online(): string
 {
     $sta = DBStructStrE::STR_STA_ON->value;
     return <<<EOF
@@ -19,8 +19,7 @@ function get_sql_strain_status(): string
                 ON culture.strain_id=strain.id
             INNER JOIN culture_collection_number
                 ON culture.ccno_id=culture_collection_number.id
-        WHERE culture.status!="dead" 
-            AND culture_collection_number.online=1
+        WHERE culture_collection_number.online=1
             AND strain.main_id=?;
     EOF;
 }

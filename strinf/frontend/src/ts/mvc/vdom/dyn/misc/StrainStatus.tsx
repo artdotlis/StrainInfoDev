@@ -96,15 +96,18 @@ function createTable(data: [boolean, string][]): JSX.Element {
 function getStatusInf(id: StrainStatus): JSX.Element {
     const req = <span>The strain with this status has following properties:</span>;
     const depR = 'Deposited in at least one culture collection';
-    const onlR =
-        'Is not dead and shown on the website of at least one culture collection';
+    const onlR = 'Shown on the website of at least one culture collection';
     const regR = 'Strain deposition process is active in at least one culture collection';
     switch (id) {
         case StrainStatus.err:
             return (
                 <>
-                    <h6>Erroneous strain</h6>
-                    <span>This strain only contains erroneous deposits</span>
+                    <h6>Incorrect strain</h6>
+                    <span>
+                        This strain contains only deposits for which culture collection
+                        numbers could not be verified, possibly due to typos or similar
+                        input errors.
+                    </span>
                 </>
             );
         case StrainStatus.pubOn:
@@ -148,7 +151,7 @@ function getStatusInf(id: StrainStatus): JSX.Element {
 function crStatusText(id: StrainStatus): string {
     switch (id) {
         case StrainStatus.err:
-            return 'Erroneous';
+            return 'Incorrect';
         case StrainStatus.pubOn:
             return 'Published';
         case StrainStatus.dep:

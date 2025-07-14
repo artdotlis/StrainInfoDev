@@ -56,23 +56,14 @@ interface InfoDJ {
 interface InfoSJ {
     strain: StrainStrMin;
 }
+// TODO remove or simplify types (too complex)
+// |-> just use one central type containing all data?
 
-// culture_id, strain_number, species [culture]
 type InfoR = [number, string, string];
-// strain_id, species [strain], designations
 type InfoS = [number, string, string];
 
-// strain id, designation[], taxon name strain, type_strain, sample source cc
 type SeaR = [number, string[], string, boolean, Uint8Array, number];
 type SerSeaR = [number, string[], string, number, string, number];
-// strain_id, catalog, strain_number, culture_id, type_culture, type_strain,
-// species [culture],
-// depositor, depositor_institute, deposit_year, deposit_designation, last updated
-// isolation source, date, location
-// submitter, institute, registration date
-// supervisor, institute
-// known related designations
-// status
 type DetailsR = [
     number,
     [string, string, string, string, string, string, boolean],
@@ -95,15 +86,12 @@ type DetailsR = [
     [string, string],
     [string, string],
     string,
+    boolean,
     string[],
-    string,
 ];
 
-// culture id, culture col. no., origin
 type RelT = [number, string, number | undefined, number | undefined];
-// culture col. no.
 type DesT = string;
-// strain id, type strain, [species (strain), lpsn, ncbi], bacdive, doi
 type OvT = [
     number,
     boolean,
@@ -111,9 +99,7 @@ type OvT = [
     number | undefined,
     string,
 ];
-// doi, title, authors, journal, year
 type PubT = [string, string, [string, number][], string, string, number | undefined];
-// seq acc, ccnos, description, type, sequence length, date
 type SeqT = [
     string,
     [string, number][],
@@ -122,13 +108,6 @@ type SeqT = [
     number | string,
     number | undefined,
 ];
-// catalog, strain_number, culture_id, type_culture, type_strain,
-// [species (culture), lpsn, ncbi],
-// depositor, depositor_institute, deposit_year, deposit_designation, last update
-// isolation source, date, location,
-// submitter, institute, registration date
-// supervisor, institute
-// strain history encoded
 type DetMT = [
     [string, string, string, string, string, string, boolean],
     string,
@@ -152,9 +131,9 @@ type DetET = [
     [string, string],
     [string, string],
     string,
+    boolean,
 ];
 type DetT = [...DetMT, ...DetET];
-// doi, title, date
 type ArcT = [string, string, string];
 
 type SIndT = [string, string, number, number];

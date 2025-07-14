@@ -16,8 +16,6 @@ import type { TTHookG } from '@strinf/ts/interfaces/dom/global';
 import { TT_ID_SIM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
 import type { TT_GL_TYPE, ToolTipHookInt } from '@strinf/ts/interfaces/dom/tooltip';
 import LightsVD from '@strinf/ts/mvc/vdom/dyn/misc/StrainStatus';
-import { DepositStatus } from '@strinf/ts/constants/api/data';
-
 interface ResProps {
     res: OvT | undefined;
     dCtrl: DetailCtrl | undefined;
@@ -104,36 +102,10 @@ function crUpdater(
     const limit = allIds;
     return {
         res: (results: DetailsR[]): void => {
-            for (const [
-                ,
-                cat,
-                ,
-                culID,
-                ,
-                ,
-                ,
-                ,
-                ,
-                ,
-                ,
-                ,
-                ,
-                ,
-                ,
-                ,
-                ,
-                ,
-                ,
-                ,
-                ,
-                ,
-                status,
-            ] of results) {
-                resCon.set(culID, [
-                    cat[1] !== '',
-                    cat[0] !== '' && status !== DepositStatus.dead,
-                    cat[6] || status === DepositStatus.err,
-                ]);
+            for (const row of results) {
+                const [cat, culID, err] = [row[1], row[3], row[21]];
+                console.log(err);
+                resCon.set(culID, [cat[1] !== '', cat[0] !== '', cat[6] || err]);
             }
             if (resCon.size >= limit) {
                 setter(resCon);

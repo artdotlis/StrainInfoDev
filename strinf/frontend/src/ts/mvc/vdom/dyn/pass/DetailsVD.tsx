@@ -48,9 +48,9 @@ import ROR_L from '@strinf/ts/constants/links/ror';
 import LogoORCIDVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoORCIDVD';
 import type { ConfLinkT } from '@strinf/ts/interfaces/misc/configs';
 import ORCID_L from '@strinf/ts/constants/links/orcid';
+import icoSty from '@strinf/css/mods/icon.module.css';
 
 const TIT = 'Deposit details';
-const HEAD = getDetTuple();
 const ID = 'section_nav_details';
 
 type EleT = number | boolean | string | string[];
@@ -87,7 +87,7 @@ interface HistriProps {
     rel: RelT[];
     cid: number;
     ctx: InValStInt | undefined;
-    hooks: TTSrcTVInt & DatIdTVInt<TT_GL_TYPE>;
+    hookCul: TTSrcTVInt & DatIdTVInt<TT_GL_TYPE>;
 }
 
 function createHistEl(
@@ -179,12 +179,13 @@ interface ResProps {
 }
 
 function modTaxName(
+    head: string[],
     filH: string[],
     filD: (EleT | JSX.Element)[],
     taxInf: [string, number | undefined, number | undefined]
 ): void {
     const [name, lpsn, ncbi] = taxInf;
-    const hid = filH.indexOf(HEAD[7] ?? '');
+    const hid = filH.indexOf(head[7] ?? '');
     const taxCl = Dis.dIFlex;
     if (name !== '') {
         const links = [];
@@ -269,17 +270,57 @@ function ROCIDCatVD(props: ROCIDInt & { name: string; brc_link: string }): JSX.E
     );
 }
 
+function IncDep({
+    err,
+    hookInf,
+}: {
+    err: boolean;
+    hookInf: DatIdTVInt<TT_GL_TYPE> & TTSrcTVInt;
+}): JSX.Element | null {
+    const ref = useRef<HTMLSpanElement>(null);
+    useTooltipForRef(
+        ref,
+        hookInf,
+        () => {
+            if (hookInf.data !== undefined) {
+                hookInf.data(
+                    <p>
+                        <b>Incorrect deposit</b>:<br />
+                        The culture collection number could not be verified, possibly due
+                        to typos or similar input errors.
+                    </p>
+                );
+            }
+        },
+        [50, 50]
+    );
+    if (!err) {
+        return null;
+    }
+    return (
+        <span ref={ref}>
+            <b>Incorrect deposit</b>
+            <i className={`${ClHtmlI.err} ${icoSty.sterr} ${Pad.lN10}`} />
+        </span>
+    );
+}
+
 function modCatalog(
+    head: string[],
     filH: string[],
     filD: (EleT | JSX.Element)[],
-    cat: [string, string, string, string, string, string]
+    cat: [string, string, string, string, string, string, boolean],
+    err: JSX.Element | null
 ): void {
-    const catInd = filH.indexOf(HEAD[0] ?? '');
-    const brcInd = filH.indexOf(HEAD[1] ?? '');
-    const ccInd = filH.indexOf(HEAD[2] ?? '');
+    const catInd = filH.indexOf(head[0] ?? '');
+    const brcInd = filH.indexOf(head[1] ?? '');
+    const ccInd = filH.indexOf(head[2] ?? '');
+
     let [cat_link, code, name, country, brc_link, ror] = cat;
     brc_link = cat_link == '' ? brc_link : '';
-    if (code !== '') {
+    if (err !== null) {
+        filD.splice(catInd, 1, err);
+    } else if (code !== '') {
         filD.splice(catInd, 1, <CatalogLinkVD text={code} link={cat_link} bold />);
     }
     if (name !== '') {
@@ -294,19 +335,25 @@ function modCatalog(
     }
 }
 
-function modSiCu(filH: string[], filD: (EleT | JSX.Element)[], siCu: number): void {
-    const hid = filH.indexOf(HEAD[4] ?? '');
+function modSiCu(
+    head: string[],
+    filH: string[],
+    filD: (EleT | JSX.Element)[],
+    siCu: number
+): void {
+    const hid = filH.indexOf(head[4] ?? '');
     if (siCu > 0) {
         filD.splice(hid, 1, `${IdAcrTagCon.depId} ${siCu}`);
     }
 }
 
 function modSampleSource(
+    head: string[],
     filH: string[],
     filD: (EleT | JSX.Element)[],
     src: string
 ): void {
-    const hid = filH.indexOf(HEAD[15] ?? '');
+    const hid = filH.indexOf(head[15] ?? '');
     if (src !== '') {
         filD.splice(hid, 1, <span>{parseCountryCode(src)}</span>);
     }
@@ -329,8 +376,13 @@ function crW(wid: number): { width: string } {
     };
 }
 
-function modSampleDate(filH: string[], filD: (EleT | JSX.Element)[], date: string): void {
-    const hid = filH.indexOf(HEAD[14] ?? '');
+function modSampleDate(
+    head: string[],
+    filH: string[],
+    filD: (EleT | JSX.Element)[],
+    date: string
+): void {
+    const hid = filH.indexOf(head[14] ?? '');
     if (date !== '') {
         filD.splice(hid, 1, createDateRKMS(date));
     }
@@ -369,24 +421,36 @@ function DetailsTiles({
     ctx,
     cid,
     rel,
-    hooks,
-}: { data: DetT } & HistriProps): JSX.Element {
+    hookCul,
+    hookInf,
+}: {
+    data: DetT;
+    hookInf: TTSrcTVInt & DatIdTVInt<TT_GL_TYPE>;
+} & HistriProps): JSX.Element {
     const dataF: EleT[] = flattenDetTto1dim(data);
-    const filD: [string[], (EleT | JSX.Element)[]] = filterArrStr(HEAD, dataF, '-');
-    modTaxName(filD[0], filD[1], data[5]);
-    modCatalog(filD[0], filD[1], data[0]);
-    modSiCu(filD[0], filD[1], data[2]);
-    modSampleSource(filD[0], filD[1], data[13]);
-    modDates(filD[0], filD[1], HEAD[12] ?? '', data[10]);
-    modSampleDate(filD[0], filD[1], data[12]);
-    modOrcid(filD[0], filD[1], HEAD[8] ?? '');
-    modRor(filD[0], filD[1], HEAD[9] ?? '');
-    modOrcid(filD[0], filD[1], HEAD[16] ?? '');
-    modRor(filD[0], filD[1], HEAD[17] ?? '');
-    modOrcid(filD[0], filD[1], HEAD[19] ?? '');
-    modRor(filD[0], filD[1], HEAD[20] ?? '');
+    const dep_err = data[20] || data[0][6];
+    const head = getDetTuple(dep_err);
+    const filD: [string[], (EleT | JSX.Element)[]] = filterArrStr(head, dataF, '-');
+    modTaxName(head, filD[0], filD[1], data[5]);
+    modCatalog(
+        head,
+        filD[0],
+        filD[1],
+        data[0],
+        <IncDep hookInf={hookInf} err={dep_err} />
+    );
+    modSiCu(head, filD[0], filD[1], data[2]);
+    modSampleSource(head, filD[0], filD[1], data[13]);
+    modDates(filD[0], filD[1], head[12] ?? '', data[10]);
+    modSampleDate(head, filD[0], filD[1], data[12]);
+    modOrcid(filD[0], filD[1], head[8] ?? '');
+    modRor(filD[0], filD[1], head[9] ?? '');
+    modOrcid(filD[0], filD[1], head[16] ?? '');
+    modRor(filD[0], filD[1], head[17] ?? '');
+    modOrcid(filD[0], filD[1], head[19] ?? '');
+    modRor(filD[0], filD[1], head[20] ?? '');
     const details = wrapDetValues(...filD);
-    const histri = crShallowHist(ctx, cid, rel, hooks);
+    const histri = crShallowHist(ctx, cid, rel, hookCul);
     return createXColTable<EleT | JSX.Element>(
         [...details, [histri]],
         (val: EleT | JSX.Element) => parseVal2Html(val),
@@ -403,7 +467,7 @@ function DetailsTiles({
 
 function crEmptyDetC(): DetT {
     return [
-        ['', '', '', '', '', ''],
+        ['', '', '', '', '', '', false],
         '',
         0,
         false,
@@ -423,6 +487,7 @@ function crEmptyDetC(): DetT {
         ['', ''],
         ['', ''],
         '',
+        false,
     ];
 }
 
@@ -464,7 +529,8 @@ function Details({ ctx, data, cid, rel, hookCul, hookInf, ccno }: ResProps): JSX
                         ctx={ctx}
                         cid={cid}
                         rel={rel}
-                        hooks={hookCul}
+                        hookCul={hookCul}
+                        hookInf={hookInf}
                     />
                 </div>
             </section>

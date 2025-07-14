@@ -1,5 +1,5 @@
 import CONFIG from '@strinf/ts/configs/config';
-import { StrainStatus } from '@strinf/ts/constants/api/data';
+import { DepositStatus, StrainStatus } from '@strinf/ts/constants/api/data';
 import QApiCon from '@strinf/ts/constants/api/q_api';
 import {
     SR_BRC,
@@ -295,13 +295,14 @@ function detConExtra(data: DetailsJ): DetET {
         [sup?.name ?? '', sup?.orcid ?? ''],
         [sup?.institute ?? '', sup?.ror ?? ''],
         data.deposit.history?.[0]?.encoded ?? '',
+        data.deposit.status === DepositStatus.err,
     ];
 }
 
-function getDetTuple(): string[] {
+function getDetTuple(error: boolean): string[] {
     return [
-        'Available at',
-        'Name',
+        error ? 'Status' : 'Available at',
+        'Collection',
         'Country',
         'Identifier',
         'Deposit id',
@@ -717,7 +718,6 @@ function toArrDetailsRes(data: unknown): DetailsR {
         ...detConMain(data),
         ...detConExtra(data),
         data.deposit.relation ?? [],
-        data.deposit.status,
     ];
 }
 
