@@ -95,7 +95,7 @@ function Table({ detAnc, curId, culH, desH, des, rel }: TProps): JSX.Element | n
     const ctx: InValStInt | undefined = useContext(MainConGl);
     const tilesCul = createRDepTiles(
         rel,
-        (dat: RelT) => [dat[0], dat[1], dat[3] === undefined],
+        (dat: RelT) => [dat[0], dat[1], dat[3] === undefined, dat[4]],
         ctx,
         [detAnc, curId]
     );

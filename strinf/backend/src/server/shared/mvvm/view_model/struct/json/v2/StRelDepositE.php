@@ -12,4 +12,5 @@ enum StRelDepositE: string
     case ORI_SI_DP = 'origin';
     case DES = 'designation';
     case CC_ID = 'ccID';
+    case CC_ERR = 'erroneous';
 }

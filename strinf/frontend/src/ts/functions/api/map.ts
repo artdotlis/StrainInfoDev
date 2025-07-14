@@ -414,7 +414,13 @@ function createRelCon(data: PassJ): RelT[] {
         }
     }
     for (const cul of Object.values(data.strain.relation.deposit)) {
-        const toPush: RelT = [cul.siDP, cul.designation, cul.origin, siDPM.get(cul.siDP)];
+        const toPush: RelT = [
+            cul.siDP,
+            cul.designation,
+            cul.origin,
+            siDPM.get(cul.siDP),
+            cul.erroneous,
+        ];
         relCon.push(toPush);
     }
     const sortedRes = relCon.sort((first, second) => first[1].localeCompare(second[1]));
@@ -531,7 +537,7 @@ function isPassJ(data: unknown): data is PassJ {
         checkDifCon(pubEl, ['doi', 'title', 'date']);
     }
     for (const relDep of toCh.strain.relation.deposit) {
-        checkDifCon(relDep, ['siDP', 'designation']);
+        checkDifCon(relDep, ['siDP', 'designation', 'erroneous']);
     }
     return true;
 }

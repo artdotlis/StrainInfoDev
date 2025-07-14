@@ -128,12 +128,17 @@ function get_sql_rel_cul(): string
     $str = DBStructRelCulE::STR_NO->value;
     $ori = DBStructRelCulE::ORI_ID->value;
     $cid = DBStructRelCulE::CC_ID->value;
+    $err = DBStructRelCulE::CC_ERR->value;
     return <<<EOF
     SELECT DISTINCT 
         culture.id as {$cui},
         culture_collection_number.dep_cul_id as {$ori},
         designation.designation as {$str},
-        culture_collection_number.brc_id as {$cid}
+        culture_collection_number.brc_id as {$cid},
+        (
+            culture_collection.deprecated=1
+            OR culture.status="erroneous data"
+        ) as {$err}
     FROM strain
         INNER JOIN culture
             ON culture.strain_id = strain.id

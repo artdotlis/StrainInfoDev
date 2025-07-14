@@ -304,6 +304,10 @@ function get_max_arr_rel_cul(array $val): array
                     $rcul, // @phpstan-ignore argument.type
                     $db::CC_ID->value
                 ),
+                StRelDepositE::CC_ERR->value => check_kt_bool(
+                    $rcul, // @phpstan-ignore argument.type
+                    $db::CC_ERR->value
+                ),
             ];
         }
     }

@@ -12,6 +12,7 @@ import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
 import type { TTSrcTVInt } from '@strinf/ts/interfaces/dom/tooltip';
 import crToolTip from '@strinf/ts/mvc/vdom/fun/tooltip/tooltip';
 import { TT_TAR } from '@strinf/ts/constants/style/AtHtml';
+import tilSty from '@strinf/css/mods/tile.module.css';
 
 const TAB_GEN = `${ClHtml.tab} ${ClHtml.sm} ${ClHtml.hov}`;
 
@@ -84,13 +85,16 @@ function createXColTable<T>(
     return [createDefTable(null, rows, colGr), rows.length];
 }
 
-function tileClass(curId: number, selId: number, bold: boolean): string {
+function tileClass(curId: number, selId: number, bold: boolean, bgDark: boolean): string {
     let classNames = '';
     if (curId === selId) {
         classNames = `${Tex.w} ${BgCol.prim}`;
     }
     if (bold) {
         classNames += ` ${Font.bold}`;
+    }
+    if (bgDark) {
+        classNames += ` ${tilSty.tilesdark}`;
     }
     return classNames;
 }
@@ -154,7 +158,7 @@ type TILE = (
 
 function createTiles<T>(
     values: T[],
-    parser: (val: T) => [number, string, boolean],
+    parser: (val: T) => [number, string, boolean, boolean],
     ctx: InValStInt | undefined,
     props: [string, number],
     tile: TILE
@@ -166,13 +170,13 @@ function createTiles<T>(
         if (val === undefined) {
             throw new Known500Error(`values [${values}] are undefined!`);
         }
-        const [tid, name, bold] = parser(val);
+        const [tid, name, bold, bgDark] = parser(val);
         tiles.push([
             tile(
                 anc === '' ? '' : `#${anc}`,
                 [ind, tid, name],
                 ctx,
-                tileClass(curId, tid, bold)
+                tileClass(curId, tid, bold, bgDark)
             ),
             tid,
         ]);
@@ -182,7 +186,7 @@ function createTiles<T>(
 
 function createRDepTiles<T>(
     values: T[],
-    parser: (val: T) => [number, string, boolean],
+    parser: (val: T) => [number, string, boolean, boolean],
     ctx: InValStInt | undefined,
     props: [string, number]
 ): [JSX.Element, number][] {
@@ -191,10 +195,16 @@ function createRDepTiles<T>(
 
 function createRStrTiles(
     values: number[],
-    parser: (val: number) => [number, string, boolean],
+    parser: (val: number) => [number, string],
     ctx: InValStInt | undefined
 ): [JSX.Element, number][] {
-    return createTiles(values, parser, ctx, ['', -1], createStrainTile);
+    return createTiles(
+        values,
+        (val) => [...parser(val), false, false],
+        ctx,
+        ['', -1],
+        createStrainTile
+    );
 }
 
 export {

@@ -46,3 +46,8 @@ span.title:focus {
     width: auto;
     max-width: 20rem;
 }
+
+.tilesdark {
+    border-left-width: 6px;
+    border-left-color: var(--danger-color);
+}

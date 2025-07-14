@@ -90,7 +90,7 @@ type DetailsR = [
     string[],
 ];
 
-type RelT = [number, string, number | undefined, number | undefined];
+type RelT = [number, string, number | undefined, number | undefined, boolean];
 type DesT = string;
 type OvT = [
     number,

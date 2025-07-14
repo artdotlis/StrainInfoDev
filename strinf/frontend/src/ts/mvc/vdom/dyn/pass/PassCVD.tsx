@@ -162,12 +162,7 @@ function MainContainer({
                     selCuId={selId}
                     hisRec={hisRec}
                 />
-                <AltStrainsVD
-                    rel={res.relations}
-                    dCtrl={dCtrl}
-                    altSiId={res.altStrIds}
-                    hookStr={hookStr}
-                />
+                <AltStrainsVD altSiId={res.altStrIds} hookStr={hookStr} />
             </div>
             <RelStrainsVD
                 strId={res.allStrIds}

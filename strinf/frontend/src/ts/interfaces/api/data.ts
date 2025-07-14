@@ -91,6 +91,7 @@ interface DepositIdCon {
 }
 
 interface RelCulCon extends DepositIdCon {
+    erroneous: boolean;
     origin?: number;
     ccID?: number;
 }

@@ -1,9 +1,13 @@
 type: object
 allOf:
     - $ref: './si_dps.yaml'
+required:
+    - erroneous
 properties:
     ccID:
         type: integer
         minimum: 1
         examples: [1]
         description: The culture collection id
+    erroneous:
+        type: boolean

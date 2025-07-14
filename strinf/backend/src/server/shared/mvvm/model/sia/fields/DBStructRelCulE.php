@@ -10,4 +10,5 @@ enum DBStructRelCulE: string
     case CUL_ID = 'culture_id';
     case ORI_ID = 'origin_id';
     case CC_ID = 'culture_collection_id';
+    case CC_ERR = 'culture_erroneous';
 }

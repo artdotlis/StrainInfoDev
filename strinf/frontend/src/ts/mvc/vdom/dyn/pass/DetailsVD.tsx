@@ -102,7 +102,7 @@ function createHistEl(
     const [curId, last, lKey] = idInf;
     const tiles = createRDepTiles(
         ele,
-        (dat: [number, string]) => [dat[0], dat[1], false],
+        (dat: [number, string]) => [dat[0], dat[1], false, false],
         ctx,
         [ID, curId]
     );
@@ -271,12 +271,10 @@ function ROCIDCatVD(props: ROCIDInt & { name: string; brc_link: string }): JSX.E
 }
 
 function IncDep({
-    err,
     hookInf,
 }: {
-    err: boolean;
     hookInf: DatIdTVInt<TT_GL_TYPE> & TTSrcTVInt;
-}): JSX.Element | null {
+}): JSX.Element {
     const ref = useRef<HTMLSpanElement>(null);
     useTooltipForRef(
         ref,
@@ -294,9 +292,6 @@ function IncDep({
         },
         [50, 50]
     );
-    if (!err) {
-        return null;
-    }
     return (
         <span ref={ref}>
             <b>Incorrect deposit</b>
@@ -318,6 +313,8 @@ function modCatalog(
 
     let [cat_link, code, name, country, brc_link, ror] = cat;
     brc_link = cat_link == '' ? brc_link : '';
+
+    console.log(code, err, err !== null, code !== '');
     if (err !== null) {
         filD.splice(catInd, 1, err);
     } else if (code !== '') {
@@ -422,23 +419,17 @@ function DetailsTiles({
     cid,
     rel,
     hookCul,
-    hookInf,
+    errT,
 }: {
     data: DetT;
-    hookInf: TTSrcTVInt & DatIdTVInt<TT_GL_TYPE>;
+    errT: JSX.Element;
 } & HistriProps): JSX.Element {
     const dataF: EleT[] = flattenDetTto1dim(data);
     const dep_err = data[20] || data[0][6];
     const head = getDetTuple(dep_err);
     const filD: [string[], (EleT | JSX.Element)[]] = filterArrStr(head, dataF, '-');
     modTaxName(head, filD[0], filD[1], data[5]);
-    modCatalog(
-        head,
-        filD[0],
-        filD[1],
-        data[0],
-        <IncDep hookInf={hookInf} err={dep_err} />
-    );
+    modCatalog(head, filD[0], filD[1], data[0], dep_err ? errT : null);
     modSiCu(head, filD[0], filD[1], data[2]);
     modSampleSource(head, filD[0], filD[1], data[13]);
     modDates(filD[0], filD[1], head[12] ?? '', data[10]);
@@ -530,7 +521,7 @@ function Details({ ctx, data, cid, rel, hookCul, hookInf, ccno }: ResProps): JSX
                         cid={cid}
                         rel={rel}
                         hookCul={hookCul}
-                        hookInf={hookInf}
+                        errT={<IncDep hookInf={hookInf} />}
                     />
                 </div>
             </section>
