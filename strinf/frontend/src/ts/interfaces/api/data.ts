@@ -153,6 +153,7 @@ interface CCConMin {
     id: number;
     name: string;
     code: string;
+    deprecated: boolean;
 }
 
 interface CCCon extends CCConMin {
@@ -161,7 +162,6 @@ interface CCCon extends CCConMin {
     gbif?: string;
     homepage?: UrlCon;
     active: boolean;
-    deprecated: boolean;
 }
 
 interface SeaIndCon {

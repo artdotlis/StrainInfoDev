@@ -59,7 +59,7 @@ interface InfoSJ {
 // TODO remove or simplify types (too complex)
 // |-> just use one central type containing all data?
 
-type InfoR = [number, string, string];
+type InfoR = [number, string, string, boolean];
 type InfoS = [number, string, string];
 
 type SeaR = [number, string[], string, boolean, Uint8Array, number];

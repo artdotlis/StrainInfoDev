@@ -27,10 +27,14 @@ function crToolTipC(res: JSX.Element): JSX.Element {
 }
 
 function ToolTipC({ res, loading, info }: ToolTipProps): JSX.Element {
-    const fixCul = [`${IdAcrTagCon.depId} ${res[0]}`, ...res.slice(1)];
-    const filteredTT: [string[], EleT[]] = filterArrStr(HEAD, fixCul);
+    const fixCul = [`${IdAcrTagCon.depId} ${res[0]}`, ...res.slice(1, 3)];
+    const filteredTT: [string[], EleT[]] = filterArrStr(HEAD.slice(0, 3), fixCul);
     const ind = filteredTT[0].indexOf(HEAD[2] ?? '');
     filteredTT[1][ind] = <i>{filteredTT[1][ind]}</i>;
+    if (res[3]) {
+        filteredTT[0].push('Status');
+        filteredTT[1].push(<span>Incorrect deposit</span>);
+    }
     const resDiv = create2ColDiv<EleT | JSX.Element>(
         ...filteredTT,
         (val: EleT | JSX.Element) => {

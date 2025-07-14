@@ -28,6 +28,7 @@ function get_sql_select_cul_min(): string
     $bid = DBStructBrcE::B_ID->value;
     $bna = DBStructBrcE::B_NAME->value;
     $bco = DBStructBrcE::B_CODE->value;
+    $bde = DBStructBrcE::B_DEPR->value;
     return <<<EOF
     SELECT DISTINCT
         culture.id as {$cui},
@@ -46,6 +47,7 @@ function get_sql_select_cul_min(): string
         culture_collection.id as {$bid},
         culture_collection.name as {$bna},
         culture_collection.code_acr as {$bco},
+        culture_collection.deprecated as {$bde},
         culture.last_update as {$upd}
     EOF;
 }

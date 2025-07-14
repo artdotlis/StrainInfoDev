@@ -669,7 +669,13 @@ function toArrInfoDepRes(data: unknown): InfoR {
     if (!isInfoDJ(data)) {
         throw new Known500Error('Unknown type provided for info results');
     }
-    return [data.deposit.siDP, data.deposit.designation, data.deposit.taxon?.name ?? ''];
+    return [
+        data.deposit.siDP,
+        data.deposit.designation,
+        data.deposit.taxon?.name ?? '',
+        data.deposit.status === DepositStatus.err ||
+            (data.deposit.cultureCollection?.deprecated ?? false),
+    ];
 }
 
 function toArrInfoStrRes(data: unknown): InfoS {
@@ -684,7 +690,7 @@ function toArrInfoStrRes(data: unknown): InfoS {
 }
 
 function getInfoDepTuple(): string[] {
-    return ['Deposit id', 'Designation', 'Listed taxonomy'];
+    return ['Deposit id', 'Designation', 'Listed taxonomy', 'Status'];
 }
 
 function getInfoStrTuple(): string[] {

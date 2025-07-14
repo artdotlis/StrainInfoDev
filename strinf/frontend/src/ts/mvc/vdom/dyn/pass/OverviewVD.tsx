@@ -104,7 +104,6 @@ function crUpdater(
         res: (results: DetailsR[]): void => {
             for (const row of results) {
                 const [cat, culID, err] = [row[1], row[3], row[21]];
-                console.log(err);
                 resCon.set(culID, [cat[1] !== '', cat[0] !== '', cat[6] || err]);
             }
             if (resCon.size >= limit) {
