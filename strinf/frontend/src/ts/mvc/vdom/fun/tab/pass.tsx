@@ -85,7 +85,7 @@ function createXColTable<T>(
     return [createDefTable(null, rows, colGr), rows.length];
 }
 
-function tileClass(curId: number, selId: number, bold: boolean, bgDark: boolean): string {
+function tileClass(curId: number, selId: number, bold: boolean, mark: boolean): string {
     let classNames = '';
     if (curId === selId) {
         classNames = `${Tex.w} ${BgCol.prim}`;
@@ -93,8 +93,8 @@ function tileClass(curId: number, selId: number, bold: boolean, bgDark: boolean)
     if (bold) {
         classNames += ` ${Font.bold}`;
     }
-    if (bgDark) {
-        classNames += ` ${tilSty.tilesdark}`;
+    if (mark) {
+        classNames += ` ${tilSty.tilesmark}`;
     }
     return classNames;
 }
@@ -170,13 +170,13 @@ function createTiles<T>(
         if (val === undefined) {
             throw new Known500Error(`values [${values}] are undefined!`);
         }
-        const [tid, name, bold, bgDark] = parser(val);
+        const [tid, name, bold, mark] = parser(val);
         tiles.push([
             tile(
                 anc === '' ? '' : `#${anc}`,
                 [ind, tid, name],
                 ctx,
-                tileClass(curId, tid, bold, bgDark)
+                tileClass(curId, tid, bold, mark)
             ),
             tid,
         ]);

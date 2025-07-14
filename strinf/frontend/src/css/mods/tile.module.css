@@ -47,7 +47,7 @@ span.title:focus {
     max-width: 20rem;
 }
 
-.tilesdark {
+.tilesmark {
     border-left-width: 6px;
     border-left-color: var(--danger-color);
 }
