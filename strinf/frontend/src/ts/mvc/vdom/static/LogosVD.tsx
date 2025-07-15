@@ -9,10 +9,10 @@ import { BCCM_LMG, N4M } from '@strinf/ts/constants/links/collection';
 function LogosVD(): JSX.Element {
     return (
         <div className={`${logSty.logo} ${ClHtml.lgP}`}>
-            <a href={BCCM_LMG} target="_blank" rel="noreferrer">
+            <a href={BCCM_LMG} target="_blank" rel="noopener">
                 <LogoLmgVD />
             </a>
-            <a target="_blank" href={N4M} rel="noreferrer">
+            <a target="_blank" href={N4M} rel="noopener">
                 <LogoN4MVD />
             </a>
         </div>

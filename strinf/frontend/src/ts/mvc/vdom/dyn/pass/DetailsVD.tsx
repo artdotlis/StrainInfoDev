@@ -220,7 +220,7 @@ function ROCIDLinkVD({ link, coreUrl, children }: ROCIDLinkInt): JSX.Element | n
             className={logoSt.logoattached}
             target="_blank"
             href={createUrlStr(coreUrl, link)}
-            rel="noreferrer"
+            rel="noopener"
         >
             {children}
         </a>

@@ -93,6 +93,12 @@ export default [
                       }
                     : {},
             ],
+            'react/jsx-no-target-blank': [
+                'error',
+                {
+                    allowReferrer: true,
+                },
+            ],
         },
         settings: {
             'import-x/resolver': {

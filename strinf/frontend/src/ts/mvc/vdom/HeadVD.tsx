@@ -34,7 +34,7 @@ function Logos(): JSX.Element {
                 className={dsmCl}
                 href={createUrlStr(HUB_L, '')}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener"
             >
                 <LogoHubDsmzVD height="90" full={true} />
             </a>

@@ -198,7 +198,7 @@ function YouTubeB(): JSX.Element {
                 <a
                     href="https://www.youtube.com/watch?v=utcq5G9xtbk&t=1s"
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener"
                 >
                     YouTube
                 </a>{' '}

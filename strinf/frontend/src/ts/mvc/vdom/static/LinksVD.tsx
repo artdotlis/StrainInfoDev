@@ -18,7 +18,7 @@ interface SocProps {
 function SocLink(props: SocProps): JSX.Element {
     const { link, text, icon } = props;
     return (
-        <a target="_blank" href={link} rel="noreferrer">
+        <a target="_blank" href={link} rel="noopener">
             <span className={ClHtml.icon}>{icon}</span>
             {text}
         </a>
@@ -69,7 +69,7 @@ function Funds(): JSX.Element {
     return (
         <div className={`${Col.col} ${Mar.xN5} ${logSty.logo}`}>
             <h3>Funded by</h3>
-            <a target="_blank" href={DFG} rel="noreferrer">
+            <a target="_blank" href={DFG} rel="noopener">
                 <LogoDfgVD />
             </a>
         </div>

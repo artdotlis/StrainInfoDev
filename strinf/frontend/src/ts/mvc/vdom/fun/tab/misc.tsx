@@ -213,7 +213,7 @@ function createDoiLink(doi: string | undefined, tit: string): JSX.Element {
     return (
         <span>
             {tit}
-            <a href={createUrlStr(DOI_L, doi)} target="_blank" rel="noreferrer">
+            <a href={createUrlStr(DOI_L, doi)} target="_blank" rel="noopener">
                 <span>&nbsp;[link]</span>
             </a>
         </span>
@@ -252,7 +252,7 @@ function createSeqAccLink(acc: string): JSX.Element {
             <span className={Col.col}>
                 {results.map(([seqImg, href], ind) => (
                     <span key={`accl${ind}`} className={spCl}>
-                        <a href={href} target="_blank" rel="noreferrer">
+                        <a href={href} target="_blank" rel="noopener">
                             {seqImg}
                         </a>
                     </span>

@@ -165,7 +165,7 @@ interface AncT {
 
 function AnchorWr({ href, children }: AncT): JSX.Element {
     return (
-        <a href={href} target="_blank" rel="noreferrer">
+        <a href={href} target="_blank" rel="noopener">
             {' '}
             {children}{' '}
         </a>

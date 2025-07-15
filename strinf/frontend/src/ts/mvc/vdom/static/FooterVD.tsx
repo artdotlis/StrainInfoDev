@@ -13,7 +13,7 @@ function FooterVD(): JSX.Element {
             <a href={UIApiCon.imprint}>Imprint</a>
             <a href={UIApiCon.impPrivacy}>Privacy Statement</a>
             <a href={UIApiCon.impLicense}>License</a>
-            <a href={UIApiCon.sitemap} target="_blank" rel="noreferrer">
+            <a href={UIApiCon.sitemap} target="_blank" rel="noopener">
                 Sitemap
             </a>
         </div>

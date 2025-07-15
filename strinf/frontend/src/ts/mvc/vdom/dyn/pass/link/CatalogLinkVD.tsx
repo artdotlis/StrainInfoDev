@@ -20,7 +20,7 @@ function CatalogLinkVD(props: LinkProps): JSX.Element {
     }
     const clName = bold ? Font.bold : '';
     return (
-        <a href={link} target="_blank" rel="noreferrer">
+        <a href={link} target="_blank" rel="noopener">
             <span className={clName} key={0}>
                 {text}
                 {children}

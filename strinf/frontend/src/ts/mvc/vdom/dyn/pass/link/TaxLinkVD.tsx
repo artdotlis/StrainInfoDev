@@ -27,14 +27,14 @@ function TaxLinkVD(props: TaxLink): JSX.Element {
         switch (ele.type) {
             case LinkType.NCBI:
                 link = (
-                    <a href={ncbi_taxon_id(ele.path)} target="_blank" rel="noreferrer">
+                    <a href={ncbi_taxon_id(ele.path)} target="_blank" rel="noopener">
                         <LogoNcbiVD height={'22'} />
                     </a>
                 );
                 break;
             case LinkType.LPSN:
                 link = (
-                    <a href={lpsn_taxon_id(ele.path)} target="_blank" rel="noreferrer">
+                    <a href={lpsn_taxon_id(ele.path)} target="_blank" rel="noopener">
                         <LogoLpsnVD height={'22'} />
                     </a>
                 );

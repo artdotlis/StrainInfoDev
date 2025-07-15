@@ -9,7 +9,7 @@ interface BacLink {
 function BacDiveLinkVD(props: BacLink): JSX.Element {
     const { id } = props;
     return (
-        <a href={bac_dive_id(id)} target="_blank" rel="noreferrer">
+        <a href={bac_dive_id(id)} target="_blank" rel="noopener">
             <LogoBacDiveVD />
         </a>
     );

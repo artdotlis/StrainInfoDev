@@ -68,7 +68,7 @@ function ImprintDsmzVD(): JSX.Element {
                 EMail: {dsmz}
                 <br />
                 Internet:{' '}
-                <a target="_blank" href={createUrlStr(DSMZ_L, '')} rel="noreferrer">
+                <a target="_blank" href={createUrlStr(DSMZ_L, '')} rel="noopener">
                     www.dsmz.de
                 </a>
             </p>
