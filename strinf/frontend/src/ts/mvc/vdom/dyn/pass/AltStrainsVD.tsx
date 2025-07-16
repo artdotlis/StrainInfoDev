@@ -15,11 +15,11 @@ import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import tilSty from '@strinf/css/mods/tile.module.css';
 
-const TIT = 'Alternative strains';
+const TIT = 'Other strains - Designation';
 const ID = PassAncId.alt_str;
 
 function getAnchorAS(ord: number, alt: number[]): AncT {
-    if (alt.length > 1) {
+    if (alt.length > 0) {
         return { [ord]: [ID, TIT] };
     }
     return {};

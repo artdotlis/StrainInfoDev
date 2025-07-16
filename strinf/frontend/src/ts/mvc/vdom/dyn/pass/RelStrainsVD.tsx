@@ -27,13 +27,12 @@ interface NamNavProps {
     taxN: string;
     emptyCall: () => void;
 }
-
-const TIT = 'Related strains';
+const TIT_TMP = 'Other strains - ';
 const ID = PassAncId.rel_str;
 
 function getAnchorRS(ord: number, taxa: string, empty: boolean): AncT {
     if (taxa !== '' && !empty) {
-        return { [ord]: [ID, TIT] };
+        return { [ord]: [ID, TIT_TMP + 'Taxonomy'] };
     }
     return {};
 }
@@ -107,7 +106,8 @@ class RelStrainsVD extends Component<NamNavProps, IdState> {
         return (
             <div id={IdHtmlTour.strainRel}>
                 <h3 className={ClHtml.titSec}>
-                    {TIT}
+                    {TIT_TMP}
+                    <i>{taxN}</i>
                     <span id={ID} />
                 </h3>
                 <div>
