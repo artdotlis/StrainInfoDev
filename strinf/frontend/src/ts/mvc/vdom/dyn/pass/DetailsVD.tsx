@@ -283,7 +283,7 @@ function IncDep({
             if (hookInf.data !== undefined) {
                 hookInf.data(
                     <p>
-                        <b>Incorrect deposit</b>:<br />
+                        <b>Incorrect identifier</b>:<br />
                         The culture collection number could not be verified, possibly due
                         to typos or similar input errors.
                     </p>
@@ -294,7 +294,7 @@ function IncDep({
     );
     return (
         <span ref={ref}>
-            <b>Incorrect deposit</b>
+            <b>Incorrect identifier</b>
             <i className={`${ClHtmlI.err} ${icoSty.sterr} ${Pad.lN10}`} />
         </span>
     );
