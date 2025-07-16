@@ -34,7 +34,8 @@ import type {
     PassJT,
     SeaIndJT,
     SerSeaAllJT,
-    ServerStatusJT, DetailsJT 
+    ServerStatusJT,
+    DetailsJT,
 } from '@strinf/ts/interfaces/api/data';
 import {
     DetailsJ,

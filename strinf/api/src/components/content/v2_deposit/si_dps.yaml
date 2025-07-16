@@ -11,4 +11,4 @@ properties:
     designation:
         type: string
         description: The culture collection number or a registered designation
-        minLength: 3
+        minLength: 1

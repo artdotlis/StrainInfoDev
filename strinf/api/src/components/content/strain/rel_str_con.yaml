@@ -17,7 +17,7 @@ properties:
                 strain_number:
                     type: string
                     description: The culture collection number or a registered designation
-                    minLength: 3
+                    minLength: 1
                 strain_id:
                     type: integer
                     minimum: 1

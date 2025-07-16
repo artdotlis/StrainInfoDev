@@ -28,7 +28,7 @@ const RegConMax = RegConMin.extend({
 });
 
 const DepCon = z.strictObject({
-    designation: z.string().min(3).optional(),
+    designation: z.string().min(1).optional(),
     origin: z.number().min(1).optional(),
     year: z.number().min(1700).optional(),
     depositor: z.array(EntityCon).optional(),
@@ -88,7 +88,7 @@ const CCCon = CCConMin.extend({
 
 const DepositIdCon = z.strictObject({
     siDP: z.number().min(1),
-    designation: z.string().min(3),
+    designation: z.string().min(1),
 });
 
 const RelCulCon = DepositIdCon.extend({
@@ -102,7 +102,7 @@ const RelConMin = z.strictObject({
 });
 
 const RelCon = RelConMin.extend({
-    designation: z.array(z.string().min(3)).min(1).optional(),
+    designation: z.array(z.string().min(1)).min(1).optional(),
 });
 
 const SeqCon = z.strictObject({
@@ -131,7 +131,7 @@ const PubCon = z.strictObject({
 
 const DepositMin = z.strictObject({
     siDP: z.number().min(1),
-    designation: z.string().min(3),
+    designation: z.string().min(1),
     cultureCollection: CCConMin.optional(),
     catalogue: UrlCon.optional(),
     status: z.enum(DepositStatus),
@@ -143,7 +143,7 @@ const DepositMin = z.strictObject({
 });
 
 const DepositAvg = DepositMin.extend({
-    relation: z.array(z.string().min(3)).min(1).optional(),
+    relation: z.array(z.string().min(1)).min(1).optional(),
     history: z.array(HistCon).optional(),
     bdID: z.array(z.number().min(1)).min(1).optional(),
     registration: RegConMax.optional(),
@@ -154,7 +154,7 @@ const DepositAvg = DepositMin.extend({
 
 const DepositStrainMin = z.strictObject({
     siID: z.number().min(1),
-    doi: z.string().min(3),
+    doi: z.string().min(1),
     merged: z.array(z.number().min(1)).min(1).optional(),
     typeStrain: z.boolean(),
 });
@@ -188,8 +188,8 @@ const SeaIndCon = z.strictObject({
 
 const SerSeaEle = z.tuple([
     z.number().min(1),
-    z.array(z.string().min(3)).min(1),
-    z.string().min(1),
+    z.array(z.string().min(1)).min(1),
+    z.string(),
     z.union([z.literal(0), z.literal(1)]),
     z.union([z.literal(''), z.string().length(2)]),
     z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
