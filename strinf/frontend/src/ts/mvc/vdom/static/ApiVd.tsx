@@ -22,7 +22,6 @@ import type AncT from '@strinf/ts/interfaces/misc/anchor';
 import { memo } from 'preact/compat';
 import { CookieValue } from '@strinf/ts/constants/style/Acc';
 import { isDyslexiaSet } from '@strinf/ts/functions/cookie/acc';
-import type { ServerStatusInt } from '@strinf/ts/interfaces/api/mapped';
 import emptyCall from '@strinf/ts/functions/misc/call';
 import { Helmet } from 'react-helmet';
 import CONFIG from '@strinf/ts/configs/config';
@@ -34,6 +33,7 @@ import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
 import linkSty from '@strinf/css/mods/link.module.css';
 import drSty from '@strinf/css/mods/dropdown.module.css';
 import { deactivateAllDropdownToggles } from '@strinf/ts/functions/libs/style';
+import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
 
 async function awaitYaml(resp: Response): Promise<unknown> {
     if (resp.ok) {
@@ -75,7 +75,7 @@ function loadApiSpec(
         ctx.bread.map((actF) => {
             actF(HeadT.API);
         });
-        const calB = (res: ServerStatusInt): void => {
+        const calB = (res: ServerStatusJT): void => {
             if (res.maintenance.status) {
                 throw new Known503Error(
                     'Under maintenance!',

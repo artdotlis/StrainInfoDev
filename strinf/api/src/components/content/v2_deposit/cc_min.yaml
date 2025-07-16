@@ -1,6 +1,4 @@
 type: object
-required:
-    - cultureCollection
 properties:
     cultureCollection:
         type: object

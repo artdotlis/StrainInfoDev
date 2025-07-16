@@ -2,11 +2,11 @@ import Known500Error from '@strinf/ts/errors/known/500';
 import getServerStatus from '@strinf/ts/functions/api/status';
 import onPrError from '@strinf/ts/functions/err/async';
 import emptyCall from '@strinf/ts/functions/misc/call';
-import type { SeaIndR, ServerStatusInt } from '@strinf/ts/interfaces/api/mapped';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/sea_ind';
 import ApiChan from '@strinf/ts/mvc/ctrl/chan/ApiChan';
 import SeaIndexCon from '@strinf/ts/mvc/model/sea/SeaIndexCon';
 import Controller from '@strinf/ts/mvc/ctrl/Controller';
+import type { SeaIndJT, ServerStatusJT } from '@strinf/ts/interfaces/api/data';
 
 const LIMIT = 20;
 
@@ -15,13 +15,13 @@ class SeaIndexCtrl extends Controller<ViewChanInt, [string]> {
 
     private readonly apiChan: ApiChan;
 
-    private readonly memory: Map<string, SeaIndR>;
+    private readonly memory: Map<string, SeaIndJT>;
 
     constructor(version: string) {
         super(version);
         this.apiChan = new ApiChan();
         this.indexCon = new SeaIndexCon(this.apiChan);
-        this.memory = new Map<string, SeaIndR>();
+        this.memory = new Map<string, SeaIndJT>();
     }
 
     private createCacheHook(cha: ViewChanInt, key: string): ViewChanInt {
@@ -29,7 +29,7 @@ class SeaIndexCtrl extends Controller<ViewChanInt, [string]> {
         const caKey = key;
         const mem = this.memory;
         return {
-            tab: (results: SeaIndR): void => {
+            tab: (results: SeaIndJT): void => {
                 const kVal = mem.keys().next().value;
                 if (mem.size > LIMIT && typeof kVal === 'string') {
                     mem.delete(kVal);
@@ -47,7 +47,7 @@ class SeaIndexCtrl extends Controller<ViewChanInt, [string]> {
             cha.tab(cache);
         } else {
             const errC = new Known500Error('Internal server error!');
-            const dataReq = (status: ServerStatusInt): void => {
+            const dataReq = (status: ServerStatusJT): void => {
                 this.reloadWindowOrCb(status.version, () => {
                     this.indexCon.initSea(this.createCacheHook(cha, cacheKey), args);
                 });

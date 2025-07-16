@@ -6,7 +6,6 @@ import updateHrefVal from '@strinf/ts/functions/links/update_href';
 import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
 import getDDExp, { getDDRes } from '@strinf/ts/mvc/vdom/fun/sea/drop_down';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
-import type { SeaIndR } from '@strinf/ts/interfaces/api/mapped';
 
 import linkSty from '@strinf/css/mods/link.module.css';
 import dropdown from '@strinf/css/mods/dropdown.module.css';
@@ -14,6 +13,7 @@ import { routeUri } from '@strinf/ts/functions/http/http';
 import { addTagToInput } from '@strinf/ts/mvc/vdom/fun/sea/input';
 import type { LocationHook } from 'preact-iso';
 import { useLocation } from 'preact-iso';
+import type { SeaIndJT } from '@strinf/ts/interfaces/api/data';
 
 function clickEvent(
     ctx: InValStInt | undefined,
@@ -50,7 +50,7 @@ function crRow(
 }
 
 interface DropProps {
-    results: SeaIndR;
+    results: SeaIndJT;
     input: string;
 }
 

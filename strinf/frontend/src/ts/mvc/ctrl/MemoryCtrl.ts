@@ -1,8 +1,8 @@
 import Known500Error from '@strinf/ts/errors/known/500';
 import getServerStatus from '@strinf/ts/functions/api/status';
 import onPrError from '@strinf/ts/functions/err/async';
-import type { ServerStatusInt } from '@strinf/ts/interfaces/api/mapped';
 import emptyCall from '@strinf/ts/functions/misc/call';
+import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
 
 const LIMIT = 200;
 interface Chan<T> {
@@ -56,14 +56,14 @@ class MemoryCtrl<T> {
     private readonly getId: (val: T) => number;
 
     private readonly dataReq: (
-        status: ServerStatusInt,
+        status: ServerStatusJT,
         cha: Chan<T>,
         ids: number[]
     ) => void;
 
     constructor(
         getId: (val: T) => number,
-        dataReq: (status: ServerStatusInt, cha: Chan<T>, ids: number[]) => void
+        dataReq: (status: ServerStatusJT, cha: Chan<T>, ids: number[]) => void
     ) {
         this.memory = new Map<number, T>();
         this.tasks = new Set<number>();
@@ -105,7 +105,7 @@ class MemoryCtrl<T> {
         for (const culId of culIds) {
             this.tasks.add(culId);
         }
-        const dataReq = (status: ServerStatusInt): void => {
+        const dataReq = (status: ServerStatusJT): void => {
             this.dataReq(status, mCal, culIds);
         };
         getServerStatus(

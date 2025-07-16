@@ -313,8 +313,6 @@ function modCatalog(
 
     let [cat_link, code, name, country, brc_link, ror] = cat;
     brc_link = cat_link == '' ? brc_link : '';
-
-    console.log(code, err, err !== null, code !== '');
     if (err !== null) {
         filD.splice(catInd, 1, err);
     } else if (code !== '') {

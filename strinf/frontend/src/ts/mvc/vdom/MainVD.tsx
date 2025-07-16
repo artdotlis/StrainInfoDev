@@ -14,9 +14,9 @@ import Known500Error from '@strinf/ts/errors/known/500';
 import type { GlStInt } from '@strinf/ts/interfaces/dom/global';
 import { reInitCStyle } from '@strinf/ts/functions/libs/style';
 import type { TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
-import type { ServerStatusInt } from '@strinf/ts/interfaces/api/mapped';
 import CONFIG from '@strinf/ts/configs/config';
 import initMat from '@strinf/ts/mvc/vdom/fun/mat/init';
+import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
 
 type OnErrorArg = [
     Event | string,
@@ -48,7 +48,7 @@ class MainVD extends Component<
         this.seaVGl = '';
         this.wrapper = createRef<HTMLDivElement>();
         this.glStateCon = this.createGlState();
-        const sta = (status: ServerStatusInt) => {
+        const sta = (status: ServerStatusJT) => {
             this.glStateCon.setVersion(status.version);
             if (status.maintenance.status) {
                 this.setMaintenance(status.maintenance);

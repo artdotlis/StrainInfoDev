@@ -1,12 +1,3 @@
-import type {
-    DepositAvg,
-    DepositMin,
-    StrainStrMin,
-    DepositStrMin,
-    StrainStrAvg,
-    SeaIndCon,
-} from '@strinf/ts/interfaces/api/data';
-
 interface SeaInputMap {
     qApi: string;
     qArg: string;
@@ -18,6 +9,10 @@ interface SeaInputCombEl {
     api: string;
 }
 
+interface ApiChanInt {
+    createApiCall: (extra: string) => string;
+}
+
 type ChartData<T> = Record<string, T>;
 
 interface ChartKeyXY {
@@ -25,37 +20,6 @@ interface ChartKeyXY {
     y: string;
 }
 
-interface ApiChanInt {
-    createApiCall: (extra: string) => string;
-}
-
-// -------------------------------
-
-interface SerSeaAllJ {
-    data: unknown[];
-    count: number;
-}
-
-interface PassJ {
-    strain: StrainStrAvg;
-}
-
-interface SeaIndJ {
-    exact: SeaIndCon[];
-    match: SeaIndCon[];
-}
-
-interface DetailsJ {
-    deposit: DepositAvg;
-    strain: DepositStrMin;
-}
-
-interface InfoDJ {
-    deposit: DepositMin;
-}
-interface InfoSJ {
-    strain: StrainStrMin;
-}
 // TODO remove or simplify types (too complex)
 // |-> just use one central type containing all data?
 
@@ -63,7 +27,6 @@ type InfoR = [number, string, string, boolean];
 type InfoS = [number, string, string];
 
 type SeaR = [number, string[], string, boolean, Uint8Array, number];
-type SerSeaR = [number, string[], string, number, string, number];
 type DetailsR = [
     number,
     [string, string, string, string, string, string, boolean],
@@ -136,8 +99,6 @@ type DetET = [
 type DetT = [...DetMT, ...DetET];
 type ArcT = [string, string, string];
 
-type SIndT = [string, string, number, number];
-
 interface PassR {
     overview: OvT;
     relations: RelT[];
@@ -151,40 +112,17 @@ interface PassR {
     clear: () => void;
 }
 
-interface SeaIndR {
-    exact: SIndT[];
-    match: SIndT[];
-}
-
-interface MaintenanceInt {
-    status: boolean;
-    duration: string;
-    zone: string;
-}
-interface ServerStatusInt {
-    private: boolean;
-    version: string;
-    maintenance: MaintenanceInt;
-}
-
 export type {
-    ServerStatusInt,
     ApiChanInt,
     ChartData,
     ChartKeyXY,
     SeaInputMap,
     SeaInputCombEl,
-    SerSeaAllJ,
     SeaR,
-    SerSeaR,
-    PassJ,
     PassR,
     InfoR,
     InfoS,
-    InfoDJ,
-    InfoSJ,
     DetailsR,
-    DetailsJ,
     SeqT,
     PubT,
     DetET,
@@ -194,7 +132,4 @@ export type {
     RelT,
     DesT,
     ArcT,
-    SeaIndR,
-    SeaIndJ,
-    SIndT,
 };

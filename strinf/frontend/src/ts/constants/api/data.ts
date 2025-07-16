@@ -13,4 +13,27 @@ enum DepositStatus {
     err = 'erroneous data',
 }
 
-export { StrainStatus, DepositStatus };
+enum DataSource {
+    web_s = 'scraped from brc website',
+    web_f = 'found on brc website',
+    brc = 'provided by brc',
+    edb = 'external database',
+    reg = 'registration',
+    str_a = 'straininfo archive',
+}
+
+enum SeqType {
+    gene = 'gene',
+    genome = 'genome',
+    rop = 'rrnaop',
+    pat = 'patent',
+}
+
+enum AssemblyLvl {
+    com = 'complete',
+    chr = 'chromosome',
+    sca = 'scaffold',
+    con = 'contig',
+}
+
+export { StrainStatus, DepositStatus, DataSource, SeqType, AssemblyLvl };

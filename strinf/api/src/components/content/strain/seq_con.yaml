@@ -42,7 +42,7 @@ properties:
                     enum:
                         - gene
                         - genome
-                        - rnaop
+                        - rrnaop
                         - patent
                 assembly_level:
                     type: string

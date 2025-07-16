@@ -1,6 +1,4 @@
 type: object
-required:
-    - cultureCollection
 allOf:
     - $ref: './cc_min.yaml'
 properties:

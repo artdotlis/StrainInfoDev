@@ -29,6 +29,7 @@ import formatCultureTT from '@strinf/ts/mvc/vdom/fun/pass/culture';
 import { strNumSort, defaultSort } from '@strinf/ts/functions/arr/sort';
 import linkSty from '@strinf/css/mods/link.module.css';
 import { isSlimScreen } from '@strinf/ts/functions/misc/screen';
+import { SeqType } from '@strinf/ts/constants/api/data';
 
 type Events = [() => void, string, Element][];
 
@@ -101,20 +102,20 @@ function crYear(row: MOD_SEQ_T | undefined): JSX.Element | null {
     return <span className={Font.norm}>{row[5]}</span>;
 }
 
-function selectActive(data: MOD_SEQ_T[]): SeqTyp {
+function selectActive(data: MOD_SEQ_T[]): SeqType {
     const exist = new Set(data.map((val) => val[3]));
     for (const seqT of SEQ_TYPE_ORDER) {
         if (exist.has(seqT)) {
             return seqT;
         }
     }
-    return SeqTyp.genome;
+    return SeqType.genome;
 }
 
 class SeqTable extends TableCon<MOD_SEQ_T, SeqProps> {
     private readonly tooltip: [(eve: Events) => void, Events];
     private readonly anc: string;
-    private active: SeqTyp;
+    private active: SeqType;
     private readonly exist: Set<string>;
 
     constructor(props: SeqProps) {
@@ -149,7 +150,7 @@ class SeqTable extends TableCon<MOD_SEQ_T, SeqProps> {
             defaultSort<ELE_T>(sort, getV(st1), getV(st2));
         switch (index) {
             case 3:
-                return view.sort(this.active === SeqTyp.genome ? defSort : numSort);
+                return view.sort(this.active === SeqType.genome ? defSort : numSort);
             case 4:
                 return view.sort(numSort);
             default:
@@ -159,7 +160,7 @@ class SeqTable extends TableCon<MOD_SEQ_T, SeqProps> {
 
     protected override filter(value: [string, number][], limit: number[]): number[] {
         const [filV] = value.slice().pop() ?? [this.active];
-        this.active = filV as SeqTyp;
+        this.active = filV as SeqType;
         return limit.filter((ind: number) => {
             const dat = this.data[ind];
             if (dat === undefined) {
@@ -225,7 +226,7 @@ class SeqTable extends TableCon<MOD_SEQ_T, SeqProps> {
     }
 
     protected override renderTableHead(): JSX.Element {
-        const cusHead = getSeqTuple(this.active === SeqTyp.genome);
+        const cusHead = getSeqTuple(this.active === SeqType.genome);
         return (
             <thead>
                 <tr>
@@ -272,7 +273,7 @@ class SeqTable extends TableCon<MOD_SEQ_T, SeqProps> {
 SeqTable.contextType = MainConGl;
 
 interface SeqTFilProps {
-    active: SeqTyp;
+    active: SeqType;
     exist: Set<string>;
     filter: (val: string) => void;
 }
@@ -280,18 +281,11 @@ interface SeqTFilProps {
 const SEQ_THESAURUS: Record<string, string> = {
     genome: 'Genome',
     gene: 'Gene',
-    rrnaop: 'rRNA operon',
-    patent: 'Patent',
+    rop: 'rRNA operon',
+    pat: 'Patent',
 };
 
-enum SeqTyp {
-    genome = 'genome',
-    gene = 'gene',
-    rrnaop = 'rrnaop',
-    patent = 'patent',
-}
-
-const SEQ_TYPE_ORDER = [SeqTyp.genome, SeqTyp.rrnaop, SeqTyp.gene, SeqTyp.patent];
+const SEQ_TYPE_ORDER = [SeqType.genome, SeqType.rop, SeqType.gene, SeqType.pat];
 
 function createTileClass(active: boolean, empty: boolean): string {
     if (empty) {
@@ -304,7 +298,7 @@ function createTileClass(active: boolean, empty: boolean): string {
 }
 
 class SeqTypeFilter extends Component<SeqTFilProps, object> {
-    private active: SeqTyp;
+    private active: SeqType;
     private exist: Set<string>;
     private filter: (val: string) => void;
 
@@ -325,7 +319,7 @@ class SeqTypeFilter extends Component<SeqTFilProps, object> {
 
     public wideScreen(): JSX.Element {
         const data = SEQ_TYPE_ORDER;
-        const tiles = createSimpleTiles(data, (val: SeqTyp) => [
+        const tiles = createSimpleTiles(data, (val: SeqType) => [
             SEQ_THESAURUS[val] ?? val,
             createTileClass(val === this.active, !this.exist.has(val)),
         ]).map((val, index): JSX.Element => {

@@ -2,8 +2,8 @@ import QApiCon from '@strinf/ts/constants/api/q_api';
 import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
 import { StatTags } from '@strinf/ts/constants/api/thes_api';
 import { getApiToStr } from '@strinf/ts/functions/api/map';
-import type { SIndT } from '@strinf/ts/interfaces/api/mapped';
 import type { JSX } from 'preact';
+import type { SeaIndConT } from '@strinf/ts/interfaces/api/data';
 
 const FULL: [string, string][] = [
     ['Designation', 'DSM 20543'],
@@ -59,16 +59,22 @@ function getDDExp(): MAP_TYP[] {
     ];
 }
 
-function getDDRes(data: SIndT[], len: number): [string, string, string, string][] {
+function getDDRes(data: SeaIndConT[], len: number): [string, string, string, string][] {
     const strainIds = new Set();
     return data
         .map((val): [string, string, string, string, boolean] => {
-            if (val[3] === 1) {
-                const dup = !strainIds.has(val[2]);
-                strainIds.add(val[2]);
-                return [StatTags.strain, val[0], `${val[2]}`, QApiCon.seaCulStrId, dup];
+            if (val.strainCount === 1) {
+                const dup = !strainIds.has(val.siID);
+                strainIds.add(val.siID);
+                return [
+                    StatTags.strain,
+                    val.fullKey,
+                    `${val.siID}`,
+                    QApiCon.seaCulStrId,
+                    dup,
+                ];
             }
-            return [getApiToStr(val[1]), val[0], val[0], val[1], true];
+            return [getApiToStr(val.path), val.fullKey, val.fullKey, val.path, true];
         })
         .filter((val) => val[4])
         .map((val): [string, string, string, string] => [val[0], val[1], val[2], val[3]])

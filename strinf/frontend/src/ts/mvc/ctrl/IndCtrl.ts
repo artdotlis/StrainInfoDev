@@ -7,8 +7,8 @@ import getServerStatus from '@strinf/ts/functions/api/status';
 import emptyCall from '@strinf/ts/functions/misc/call';
 import onPrError from '@strinf/ts/functions/err/async';
 import Known500Error from '@strinf/ts/errors/known/500';
-import type { ServerStatusInt } from '@strinf/ts/interfaces/api/mapped';
 import Controller from '@strinf/ts/mvc/ctrl/Controller';
+import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
 
 class IndCtrl extends Controller<ViewChanInt, [undefined]> {
     private readonly apiChan: ApiChan;
@@ -26,7 +26,7 @@ class IndCtrl extends Controller<ViewChanInt, [undefined]> {
 
     public override init(cha: ViewChanInt): void {
         const errC = new Known500Error('Internal server error!');
-        const dataReq = (status: ServerStatusInt): void => {
+        const dataReq = (status: ServerStatusJT): void => {
             this.reloadWindowOrCb(status.version, () => {
                 if (this.statCon.ready) {
                     this.statCon.initStats(cha.stat);

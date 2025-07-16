@@ -3,7 +3,8 @@ import Known500Error from '@strinf/ts/errors/known/500';
 import { toArrIndSeaIndRes } from '@strinf/ts/functions/api/map';
 import onPrError from '@strinf/ts/functions/err/async';
 import { checkRespTyp, fetchRetry } from '@strinf/ts/functions/http/http';
-import type { ApiChanInt, SeaIndR } from '@strinf/ts/interfaces/api/mapped';
+import type { SeaIndJT } from '@strinf/ts/interfaces/api/data';
+import type { ApiChanInt } from '@strinf/ts/interfaces/api/mapped';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/sea_ind';
 
 class SeaIndexCon {
@@ -26,8 +27,8 @@ class SeaIndexCon {
         setTimeout(
             () =>
                 void fetchRetry(call)
-                    .then(async (resp) => checkRespTyp<SeaIndR>(resp, toArrIndSeaIndRes))
-                    .then((json: SeaIndR): void => {
+                    .then(async (resp) => checkRespTyp<SeaIndJT>(resp, toArrIndSeaIndRes))
+                    .then((json: SeaIndJT): void => {
                         cha.tab(json);
                         const lIn = this.lastInput;
                         this.ready = true;

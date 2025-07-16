@@ -1,9 +1,10 @@
 import type ViewChanInt from '@strinf/ts/interfaces/chan/info';
 import InfoCon from '@strinf/ts/mvc/model/info/InfoCon';
 import ApiChan from '@strinf/ts/mvc/ctrl/chan/ApiChan';
-import type { InfoR, InfoS, ServerStatusInt } from '@strinf/ts/interfaces/api/mapped';
+import type { InfoR, InfoS } from '@strinf/ts/interfaces/api/mapped';
 import Controller from '@strinf/ts/mvc/ctrl/Controller';
 import MemoryCtrl from '@strinf/ts/mvc/ctrl/MemoryCtrl';
+import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
 
 class InfoCtrl<T extends InfoS | InfoR> extends Controller<ViewChanInt<T>, [number[]]> {
     private readonly memory: MemoryCtrl<T>;
@@ -16,7 +17,7 @@ class InfoCtrl<T extends InfoS | InfoR> extends Controller<ViewChanInt<T>, [numb
             const [selId] = res;
             return selId;
         };
-        const dataReq = (status: ServerStatusInt, cha: ViewChanInt<T>, ids: number[]) => {
+        const dataReq = (status: ServerStatusJT, cha: ViewChanInt<T>, ids: number[]) => {
             this.reloadWindowOrCb(status.version, () => {
                 infoCon.initInfo(cha, ids, api);
             });

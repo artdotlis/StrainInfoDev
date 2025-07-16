@@ -1,7 +1,7 @@
-import type { SeaIndR } from '@strinf/ts/interfaces/api/mapped';
+import type { SeaIndJT } from '@strinf/ts/interfaces/api/data';
 
-type TabSetF = (setter: (tab: SeaIndR) => void) => void;
-type TabF = (tab: SeaIndR) => void;
+type TabSetF = (setter: (tab: SeaIndJT) => void) => void;
+type TabF = (tab: SeaIndJT) => void;
 
 interface SeaIndTSet {
     get tabSet(): TabSetF;

@@ -5,10 +5,16 @@ import Known404Error from '@strinf/ts/errors/known/404';
 import Known500Error from '@strinf/ts/errors/known/500';
 import KnownLostWarnError from '@strinf/ts/errors/known/lost_warn';
 import { isOnlyOneStr } from '@strinf/ts/functions/api/args';
-import { getApiToStr, isSerSeaAllJ, toArrSerSeaRes } from '@strinf/ts/functions/api/map';
+import {
+    getApiToStr,
+    isSerSeaAllJ,
+    toArrSerSeaRes,
+    toArrSerSeaResSim,
+} from '@strinf/ts/functions/api/map';
 import onPrError from '@strinf/ts/functions/err/async';
 import { checkRespArr, checkRespObj, fetchRetry } from '@strinf/ts/functions/http/http';
-import type { ApiChanInt, SeaR, SerSeaAllJ } from '@strinf/ts/interfaces/api/mapped';
+import type { SerSeaAllJT } from '@strinf/ts/interfaces/api/data';
+import type { ApiChanInt, SeaR } from '@strinf/ts/interfaces/api/mapped';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/sea';
 import type { LoadFS } from '@strinf/ts/interfaces/dom/global';
 
@@ -142,7 +148,7 @@ class SeaTable {
                                     cha.prog(0);
                                     this.fetchedCnt = 0;
                                 }
-                                return checkRespObj<SerSeaAllJ>(resp, (data) => {
+                                return checkRespObj<SerSeaAllJT>(resp, (data) => {
                                     const valObj =
                                         typeof data === 'object' && data !== null;
                                     if (valObj && 'next' in data) {
@@ -159,10 +165,9 @@ class SeaTable {
                                     return isSerSeaAllJ(data);
                                 });
                             })
-                            .then((data: SerSeaAllJ) => {
+                            .then((data: SerSeaAllJT) => {
                                 this.foundCnt = data.count;
-                                const json = data.data.map((val) => toArrSerSeaRes(val));
-                                res(this.getRes(cha, json, res_con));
+                                res(this.getRes(cha, toArrSerSeaResSim(data), res_con));
                             })
                             .catch((err: unknown) => {
                                 SeaTable.onStop(cha);

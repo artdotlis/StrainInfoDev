@@ -10,35 +10,42 @@ import {
     SR_TAX,
 } from '@strinf/ts/constants/api/sea_reg';
 import THESAURUS_MAP, { getShortText } from '@strinf/ts/constants/api/thes_api';
-import Known500Error from '@strinf/ts/errors/known/500';
 import type {
     DetT,
     OvT,
-    PassJ,
     PassR,
     PubT,
     RelT,
     SeaInputCombEl,
     SeaR,
     SeqT,
-    InfoDJ,
-    InfoSJ,
     InfoR,
-    DetailsJ,
     DetailsR,
     DesT,
     ArcT,
     DetET,
     DetMT,
-    ServerStatusInt,
-    SeaIndJ,
-    SeaIndR,
-    SerSeaR,
-    SerSeaAllJ,
     InfoS,
 } from '@strinf/ts/interfaces/api/mapped';
 import type { JSX } from 'preact';
 import { isSlimScreen } from '@strinf/ts/functions/misc/screen';
+import type {
+    SerSeaEleT,
+    PassJT,
+    SeaIndJT,
+    SerSeaAllJT,
+    ServerStatusJT, DetailsJT 
+} from '@strinf/ts/interfaces/api/data';
+import {
+    DetailsJ,
+    InfoDJ,
+    InfoSJ,
+    ServerStatusJ,
+    PassJ,
+    SerSeaAllJ,
+    SeaIndJ,
+    SerSeaEle,
+} from '@strinf/ts/interfaces/api/data';
 
 const SEA_INPUT_COMB: SeaInputCombEl[] = [
     {
@@ -143,48 +150,7 @@ function skipAPIchecks(): boolean {
     return false;
 }
 
-function checkDifCon(data: object, to_check: string[]): void {
-    const dif = to_check.filter((val) => !(val in data));
-    if (dif.length > 0) {
-        throw new Known500Error(`missing json properties: ${dif.join(', ')}`);
-    }
-}
-
 const ENC = new TextEncoder();
-
-function isSerSeaR(data: unknown): data is SerSeaR {
-    if (skipAPIchecks()) {
-        return true;
-    }
-    if (!(Array.isArray(data) && data.length === 6)) {
-        return false;
-    }
-    const [si_id, desCon, tax, tst, code, status] = data;
-    if (!(typeof si_id === 'number')) {
-        return false;
-    }
-    if (!(typeof tax === 'string')) {
-        return false;
-    }
-    if (!(typeof code === 'string')) {
-        return false;
-    }
-    if (!(typeof tst === 'number')) {
-        return false;
-    }
-    if (!(typeof status === 'number')) {
-        return false;
-    }
-    if (!Array.isArray(desCon)) {
-        return false;
-    }
-    for (const des of desCon) {
-        if (!(typeof des === 'string')) {
-            return false;
-        }
-    }
-    return true;
-}
 
 function convertStrainStatusToEnum(status: number): StrainStatus {
     if (status === 0) {
@@ -213,7 +179,7 @@ function getSeaResTuple(full: boolean): string[] {
     return ['Strain id', 'Designation', 'Taxonomy', 'Type strain', 'Strain status'];
 }
 
-function createOVCon(data: PassJ): OvT {
+function createOVCon(data: PassJT): OvT {
     return [
         data.strain.siID,
         data.strain.typeStrain,
@@ -223,11 +189,11 @@ function createOVCon(data: PassJ): OvT {
     ];
 }
 
-function createAllStrIds(data: PassJ): number[] {
+function createAllStrIds(data: PassJT): number[] {
     return [data.strain.siID, ...(data.strain.merged ?? [])];
 }
 
-function createAltStrIds(data: PassJ): number[] {
+function createAltStrIds(data: PassJT): number[] {
     return data.strain.alternative ?? [];
 }
 
@@ -235,7 +201,7 @@ function getOVTuple(): string[] {
     return ['Persistent link - DOI', 'Type strain', 'Taxonomy', 'More about this strain'];
 }
 
-function detConMain(data: DetailsJ): DetMT {
+function detConMain(data: DetailsJT): DetMT {
     let cat_url = '';
     if (data.deposit.catalogue?.online === true) {
         cat_url = data.deposit.catalogue.url;
@@ -267,7 +233,7 @@ function detConMain(data: DetailsJ): DetMT {
 }
 
 /*eslint complexity: ["error", 40]*/
-function detConExtra(data: DetailsJ): DetET {
+function detConExtra(data: DetailsJT): DetET {
     const sub = data.deposit.registration?.submitter;
     const sup = data.deposit.registration?.supervisor;
     const dep_con = data.deposit.deposition?.depositor ?? [];
@@ -285,13 +251,13 @@ function detConExtra(data: DetailsJ): DetET {
         [dep_ins, dep_ror],
         data.deposit.deposition?.year,
         data.deposit.deposition?.designation ?? '',
-        data.deposit.lastUpdate,
+        data.deposit.lastUpdate.toDateString(),
         data.deposit.isolation?.sample?.source ?? '',
-        data.deposit.isolation?.sample?.date ?? '',
+        data.deposit.isolation?.sample?.date?.toDateString() ?? '',
         data.deposit.isolation?.sample?.countryCode ?? '',
         [sub?.name ?? '', sub?.orcid ?? ''],
         [sub?.institute ?? '', sub?.ror ?? ''],
-        data.deposit.registration?.date ?? '',
+        data.deposit.registration?.date.toDateString() ?? '',
         [sup?.name ?? '', sup?.orcid ?? ''],
         [sup?.institute ?? '', sup?.ror ?? ''],
         data.deposit.history?.[0]?.encoded ?? '',
@@ -403,7 +369,7 @@ function flattenDetTto1dim(data: DetT): EleT[] {
     ] as EleT[];
 }
 
-function createRelCon(data: PassJ): RelT[] {
+function createRelCon(data: PassJT): RelT[] {
     const relCon: RelT[] = [];
     const siDPM = new Map();
     let notDepIds = new Set();
@@ -437,7 +403,7 @@ function createRelCon(data: PassJ): RelT[] {
     return sortedRes;
 }
 
-function createDesCon(data: PassJ): DesT[] {
+function createDesCon(data: PassJT): DesT[] {
     const desCon: DesT[] = [];
     if (data.strain.relation.designation === undefined) {
         return desCon;
@@ -447,11 +413,11 @@ function createDesCon(data: PassJ): DesT[] {
         .sort((first, second) => first.localeCompare(second));
 }
 
-function createSeqCon(data: PassJ): SeqT[] {
+function createSeqCon(data: PassJT): SeqT[] {
     const res: SeqT[] = [];
     for (const seqEl of data.strain.sequence ?? []) {
         let type_ass: number | string = 0;
-        if (seqEl.assemblyLevel !== undefined && seqEl.assemblyLevel !== '') {
+        if (seqEl.assemblyLevel !== undefined) {
             type_ass = seqEl.assemblyLevel;
         }
         const toPush: SeqT = [
@@ -477,7 +443,7 @@ function getSeqTuple(assembly: boolean): string[] {
     ];
 }
 
-function createPubCon(data: PassJ): PubT[] {
+function createPubCon(data: PassJT): PubT[] {
     const res: PubT[] = [];
     for (const pubEl of data.strain.literature ?? []) {
         const toPush: PubT = [
@@ -497,10 +463,10 @@ function getArcTuple(): string[] {
     return ['DOI', 'Title', 'Date'];
 }
 
-function createArcCon(data: PassJ): ArcT[] {
+function createArcCon(data: PassJT): ArcT[] {
     const res: ArcT[] = [];
     for (const pubEl of data.strain.archive) {
-        const toPush: ArcT = [pubEl.doi, pubEl.title, pubEl.date];
+        const toPush: ArcT = [pubEl.doi, pubEl.title, pubEl.date.toDateString()];
         res.push(toPush);
     }
     return res;
@@ -510,51 +476,17 @@ function getPubTuple(): string[] {
     return ['Title', 'Deposit', 'Authors', 'Publisher', 'Year'];
 }
 
-function isPassJ(data: unknown): data is PassJ {
-    if (skipAPIchecks()) {
-        return true;
-    }
-    if (!(typeof data === 'object') || data === null) {
-        return false;
-    }
-    const toCh = data as PassJ;
-    checkDifCon(toCh, ['strain']);
-    checkDifCon(toCh.strain, ['siID', 'typeStrain']);
-    for (const seqEl of toCh.strain.sequence ?? []) {
-        checkDifCon(seqEl, ['accessionNumber', 'type', 'deposit']);
-        for (const dep of seqEl.deposit) {
-            checkDifCon(dep, ['siDP', 'designation']);
-        }
-    }
-    for (const pubEl of toCh.strain.literature ?? []) {
-        checkDifCon(pubEl, ['year', 'title', 'deposit']);
-        for (const dep of pubEl.deposit) {
-            checkDifCon(dep, ['siDP', 'designation']);
-        }
-    }
-    checkDifCon(toCh.strain, ['archive']);
-    for (const pubEl of toCh.strain.archive) {
-        checkDifCon(pubEl, ['doi', 'title', 'date']);
-    }
-    for (const relDep of toCh.strain.relation.deposit) {
-        checkDifCon(relDep, ['siDP', 'designation', 'erroneous']);
-    }
-    return true;
-}
-
 function toArrPassRes(data: unknown): PassR {
-    if (!isPassJ(data)) {
-        throw new Known500Error('Unknown type provided for passport results');
-    }
+    const pData = PassJ.parse(data);
     return {
-        overview: createOVCon(data),
-        relations: createRelCon(data),
-        designations: createDesCon(data),
-        sequences: createSeqCon(data),
-        publications: createPubCon(data),
-        archive: createArcCon(data),
-        allStrIds: createAllStrIds(data),
-        altStrIds: createAltStrIds(data),
+        overview: createOVCon(pData),
+        relations: createRelCon(pData),
+        designations: createDesCon(pData),
+        sequences: createSeqCon(pData),
+        publications: createPubCon(pData),
+        archive: createArcCon(pData),
+        allStrIds: createAllStrIds(pData),
+        altStrIds: createAltStrIds(pData),
         clear: function () {
             this.overview.splice(0, this.overview.length);
             this.relations.splice(0, this.relations.length);
@@ -568,130 +500,43 @@ function toArrPassRes(data: unknown): PassR {
     };
 }
 
-function isSeaIndJ(data: unknown): data is SeaIndJ {
+function isSerSeaAllJ(data: unknown): data is SerSeaAllJT {
     if (skipAPIchecks()) {
         return true;
     }
-    if (!(typeof data === 'object') || data === null) {
-        return false;
-    }
-    const toCh = data as SeaIndJ;
-    checkDifCon(toCh, ['match', 'exact']);
-    for (const elem of toCh.match) {
-        checkDifCon(elem, ['fullKey', 'path', 'siID', 'strainCount']);
-    }
-    for (const elem of toCh.exact) {
-        checkDifCon(elem, ['fullKey', 'path', 'siID', 'strainCount']);
-    }
+    SerSeaAllJ.parse(data);
     return true;
 }
 
-function isSerSeaAllJ(check: unknown): check is SerSeaAllJ {
+function toArrIndSeaIndRes(data: unknown): SeaIndJT {
+    return SeaIndJ.parse(data);
+}
+
+function isServerStatus(data: unknown): data is ServerStatusJT {
     if (skipAPIchecks()) {
         return true;
     }
-    if (!(typeof check === 'object') || check === null) {
-        return false;
-    }
-    const toCh = check as SerSeaAllJ;
-    checkDifCon(toCh, ['data', 'count']);
-    const { count, data } = toCh;
-    if (!(typeof count === 'number')) {
-        return false;
-    }
-    if (!Array.isArray(data)) {
-        return false;
-    }
-    return true;
-}
-
-function toArrIndSeaIndRes(data: unknown): SeaIndR {
-    if (!isSeaIndJ(data)) {
-        throw new Known500Error('Unknown type provided for search index results');
-    }
-    return {
-        match: data.match.map((elem) => [
-            elem.fullKey,
-            elem.path,
-            elem.siID,
-            elem.strainCount,
-        ]),
-        exact: data.exact.map((elem) => [
-            elem.fullKey,
-            elem.path,
-            elem.siID,
-            elem.strainCount,
-        ]),
-    };
-}
-
-interface Maintain {
-    maintenance: object;
-}
-
-function isServerStatus(data: unknown): data is ServerStatusInt {
-    if (skipAPIchecks()) {
-        return true;
-    }
-    if (typeof data !== 'object' || data === null) {
-        return false;
-    }
-    checkDifCon(data, ['private', 'maintenance', 'version']);
-    checkDifCon((data as Maintain).maintenance, ['status', 'duration', 'zone']);
-    return true;
-}
-
-function isInfoDJ(data: unknown): data is InfoDJ {
-    if (skipAPIchecks()) {
-        return true;
-    }
-    if (!(typeof data === 'object') || data === null) {
-        return false;
-    }
-    const toCh = data as InfoDJ;
-    checkDifCon(toCh, ['deposit']);
-    checkDifCon(toCh.deposit, ['siDP', 'designation']);
-    return true;
-}
-
-function isInfoSJ(data: unknown): data is InfoSJ {
-    if (skipAPIchecks()) {
-        return true;
-    }
-    if (!(typeof data === 'object') || data === null) {
-        return false;
-    }
-    const toCh = data as InfoSJ;
-    checkDifCon(toCh, ['strain']);
-    checkDifCon(toCh.strain, ['relation', 'siID']);
-    checkDifCon(toCh.strain.relation, ['deposit']);
-    for (const elem of toCh.strain.relation.deposit) {
-        checkDifCon(elem, ['designation', 'siDP']);
-    }
+    ServerStatusJ.parse(data);
     return true;
 }
 
 function toArrInfoDepRes(data: unknown): InfoR {
-    if (!isInfoDJ(data)) {
-        throw new Known500Error('Unknown type provided for info results');
-    }
+    const pData = InfoDJ.parse(data);
     return [
-        data.deposit.siDP,
-        data.deposit.designation,
-        data.deposit.taxon?.name ?? '',
-        data.deposit.status === DepositStatus.err ||
-            (data.deposit.cultureCollection?.deprecated ?? false),
+        pData.deposit.siDP,
+        pData.deposit.designation,
+        pData.deposit.taxon?.name ?? '',
+        pData.deposit.status === DepositStatus.err ||
+            (pData.deposit.cultureCollection?.deprecated ?? false),
     ];
 }
 
 function toArrInfoStrRes(data: unknown): InfoS {
-    if (!isInfoSJ(data)) {
-        throw new Known500Error('Unknown type provided for info results');
-    }
+    const pData = InfoSJ.parse(data);
     return [
-        data.strain.siID,
-        data.strain.taxon?.name ?? 'UNKNOWN',
-        data.strain.relation.deposit.map((dat) => dat.designation).join(','),
+        pData.strain.siID,
+        pData.strain.taxon?.name ?? 'UNKNOWN',
+        pData.strain.relation.deposit.map((dat) => dat.designation).join(','),
     ];
 }
 
@@ -707,29 +552,13 @@ function getInfoDesTuple(): string {
     return 'Designation';
 }
 
-function isDetailsJ(data: unknown): data is DetailsJ {
-    if (skipAPIchecks()) {
-        return true;
-    }
-    if (!(typeof data === 'object') || data === null) {
-        return false;
-    }
-    const toCh = data as DetailsJ;
-    checkDifCon(toCh, ['deposit', 'strain']);
-    checkDifCon(toCh.deposit, ['siDP', 'typeStrain', 'designation', 'lastUpdate']);
-    checkDifCon(toCh.strain, ['siID']);
-    return true;
-}
-
 function toArrDetailsRes(data: unknown): DetailsR {
-    if (!isDetailsJ(data)) {
-        throw new Known500Error('Unknown type provided for details results');
-    }
+    const pData = DetailsJ.parse(data);
     return [
-        data.strain.siID,
-        ...detConMain(data),
-        ...detConExtra(data),
-        data.deposit.relation ?? [],
+        pData.strain.siID,
+        ...detConMain(pData),
+        ...detConExtra(pData),
+        pData.deposit.relation ?? [],
     ];
 }
 
@@ -745,15 +574,21 @@ function getApiToStr(api: string): string {
     return label;
 }
 
-function toArrSerSeaRes(data: unknown): SeaR {
-    if (!isSerSeaR(data)) {
-        throw new Known500Error('Unknown type provided for service search results');
+function toArrSerSeaRes(data: unknown, skip = false): SeaR {
+    const pData = data as SerSeaEleT;
+    if (!(skipAPIchecks() && !skip)) {
+        SerSeaEle.parse(data);
     }
-    return [...data.slice(0, 3), data[3] === 1, ENC.encode(data[4]), data[5]] as SeaR;
+    return [...pData.slice(0, 3), pData[3] === 1, ENC.encode(pData[4]), pData[5]] as SeaR;
+}
+
+function toArrSerSeaResSim(dataCon: SerSeaAllJT): SeaR[] {
+    return dataCon.data.map((val) => toArrSerSeaRes(val, true));
 }
 
 export {
     SEA_INPUT_COMB,
+    toArrSerSeaResSim,
     toArrSerSeaRes,
     isSerSeaAllJ,
     getSeaResTuple,

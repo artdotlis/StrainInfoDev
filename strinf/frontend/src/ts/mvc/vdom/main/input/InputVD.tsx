@@ -8,11 +8,11 @@ import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import IndSeaSt from '@strinf/ts/mvc/vdom/state/IndSeaSt';
 import SeaIndexCtrl from '@strinf/ts/mvc/ctrl/SeaIndexCtrl';
-import type { SeaIndR } from '@strinf/ts/interfaces/api/mapped';
 import type { GlobVersionGet } from '@strinf/ts/interfaces/dom/global';
 import CONFIG from '@strinf/ts/configs/config';
 import type { LocationHook } from 'preact-iso';
 import { useLocation } from 'preact-iso';
+import type { SeaIndJT } from '@strinf/ts/interfaces/api/data';
 
 interface InputMProps {
     callB: () => RefObject<HTMLInputElement>;
@@ -115,7 +115,7 @@ function InputWr({ val, callB, upD, reset, onInput, len }: InWrProps): JSX.Eleme
 
 interface InState {
     ctrl: undefined | SeaIndexCtrl;
-    results: SeaIndR;
+    results: SeaIndJT;
 }
 
 class InputVD extends Component<InProps, InState> {
@@ -129,7 +129,7 @@ class InputVD extends Component<InProps, InState> {
         super(props);
         this.hooks = new IndSeaSt();
         this.state = { results: { match: [], exact: [] }, ctrl: undefined };
-        this.hooks.tabSet((results: SeaIndR): void => {
+        this.hooks.tabSet((results: SeaIndJT): void => {
             this.setState((prevSt) => ({ ...prevSt, results }));
         });
         this.input = null;
