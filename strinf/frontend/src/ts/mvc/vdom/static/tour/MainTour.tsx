@@ -15,7 +15,7 @@ import {
 import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
 import { type Driver, driver, type DriveStep, type PopoverDOM } from 'driver.js';
 import type { JSX } from 'preact';
-import { isNotWideScreen, isSmallScreen } from '@strinf/ts/functions/misc/screen';
+import { isSmallScreen } from '@strinf/ts/functions/misc/screen';
 import type { LocationHook } from 'preact-iso';
 import { useLocation } from 'preact-iso';
 
@@ -247,6 +247,18 @@ function crTour(driverTour: Driver, location: LocationHook): DriveStep[] {
             },
         },
         {
+            element: `#${IdHtmlTour.strainRel}`,
+            popover: {
+                side: 'bottom' as const,
+                description: `Other strains links to other strains 
+                of the same species or taxon name.`,
+                onPopoverRender: (popover: PopoverDOM) => {
+                    scrollToId(PassAncId.rel_str);
+                    createButtons(driverTour, popover, [true, true, false], location);
+                },
+            },
+        },
+        {
             element: `#${IdHtmlTour.passSeq}`,
             popover: {
                 side: 'bottom' as const,
@@ -292,24 +304,6 @@ function crTour(driverTour: Driver, location: LocationHook): DriveStep[] {
                 Which also significantly improves the traceability of such strains`,
                 onPopoverRender: (popover: PopoverDOM) => {
                     createButtons(driverTour, popover, [true, true, false], location);
-                },
-            },
-        },
-        {
-            element: `#${IdHtmlTour.passSid}`,
-            popover: {
-                side: 'left' as const,
-                description: `The sidebar of the strain page allows easy jumping 
-                between sections and links to other strains 
-                of the same species or taxon name.`,
-                onPopoverRender: (popover: PopoverDOM) => {
-                    window.scrollTo(0, 0);
-                    createButtons(driverTour, popover, [true, true, false], location);
-                    if (isNotWideScreen()) {
-                        const htmlDiv = document.createElement('div');
-                        render(<p>Sidebar is hidden on small screens.</p>, htmlDiv);
-                        popover.description.appendChild(htmlDiv);
-                    }
                 },
             },
         },
