@@ -21,7 +21,7 @@ function selectBannerImage(): string {
     return bgI400;
 }
 
-const BANNER_URL = [UIApiCon.index, UIApiCon.search, UIApiCon.pass] as const;
+const BANNER_URL = [UIApiCon.search, UIApiCon.pass] as const;
 
 function crBannerHelmet(): JSX.Element {
     return (
