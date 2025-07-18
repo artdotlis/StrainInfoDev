@@ -56,7 +56,7 @@ function SideEl({ act, key, ele, tId }: SideTProps): JSX.Element {
         >
             {' '}
             <i className={ele[1]} />
-            <label className={ClHtml.lab}>{ele[0]}</label>
+            <span className={ClHtml.lab}>{ele[0]}</span>
         </a>
     );
 }
