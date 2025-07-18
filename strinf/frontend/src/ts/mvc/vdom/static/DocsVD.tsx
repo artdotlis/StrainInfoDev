@@ -1,5 +1,5 @@
 import type { JSX } from 'preact';
-import { ClHtml, Col, Pad } from '@strinf/ts/constants/style/ClHtml';
+import { ClHtml, Col } from '@strinf/ts/constants/style/ClHtml';
 import type { BreadCrumbsG } from '@strinf/ts/interfaces/dom/global';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 
@@ -146,9 +146,7 @@ function DocCon(props: { children: JSX.Element }): JSX.Element {
                 <link rel="canonical" href={getCurFullPath()} />
                 <title>StrainInfo - Documentation</title>
             </Helmet>
-            <div className={`${ClHtml.cntCon} ${Pad.bN0}`}>
-                <div className={ClHtml.row}>{children}</div>
-            </div>
+            <div className={ClHtml.row}>{children}</div>
         </>
     );
 }

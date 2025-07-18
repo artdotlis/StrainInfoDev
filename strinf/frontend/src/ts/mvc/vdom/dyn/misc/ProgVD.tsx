@@ -16,7 +16,12 @@ function ProgVD({ progSet }: ProgSet): JSX.Element | null {
         return null;
     }
     return (
-        <div id={progSty.load}>
+        <div
+            id={progSty.load}
+            style={{
+                margin: '-2rem -2rem 0 -2rem',
+            }}
+        >
             <div className={ClHtml.pDiv}>
                 <div className={ClHtml.pBar} style={`width: ${prog}%;`} />
             </div>

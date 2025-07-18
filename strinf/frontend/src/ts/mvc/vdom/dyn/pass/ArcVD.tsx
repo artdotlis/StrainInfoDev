@@ -149,7 +149,7 @@ function ArcVD({ res }: ResProps): JSX.Element | null {
             <section>
                 <ArcTable
                     res={modDate(res)}
-                    window={5}
+                    window={15}
                     head={getArcTuple().map((val, index) => [index, val, true])}
                     tableCl={`${ClHtml.tab}  ${ClHtml.hov}`}
                 />

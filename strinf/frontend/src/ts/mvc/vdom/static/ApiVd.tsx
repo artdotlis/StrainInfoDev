@@ -406,22 +406,20 @@ function ApiVD(): JSX.Element {
                 <link rel="canonical" href={getCurFullPath()} />
                 <title>StrainInfo - Web service</title>
             </Helmet>
-            <div className={ClHtml.cntCon}>
-                <div className={ClHtml.row}>
-                    <RapDocM
-                        spec={spec}
-                        anc={setAnc}
-                        dyslexia={dys}
-                        setVer={(nVer) => {
-                            if (ver !== nVer) {
-                                loadApiSpec(ctx, setSpec, true, nVer);
-                                deactivateAllDropdownToggles();
-                                setVer(nVer);
-                            }
-                        }}
-                    />
-                    <OnPageNavVD>{createNavLinks(anc)}</OnPageNavVD>
-                </div>
+            <div className={ClHtml.row}>
+                <RapDocM
+                    spec={spec}
+                    anc={setAnc}
+                    dyslexia={dys}
+                    setVer={(nVer) => {
+                        if (ver !== nVer) {
+                            loadApiSpec(ctx, setSpec, true, nVer);
+                            deactivateAllDropdownToggles();
+                            setVer(nVer);
+                        }
+                    }}
+                />
+                <OnPageNavVD>{createNavLinks(anc)}</OnPageNavVD>
             </div>
         </>
     );

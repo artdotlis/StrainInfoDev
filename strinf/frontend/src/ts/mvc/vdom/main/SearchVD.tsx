@@ -22,7 +22,6 @@ import SeaSt from '@strinf/ts/mvc/vdom/state/SeaSt';
 import { getApiToStr } from '@strinf/ts/functions/api/map';
 import { trackSearch } from '@strinf/ts/mvc/vdom/fun/mat/track';
 import HeadT from '@strinf/ts/constants/type/HeadT';
-import { ClHtml, Pad } from '@strinf/ts/constants/style/ClHtml';
 import { Helmet } from 'react-helmet';
 import QApiCon from '@strinf/ts/constants/api/q_api';
 import { checkSeaTags } from '@strinf/ts/functions/links/create_sea';
@@ -193,10 +192,8 @@ class SearchVD<T extends SEA_PROP> extends Component<T, SearchState> {
                     <meta name="robots" content="noindex" />
                     <title>StrainInfo - Search</title>
                 </Helmet>
-                <div className={`${ClHtml.cntCon} ${Pad.bN0}`}>
-                    <SeaTVD res={tab} sea={this.sea} hook={ttHook} />
-                    <HubSeaVD />
-                </div>
+                <SeaTVD res={tab} sea={this.sea} hook={ttHook} />
+                <HubSeaVD />
             </>
         );
     }

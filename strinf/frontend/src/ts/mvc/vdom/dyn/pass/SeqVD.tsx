@@ -403,7 +403,7 @@ class TableSeq extends Component<TProps, object> {
         return (
             <SeqTable
                 res={data}
-                window={20}
+                window={15}
                 head={head}
                 events={this.events}
                 anc={anc}

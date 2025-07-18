@@ -1,6 +1,5 @@
 import { Component } from 'preact';
 import type { JSX } from 'preact';
-import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
 import LoadT from '@strinf/ts/constants/type/LoadT';
 import { getArgs } from '@strinf/ts/functions/api/args';
 import type { PassR } from '@strinf/ts/interfaces/api/mapped';
@@ -132,9 +131,7 @@ class PassVD extends Component<PassProps, PassState> {
                     <link rel="canonical" href={getCurFullPath()} />
                 </Helmet>
                 <OverviewVD res={tab?.overview} dCtrl={this.dCtrl} rel={tab?.relations} />
-                <div className={ClHtml.cntCon}>
-                    <PassCVD res={tab} dCtrl={this.dCtrl} culId={getArgs(REG_ARG)} />
-                </div>
+                <PassCVD res={tab} dCtrl={this.dCtrl} culId={getArgs(REG_ARG)} />
             </>
         );
     }

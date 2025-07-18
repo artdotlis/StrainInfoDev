@@ -1,5 +1,5 @@
 import type { JSX } from 'preact';
-import { ClHtml, Pad } from '@strinf/ts/constants/style/ClHtml';
+import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
 
 interface ConT {
     children: JSX.Element[] | JSX.Element;
@@ -13,10 +13,6 @@ function Container({ children }: ConT): JSX.Element {
     );
 }
 
-function ContentContainer({ children }: ConT): JSX.Element {
-    return <div className={`${ClHtml.cntCon} ${Pad.bN0}`}>{children}</div>;
-}
-
 function wrapSectionGen(anc: string, head: string, cont: JSX.Element): JSX.Element {
     return (
         <>
@@ -27,4 +23,4 @@ function wrapSectionGen(anc: string, head: string, cont: JSX.Element): JSX.Eleme
     );
 }
 
-export { ContentContainer, Container, wrapSectionGen };
+export { Container, wrapSectionGen };

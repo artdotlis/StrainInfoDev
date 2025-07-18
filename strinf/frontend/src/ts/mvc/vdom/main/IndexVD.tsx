@@ -1,6 +1,6 @@
 import type { JSX } from 'preact';
 import { Component } from 'preact';
-import { ClHtml, Dis, Mar, Pad, Tex, Wid } from '@strinf/ts/constants/style/ClHtml';
+import { ClHtml, Dis, Mar, Tex, Wid } from '@strinf/ts/constants/style/ClHtml';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import IndCtrl from '@strinf/ts/mvc/ctrl/IndCtrl';
 import AboutIVD from '@strinf/ts/mvc/vdom/static/AboutHomeVD';
@@ -80,22 +80,16 @@ class IndexVD extends Component<unknown, object> {
                     <meta name="description" content={H_DESC} />
                     <title>StrainInfo</title>
                 </Helmet>
-                <div className={`${ClHtml.cntCon} ${Pad.bN0}`}>
-                    <Hero />
-                    <div className={`${ClHtml.herB} ${Wid.SMF}`}>
-                        <i
-                            className={`${ClHtml.micI} ${Tex.sig} ${Dis.dBlock} ${phSty.ph2}`}
-                        />
-                        <h2 className={`${Mar.tN10} ${phSty.ph2m}`}>Microbial Strains</h2>
-                        <SeaInVD
-                            tId={IdHtmlTour.seaInHome}
-                            len={Wid.f}
-                            pos={PagPosT.BODY}
-                        />
-                    </div>
-                    <AboutIVD />
-                    <OvVD sta={this.hooks.statSet} dia={this.hooks.confSet} />
+                <Hero />
+                <div className={`${ClHtml.herB} ${Wid.SMF}`}>
+                    <i
+                        className={`${ClHtml.micI} ${Tex.sig} ${Dis.dBlock} ${phSty.ph2}`}
+                    />
+                    <h2 className={`${Mar.tN10} ${phSty.ph2m}`}>Microbial Strains</h2>
+                    <SeaInVD tId={IdHtmlTour.seaInHome} len={Wid.f} pos={PagPosT.BODY} />
                 </div>
+                <AboutIVD />
+                <OvVD sta={this.hooks.statSet} dia={this.hooks.confSet} />
             </>
         );
     }

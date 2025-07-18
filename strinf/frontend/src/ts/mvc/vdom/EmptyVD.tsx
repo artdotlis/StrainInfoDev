@@ -18,16 +18,14 @@ function EmptyVD({ path }: EmptyProps): JSX.Element {
         });
     }
     return (
-        <div className={ClHtml.cntCon}>
-            <section className={ClHtml.sec}>
-                <div className={ClHtml.con}>
-                    <div className={errSty.err}>
-                        <h1>404</h1>
-                        <h2>Route not found - {path}</h2>
-                    </div>
+        <section className={ClHtml.sec}>
+            <div className={ClHtml.con}>
+                <div className={errSty.err}>
+                    <h1>404</h1>
+                    <h2>Route not found - {path}</h2>
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
     );
 }
 

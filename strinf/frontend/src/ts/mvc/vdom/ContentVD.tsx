@@ -7,7 +7,7 @@ import defaultRouteBeh from '@strinf/ts/mvc/vdom/fun/route/default';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import Redirect from '@strinf/ts/mvc/vdom/fun/route/Redirect';
 import type { JSX } from 'preact';
-import { ClHtml, Dis } from '@strinf/ts/constants/style/ClHtml';
+import { ClHtml, Dis, Pad } from '@strinf/ts/constants/style/ClHtml';
 import FootVD from '@strinf/ts/mvc/vdom/FootVD';
 import { disableLoader } from '@strinf/ts/functions/libs/style';
 
@@ -80,7 +80,6 @@ function ContentVD({
     const ctx: BreadCrumbsG | undefined = useContext(MainConGl);
     const errR = useRef<HTMLDivElement>(null);
     const conR = useRef<HTMLDivElement>(null);
-    const conP = useRef<HTMLDivElement>(null);
     useEffect(() => {
         if (error()) {
             disableLoader();
@@ -91,24 +90,38 @@ function ContentVD({
             conR.current?.classList.remove(Dis.dNone);
             errR.current?.classList.add(Dis.dNone);
         }
-        conP.current?.classList.add(Dis.dNone);
     }, [error]);
     if (ctx === undefined) {
         return null;
     }
     if (panic) {
-        return <PANIC_VD />;
-    }
-    return (
-        <>
-            <div className={`${ClHtml.cntWr} ${Dis.dNone}`} ref={errR}>
+        return (
+            <div className={ClHtml.cntWr}>
                 <div className={ClHtml.cntCon}>
-                    <ERROR_VD />
+                    <PANIC_VD />
                 </div>
                 <FootVD />
             </div>
-            <div className={ClHtml.cntWr} ref={conR}>
-                <div className={ClHtml.cntCon} ref={conP} />
+        );
+    }
+    return (
+        <div className={ClHtml.cntWr}>
+            <div
+                className={`${ClHtml.cntCon} ${Pad.bN0}`}
+                ref={errR}
+                style={{
+                    minHeight: '100vh',
+                }}
+            >
+                <ERROR_VD />
+            </div>
+            <div
+                className={`${ClHtml.cntCon} ${Pad.bN0}`}
+                ref={conR}
+                style={{
+                    minHeight: '100vh',
+                }}
+            >
                 <Router
                     onRouteChange={(path) => {
                         conR.current?.classList.remove(Dis.dNone);
@@ -136,9 +149,9 @@ function ContentVD({
                     <Route path={UIApiCon.service} component={API_VD} />
                     <Route default component={EMPTY_VD} />
                 </Router>
-                <FootVD />
             </div>
-        </>
+            <FootVD />
+        </div>
     );
 }
 

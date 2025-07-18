@@ -1,7 +1,7 @@
 import { useContext } from 'preact/hooks';
 import type { JSX } from 'preact';
 import { memo } from 'preact/compat';
-import { ClHtml, Col, Pad } from '@strinf/ts/constants/style/ClHtml';
+import { ClHtml, Col } from '@strinf/ts/constants/style/ClHtml';
 import type { BreadCrumbsG } from '@strinf/ts/interfaces/dom/global';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import HeadT from '@strinf/ts/constants/type/HeadT';
@@ -118,15 +118,13 @@ function AboutP(): JSX.Element {
                 <title>StrainInfo - About</title>
                 <link rel="canonical" href={getCurFullPath()} />
             </Helmet>
-            <div className={`${ClHtml.cntCon} ${Pad.bN0}`}>
-                <div className={ClHtml.row}>
-                    <div className={Col.lN9}>
-                        <Container>
-                            <AboutPP />
-                        </Container>
-                    </div>
-                    <OnPageNavVD>{createNavLinks(crAnc())}</OnPageNavVD>
+            <div className={ClHtml.row}>
+                <div className={Col.lN9}>
+                    <Container>
+                        <AboutPP />
+                    </Container>
                 </div>
+                <OnPageNavVD>{createNavLinks(crAnc())}</OnPageNavVD>
             </div>
         </>
     );

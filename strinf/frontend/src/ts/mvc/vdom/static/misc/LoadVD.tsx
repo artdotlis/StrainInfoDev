@@ -12,11 +12,9 @@ function Loading(): JSX.Element {
         };
     }, []);
     return (
-        <div className={ClHtml.cntCon}>
-            <section className={ClHtml.sec}>
-                <div className={ClHtml.con} />
-            </section>
-        </div>
+        <section className={ClHtml.sec}>
+            <div className={ClHtml.con} />
+        </section>
     );
 }
 

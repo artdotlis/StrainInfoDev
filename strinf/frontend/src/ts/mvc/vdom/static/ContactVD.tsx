@@ -1,7 +1,7 @@
 import type { JSX } from 'preact';
 import { memo } from 'preact/compat';
 import { useContext } from 'preact/hooks';
-import { ClHtml as ClHtmlPl, Font, Pad } from '@strinf/ts/constants/style/ClHtml';
+import { ClHtml as ClHtmlPl, Font } from '@strinf/ts/constants/style/ClHtml';
 import ClHtmlSt from '@strinf/ts/constants/stat/ClHtml';
 import type { BreadCrumbsG } from '@strinf/ts/interfaces/dom/global';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
@@ -101,10 +101,8 @@ function ContactWr(props: WrProps): JSX.Element {
                 <link rel="canonical" href={getCurFullPath()} />
                 <title>StrainInfo - Contact</title>
             </Helmet>
-            <div className={`${ClHtmlPl.cntCon} ${Pad.bN0}`}>
-                <div className={ClHtmlPl.con}>
-                    <div className={ClHtmlPl.cnt}>{children}</div>
-                </div>
+            <div className={ClHtmlPl.con}>
+                <div className={ClHtmlPl.cnt}>{children}</div>
             </div>
         </>
     );

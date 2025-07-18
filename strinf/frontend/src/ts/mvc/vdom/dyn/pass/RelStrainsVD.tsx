@@ -114,7 +114,7 @@ class RelStrainsVD extends Component<NamNavProps, IdState> {
                     <SeaTable
                         hook={ttHook}
                         res={results}
-                        window={20}
+                        window={15}
                         term={taxN}
                         download={false}
                         perPage={false}

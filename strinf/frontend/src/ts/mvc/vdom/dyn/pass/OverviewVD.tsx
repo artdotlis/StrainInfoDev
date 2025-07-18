@@ -158,7 +158,13 @@ function OverviewVD({ res, dCtrl, rel }: ResProps): JSX.Element | null {
         return null;
     }
     return (
-        <div className={ClHtml.titB}>
+        <div
+            className={ClHtml.titB}
+            style={{
+                margin: '-2rem -2rem 0 -2rem',
+                width: 'auto',
+            }}
+        >
             <div
                 className={`${Font.N18} ${ClHtml.row}
                 ${Dis.dIFlex} ${ClHtml.bad}`}
