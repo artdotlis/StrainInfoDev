@@ -1,0 +1,58 @@
+.loader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 6rem;
+    height: 6rem;
+    margin: -3rem 0 0 -3rem;
+    z-index: 1000;
+    pointer-events: none;
+    display: block;
+    pointer-events: none;
+}
+
+.loader .ball {
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: currentColor;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    will-change: transform, opacity;
+    opacity: 0;
+    animation: orbit 1s linear infinite;
+}
+
+.loader .ball:nth-child(1) {
+    color: var(--color-logo-red);
+    animation-delay: 0.5s;
+}
+
+.loader .ball:nth-child(2) {
+    color: var(--color-logo-green);
+    animation-delay: 0.75s;
+}
+
+.loader .ball:nth-child(3) {
+    color: var(--color-logo-blue);
+    animation-delay: 1s;
+}
+
+.loader .ball:nth-child(4) {
+    color: var(--color-logo-gray);
+    animation-delay: 1.25s;
+}
+
+@keyframes orbit {
+    0% {
+        transform: rotate(0deg) translate(2rem) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: rotate(360deg) translate(2rem) rotate(-360deg);
+        opacity: 1;
+    }
+}

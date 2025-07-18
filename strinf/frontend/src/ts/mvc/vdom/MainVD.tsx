@@ -173,9 +173,6 @@ class MainVD extends Component<
         return (
             <>
                 {this.stat}
-                <div className={ClHtml.ld}>
-                    <span />
-                </div>
                 <MainConGl.Provider value={this.initGlState()}>
                     <div
                         ref={this.wrapper}

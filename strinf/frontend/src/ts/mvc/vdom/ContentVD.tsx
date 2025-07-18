@@ -9,7 +9,6 @@ import Redirect from '@strinf/ts/mvc/vdom/fun/route/Redirect';
 import type { JSX } from 'preact';
 import { ClHtml, Dis, Pad } from '@strinf/ts/constants/style/ClHtml';
 import FootVD from '@strinf/ts/mvc/vdom/FootVD';
-import { disableLoader } from '@strinf/ts/functions/libs/style';
 
 const INDEX_VD = lazy(async () => import('@strinf/ts/mvc/vdom/main/IndexVD'));
 const CONTACT_VD = lazy(async () => import('@strinf/ts/mvc/vdom/static/ContactVD'));
@@ -82,7 +81,6 @@ function ContentVD({
     const conR = useRef<HTMLDivElement>(null);
     useEffect(() => {
         if (error()) {
-            disableLoader();
             conR.current?.classList.add(Dis.dNone);
             errR.current?.classList.remove(Dis.dNone);
             disable();

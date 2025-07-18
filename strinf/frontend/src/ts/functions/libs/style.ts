@@ -1,37 +1,8 @@
-import scSty from '@strinf/css/mods/scroll.module.css';
 import { SIDE_HIDDEN } from '@strinf/ts/constants/style/AtHtml';
 import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
 
-const LOAD_STATE = {
-    enabled: false,
-};
-
-function enableLoader(): void {
-    LOAD_STATE.enabled = true;
-    setTimeout(() => {
-        if (LOAD_STATE.enabled) {
-            const { body } = document;
-            body.classList.add(scSty.disable);
-            const [loader] = document.getElementsByClassName(ClHtml.ld);
-            if (loader !== undefined) {
-                loader.classList.add(ClHtml.show);
-            }
-        }
-    }, 200);
-}
-
 function enableScroll(): void {
     document.body.classList.add(ClHtml.sideSM);
-}
-
-function disableLoader(): void {
-    LOAD_STATE.enabled = false;
-    const { body } = document;
-    body.classList.remove(scSty.disable);
-    const [loader] = document.getElementsByClassName(ClHtml.ld);
-    if (loader !== undefined) {
-        loader.classList.remove(ClHtml.show);
-    }
 }
 
 const SIDE_ID = 'side_bar_status_id';
@@ -73,11 +44,9 @@ function reInitCStyle(): void {
 
 export {
     enableScroll,
-    disableLoader,
     reInitCStyle,
     disableSideBar,
     toggleSideBar,
     SIDE_ID,
-    enableLoader,
     deactivateAllDropdownToggles,
 };

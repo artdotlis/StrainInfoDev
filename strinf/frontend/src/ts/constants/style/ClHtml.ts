@@ -200,7 +200,6 @@ enum ClHtml {
     pgFoot = 'page-footer',
     pgWr = 'page-wrapper',
     lgP = 'logo-parade',
-    ld = 'loader',
     icon = 'icon',
     igp = 'input-group-append',
     ig = 'input-group',
