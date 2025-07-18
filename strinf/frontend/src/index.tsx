@@ -21,6 +21,8 @@ import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
 import { SIDE_SMALL } from '@strinf/ts/constants/style/AtHtml';
 import { ErrorBoundary, LocationProvider } from 'preact-iso';
 
+import loaderSty from '@strinf/css/mods/loader.module.css';
+
 hidePrivateInfo();
 const pBE: JSX.Element = (
     <link rel="preconnect" href={createUrlStr(CONFIG.backend, '')} />
@@ -32,7 +34,7 @@ if (CONFIG.statistic.enable) {
 
 function IndexBody(): JSX.Element {
     return (
-        <body className={ClHtml.sideSM} {...SIDE_SMALL}>
+        <body className={`${ClHtml.sideSM} ${loaderSty.loadoverlay}`} {...SIDE_SMALL}>
             <LocationProvider>
                 <ErrorBoundary
                     onError={(err) => {
