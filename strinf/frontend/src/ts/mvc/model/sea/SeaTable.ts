@@ -111,7 +111,8 @@ class SeaTable {
                                 checkRespArr<SeaR>(resp, toArrSerSeaRes)
                             )
                             .then((json: SeaR[]): void => {
-                                res(this.getRes(cha, json, res_con));
+                                this.getRes(cha, json, res_con);
+                                res();
                             })
                             .catch((err: unknown) => {
                                 SeaTable.onStop(cha);
@@ -167,7 +168,8 @@ class SeaTable {
                             })
                             .then((data: SerSeaAllJT) => {
                                 this.foundCnt = data.count;
-                                res(this.getRes(cha, toArrSerSeaResSim(data), res_con));
+                                this.getRes(cha, toArrSerSeaResSim(data), res_con);
+                                res();
                             })
                             .catch((err: unknown) => {
                                 SeaTable.onStop(cha);
@@ -211,17 +213,10 @@ class SeaTable {
             });
     }
 
-    private async getRes(cha: ViewChanInt, json: SeaR[], res_con: SeaR[]): Promise<void> {
+    private getRes(cha: ViewChanInt, json: SeaR[], res_con: SeaR[]): void {
         this.fetchedCnt += json.length;
         cha.prog(Math.min(Math.round((100 * this.fetchedCnt) / this.foundCnt), 100));
-        for (let cnt = 0; cnt < json.length; cnt += 1000) {
-            await new Promise<void>((res) => {
-                setTimeout(() => {
-                    res_con.push(...json.slice(cnt, cnt + 1000));
-                    res();
-                }, 1);
-            });
-        }
+        res_con.push(...json);
     }
 
     private static onStop(cha: ViewChanInt): void {
