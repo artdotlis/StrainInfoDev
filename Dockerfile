@@ -31,11 +31,11 @@ RUN sh /req.nginx.sh && rm /req.nginx.sh
 RUN mkdir -p /run/php-fpm/ && chown nginx:nginx /run/php-fpm
 
 RUN rm -rf /etc/nginx/http.d/* || true 
-RUN rm -rf /etc/php82/php-fpm.d/* || true 
-RUN mkdir -p /etc/nginx/http.d && mkdir -p /etc/php82/php-fpm.d
+RUN rm -rf /etc/4/php-fpm.d/* || true 
+RUN mkdir -p /etc/nginx/http.d && mkdir -p /etc/php84/php-fpm.d
 
 COPY --from=appbuilder $SERVER_WEB_CONFS_DIR/* /etc/nginx/http.d/
-COPY --from=appbuilder $SERVER_PHP_CONFS_DIR/* /etc/php82/php-fpm.d/
+COPY --from=appbuilder $SERVER_PHP_CONFS_DIR/* /etc/php84/php-fpm.d/
 
 COPY --from=appbuilder /entry.sh  /entry.sh
 COPY --from=appbuilder $DOCKER_ENV_DIR/* $DOCKER_ENV_DIR/

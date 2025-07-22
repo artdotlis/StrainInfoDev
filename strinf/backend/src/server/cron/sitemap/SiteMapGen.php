@@ -34,7 +34,8 @@ class SiteMapGen
     private readonly string $rootPath;
 
     /** @var ChMainDB<array<string, object>, array<string, object>> */
-    private ?ChMainDB $data; // @phpstan-ignore property.unusedType
+    // @phpstan-ignore property.unusedType
+    private ?ChMainDB $data;
 
     public function __construct(string $root)
     {
@@ -134,7 +135,11 @@ class SiteMapGen
             chmod($robot, 0644);
         }
         $robot_rfh = fopen($robot, 'r');
-        $robots_txt = fread($robot_rfh, filesize($robot));
+        $size = filesize($robot);
+        if ($size < 1) {
+            $size = 1;
+        }
+        $robots_txt = fread($robot_rfh, $size);
         fclose($robot_rfh);
         $robot_wfh = fopen($robot, 'w');
         $robots_txt = preg_replace("/\s*Sitemap\s*:\s*.*(\n|$)/i", '', $robots_txt);

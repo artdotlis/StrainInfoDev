@@ -13,7 +13,7 @@ dnf -y install dnf-utils https://mirror.dogado.de/remi/enterprise/remi-release-9
 dnf -y remove php
 dnf -y remove php*
 dnf -y module reset php
-dnf -y module enable php:remi-8.2
+dnf -y module enable php:remi-8.4
 dnf -y install php-cli
 # extensions
 dnf -y install php-opcache php-zip php-intl \
@@ -26,9 +26,6 @@ dnf -y install nodejs
 # for bun
 npm install -g node-gyp
 echo "nodejs installed"
-echo "installing python"
-dnf -y install python3.9
-echo "python installed"
 # for woff2
 mkdir /woff_parser && cd /woff_parser || exit
 git clone --recursive https://github.com/google/woff2.git

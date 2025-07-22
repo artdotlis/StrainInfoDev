@@ -9,6 +9,7 @@ import Redirect from '@strinf/ts/mvc/vdom/fun/route/Redirect';
 import type { JSX } from 'preact';
 import { ClHtml, Dis, Pad } from '@strinf/ts/constants/style/ClHtml';
 import FootVD from '@strinf/ts/mvc/vdom/FootVD';
+import { LID } from '@strinf/ts/mvc/vdom/static/misc/LoadVD';
 
 const INDEX_VD = lazy(async () => import('@strinf/ts/mvc/vdom/main/IndexVD'));
 const CONTACT_VD = lazy(async () => import('@strinf/ts/mvc/vdom/static/ContactVD'));
@@ -69,6 +70,14 @@ function onRouteChange(path: string): void {
     }
 }
 
+function disableLoader(): void {
+    // TODO not an optimal solution
+    const load = document.querySelector(`#${LID}`);
+    if (load !== null) {
+        load.remove();
+    }
+}
+
 function ContentVD({
     panic,
     error,
@@ -84,6 +93,7 @@ function ContentVD({
             conR.current?.classList.add(Dis.dNone);
             errR.current?.classList.remove(Dis.dNone);
             disable();
+            disableLoader();
         } else {
             conR.current?.classList.remove(Dis.dNone);
             errR.current?.classList.add(Dis.dNone);

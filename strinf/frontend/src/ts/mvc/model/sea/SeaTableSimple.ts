@@ -78,14 +78,14 @@ class SeaTable {
             const call = this.apiCall.createApiCall(`${QApiCon.seaStrIds}${argsS}`);
             const timeOut = cntEl * 15;
             resTab.push(
-                new Promise((res) => {
+                new Promise(() => {
                     setTimeout(() => {
                         fetchRetry(call)
                             .then(async (resp) =>
                                 checkRespArr<SeaR>(resp, toArrSerSeaRes)
                             )
                             .then((json: SeaR[]): void => {
-                                res(this.getRes(json, res_con));
+                                res_con.push(...json);
                             })
                             .catch((err: unknown) => {
                                 SeaTable.onStop(cha);
@@ -117,18 +117,6 @@ class SeaTable {
                 SeaTable.onStop(cha);
                 onPrError(err);
             });
-    }
-
-    private async getRes(json: SeaR[], res_con: SeaR[]): Promise<void> {
-        this.fetchedCnt += json.length;
-        for (let cnt = 0; cnt < json.length; cnt += 1000) {
-            await new Promise<void>((res) => {
-                setTimeout(() => {
-                    res_con.push(...json.slice(cnt, cnt + 1000));
-                    res();
-                }, 1);
-            });
-        }
     }
 
     private static onStop(cha: ViewChanInt): void {

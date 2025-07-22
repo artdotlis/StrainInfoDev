@@ -26,7 +26,7 @@ their relations, and deposition data.
 ### Default
 
 - GNU/Linux
-- PHP: ~8.2
+- PHP: ~8.4
 - TS: ~5.7
 - NODEJS: ~20
 

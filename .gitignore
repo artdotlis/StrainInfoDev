@@ -16,7 +16,7 @@ package-lock.json
 yarn.lock
 
 # ---> Composer
-composer.phar
+composer.phar*
 vendor/
 phploc.phar
 

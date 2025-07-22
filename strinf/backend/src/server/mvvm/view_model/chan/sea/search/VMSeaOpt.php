@@ -60,14 +60,16 @@ final class VMSeaOpt implements VMIntSeaOpt
             return $des_con;
         }
         $relation = get_object_vars($strain_con)[StRelDepositE::REL_CON->value];
-        if (
-            !\is_object($relation) ||
-            !property_exists($relation, StRelDepositE::REL_DEP_CON->value) ||
-            !is_array(get_object_vars($relation)[StRelDepositE::REL_DEP_CON->value])
-        ) {
+        if (!\is_object($relation) ||
+            !property_exists($relation, StRelDepositE::REL_DEP_CON->value)) {
             return $des_con;
         }
-        foreach (get_object_vars($relation)[StRelDepositE::REL_DEP_CON->value] as $des) {
+        $cul_rel = get_object_vars($relation)[StRelDepositE::REL_DEP_CON->value];
+
+        if (!is_array($cul_rel)) {
+            return $des_con;
+        }
+        foreach ($cul_rel as $des) {
             if (!is_object($des) || !property_exists($des, StRelDepositE::DES->value)) {
                 continue;
             }

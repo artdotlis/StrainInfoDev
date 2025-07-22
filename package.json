@@ -26,12 +26,12 @@
         "typescript": "^5.8.3"
     },
     "devDependencies": {
-        "@types/bun": "^1.2.18",
-        "@types/node": "^22.16.4",
+        "@types/bun": "^1.2.19",
+        "@types/node": "^24.0.15",
         "commitizen": "^4.3.1",
         "cz-conventional-changelog": "^3.3.0",
         "husky": "^9.1.7",
-        "lint-staged": "^15.5.2",
+        "lint-staged": "^16.1.2",
         "prettier": "^3.6.2",
         "shellcheck": "^3.1.0"
     },
@@ -46,7 +46,7 @@
         "dev": "sh $BIN_TRAP_SH 'sh $BIN_BACKEND_RUN_DEV' 'bun run dev:frontend'",
         "profile:backend": "sh $BIN_BACKEND_RUN_PROFILE",
         "profile": "bun run profile:backend",
-        "lint": "lint-staged --shell '/bin/sh'",
+        "lint": "lint-staged",
         "lint:api": "cd $STRINF_API && $BUN run lint",
         "lint:dev": "bash $BIN_RUN_ENV_LINT",
         "lint:backend": "cd $STRINF_BACKEND && sh ../../$BIN_BACKEND_LINT",
@@ -58,19 +58,19 @@
     },
     "lint-staged": {
         "**/frontend/**/*.{ts,tsx}": [
-            "cd $STRINF_FRONTEND && bun run lint:eslint --fix"
+            "/bin/sh -c 'cd $STRINF_FRONTEND && bun run lint:eslint --fix $@'"
         ],
         "*.{js,jsx,ts,tsx,html,css,md,json,yml,yaml}": [
-            "prettier --config $CONFIG_PRETTIER --ignore-path $CONFIG_PRETTIER_IGNORE --write"
+            "/bin/sh -c 'prettier --config $CONFIG_PRETTIER --ignore-path $CONFIG_PRETTIER_IGNORE --write $@'"
         ],
         "**/frontend/**/*.{md,mdx}": [
-            "cd $STRINF_FRONTEND && bun run lint:eslint $CONFIG_ESLINT_MDX --fix"
+            "/bin/sh -c 'cd $STRINF_FRONTEND && bun run lint:eslint $CONFIG_ESLINT_MDX --fix $@'"
         ],
         "*.sh": [
-            "shellcheck --rcfile=$CONFIG_SHELL"
+            "/bin/sh -c 'shellcheck --rcfile=$CONFIG_SHELL $@'"
         ],
         "**/backend/**/*.php": [
-            "cd $STRINF_BACKEND && sh ../../$BIN_BACKEND_LINT_STAGED"
+            "/bin/sh -c 'cd $STRINF_BACKEND && sh ../../$BIN_BACKEND_LINT_STAGED $@'"
         ]
     },
     "config": {
