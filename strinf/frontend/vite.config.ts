@@ -358,6 +358,15 @@ function createShared(build: boolean): UserConfig {
             //    targets: ['last 2 versions, not dead, > 0.2%'],
             //}),
             {
+                name: 'detect-eval-new-function',
+                transform(code, id) {
+                    if (code.includes('eval(') || code.includes('new Function')) {
+                        console.log('\nEVAL_OR_NEW_FUNC IN -', id);
+                    }
+                    return code;
+                },
+            },
+            {
                 name: 'purgecss',
                 async closeBundle() {
                     console.log('finished build');
