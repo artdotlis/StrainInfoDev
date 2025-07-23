@@ -10,7 +10,7 @@ WORKDIR /tmp/app
 
 RUN mkdir -p "${HOME}/.local/bin" && CGO_ENABLED=0 bash "./${BIN_DEPLOY}"
 
-FROM docker.io/alpine:3.19
+FROM docker.io/alpine:3.22
 
 ARG BIN_DEPLOY_REQ_NGINX
 ARG BIN_DEPLOY_ADD_CRON
