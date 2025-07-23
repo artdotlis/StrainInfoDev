@@ -13,7 +13,8 @@ import {
     UListWr,
     factoryNewsDateWr,
 } from '@strinf/ts/functions/md/wrapper';
-import { Helmet } from 'react-helmet';
+import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
+import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
 import { getCurFullPath } from '@strinf/ts/functions/http/http';
 
 function NewsM(): JSX.Element {
@@ -25,11 +26,8 @@ function NewsM(): JSX.Element {
     }
     return (
         <>
-            <Helmet>
-                <meta name="description" content="StrainInfo news" />
-                <link rel="canonical" href={getCurFullPath()} />
-                <title>StrainInfo - News</title>
-            </Helmet>
+            <MetaH title={'StrainInfo - News'} desc={'StrainInfo news'} />
+            <CanonH href={getCurFullPath()} />
             <News
                 components={{
                     h2: factoryNewsDateWr(({ children }: NewsT) => <h2>{children}</h2>),

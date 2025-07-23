@@ -12,8 +12,8 @@ import PagPosT from '@strinf/ts/constants/type/PagPosT';
 import SeaInVD from '@strinf/ts/mvc/vdom/main/input/SeaInVD';
 import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
 import phSty from '@strinf/css/mods/icon.module.css';
-import { Helmet } from 'react-helmet';
 import { selectBannerImage } from '@strinf/ts/functions/files/image';
+import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
 
 const H_DESC = `
 StrainInfo is a service developed to provide a
@@ -76,10 +76,7 @@ class IndexVD extends Component<unknown, object> {
         }
         return (
             <>
-                <Helmet>
-                    <meta name="description" content={H_DESC} />
-                    <title>StrainInfo</title>
-                </Helmet>
+                <MetaH title={'StrainInfo'} desc={H_DESC} />
                 <Hero />
                 <div className={`${ClHtml.herB} ${Wid.SMF}`}>
                     <i

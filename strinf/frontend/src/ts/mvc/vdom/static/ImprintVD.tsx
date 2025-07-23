@@ -10,7 +10,9 @@ import HeadT from '@strinf/ts/constants/type/HeadT';
 import { openMailClient, scrambleMail } from '@strinf/ts/functions/links/mail';
 import linkSty from '@strinf/css/mods/link.module.css';
 import { strain_info_mail } from '@strinf/ts/constants/links/mail';
-import { Helmet } from 'react-helmet';
+
+import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
+import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
 import { getCurFullPath } from '@strinf/ts/functions/http/http';
 import CONFIG from '@strinf/ts/configs/config';
 
@@ -59,11 +61,8 @@ function ImprintAll(): JSX.Element {
     }
     return (
         <>
-            <Helmet>
-                <link rel="canonical" href={getCurFullPath()} />
-                <meta name="description" content="StrainInfo imprint" />
-                <title>StrainInfo - Imprint</title>
-            </Helmet>
+            <MetaH title={'StrainInfo - Imprint'} desc={'StrainInfo imprint'} />
+            <CanonH href={getCurFullPath()} />
             <MainCon />
         </>
     );

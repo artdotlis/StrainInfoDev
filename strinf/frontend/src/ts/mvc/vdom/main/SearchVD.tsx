@@ -22,7 +22,6 @@ import SeaSt from '@strinf/ts/mvc/vdom/state/SeaSt';
 import { getApiToStr } from '@strinf/ts/functions/api/map';
 import { trackSearch } from '@strinf/ts/mvc/vdom/fun/mat/track';
 import HeadT from '@strinf/ts/constants/type/HeadT';
-import { Helmet } from 'react-helmet';
 import QApiCon from '@strinf/ts/constants/api/q_api';
 import { checkSeaTags } from '@strinf/ts/functions/links/create_sea';
 import HubSeaVD from '@strinf/ts/mvc/vdom/static/HubSeaVD';
@@ -31,6 +30,7 @@ import { TT_ID_SIM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
 import Loading from '@strinf/ts/mvc/vdom/static/misc/LoadVD';
 import type { LocationHook } from 'preact-iso';
 import { getSeaApiFPath } from '@strinf/ts/constants/api/thes_api';
+import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
 
 type CTX = GlobVersionGet & LoadSet & LoadStMInt & BreadCrumbsG & TTHookG<TT_GL_TYPE>;
 interface SearchState {
@@ -187,11 +187,11 @@ class SearchVD<T extends SEA_PROP> extends Component<T, SearchState> {
         const [sTerm, sApi] = this.sea;
         return (
             <>
-                <Helmet>
-                    <meta name="description" content={H_DESC(sTerm, sApi)} />
-                    <meta name="robots" content="noindex" />
-                    <title>StrainInfo - Search</title>
-                </Helmet>
+                <MetaH
+                    title={'StrainInfo - Search'}
+                    desc={H_DESC(sTerm, sApi)}
+                    index={false}
+                />
                 <SeaTVD res={tab} sea={this.sea} hook={ttHook} />
                 <HubSeaVD />
             </>

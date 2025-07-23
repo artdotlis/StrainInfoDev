@@ -1,16 +1,16 @@
 import type { StatsT } from '@strinf/ts/interfaces/misc/configs';
-import { Helmet } from 'react-helmet';
-import type { JSX } from 'preact';
 
-function initF(url: string, id: string): JSX.Element {
+function initF(url: string, id: string): void {
     window._paq = window._paq ?? [];
     window._paq.push(['setTrackerUrl', `${url}matomo.php`]);
     window._paq.push(['setSiteId', id]);
-    return (
-        <Helmet>
-            <script type="text/javascript" src={`${url}matomo.js`} />
-        </Helmet>
-    );
+    const fId = 'matomo_main_script';
+    document.querySelector(`#${fId}`)?.remove();
+    const script = document.createElement('script');
+    script.setAttribute('id', fId);
+    script.setAttribute('type', 'text/javascript');
+    script.setAttribute('src', `${url}matomo.js`);
+    document.head.appendChild(script);
 }
 
 function initT(domains: string[]): void {
@@ -32,15 +32,13 @@ function createUrl(mat: StatsT): string {
     return `${mat.matomo.protocol}://${mat.matomo.domain}${matPort}/`;
 }
 
-function initMat(mat: StatsT): JSX.Element | null {
+function initMat(mat: StatsT): void {
     if (mat.enable && window.matomoLoaded === undefined) {
         window._paq = window._paq ?? [];
         initT(mat.domain);
-        const matomo = initF(createUrl(mat), `${mat.id}`);
+        initF(createUrl(mat), `${mat.id}`);
         window.matomoLoaded = true;
-        return matomo;
     }
-    return null;
 }
 
 function setMatomoInterval(callback: () => void, onfail: () => void): void {

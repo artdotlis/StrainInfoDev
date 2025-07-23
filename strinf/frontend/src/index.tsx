@@ -14,7 +14,6 @@ import { render } from 'preact';
 import MainVD from '@strinf/ts/mvc/vdom/MainVD';
 import { createUrlStr, hidePrivateInfo } from '@strinf/ts/functions/http/http';
 import { createPreloadBanner } from '@strinf/ts/functions/files/image';
-import { Helmet } from 'react-helmet';
 import CONFIG from '@strinf/ts/configs/config';
 import type { JSX } from 'preact';
 import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
@@ -22,15 +21,9 @@ import { SIDE_SMALL } from '@strinf/ts/constants/style/AtHtml';
 import { ErrorBoundary, LocationProvider } from 'preact-iso';
 
 import loaderSty from '@strinf/css/mods/loader.module.css';
+import PreConnectH from '@strinf/ts/mvc/vdom/static/helmet/ConnectH';
 
 hidePrivateInfo();
-const pBE: JSX.Element = (
-    <link rel="preconnect" href={createUrlStr(CONFIG.backend, '')} />
-);
-let pST: JSX.Element | null = null;
-if (CONFIG.statistic.enable) {
-    pST = <link rel="preconnect" href={createUrlStr(CONFIG.statistic.matomo, '')} />;
-}
 
 function IndexBody(): JSX.Element {
     return (
@@ -41,10 +34,11 @@ function IndexBody(): JSX.Element {
                         console.log('detected uncaught error', err.message);
                     }}
                 >
-                    <Helmet>
-                        {pBE}
-                        {pST}
-                    </Helmet>
+                    <PreConnectH
+                        id={'matomo_con'}
+                        href={createUrlStr(CONFIG.statistic.matomo, '')}
+                    />
+                    <PreConnectH id={'api_con'} href={createUrlStr(CONFIG.backend, '')} />
                     {createPreloadBanner()}
                     <MainVD />
                 </ErrorBoundary>

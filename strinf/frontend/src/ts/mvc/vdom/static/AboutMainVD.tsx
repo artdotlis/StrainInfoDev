@@ -23,8 +23,9 @@ import LogoCirmVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoCirmVD';
 import LogoRccVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoRccVD';
 import LogoIcmpVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoIcmpVD';
 import LogoBccmVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoBccmVD';
-import { Helmet } from 'react-helmet';
 import { getCurFullPath } from '@strinf/ts/functions/http/http';
+import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
+import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
 
 const LOGOS = {
     dsmz: <LogoDsmzVD />,
@@ -113,11 +114,8 @@ function AboutP(): JSX.Element {
     }
     return (
         <>
-            <Helmet>
-                <meta name="description" content="About StrainInfo" />
-                <title>StrainInfo - About</title>
-                <link rel="canonical" href={getCurFullPath()} />
-            </Helmet>
+            <MetaH title={'StrainInfo - About'} desc={'About StrainInfo'} />
+            <CanonH href={getCurFullPath()} />
             <div className={ClHtml.row}>
                 <div className={Col.lN9}>
                     <Container>

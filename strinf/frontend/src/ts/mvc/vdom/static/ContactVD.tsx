@@ -12,7 +12,9 @@ import CInfo from '@strinf/md/contact/info.mdx';
 import HeadT from '@strinf/ts/constants/type/HeadT';
 import { openMailClient, scrambleMail } from '@strinf/ts/functions/links/mail';
 import { strain_info_mail } from '@strinf/ts/constants/links/mail';
-import { Helmet } from 'react-helmet';
+import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
+import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
+
 import { getCurFullPath } from '@strinf/ts/functions/http/http';
 import CONFIG from '@strinf/ts/configs/config';
 
@@ -96,11 +98,11 @@ function ContactWr(props: WrProps): JSX.Element {
     const { children } = props;
     return (
         <>
-            <Helmet>
-                <meta name="description" content="StrainInfo contact information" />
-                <link rel="canonical" href={getCurFullPath()} />
-                <title>StrainInfo - Contact</title>
-            </Helmet>
+            <MetaH
+                title={'StrainInfo - Contact'}
+                desc={'StrainInfo contact information'}
+            />
+            <CanonH href={getCurFullPath()} />
             <div className={ClHtmlPl.con}>
                 <div className={ClHtmlPl.cnt}>{children}</div>
             </div>

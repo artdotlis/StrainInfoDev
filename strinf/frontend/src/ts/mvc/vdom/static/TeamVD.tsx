@@ -5,6 +5,7 @@ import { useContext } from 'preact/hooks';
 import type { BreadCrumbsG } from '@strinf/ts/interfaces/dom/global';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 
+import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
 import Team from '@strinf/md/team/team.mdx';
 import { PersonWr, TableWr, TeamWr } from '@strinf/ts/functions/md/wrapper';
 import HeadT from '@strinf/ts/constants/type/HeadT';
@@ -21,13 +22,16 @@ function TeamM(): JSX.Element {
         });
     }
     return (
-        <Team
-            components={{
-                table: TableWr,
-                ul: TeamWr,
-                li: PersonWr,
-            }}
-        />
+        <>
+            <MetaH title={'StrainInfo - Team'} desc={'StrainInfo team'} index={false} />
+            <Team
+                components={{
+                    table: TableWr,
+                    ul: TeamWr,
+                    li: PersonWr,
+                }}
+            />
+        </>
     );
 }
 

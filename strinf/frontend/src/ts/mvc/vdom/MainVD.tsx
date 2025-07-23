@@ -38,11 +38,9 @@ class MainVD extends Component<
 
     private readonly wrapper: RefObject<HTMLDivElement>;
 
-    private readonly stat: JSX.Element | null;
-
     constructor(props: Record<string, never>) {
         super(props);
-        this.stat = initMat(CONFIG.statistic);
+        initMat(CONFIG.statistic);
         this.errCr = false;
         this.state = { panic: false, showErrCnt: 0 };
         this.seaVGl = '';
@@ -172,7 +170,6 @@ class MainVD extends Component<
         const { panic } = this.state;
         return (
             <>
-                {this.stat}
                 <MainConGl.Provider value={this.initGlState()}>
                     <div
                         ref={this.wrapper}

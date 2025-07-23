@@ -23,11 +23,11 @@ import { TT_ID_DEP } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTDepVD';
 import { TT_ID_STR } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTStrVD';
 import { TT_ID_SIM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/details';
-import { Helmet } from 'react-helmet';
 import AltStrainsVD, { getAnchorAS } from '@strinf/ts/mvc/vdom/dyn/pass/AltStrainsVD';
 import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
 import OnPageNavVD, { createNavLinks } from '@strinf/ts/mvc/vdom/dyn/misc/OnPageNav';
 import RelStrainsVD, { getAnchorRS } from '@strinf/ts/mvc/vdom/dyn/pass/RelStrainsVD';
+import SchemaMainH from '@strinf/ts/mvc/vdom/static/helmet/SchemaH';
 
 interface PassRProps {
     res: PassR | undefined;
@@ -262,13 +262,7 @@ function DataSet({ res, dCtrl }: DataSetProps): JSX.Element | null {
         );
         return null;
     }
-    return (
-        <Helmet>
-            <script type="application/ld+json">
-                {createCVSchema(res, [...dat.values()])}
-            </script>
-        </Helmet>
-    );
+    return <SchemaMainH json={createCVSchema(res, [...dat.values()])} />;
 }
 
 function checkUndefined(props: PassRProps): props is PassRVerified {

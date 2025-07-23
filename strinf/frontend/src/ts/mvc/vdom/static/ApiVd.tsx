@@ -23,7 +23,6 @@ import { memo } from 'preact/compat';
 import { CookieValue } from '@strinf/ts/constants/style/Acc';
 import { isDyslexiaSet } from '@strinf/ts/functions/cookie/acc';
 import emptyCall from '@strinf/ts/functions/misc/call';
-import { Helmet } from 'react-helmet';
 import CONFIG from '@strinf/ts/configs/config';
 import * as yaml from 'js-yaml';
 import { hasProp } from '@strinf/ts/functions/types/arr';
@@ -34,6 +33,8 @@ import linkSty from '@strinf/css/mods/link.module.css';
 import drSty from '@strinf/css/mods/dropdown.module.css';
 import { deactivateAllDropdownToggles } from '@strinf/ts/functions/libs/style';
 import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
+import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
+import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
 
 async function awaitYaml(resp: Response): Promise<unknown> {
     if (resp.ok) {
@@ -401,11 +402,11 @@ function ApiVD(): JSX.Element {
     });
     return (
         <>
-            <Helmet>
-                <meta name="description" content="Documentation for the StrainInfo-API" />
-                <link rel="canonical" href={getCurFullPath()} />
-                <title>StrainInfo - Web service</title>
-            </Helmet>
+            <MetaH
+                title={'StrainInfo - Web service'}
+                desc={'Documentation for the StrainInfo-API'}
+            />
+            <CanonH href={getCurFullPath()} />
             <div className={ClHtml.row}>
                 <RapDocM
                     spec={spec}

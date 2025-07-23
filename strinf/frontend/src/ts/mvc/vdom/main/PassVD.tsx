@@ -18,13 +18,14 @@ import { trackSearch } from '@strinf/ts/mvc/vdom/fun/mat/track';
 import HeadT from '@strinf/ts/constants/type/HeadT';
 import OverviewVD from '@strinf/ts/mvc/vdom/dyn/pass/OverviewVD';
 import { StatTags } from '@strinf/ts/constants/api/thes_api';
-import { Helmet } from 'react-helmet';
 import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
 import DetailCtrl from '@strinf/ts/mvc/ctrl/DetailCtrl';
 import { getCurFullPath, routeUri } from '@strinf/ts/functions/http/http';
 import Loading from '@strinf/ts/mvc/vdom/static/misc/LoadVD';
 import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
 import type { LocationHook } from 'preact-iso';
+import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
+import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
 
 type CTX = GlobVersionGet & LoadSet & LoadStMInt & BreadCrumbsG;
 
@@ -120,16 +121,11 @@ class PassVD extends Component<PassProps, PassState> {
         const tax = tab?.overview[2][0] ?? 'StrainInfo';
         return (
             <>
-                <Helmet>
-                    <meta
-                        name="description"
-                        content={H_DESC(tab?.overview[0], tab?.overview[2][0])}
-                    />
-                    <title>
-                        {tax} - {sid}
-                    </title>
-                    <link rel="canonical" href={getCurFullPath()} />
-                </Helmet>
+                <MetaH
+                    desc={H_DESC(tab?.overview[0], tab?.overview[2][0])}
+                    title={`${tax} - ${sid}`}
+                />
+                <CanonH href={getCurFullPath()} />
                 <OverviewVD res={tab?.overview} dCtrl={this.dCtrl} rel={tab?.relations} />
                 <PassCVD res={tab} dCtrl={this.dCtrl} culId={getArgs(REG_ARG)} />
             </>

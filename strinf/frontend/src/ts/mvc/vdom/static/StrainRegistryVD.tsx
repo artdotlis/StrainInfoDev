@@ -6,7 +6,8 @@ import type { BreadCrumbsG } from '@strinf/ts/interfaces/dom/global';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 
 import HeadT from '@strinf/ts/constants/type/HeadT';
-import { Helmet } from 'react-helmet';
+import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
+import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
 import { getCurFullPath } from '@strinf/ts/functions/http/http';
 
 import StrainRegistry from '@strinf/md/registry/strain_registry.mdx';
@@ -20,11 +21,8 @@ function StrRegM(): JSX.Element {
     }
     return (
         <>
-            <Helmet>
-                <meta name="description" content="StrainRegistry" />
-                <link rel="canonical" href={getCurFullPath()} />
-                <title>StrainRegistry</title>
-            </Helmet>
+            <MetaH title={'StrainRegistry'} desc={'StrainRegistry'} />
+            <CanonH href={getCurFullPath()} />
             <StrainRegistry />{' '}
         </>
     );

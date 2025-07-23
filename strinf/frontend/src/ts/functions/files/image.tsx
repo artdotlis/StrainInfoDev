@@ -1,5 +1,5 @@
-import { Helmet } from 'react-helmet';
 import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
+import PreLoadH from '@strinf/ts/mvc/vdom/static/helmet/LoadH';
 import type { JSX } from 'preact';
 
 const bgI1920 = new URL('@assets/bg/main_1920.webp', import.meta.url).href;
@@ -23,21 +23,21 @@ function selectBannerImage(): string {
 
 const BANNER_URL = [UIApiCon.search, UIApiCon.pass] as const;
 
-function crBannerHelmet(): JSX.Element {
-    return (
-        <Helmet>
-            <link rel="preload" as="image" href={selectBannerImage()} type="image/webp" />
-        </Helmet>
-    );
-}
-
 function createPreloadBanner(): JSX.Element {
     if (UIApiCon.index === window.location.pathname) {
-        return crBannerHelmet();
+        return (
+            <PreLoadH type="image/webp" id={'banner_image'} href={selectBannerImage()} />
+        );
     }
     for (const ban of BANNER_URL) {
         if (window.location.pathname.startsWith(ban)) {
-            return crBannerHelmet();
+            return (
+                <PreLoadH
+                    type="image/webp"
+                    id={'banner_image'}
+                    href={selectBannerImage()}
+                />
+            );
         }
     }
     return <></>;

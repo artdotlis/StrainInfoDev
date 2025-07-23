@@ -25,7 +25,9 @@ import MainTourVD from '@strinf/ts/mvc/vdom/static/tour/MainTour';
 import ApiTourVD from '@strinf/ts/mvc/vdom/static/tour/ApiTour';
 import { useContext, useEffect, useRef } from 'preact/hooks';
 import { memo } from 'preact/compat';
-import { Helmet } from 'react-helmet';
+
+import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
+import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
 import CONFIG from '@strinf/ts/configs/config';
 import QApiCon from '@strinf/ts/constants/api/q_api';
 
@@ -141,11 +143,11 @@ function DocCon(props: { children: JSX.Element }): JSX.Element {
     const { children } = props;
     return (
         <>
-            <Helmet>
-                <meta name="description" content="StrainInfo documentation" />
-                <link rel="canonical" href={getCurFullPath()} />
-                <title>StrainInfo - Documentation</title>
-            </Helmet>
+            <MetaH
+                title={'StrainInfo - Documentation'}
+                desc={'StrainInfo documentation'}
+            />
+            <CanonH href={getCurFullPath()} />
             <div className={ClHtml.row}>{children}</div>
         </>
     );
