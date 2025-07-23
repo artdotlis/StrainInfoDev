@@ -27,8 +27,8 @@ their relations, and deposition data.
 
 - GNU/Linux
 - PHP: ~8.4
-- TS: ~5.7
-- NODEJS: ~20
+- TS: ~5.8
+- NODEJS: ~22
 
 ### Dev Container
 
