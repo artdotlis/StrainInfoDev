@@ -5,244 +5,276 @@ import {
     SeqType,
     StrainStatus,
 } from '@strinf/ts/constants/api/data';
-import { z } from 'zod';
+import type { infer as z_infer } from 'zod/mini';
+import {
+    object,
+    strictObject,
+    minimum,
+    minLength,
+    optional,
+    string,
+    length,
+    array,
+    coerce,
+    number,
+    boolean,
+    url,
+    enum as z_enum,
+    tuple,
+    union,
+    literal,
+    config as z_config,
+} from 'zod/mini';
+
+// config
+
+z_config({
+    jitless: true,
+});
 
 // --- parts
 
-const EntityCon = z.strictObject({
-    name: z.string().min(1).optional(),
-    institute: z.string().min(1).optional(),
-    countryCode: z.string().length(2).optional(),
-    place: z.array(z.string().min(1)).optional(),
-    ror: z.string().min(1).optional(),
-    orcid: z.string().min(1).optional(),
+const EntityCon = strictObject({
+    name: optional(string().check(minLength(1))),
+    institute: optional(string().check(minLength(1))),
+    countryCode: optional(string().check(length(2))),
+    place: optional(array(string().check(minLength(1)))),
+    ror: optional(string().check(minLength(1))),
+    orcid: optional(string().check(minLength(1))),
 });
 
-const RegConMin = z.strictObject({
-    date: z.coerce.date(),
-    submitter: EntityCon.optional(),
+const RegConMin = strictObject({
+    date: coerce.date(),
+    submitter: optional(EntityCon),
 });
 
-const RegConMax = RegConMin.extend({
-    supervisor: EntityCon.optional(),
+const RegConMax = strictObject({
+    ...RegConMin.shape,
+    supervisor: optional(EntityCon),
 });
 
-const DepCon = z.strictObject({
-    designation: z.string().min(1).optional(),
-    origin: z.number().min(1).optional(),
-    year: z.number().min(1700).optional(),
-    depositor: z.array(EntityCon).optional(),
+const DepCon = strictObject({
+    designation: optional(string().check(minLength(1))),
+    origin: optional(number().check(minimum(1))),
+    year: optional(number().check(minimum(1700))),
+    depositor: optional(array(EntityCon)),
 });
 
-const SamSlimCon = z.strictObject({
-    source: z.string().min(1).optional(),
-    countryCode: z.string().length(2).optional(),
+const SamSlimCon = strictObject({
+    source: optional(string().check(minLength(1))),
+    countryCode: optional(string().check(length(2))),
 });
 
-const SamCon = SamSlimCon.extend({
-    date: z.coerce.date().optional(),
-    place: z.array(z.string().min(1)).optional(),
+const SamCon = strictObject({
+    ...SamSlimCon.shape,
+    date: optional(coerce.date()),
+    place: optional(array(string().check(minLength(1)))),
 });
 
-const IsoCon = z.strictObject({
-    sample: SamCon.optional(),
-    isolator: z.array(EntityCon).optional(),
+const IsoCon = strictObject({
+    sample: optional(SamCon),
+    isolator: optional(array(EntityCon)),
 });
 
-const ArcCon = z.strictObject({
-    doi: z.string().min(1),
-    date: z.coerce.date(),
-    title: z.string().min(1),
+const ArcCon = strictObject({
+    doi: string().check(minLength(1)),
+    date: coerce.date(),
+    title: string().check(minLength(1)),
 });
 
-const TaxonCon = z.strictObject({
-    name: z.string().min(1),
-    ncbi: z.number().min(1).optional(),
-    lpsn: z.number().min(1).optional(),
+const TaxonCon = strictObject({
+    name: string().check(minLength(1)),
+    ncbi: optional(number().check(minimum(1))),
+    lpsn: optional(number().check(minimum(1))),
 });
 
-const UrlCon = z.strictObject({
-    url: z.url(),
-    online: z.boolean(),
+const UrlCon = strictObject({
+    url: url(),
+    online: boolean(),
 });
 
-const HistCon = z.strictObject({
-    dataSource: z.enum(DataSource),
-    encoded: z.string().min(1),
+const HistCon = strictObject({
+    dataSource: z_enum(DataSource),
+    encoded: string().check(minLength(1)),
 });
 
-const CCConMin = z.strictObject({
-    ccID: z.number().min(1),
-    name: z.string().min(1),
-    code: z.string().min(1),
-    deprecated: z.boolean(),
+const CCConMin = strictObject({
+    ccID: number().check(minimum(1)),
+    name: string().check(minLength(1)),
+    code: string().check(minLength(1)),
+    deprecated: boolean(),
 });
 
-const CCCon = CCConMin.extend({
-    countryCode: z.string().length(2),
-    ror: z.string().min(1).optional(),
-    gbif: z.string().min(1).optional(),
-    homepage: UrlCon.optional(),
-    active: z.boolean(),
+const CCCon = strictObject({
+    ...CCConMin.shape,
+    countryCode: string().check(length(2)),
+    ror: optional(string().check(minLength(1))),
+    gbif: optional(string().check(minLength(1))),
+    homepage: optional(UrlCon),
+    active: boolean(),
 });
 
-const DepositIdCon = z.strictObject({
-    siDP: z.number().min(1),
-    designation: z.string().min(1),
+const DepositIdCon = strictObject({
+    siDP: number().check(minimum(1)),
+    designation: string().check(minLength(1)),
 });
 
-const RelCulCon = DepositIdCon.extend({
-    erroneous: z.boolean(),
-    origin: z.number().min(1).optional(),
-    ccID: z.number().min(1).optional(),
+const RelCulCon = strictObject({
+    ...DepositIdCon.shape,
+    erroneous: boolean(),
+    origin: optional(number().check(minimum(1))),
+    ccID: optional(number().check(minimum(1))),
 });
 
-const RelConMin = z.strictObject({
-    deposit: z.array(RelCulCon).min(1),
+const RelConMin = strictObject({
+    deposit: array(RelCulCon).check(minLength(1)),
 });
 
-const RelCon = RelConMin.extend({
-    designation: z.array(z.string().min(1)).min(1).optional(),
+const RelCon = strictObject({
+    ...RelConMin.shape,
+    designation: optional(array(string().check(minLength(1))).check(minLength(1))),
 });
 
-const SeqCon = z.strictObject({
-    accessionNumber: z.string().min(1),
-    type: z.enum(SeqType),
-    deposit: z.array(DepositIdCon).min(1),
-    length: z.number().min(1).optional(),
-    assemblyLevel: z.enum(AssemblyLvl).optional(),
-    year: z.number().min(1700).optional(),
-    description: z.string().min(1).optional(),
+const SeqCon = strictObject({
+    accessionNumber: string().check(minLength(1)),
+    type: z_enum(SeqType),
+    deposit: array(DepositIdCon).check(minLength(1)),
+    length: optional(number().check(minimum(1))),
+    assemblyLevel: optional(z_enum(AssemblyLvl)),
+    year: optional(number().check(minimum(1700))),
+    description: optional(string().check(minLength(1))),
 });
 
-const PubCon = z.strictObject({
-    title: z.string().min(1),
-    year: z.number().min(1700),
-    author: z.string().min(1).optional(),
-    publisher: z.string().min(1).optional(),
-    pubmed: z.number().min(1).optional(),
-    pmc: z.number().min(1).optional(),
-    issn: z.string().min(1).optional(),
-    doi: z.string().min(1).optional(),
-    deposit: z.array(DepositIdCon).min(1),
+const PubCon = strictObject({
+    title: string().check(minLength(1)),
+    year: number().check(minimum(1700)),
+    author: optional(string().check(minLength(1))),
+    publisher: optional(string().check(minLength(1))),
+    pubmed: optional(number().check(minimum(1))),
+    pmc: optional(number().check(minimum(1))),
+    issn: optional(string().check(minLength(1))),
+    doi: optional(string().check(minLength(1))),
+    deposit: array(DepositIdCon).check(minLength(1)),
 });
 
 // --- main container
 
-const DepositMin = z.strictObject({
-    siDP: z.number().min(1),
-    designation: z.string().min(1),
-    cultureCollection: CCConMin.optional(),
-    catalogue: UrlCon.optional(),
-    status: z.enum(DepositStatus),
-    typeStrain: z.boolean(),
-    lastUpdate: z.coerce.date(),
-    dataSource: z.array(z.enum(DataSource)).min(1),
-    registration: RegConMin.optional(),
-    taxon: TaxonCon.optional(),
+const DepositMin = strictObject({
+    siDP: number().check(minimum(1)),
+    designation: string().check(minLength(1)),
+    cultureCollection: optional(CCConMin),
+    catalogue: optional(UrlCon),
+    status: z_enum(DepositStatus),
+    typeStrain: boolean(),
+    lastUpdate: coerce.date(),
+    dataSource: array(z_enum(DataSource)).check(minLength(1)),
+    registration: optional(RegConMin),
+    taxon: optional(TaxonCon),
 });
 
-const DepositAvg = DepositMin.extend({
-    relation: z.array(z.string().min(1)).min(1).optional(),
-    history: z.array(HistCon).optional(),
-    bdID: z.array(z.number().min(1)).min(1).optional(),
-    registration: RegConMax.optional(),
-    cultureCollection: CCCon.optional(),
-    deposition: DepCon.optional(),
-    isolation: IsoCon.optional(),
+const DepositAvg = strictObject({
+    ...DepositMin.shape,
+    relation: optional(array(string().check(minLength(1))).check(minLength(1))),
+    history: optional(array(HistCon)),
+    bdID: optional(array(number().check(minimum(1))).check(minLength(1))),
+    registration: optional(RegConMax),
+    cultureCollection: optional(CCCon),
+    deposition: optional(DepCon),
+    isolation: optional(IsoCon),
 });
 
-const DepositStrainMin = z.strictObject({
-    siID: z.number().min(1),
-    doi: z.string().min(1),
-    merged: z.array(z.number().min(1)).min(1).optional(),
-    typeStrain: z.boolean(),
+const DepositStrainMin = strictObject({
+    siID: number().check(minimum(1)),
+    doi: string().check(minLength(1)),
+    merged: optional(array(number().check(minimum(1))).check(minLength(1))),
+    typeStrain: boolean(),
 });
 
-const StrainMin = z.strictObject({
-    siID: z.number().min(1),
-    doi: z.string().min(1),
-    merged: z.array(z.number().min(1)).min(1).optional(),
-    typeStrain: z.boolean(),
-    status: z.enum(StrainStatus),
+const StrainMin = strictObject({
+    siID: number().check(minimum(1)),
+    doi: string().check(minLength(1)),
+    merged: optional(array(number().check(minimum(1))).check(minLength(1))),
+    typeStrain: boolean(),
+    status: z_enum(StrainStatus),
     relation: RelConMin,
-    taxon: TaxonCon.optional(),
-    sample: SamSlimCon.optional(),
-    bdID: z.number().min(1).optional(),
+    taxon: optional(TaxonCon),
+    sample: optional(SamSlimCon),
+    bdID: optional(number().check(minimum(1))),
 });
 
-const StrainAvg = StrainMin.extend({
-    alternative: z.array(z.number().min(1)).min(1).optional(),
-    sequence: z.array(SeqCon).min(1).optional(),
-    literature: z.array(PubCon).min(1).optional(),
-    archive: z.array(ArcCon).min(1),
+const StrainAvg = strictObject({
+    ...StrainMin.shape,
+    alternative: optional(array(number().check(minimum(1))).check(minLength(1))),
+    sequence: optional(array(SeqCon).check(minLength(1))),
+    literature: optional(array(PubCon).check(minLength(1))),
+    archive: array(ArcCon).check(minLength(1)),
     relation: RelCon,
 });
 
-const SeaIndCon = z.strictObject({
-    fullKey: z.string().min(1),
-    path: z.string().min(1),
-    siID: z.number().min(1),
-    strainCount: z.number().min(1),
+const SeaIndCon = strictObject({
+    fullKey: string().check(minLength(1)),
+    path: string().check(minLength(1)),
+    siID: number().check(minimum(1)),
+    strainCount: number().check(minimum(1)),
 });
 
-const SerSeaEle = z.tuple([
-    z.number().min(1),
-    z.array(z.string().min(1)).min(1),
-    z.string(),
-    z.union([z.literal(0), z.literal(1)]),
-    z.union([z.literal(''), z.string().length(2)]),
-    z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+const SerSeaEle = tuple([
+    number().check(minimum(1)),
+    array(string().check(minLength(1))).check(minLength(1)),
+    string(),
+    union([literal(0), literal(1)]),
+    union([literal(''), string().check(length(2))]),
+    union([literal(0), literal(1), literal(2), literal(3)]),
 ]);
 
 // ---- mapped
 
-const SeaIndJ = z.strictObject({
-    exact: z.array(SeaIndCon),
-    match: z.array(SeaIndCon),
+const SeaIndJ = strictObject({
+    exact: array(SeaIndCon),
+    match: array(SeaIndCon),
 });
-const SerSeaAllJ = z.strictObject({
-    count: z.number().min(1),
-    data: z.array(SerSeaEle).min(1),
-    next: z.number().min(1).optional(),
+const SerSeaAllJ = strictObject({
+    count: number().check(minimum(1)),
+    data: array(SerSeaEle).check(minLength(1)),
+    next: optional(number().check(minimum(1))),
 });
 
-const PassJ = z.object({
+const PassJ = object({
     strain: StrainAvg,
 });
 
-const DetailsJ = z.strictObject({
+const DetailsJ = strictObject({
     deposit: DepositAvg,
     strain: DepositStrainMin,
 });
 
-const InfoDJ = z.object({
+const InfoDJ = object({
     deposit: DepositMin,
 });
 
-const InfoSJ = z.object({
+const InfoSJ = object({
     strain: StrainMin,
 });
 
-const MaintenanceInt = z.strictObject({
-    status: z.boolean(),
-    duration: z.string(),
-    zone: z.string(),
+const MaintenanceInt = strictObject({
+    status: boolean(),
+    duration: string(),
+    zone: string(),
 });
 
-const ServerStatusJ = z.strictObject({
-    private: z.boolean(),
-    version: z.string().min(7),
+const ServerStatusJ = strictObject({
+    private: boolean(),
+    version: string().check(minLength(7)),
     maintenance: MaintenanceInt,
 });
 
-type ServerStatusJT = z.infer<typeof ServerStatusJ>;
-type DetailsJT = z.infer<typeof DetailsJ>;
-type PassJT = z.infer<typeof PassJ>;
-type SerSeaAllJT = z.infer<typeof SerSeaAllJ>;
-type SerSeaEleT = z.infer<typeof SerSeaEle>;
-type SeaIndJT = z.infer<typeof SeaIndJ>;
-type SeaIndConT = z.infer<typeof SeaIndCon>;
+type ServerStatusJT = z_infer<typeof ServerStatusJ>;
+type DetailsJT = z_infer<typeof DetailsJ>;
+type PassJT = z_infer<typeof PassJ>;
+type SerSeaAllJT = z_infer<typeof SerSeaAllJ>;
+type SerSeaEleT = z_infer<typeof SerSeaEle>;
+type SeaIndJT = z_infer<typeof SeaIndJ>;
+type SeaIndConT = z_infer<typeof SeaIndCon>;
 export type {
     ServerStatusJT,
     DetailsJT,

@@ -22,7 +22,7 @@ dnf -y install php-opcache php-zip php-intl \
 echo "php installed"
 echo "installing nodejs"
 dnf -y module enable nodejs:"$NODE_VER"
-dnf -y install nodejs
+dnf -y install nodejs npm
 # for bun
 npm install -g node-gyp
 echo "nodejs installed"
