@@ -194,14 +194,17 @@ function sea_mic_all(
     $db_size = count($all_ids);
     $size = (int) ($db_size / 5);
     $pos = $index * $size;
+    if ($pos >= $db_size || $pos < 0) {
+        return [$sea_opt->createMicAllJson([], -1, 0), true];
+    }
     $con_ca = $ca_mic_ind->getResult([$index], VersionE::V2);
     if (!$con_ca->getMisIds() && $con_ca->getRes()) {
-        return [$con_ca->getRes()[$index], $pos >= $db_size || $pos < 0];
+        return [$con_ca->getRes()[$index], false];
     }
     $si_ids = array_slice($all_ids, $pos, $size);
     $con = get_ent_by_ids(VersionE::V2, $si_ids, $sea_q, $sea_b);
     $next_pos = $pos + count($si_ids);
-    $no_next = $next_pos >= $db_size || $next_pos < 0;
+    $no_next = $next_pos >= $db_size;
     $res_json = $sea_opt->createMicAllJson(
         $con->getRes(),
         $no_next ? -1 : $index + 1,
@@ -211,8 +214,5 @@ function sea_mic_all(
     if (count($con->getRes()) === count($si_ids)) {
         $ca_mic_ind->setResult($con_ca, VersionE::V2, false);
     }
-    return [
-        $res_json,
-        $pos >= $db_size || $pos < 0,
-    ];
+    return [$res_json, false];
 }

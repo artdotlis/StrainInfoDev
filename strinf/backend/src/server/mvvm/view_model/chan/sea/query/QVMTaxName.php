@@ -18,8 +18,13 @@ final class QVMTaxName extends QVMChanSea
     public function parseArg(string $arg): array
     {
         $ban_chars = $this->getMChan()->getBanChars();
+        $cast_arg = preg_replace(
+            '/:+/',
+            ':',
+            preg_replace('/[^a-zA-Z0-9\\_\-\/:.,;#+\* ]+/', ':', $arg)
+        );
         return parse_str_2_arr(
-            $arg,
+            $cast_arg,
             static function (string $val) use ($ban_chars): string {
                 return (string) parse_ban_str($val, $ban_chars);
             },

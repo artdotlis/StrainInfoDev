@@ -6,8 +6,8 @@ properties:
     match:
         type: array
         items:
-            $ref: ./search/ind_elm.yaml
+            $ref: './search/ind_elm.yaml'
     exact:
         type: array
         items:
-            $ref: ./search/ind_elm.yaml
+            $ref: './search/ind_elm.yaml'

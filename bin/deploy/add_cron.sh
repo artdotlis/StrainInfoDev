@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-. "$DOCKER_ENV_BE"
+source "$DOCKER_ENV_BE"
 
 echo "adding cron"
 echo "17  03  *   *   sun	nginx    php84 /var/www/${SERVER_CRON_INDEX}" >>"/etc/crontab"

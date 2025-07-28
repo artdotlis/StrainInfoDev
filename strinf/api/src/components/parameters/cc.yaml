@@ -4,8 +4,11 @@ in: path
 required: true
 schema:
     type: array
+    minItems: 1
     items:
         type: string
         minLength: 3
-    examples: [DSMZ, CCUG]
+        pattern: '[a-zA-Z0-9_\-\\/:.,;#+* ]{3,}$'
+        examples: [DSMZ, CCUG]
 style: simple
+explode: false

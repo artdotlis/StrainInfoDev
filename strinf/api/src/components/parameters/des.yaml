@@ -4,8 +4,11 @@ in: path
 required: true
 schema:
     type: array
+    minItems: 1
     items:
         type: string
         minLength: 4
-    examples: [Delft L 40, STAFF 1027]
+        pattern: '[\x00-\x7F]{4,}$'
+        examples: [Delft L 40, STAFF 1027]
 style: simple
+explode: false

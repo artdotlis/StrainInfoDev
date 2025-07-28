@@ -7,3 +7,4 @@ schema:
     minimum: 0
     examples: [0, 1, 2]
 style: simple
+explode: false

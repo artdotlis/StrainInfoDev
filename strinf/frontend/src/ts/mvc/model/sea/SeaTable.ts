@@ -12,7 +12,7 @@ import {
     toArrSerSeaResSim,
 } from '@strinf/ts/functions/api/map';
 import onPrError from '@strinf/ts/functions/err/async';
-import { checkRespArr, checkRespObj, fetchRetry } from '@strinf/ts/functions/http/http';
+import { checkRespArr, checkRespObjOk, fetchRetry } from '@strinf/ts/functions/http/http';
 import type { SerSeaAllJT } from '@strinf/ts/interfaces/api/data';
 import type { ApiChanInt, SeaR } from '@strinf/ts/interfaces/api/mapped';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/sea';
@@ -149,7 +149,7 @@ class SeaTable {
                                     cha.prog(0);
                                     this.fetchedCnt = 0;
                                 }
-                                return checkRespObj<SerSeaAllJT>(resp, (data) => {
+                                return checkRespObjOk<SerSeaAllJT>(resp, (data) => {
                                     const valObj =
                                         typeof data === 'object' && data !== null;
                                     if (valObj && 'next' in data) {

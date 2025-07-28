@@ -4,10 +4,11 @@ in: path
 required: true
 schema:
     type: array
+    minItems: 1
     items:
         type: string
         minLength: 6
-        maxLength: 10
+        maxLength: 30
         pattern: "^([A-Z]\\d{5}|[A-Z]{2}\\d{6}|[A-Z]{2}\\d{8}\
             |[A-Z]{4}\\d{2}\\d{6,}|[A-Z]{6}\\d{2}\\d{7,}\
             |[A-Z]{5}\\d{7}\
@@ -15,3 +16,4 @@ schema:
             |(GCA_|GCF_)\\d+)$"
     examples: [AJ519476, AB595134]
 style: simple
+explode: false

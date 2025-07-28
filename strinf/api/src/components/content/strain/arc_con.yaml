@@ -15,8 +15,8 @@ properties:
                 doi:
                     type: string
                     description: The strain DOI
-                    examples: [10.60712/SI-ID 1.1]
-                    pattern: '^10\.\d{4,}(?:\.\d+)*/SI-ID\s+\d+(\.\d+)?$'
+                    examples: [10.60712/SI-ID1.1]
+                    pattern: '^10\.\d{4,}(?:\.\d+)*/SI-ID\d+\.\d+$'
                 date:
                     type: string
                     examples: ['2023-02-03']

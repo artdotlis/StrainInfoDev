@@ -1,9 +1,12 @@
 ROOT_MAKEFILE:=$(abspath $(patsubst %/, %, $(dir $(abspath $(lastword $(MAKEFILE_LIST))))))
 
 include $(ROOT_MAKEFILE)/.env
-include $(ROOT_MAKEFILE)/strinf/api/.env
-include $(ROOT_MAKEFILE)/strinf/backend/.env
-include $(ROOT_MAKEFILE)/strinf/frontend/.env
+
+export
+
+include $(ROOT_MAKEFILE)/$(STRINF_BACKEND_ENV)
+include $(ROOT_MAKEFILE)/$(STRINF_FRONTEND_ENV)
+include $(ROOT_MAKEFILE)/$(STRINF_API_ENV)
 
 export
 
@@ -72,7 +75,7 @@ runChecks: dev
 
 createBuild: NODE_ENV = production
 createBuild: cleanBuild
-	[ 'true' = "$(STAGE)" ] && sh $(ROOT_MAKEFILE)/$(BIN_BACKEND_CHANGE_PORT) "stage" || echo "NOT STAGE"
+	[ 'true' = "$(STAGE)" ] && bash $(ROOT_MAKEFILE)/$(BIN_BACKEND_CHANGE_PORT) "stage" || echo "NOT STAGE"
 	mkdir -p $(ROOT_MAKEFILE)/$(APP_STRINF)
 	[ -d $(ROOT_MAKEFILE)/$(EXTRA_STYLE) ] && $(BUN) run build || $(shell echo "FAILED" && exit 1)
 
@@ -83,7 +86,7 @@ runStage: build createBuild
 	[ -d $(ROOT_MAKEFILE)/$(EXTRA_STYLE) ] && $(BUN) run serve || $(shell echo "FAILED" && exit 1)
 
 runDev: dev
-	sh $(ROOT_MAKEFILE)/$(BIN_BACKEND_CHANGE_PORT) "dev"
+	bash $(ROOT_MAKEFILE)/$(BIN_BACKEND_CHANGE_PORT) "dev"
 	$(BUN) run build:api
 	[ -d $(ROOT_MAKEFILE)/$(EXTRA_STYLE) ] && $(BUN) run dev || $(shell echo "FAILED" && exit 1)
 
@@ -105,5 +108,9 @@ export_runUpdate: clean postInstall
 	echo "UPDATE COMPOSER"
 	$(COMPOSER_BE) update -d $(ROOT_MAKEFILE)/$(STRINF_BACKEND_SRC) 
 
-make runCron: dev
+runCron: dev
 	bash $(ROOT_MAKEFILE)/$(BIN_BACKEND_RUN_CRON)
+
+runTests: STAGE = true
+runTests: build createBuild		
+	$(BUN) run test || $(shell echo "FAILED" && exit 1)

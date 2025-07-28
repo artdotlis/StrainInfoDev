@@ -1,12 +1,11 @@
 type: object
 required:
     - status
-    - source
     - type_culture
     - type_strain
     - last_update
 allOf:
-    - $ref: ./data_source.yaml
+    - $ref: ./data_source_con.yaml
 properties:
     catalogue:
         type: object
@@ -16,7 +15,7 @@ properties:
                 type: string
                 minLength: 10
                 format: uri
-                pattern: "^https?:\/\/.+$"
+                pattern: '^https?://.+$'
                 examples:
                     [https://www.dsmz.de/collection/catalogue/microorganisms/catalogue]
             online:

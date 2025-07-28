@@ -4,8 +4,10 @@ in: path
 required: true
 schema:
     type: array
+    minItems: 1
     items:
         type: integer
         minimum: 1
     examples: [1, 134885]
 style: simple
+explode: false

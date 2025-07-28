@@ -37,40 +37,41 @@
     },
     "scripts": {
         "build:api": "cd $STRINF_API && $BUN run build",
-        "build:backend": "sh $BIN_BACKEND_BUNDLE",
+        "build:backend": "bash $BIN_BACKEND_BUNDLE",
         "build:frontend": "cd $STRINF_FRONTEND && bun run build",
         "build": "bun run build:api && bun run build:backend && bun run build:frontend",
         "serve:frontend": "cd $STRINF_FRONTEND && bun run serve",
-        "serve": "sh $BIN_TRAP_SH 'sh $BIN_BACKEND_RUN_STAGE' 'bun run serve:frontend'",
+        "serve": "bash $BIN_TRAP_SH 'bash $BIN_BACKEND_RUN_STAGE' 'bun run serve:frontend'",
         "dev:frontend": "cd $STRINF_FRONTEND && bun run dev",
-        "dev": "sh $BIN_TRAP_SH 'sh $BIN_BACKEND_RUN_DEV' 'bun run dev:frontend'",
-        "profile:backend": "sh $BIN_BACKEND_RUN_PROFILE",
+        "dev": "bash $BIN_TRAP_SH 'bash $BIN_BACKEND_RUN_DEV' 'bun run dev:frontend'",
+        "profile:backend": "bash $BIN_BACKEND_RUN_PROFILE",
         "profile": "bun run profile:backend",
         "lint": "lint-staged",
         "lint:api": "cd $STRINF_API && $BUN run lint",
         "lint:dev": "bash $BIN_RUN_ENV_LINT",
-        "lint:backend": "cd $STRINF_BACKEND && sh ../../$BIN_BACKEND_LINT",
+        "lint:backend": "cd $STRINF_BACKEND && bash ../../$BIN_BACKEND_LINT",
         "lint:frontend": "cd $STRINF_FRONTEND && bun run lint",
         "lint:shell": "shellcheck --rcfile=$CONFIG_SHELL $BIN_DIR/**/*.sh $STRINF/**/bin/*.sh",
         "lint:prettier": "prettier --config $CONFIG_PRETTIER --ignore-path $CONFIG_PRETTIER_IGNORE -c $STRINF/ --write",
+        "test": "bash $BIN_TRAP_SH 'bash $BIN_BACKEND_RUN_STAGE' 'bash $BIN_RUN_TESTS'",
         "hook": "husky",
         "prepare": "husky"
     },
     "lint-staged": {
         "**/frontend/**/*.{ts,tsx}": [
-            "/bin/sh -c 'cd $STRINF_FRONTEND && bun run lint:eslint --fix \"$@\"' _"
+            "/bin/bash -c 'cd $STRINF_FRONTEND && bun run lint:eslint --fix \"$@\"' _"
         ],
         "*.{js,jsx,ts,tsx,html,css,md,json,yml,yaml}": [
-            "/bin/sh -c 'prettier --config $CONFIG_PRETTIER --ignore-path $CONFIG_PRETTIER_IGNORE --write \"$@\"' _"
+            "/bin/bash -c 'prettier --config $CONFIG_PRETTIER --ignore-path $CONFIG_PRETTIER_IGNORE --write \"$@\"' _"
         ],
         "**/frontend/**/*.{md,mdx}": [
-            "/bin/sh -c 'cd $STRINF_FRONTEND && bun run lint:eslint $CONFIG_ESLINT_MDX --fix \"$@\"' _"
+            "/bin/bash -c 'cd $STRINF_FRONTEND && bun run lint:eslint $CONFIG_ESLINT_MDX --fix \"$@\"' _"
         ],
         "*.sh": [
-            "/bin/sh -c 'shellcheck --rcfile=$CONFIG_SHELL \"$@\"' _"
+            "/bin/bash -c 'shellcheck --rcfile=$CONFIG_SHELL \"$@\"' _"
         ],
         "**/backend/**/*.php": [
-            "/bin/sh -c 'cd $STRINF_BACKEND && sh ../../$BIN_BACKEND_LINT_STAGED \"$@\"' _"
+            "/bin/bash -c 'cd $STRINF_BACKEND && bash ../../$BIN_BACKEND_LINT_STAGED \"$@\"' _"
         ]
     },
     "config": {

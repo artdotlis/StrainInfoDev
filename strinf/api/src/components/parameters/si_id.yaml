@@ -4,8 +4,10 @@ in: path
 required: true
 schema:
     type: array
+    minItems: 1
     items:
         type: string
-        pattern: '^SI-ID\s+\d+(\.\d+)?$'
-    examples: [SI-ID 1.1, SI-ID 34969.1]
+        pattern: '^SI-ID ?[1-9][0-9]*(\.[1-9][0-9]*)+$'
+        examples: [SI-ID1.1, SI-ID34969.1]
 style: simple
+explode: false

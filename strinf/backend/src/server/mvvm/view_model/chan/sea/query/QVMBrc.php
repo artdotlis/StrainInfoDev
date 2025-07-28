@@ -18,9 +18,9 @@ final class QVMBrc extends QVMChanSea
     public function parseArg(string $arg): array
     {
         $ban_chars = $this->getMChan()->getBanChars();
-        $cast_arg = preg_replace('/[^A-Za-z,]+/', ':', $arg);
+        $cast_arg = preg_replace('/:+/', ':', preg_replace('/[^A-Za-z,]+/', ':', $arg));
         return parse_str_2_arr(
-            preg_replace('/:+/', ':', $cast_arg),
+            $cast_arg,
             static function (string $val) use ($ban_chars): string {
                 return (string) parse_ban_str($val, $ban_chars);
             },

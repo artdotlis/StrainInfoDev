@@ -10,9 +10,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Slim\Exception\HttpForbiddenException;
 use Slim\Exception\HttpInternalServerErrorException;
+use function straininfo\server\exceptions\create_error_json;
 use function straininfo\server\shared\mvvm\view\add_default_headers;
-use function straininfo\server\shared\mvvm\view\api\get_do_not_track_arg;
 
+use function straininfo\server\shared\mvvm\view\api\get_do_not_track_arg;
 use function straininfo\server\shared\mvvm\view\contained_in_origin;
 use straininfo\server\shared\mvvm\view\HeadArgs;
 use straininfo\server\shared\mvvm\view\StatArgs;
@@ -81,15 +82,17 @@ abstract class DBSCtrl
             throw new HttpInternalServerErrorException($request);
         }
         $origin = $request->getHeader('Origin');
-        $response->getBody()->write($json);
+        if ($empty) {
+            $response = $response->withStatus(404);
+            $response->getBody()->write(create_error_json('No data available!', 404));
+        } else {
+            $response->getBody()->write($json);
+        }
         $response = $response->withHeader(
             'Content-Type',
             'application/json'
         );
         $this->track($request, $origin);
-        if ($empty) {
-            $response = $response->withStatus(404);
-        }
         return add_default_headers(
             $response,
             new HeadArgs(

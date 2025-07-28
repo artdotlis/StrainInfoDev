@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-. "$DOCKER_ENV_BE"
+source "$DOCKER_ENV_BE"
 
 echo "starting cache init jobs"
 php "/var/www/$SERVER_CRON_INDEX" || echo "FAILED"

@@ -21,12 +21,10 @@ get:
             content:
                 application/json:
                     schema:
-                        allOf:
-                            - $ref: ../components/content/res_si_id.yaml
+                        $ref: ../components/content/res_si_id.yaml
         '404':
             description: NOT FOUND
             content:
                 application/json:
                     schema:
-                        allOf:
-                            - $ref: ../components/content/err_404.yaml
+                        $ref: ../components/content/err_msg.yaml

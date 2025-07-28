@@ -4,9 +4,11 @@ in: path
 required: true
 schema:
     type: array
+    minItems: 1
     items:
         type: string
         minLength: 3
-        pattern: '^(\s*[a-zA-Z\.0-9]{3,}\s*)+$'
+        pattern: '^(?: *[a-zA-Z\.0-9]{3,} *)+$'
     examples: [Acetobacter aceti, Eubacterium limosum]
 style: simple
+explode: false

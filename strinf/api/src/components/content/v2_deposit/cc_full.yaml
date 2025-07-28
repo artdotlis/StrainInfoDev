@@ -32,6 +32,6 @@ properties:
                         type: string
                         minLength: 10
                         format: uri
-                        pattern: "^https?:\/\/.+$"
+                        pattern: '^https?://.+$'
                     online:
                         type: boolean

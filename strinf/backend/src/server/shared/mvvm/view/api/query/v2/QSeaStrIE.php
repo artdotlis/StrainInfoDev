@@ -21,6 +21,6 @@ enum QSeaStrIE: string
     case CC = '/v2/search/strain/cc/{cc:.*}';
     case CC_F = '/v2/search/strain/cc/';
     case CC_P = 'cc';
-    case SI_DP = '/v2/search/strain/si_dp/{si_dp:.*}';
+    case SI_DP = '/v2/search/strain/si_dp/{si_dp:[0-9]+(?:,[0-9]+)*}';
     case SI_DP_P = 'si_dp';
 }

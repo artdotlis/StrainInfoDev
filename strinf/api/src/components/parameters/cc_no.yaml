@@ -4,8 +4,11 @@ in: path
 required: true
 schema:
     type: array
+    minItems: 1
     items:
         type: string
         minLength: 4
-    examples: [DSM 10, LMG 1445]
+        pattern: '[a-zA-Z0-9_\-\\/:.,;#+* ]{4,}$'
+        examples: [DSM 10, LMG 1445]
 style: simple
+explode: false

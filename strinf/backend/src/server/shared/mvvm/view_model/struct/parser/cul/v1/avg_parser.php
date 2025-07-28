@@ -31,6 +31,7 @@ use straininfo\server\shared\mvvm\view_model\struct\json\v1\StRegE;
 use straininfo\server\shared\mvvm\view_model\struct\json\v1\StRelDesE;
 use straininfo\server\shared\mvvm\view_model\struct\json\v1\StSamE;
 use straininfo\server\shared\mvvm\view_model\struct\json\v1\StStrE;
+use function straininfo\server\shared\text\encodeUrl;
 
 /**
  * @template TV
@@ -214,7 +215,7 @@ function get_avg_arr_brc(array $val): array
     $url = check_kt_f_str($val, $db::B_HOME->value);
     if (!is_null($url)) {
         $home = [
-            StBrcE::BRC_URL->value => $url,
+            StBrcE::BRC_URL->value => encodeUrl($url),
             StBrcE::BRC_ON->value => check_kt_bool($val, $db::B_ON->value),
         ];
     }
@@ -251,8 +252,19 @@ function get_avg_arr_cul(array $val): array
     $url = check_kt_f_str($val, $db::CAT->value);
     if (!is_null($url)) {
         $cat = [
-            StCulE::CAT_URL->value => $url,
+            StCulE::CAT_URL->value => encodeUrl($url),
             StCulE::CAT_ON->value => check_kt_bool($val, $db::CAT_ON->value),
+        ];
+    }
+
+    $his = check_kt_f_str($val, $db::HIST->value);
+    $his_con = [];
+    if (!is_null($his) && $his !== '') {
+        $his_con = [StCulE::HIST_ENC->value => $his,
+            StCulE::DATA_SRC->value => check_kt_f_str(
+                $val,
+                $db::DATA_SRC->value
+            ),
         ];
     }
     return [
@@ -269,15 +281,7 @@ function get_avg_arr_cul(array $val): array
             ),
             ],
             StCulE::COMMENT->value => check_kt_f_str($val, $db::COMMENT->value),
-            StCulE::HIST->value => [
-                [
-                    StCulE::HIST_ENC->value => check_kt_f_str($val, $db::HIST->value),
-                    StCulE::DATA_SRC->value => check_kt_f_str(
-                        $val,
-                        $db::DATA_SRC->value
-                    ),
-                ],
-            ],
+            StCulE::HIST->value => [$his_con],
             StCulE::BAC_DIVE->value => check_kt_f_arr_id(
                 $val,
                 $db::BAC_DIVE->value,

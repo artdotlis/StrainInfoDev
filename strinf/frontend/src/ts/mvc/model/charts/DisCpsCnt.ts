@@ -2,7 +2,7 @@ import QApiCon from '@strinf/ts/constants/api/q_api';
 import DiaT from '@strinf/ts/constants/type/DiaT';
 import Known500Error from '@strinf/ts/errors/known/500';
 import onPrError from '@strinf/ts/functions/err/async';
-import { checkRespObj, fetchRetry } from '@strinf/ts/functions/http/http';
+import { checkRespObjOk, fetchRetry } from '@strinf/ts/functions/http/http';
 import type { ChartData } from '@strinf/ts/interfaces/api/mapped';
 import type DisChartT from '@strinf/ts/interfaces/chan/model';
 import type { DiaCon } from '@strinf/ts/interfaces/dom/dia';
@@ -67,7 +67,7 @@ class DisCpsCnt implements DisChartT {
     public async config(call: string): Promise<DiaCon> {
         const res: Promise<DiaCon> = fetchRetry(call)
             .then(async (resp) =>
-                checkRespObj<ChartData<number[]>[]>(
+                checkRespObjOk<ChartData<number[]>[]>(
                     resp,
                     (obj): obj is ChartData<number[]>[] => DisCpsCnt.checkDis(obj)
                 )

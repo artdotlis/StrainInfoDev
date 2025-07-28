@@ -21,10 +21,15 @@ async function checkRespArr<E>(
     mapFun: (data: unknown) => E
 ): Promise<E[]> {
     const isJson = response.headers.get('content-type')?.includes('application/json');
-    if (isJson === true && (response.ok || response.status === 404)) {
-        const res = await response.json();
-        if (Array.isArray(res)) {
-            return res.map((val) => mapFun(val));
+    if (isJson === true) {
+        if (response.ok) {
+            const res = await response.json();
+            if (Array.isArray(res)) {
+                return res.map((val) => mapFun(val));
+            }
+        }
+        if (response.status === 404) {
+            return [];
         }
     }
     throw new Known500Error(
@@ -32,12 +37,12 @@ async function checkRespArr<E>(
     );
 }
 
-async function checkRespObj<E>(
+async function checkRespObjOk<E>(
     response: Response,
     checkFun: (data: unknown) => data is E
 ): Promise<E> {
     const isJson = response.headers.get('content-type')?.includes('application/json');
-    if (isJson === true && (response.ok || response.status === 404)) {
+    if (isJson === true && response.ok) {
         const res = await response.json();
         if (checkFun(res)) {
             return res;
@@ -50,12 +55,18 @@ async function checkRespObj<E>(
 
 async function checkRespTyp<E>(
     response: Response,
-    mapFun: (data: unknown) => E
+    mapFun: (data: unknown) => E,
+    map404: () => E
 ): Promise<E> {
     const isJson = response.headers.get('content-type')?.includes('application/json');
-    if (isJson === true && (response.ok || response.status === 404)) {
-        const res = await response.json();
-        return mapFun(res);
+    if (isJson === true) {
+        if (response.ok) {
+            const res = await response.json();
+            return mapFun(res);
+        }
+        if (response.status === 404) {
+            return map404();
+        }
     }
     throw new Known500Error(
         `RESP OBJ: ${response.status}, ${response.headers.get('content-type')}`
@@ -143,7 +154,7 @@ export {
     scrollToId,
     routeUri,
     checkRespArr,
-    checkRespObj,
+    checkRespObjOk,
     checkRespTyp,
     createUrlStr,
     hidePrivateInfo,

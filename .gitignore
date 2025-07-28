@@ -5,8 +5,11 @@
 /public/
 **/configs/**/*.local.*
 
+.uv
 .profile/
 .cache/
+.hypothesis
+schemathesis-report
 
 # ---> other tools
 *.cache

@@ -21,7 +21,7 @@ get:
             content:
                 application/json:
                     schema:
-                        $ref: ../components/content/err_404_ind.yaml
+                        $ref: ../components/content/err_msg.yaml
         '200':
             description: OK
             content:

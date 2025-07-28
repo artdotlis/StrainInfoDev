@@ -13,6 +13,7 @@ COPY . /tmp/app
 
 WORKDIR /tmp/app
 
+RUN dnf install -y bash
 RUN bash "./${BIN_DEPLOY_PREP}" && bash "./${BIN_DEPLOY_REQ}"
 
 WORKDIR /
@@ -33,4 +34,4 @@ USER ${USERNAME}
 
 RUN mkdir -p "${WORK_DIR}/public"
 
-ENTRYPOINT ["/bin/sh", "/entry_dev.sh"]
+ENTRYPOINT ["/bin/bash", "/entry_dev.sh"]

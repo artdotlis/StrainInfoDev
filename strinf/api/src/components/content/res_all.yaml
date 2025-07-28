@@ -6,7 +6,7 @@ properties:
     data:
         type: array
         items:
-            $ref: ./search/str_elm.yaml
+            $ref: './search/str_elm.yaml'
     count:
         type: integer
         minimum: 1

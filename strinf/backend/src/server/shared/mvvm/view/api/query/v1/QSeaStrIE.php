@@ -21,6 +21,6 @@ enum QSeaStrIE: string
     case BRC = '/v1/search/strain/brc/{brc:.*}';
     case BRC_F = '/v1/search/strain/brc/';
     case BRC_P = 'brc';
-    case CUL_ID = '/v1/search/strain/cul_id/{cul_id:.*}';
+    case CUL_ID = '/v1/search/strain/cul_id/{cul_id:[0-9]+(?:,[0-9]+)*}';
     case CUL_ID_P = 'cul_id';
 }

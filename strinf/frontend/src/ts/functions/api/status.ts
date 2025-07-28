@@ -1,5 +1,5 @@
 import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
-import { checkRespObj, createUrlStr, fetchRetry } from '@strinf/ts/functions/http/http';
+import { checkRespObjOk, createUrlStr, fetchRetry } from '@strinf/ts/functions/http/http';
 import { isServerStatus } from '@strinf/ts/functions/api/map';
 import Known500Error from '@strinf/ts/errors/known/500';
 import CONFIG from '@strinf/ts/configs/config';
@@ -18,7 +18,7 @@ function fetchStatus(
     fetchInit?: RequestInit
 ) {
     fetchRetry(createUrlStr(CONFIG.backend, '/'), fetchInit)
-        .then(async (resp) => checkRespObj<ServerStatusJT>(resp, isServerStatus))
+        .then(async (resp) => checkRespObjOk<ServerStatusJT>(resp, isServerStatus))
         .then((results: ServerStatusJT): void => {
             CACHE.time = new Date().getTime();
             CACHE.status = results;
