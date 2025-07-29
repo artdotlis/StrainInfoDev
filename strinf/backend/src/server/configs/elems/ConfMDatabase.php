@@ -66,8 +66,8 @@ final class ConfMDatabase
             return true;
         }
         return false;
-    }    
-    
+    }
+
     /** @param T|null $val */
     private function setHost($val): bool
     {

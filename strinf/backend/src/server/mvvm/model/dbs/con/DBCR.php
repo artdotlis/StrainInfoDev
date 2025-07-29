@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\dbs\con;
 
-use straininfo\server\shared\logger\LogLevE;
-use straininfo\server\shared\exc\KEAct;
-use straininfo\server\interfaces\mvvm\model\ConnectInt;
-use straininfo\server\interfaces\container\RedisConf;
-use straininfo\server\exceptions\mvvm\model\KnownDBExc;
 use Predis;
+use straininfo\server\exceptions\mvvm\model\KnownDBExc;
+use straininfo\server\interfaces\container\RedisConf;
+use straininfo\server\interfaces\mvvm\model\ConnectInt;
+use straininfo\server\shared\exc\KEAct;
+use straininfo\server\shared\logger\LogLevE;
 
 abstract class DBCR implements ConnectInt
 {
@@ -28,7 +28,7 @@ abstract class DBCR implements ConnectInt
     public function connect(): void
     {
         try {
-            if ($this->db_conf->getSocket() !== "") {
+            if ($this->db_conf->getSocket() !== '') {
                 $this->redis = new Predis\Client([
                     'scheme' => 'unix',
                     'path' => $this->db_conf->getSocket(),
