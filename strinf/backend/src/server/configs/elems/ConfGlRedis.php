@@ -9,6 +9,7 @@ final class ConfGlRedis
 {
     private string $host;
     private int $port;
+    private string $socket;
 
     /** @param array<string, T> $arr_arg */
     public function __construct(array $arr_arg)
@@ -16,6 +17,7 @@ final class ConfGlRedis
         $key_names = [
             'host' => $this->setHost(...),
             'port' => $this->setPort(...),
+            'socket' => $this->setSocket(...),
         ];
         set_conf_values($arr_arg, $key_names);
     }
@@ -28,6 +30,11 @@ final class ConfGlRedis
     public function getPort(): int
     {
         return $this->port;
+    }
+
+    public function getSocket(): string
+    {
+        return $this->socket;
     }
 
     /** @param T|null $val */
@@ -45,6 +52,16 @@ final class ConfGlRedis
     {
         if (is_int($val) && $val > 0) {
             $this->port = $val;
+            return true;
+        }
+        return false;
+    }
+
+    /** @param T|null $val */
+    private function setSocket($val): bool
+    {
+        if (is_string($val)) {
+            $this->socket = $val;
             return true;
         }
         return false;

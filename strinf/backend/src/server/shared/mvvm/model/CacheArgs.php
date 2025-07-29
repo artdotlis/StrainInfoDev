@@ -11,6 +11,7 @@ final class CacheArgs implements RedisConf
     public function __construct(
         private readonly string $host,
         private readonly int $port,
+        private readonly string $socket,
         private readonly int $db,
         private readonly string $charset,
         private readonly int $expire_h,
@@ -27,6 +28,11 @@ final class CacheArgs implements RedisConf
     public function getPort(): int
     {
         return $this->port;
+    }
+
+    public function getSocket(): string
+    {
+        return $this->socket;
     }
 
     public function getDb(): int

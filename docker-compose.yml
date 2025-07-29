@@ -1,6 +1,10 @@
 services:
     redis:
-        image: docker.io/redis:alpine
+        build:
+            context: .
+            dockerfile: ./assets/docker/redis.Dockerfile
+            args:
+                USER_GID: 1000
         restart: always
         healthcheck:
             test: ['CMD', 'redis-cli', 'ping']
@@ -9,8 +13,45 @@ services:
             retries: 10
         ports:
             - 6380:6379
+        volumes:
+            - redis-sock:/socket
         networks:
             - straininfo
+    mdb:
+        build:
+            context: .
+            dockerfile: ./assets/docker/mariadb.Dockerfile
+            args:
+                USER_GID: 1000
+        restart: always
+        healthcheck:
+            test:
+                [
+                    'CMD',
+                    'mariadb-admin',
+                    'ping',
+                    '-h',
+                    'localhost',
+                    '-u',
+                    'root',
+                    '-ppassword1',
+                ]
+            interval: 6s
+            timeout: 6s
+            retries: 10
+        environment:
+            - MARIADB_ROOT_PASSWORD=password1
+            - MARIADB_USER=strinf
+            - MARIADB_PASSWORD=password2
+            - MARIADB_DATABASE=straininfo
+        ports:
+            - 3909:3306
+        networks:
+            - straininfo
+        volumes:
+            - ./bin/db/dev.init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+            - mariadb-sock:/run/mysqld
+
     app:
         build:
             context: .
@@ -25,15 +66,26 @@ services:
                 STAGE: 'false'
                 SERVER_WEB_CONFS_DIR: ${SERVER_WEB_CONFS_DIR}
                 SERVER_PHP_CONFS_DIR: ${SERVER_PHP_CONFS_DIR}
+                USER_GID: 1000
         ports:
             - 9002:9002
             - 3002:3002
         networks:
             - straininfo
+        volumes:
+            - redis-sock:/redis
+            - mariadb-sock:/mariadb
         depends_on:
+            mdb:
+                condition: service_healthy
             redis:
                 condition: service_healthy
+
 networks:
     straininfo:
         name: straininfo
         driver: bridge
+
+volumes:
+    mariadb-sock:
+    redis-sock:

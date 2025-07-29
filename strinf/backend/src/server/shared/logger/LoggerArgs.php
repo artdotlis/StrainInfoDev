@@ -13,6 +13,7 @@ final class LoggerArgs
         private readonly bool $bubble,
         private readonly string $r_host,
         private readonly int $r_db,
+        private readonly string $r_socket,
         private readonly int $r_port,
         private readonly int $r_cap_size
     ) {
@@ -36,6 +37,11 @@ final class LoggerArgs
     public function getRPort(): int
     {
         return $this->r_port;
+    }
+
+    public function getRSocket(): string
+    {
+        return $this->r_socket;
     }
 
     public function getRCapSize(): int

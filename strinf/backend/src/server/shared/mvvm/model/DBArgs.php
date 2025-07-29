@@ -7,6 +7,7 @@ namespace straininfo\server\shared\mvvm\model;
 final class DBArgs
 {
     public function __construct(
+        private readonly string $socket,
         private readonly string $host,
         private readonly string $db,
         private readonly string $user,
@@ -14,6 +15,11 @@ final class DBArgs
         private readonly string $charset,
         private readonly int $port
     ) {
+    }
+
+    public function getSocket(): string
+    {
+        return $this->socket;
     }
 
     public function getHost(): string

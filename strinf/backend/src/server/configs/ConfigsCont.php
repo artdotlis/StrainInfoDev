@@ -62,6 +62,7 @@ final class ConfigsCont
             r_host: $this->global->getRedis()->getHost(),
             r_db: $this->global->getLogger()->getDB(),
             r_port: $this->global->getRedis()->getPort(),
+            r_socket: $this->global->getRedis()->getSocket(),
             r_cap_size: $this->global->getLogger()->getCapSize(),
             level: $this->global->getLogger()->getLevel(),
             bubble: $this->global->getLogger()->getBubble()
@@ -71,6 +72,7 @@ final class ConfigsCont
     public function getDBArgs(): DBArgs
     {
         return new DBArgs(
+            socket: $this->model->getDatabase()->getSocket(),
             host: $this->model->getDatabase()->getHost(),
             db: $this->model->getDatabase()->getName(),
             user: $this->model->getDatabase()->getUser(),
@@ -86,6 +88,7 @@ final class ConfigsCont
             host: $this->global->getRedis()->getHost(),
             db: $this->model->getCache()->getName(),
             port: $this->global->getRedis()->getPort(),
+            socket: $this->global->getRedis()->getSocket(),
             charset: $this->global->getService()->getCharSet(),
             expire_h: $this->model->getCache()->getExH(),
             tmp_h: $this->model->getCache()->getTmpH(),
@@ -99,6 +102,7 @@ final class ConfigsCont
             host: $this->global->getRedis()->getHost(),
             db: $this->model->getIndex()->getName(),
             port: $this->global->getRedis()->getPort(),
+            socket: $this->global->getRedis()->getSocket(),
             charset: $this->global->getService()->getCharSet(),
             key_len: $this->model->getIndex()->getKeyLen(),
             limit: $this->model->getIndex()->getLimit()

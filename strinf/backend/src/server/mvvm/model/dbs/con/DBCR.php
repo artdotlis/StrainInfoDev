@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\dbs\con;
 
-use Predis;
-use straininfo\server\exceptions\mvvm\model\KnownDBExc;
-use straininfo\server\interfaces\container\RedisConf;
-use straininfo\server\interfaces\mvvm\model\ConnectInt;
-use straininfo\server\shared\exc\KEAct;
 use straininfo\server\shared\logger\LogLevE;
+use straininfo\server\shared\exc\KEAct;
+use straininfo\server\interfaces\mvvm\model\ConnectInt;
+use straininfo\server\interfaces\container\RedisConf;
+use straininfo\server\exceptions\mvvm\model\KnownDBExc;
+use Predis;
 
 abstract class DBCR implements ConnectInt
 {
@@ -28,13 +28,22 @@ abstract class DBCR implements ConnectInt
     public function connect(): void
     {
         try {
-            $this->redis = new Predis\Client([
-                'scheme' => 'redis',
-                'host' => $this->db_conf->getHost(),
-                'port' => $this->db_conf->getPort(),
-                'database' => $this->db_conf->getDb(),
-                'timeout' => 2,
-            ]);
+            if ($this->db_conf->getSocket() !== "") {
+                $this->redis = new Predis\Client([
+                    'scheme' => 'unix',
+                    'path' => $this->db_conf->getSocket(),
+                    'database' => $this->db_conf->getDb(),
+                    'timeout' => 2,
+                ]);
+            } else {
+                $this->redis = new Predis\Client([
+                    'scheme' => 'tcp',
+                    'host' => $this->db_conf->getHost(),
+                    'port' => $this->db_conf->getPort(),
+                    'database' => $this->db_conf->getDb(),
+                    'timeout' => 2,
+                ]);
+            }
             $this->redis->connect();
         } catch (Predis\PredisException $exc) {
             throw new KnownDBExc($exc->getMessage(), LogLevE::CRITICAL, KEAct::TERM);

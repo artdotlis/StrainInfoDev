@@ -32,7 +32,7 @@
     "dockerComposeFile": ["../docker-compose.yml", "dev.docker-compose.yml"],
     "name": "straininfo",
     "postAttachCommand": "make dev",
-    "runServices": ["redis", "app_dev"],
+    "runServices": ["redis", "app_dev", "mdb"],
     "service": "app_dev",
     "shutdownAction": "stopCompose",
     "updateRemoteUserUID": true,

@@ -16,16 +16,18 @@
         },
         "redis": {
             "host": "redis",
-            "port": 6379
+            "port": 6379,
+            "socket": "/redis/redis.sock"
         }
     },
     "model": {
         "database": {
-            "host": "localhost",
+            "host": "mdb",
             "db": "straininfo",
             "user": "strinf",
             "password": "password2",
-            "port": 3808
+            "port": 3306,
+            "socket": "/mariadb/mysqld.sock"
         },
         "cache": {
             "db": 7,

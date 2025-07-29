@@ -10,5 +10,7 @@ interface RedisConf
 
     public function getPort(): int;
 
+    public function getSocket(): string;
+
     public function getDb(): int;
 }

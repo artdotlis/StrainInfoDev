@@ -3,7 +3,7 @@ services:
         user: vscode
         build:
             context: .
-            dockerfile: .devcontainer/dev.Dockerfile
+            dockerfile: ./assets/docker/dev.Dockerfile
             args:
                 USERNAME: vscode
                 USER_UID: 1000
@@ -14,6 +14,8 @@ services:
         volumes:
             - .:/workspace
             - ~/.gitconfig:/etc/gitconfig:ro
+            - redis-sock:/redis
+            - mariadb-sock:/mariadb
         ports:
             - ${BACKEND_DEV_PORT}:${BACKEND_DEV_PORT}
             - ${BACKEND_STAGE_PORT}:${BACKEND_STAGE_PORT}

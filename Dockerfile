@@ -13,6 +13,7 @@ RUN mkdir -p "${HOME}/.local/bin" && CGO_ENABLED=0 bash "./${BIN_DEPLOY}"
 
 FROM docker.io/alpine:3.22
 
+ARG USER_GID
 ARG BIN_DEPLOY_REQ_NGINX
 ARG BIN_DEPLOY_ADD_CRON
 ARG DOCKER_ENV_BE
@@ -49,6 +50,7 @@ RUN rm -rf /var/www/*
 
 COPY --from=appbuilder /var/www/ ./
 
+RUN apk --no-cache add shadow && groupmod --gid ${USER_GID} nginx && apk del shadow
 RUN chown -R nginx:nginx /var/www/
 
 HEALTHCHECK --interval=5m --timeout=3s CMD /health.sh

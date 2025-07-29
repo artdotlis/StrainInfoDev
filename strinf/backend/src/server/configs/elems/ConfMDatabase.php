@@ -8,6 +8,7 @@ namespace straininfo\server\configs\elems;
 final class ConfMDatabase
 {
     private string $host;
+    private string $socket;
     private string $db_name;
     private string $user;
     private string $password;
@@ -22,8 +23,14 @@ final class ConfMDatabase
             'user' => $this->setUser(...),
             'password' => $this->setPassword(...),
             'port' => $this->setPort(...),
+            'socket' => $this->setSocket(...),
         ];
         set_conf_values($arr_arg, $key_names);
+    }
+
+    public function getSocket(): string
+    {
+        return $this->socket;
     }
 
     public function getHost(): string
@@ -51,6 +58,16 @@ final class ConfMDatabase
         return $this->port;
     }
 
+    /** @param T|null $val */
+    private function setSocket($val): bool
+    {
+        if (is_string($val)) {
+            $this->socket = $val;
+            return true;
+        }
+        return false;
+    }    
+    
     /** @param T|null $val */
     private function setHost($val): bool
     {
