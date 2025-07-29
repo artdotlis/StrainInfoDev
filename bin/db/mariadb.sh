@@ -1,4 +1,4 @@
 #!/bin/sh
 
 chmod 770 /run/mysqld/mysqld.sock
-mariadbd
+docker-entrypoint.sh mariadbd
