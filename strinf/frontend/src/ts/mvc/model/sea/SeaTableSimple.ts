@@ -88,9 +88,8 @@ class SeaTable {
                                 res_con.push(...json);
                                 res();
                             })
-                            .catch((err: unknown) => {
-                                SeaTable.onStop(cha);
-                                onPrError(err);
+                            .catch((err: unknown): void => {
+                                throw err;
                             });
                     }, timeOut);
                 })
@@ -114,9 +113,8 @@ class SeaTable {
                 SeaTable.onStop(cha);
                 cha.tab(res_con);
             })
-            .catch((err: unknown) => {
-                SeaTable.onStop(cha);
-                onPrError(err);
+            .catch((err: unknown): void => {
+                throw err;
             });
     }
 

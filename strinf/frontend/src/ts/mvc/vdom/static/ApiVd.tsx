@@ -53,13 +53,17 @@ async function getSpec(
         const spec = fetchRetry(`/api/${ver}/strinf_ex.yaml`).then(async (resp) => {
             return awaitYaml(resp);
         });
-        spec.catch(onPrError);
+        spec.catch((err: unknown): void => {
+            throw err;
+        });
         return [await spec, createUrlStr(api, '')];
     }
     const res = fetchRetry(`/api/${ver}/strinf_in.yaml`).then(async (resp) => {
         return awaitYaml(resp);
     });
-    res.catch(onPrError);
+    res.catch((err: unknown): void => {
+        throw err;
+    });
     return [await res, createUrlStr(api, '')];
 }
 

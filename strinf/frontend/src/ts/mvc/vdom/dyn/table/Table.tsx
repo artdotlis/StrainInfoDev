@@ -274,7 +274,7 @@ abstract class TableCon<T, E extends TableProps<T>> extends Component<E, TableSt
         return toFil;
     }
 
-    private runSearch(limit: number[], filtered: boolean): void {
+    private runSearch(limit: number[], filtered: boolean, toThrow: boolean): void {
         this.filterBuffer = limit;
         const toSea = (this.toSearch() || filtered) && this.searchState.next !== '';
         this.searchState.previous = this.searchState.next;
@@ -295,7 +295,11 @@ abstract class TableCon<T, E extends TableProps<T>> extends Component<E, TableSt
                     this.setState({ page: 1, view: res.flat() });
                 })
                 .catch((err: unknown) => {
-                    onPrError(err);
+                    if (toThrow) {
+                        throw err;
+                    } else {
+                        onPrError(err);
+                    }
                 });
         } else {
             this.setState({ page: 1, view: limit });
@@ -323,7 +327,7 @@ abstract class TableCon<T, E extends TableProps<T>> extends Component<E, TableSt
             }
             Promise.all(resF)
                 .then((res) => {
-                    this.runSearch(res.flat(), true);
+                    this.runSearch(res.flat(), true, true);
                 })
                 .catch((err: unknown) => {
                     onPrError(err);
@@ -333,7 +337,8 @@ abstract class TableCon<T, E extends TableProps<T>> extends Component<E, TableSt
                 limit,
                 this.searchState.previous !== '' &&
                     this.filterState.next.length === 0 &&
-                    this.filterState.previous.length !== 0
+                    this.filterState.previous.length !== 0,
+                false
             );
         }
     }

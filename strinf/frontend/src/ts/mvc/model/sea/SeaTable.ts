@@ -115,8 +115,7 @@ class SeaTable {
                                 res();
                             })
                             .catch((err: unknown) => {
-                                SeaTable.onStop(cha);
-                                onPrError(err);
+                                throw err;
                             });
                     }, timeOut);
                 })
@@ -172,8 +171,7 @@ class SeaTable {
                                 res();
                             })
                             .catch((err: unknown) => {
-                                SeaTable.onStop(cha);
-                                onPrError(err);
+                                throw err;
                             });
                     },
                     15 * ind + 1
