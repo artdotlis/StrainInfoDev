@@ -335,30 +335,23 @@ class SeaTable {
                 })
                 .catch((err: unknown) => {
                     if (!(err instanceof Known404Error)) {
-                        SeaTable.onStop(cha);
-                        if (err instanceof Known500Error) {
-                            onPrError(err);
-                        }
+                        throw err;
                     }
                 });
             promises.push(fetchP);
         }
         Promise.all(promises)
             .then(() => {
-                try {
-                    let res = idRes.data;
-                    if (apis.size > 1) {
-                        res = Array.from(new Set(idRes.data));
-                    }
-                    checkIds(cha, res, args, api);
-                } catch (err) {
-                    SeaTable.onStop(cha);
-                    if (err instanceof Error) {
-                        onPrError(err);
-                    }
+                let res = idRes.data;
+                if (apis.size > 1) {
+                    res = Array.from(new Set(idRes.data));
                 }
+                checkIds(cha, res, args, api);
             })
-            .catch(onPrError);
+            .catch((err: unknown) => {
+                SeaTable.onStop(cha);
+                onPrError(err);
+            });
     }
 
     private static forwardStrainToPass(cha: ViewChanInt, strain: string) {

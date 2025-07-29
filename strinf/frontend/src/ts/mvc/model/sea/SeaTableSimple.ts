@@ -2,7 +2,6 @@ import QApiCon from '@strinf/ts/constants/api/q_api';
 import getLeTrComma from '@strinf/ts/constants/regexp/sep';
 import LoadT from '@strinf/ts/constants/type/LoadT';
 import Known404Error from '@strinf/ts/errors/known/404';
-import Known500Error from '@strinf/ts/errors/known/500';
 import KnownLostWarnError from '@strinf/ts/errors/known/lost_warn';
 import { getApiToStr, toArrSerSeaRes } from '@strinf/ts/functions/api/map';
 import onPrError from '@strinf/ts/functions/err/async';
@@ -152,9 +151,7 @@ class SeaTable {
             .catch((err: unknown) => {
                 if (!(err instanceof Known404Error)) {
                     SeaTable.onStop(cha);
-                    if (err instanceof Known500Error) {
-                        onPrError(err);
-                    }
+                    onPrError(err);
                 }
             });
     }

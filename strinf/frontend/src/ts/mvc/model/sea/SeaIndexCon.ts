@@ -1,5 +1,5 @@
 import QApiCon from '@strinf/ts/constants/api/q_api';
-import Known500Error from '@strinf/ts/errors/known/500';
+import Known404Error from '@strinf/ts/errors/known/404';
 import { toArrIndSeaIndRes } from '@strinf/ts/functions/api/map';
 import onPrError from '@strinf/ts/functions/err/async';
 import { checkRespTyp, fetchRetry } from '@strinf/ts/functions/http/http';
@@ -42,7 +42,7 @@ class SeaIndexCon {
                     })
                     .catch((err: unknown) => {
                         this.ready = true;
-                        if (err instanceof Known500Error) {
+                        if (!(err instanceof Known404Error)) {
                             onPrError(err);
                         }
                     }),
