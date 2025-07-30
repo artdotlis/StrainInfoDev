@@ -52,7 +52,11 @@ final class VFrameWorkCon
         $this->slim_app->addRoutingMiddleware();
         $this->slim_app->addBodyParsingMiddleware();
         $this->m_routes->addErrorMW($this->slim_app, $this->logger);
-        $this->m_routes->addCompressMW($merr);
+    }
+    /** @return App<\Psr\Container\ContainerInterface|null> */
+    public function getApp(): App
+    {
+        return $this->slim_app;
     }
 
     public function setMaintenance(

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\controller;
 
+use Slim\App;
 use straininfo\server\exceptions\init_phase\KnownRunExc;
 use straininfo\server\interfaces\mvvm\controller\CtrlIntBoot;
 use straininfo\server\interfaces\mvvm\controller\CtrlIntV;
@@ -110,6 +111,11 @@ final class MainCtrl implements CtrlIntVM, CtrlIntV, CtrlIntBoot
         $this->success = true;
         $this->main_view->setSuccess();
         $this->main_view_model->setSuccess();
+    }
+    /** @return App<\Psr\Container\ContainerInterface|null> */
+    public function getApp(): App
+    {
+        return $this->main_view->getApp();
     }
 
     private function stopWr(): void

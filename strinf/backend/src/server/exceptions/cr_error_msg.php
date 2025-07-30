@@ -6,13 +6,11 @@ namespace straininfo\server\exceptions;
 
 use Safe\Exceptions\OutcontrolException;
 use Safe\Exceptions\SimplexmlException;
-use function Safe\ini_set;
-
 use function Safe\json_encode;
+
 use function Safe\ob_clean;
 use function Safe\ob_end_flush;
 use function Safe\ob_start;
-use function Safe\preg_match;
 use function Safe\simplexml_load_string;
 use straininfo\server\configs\Config;
 use function straininfo\server\shared\mvvm\view\cspHeader;
@@ -29,10 +27,11 @@ function print_msg_503(bool $over): void
 
 function clean_buf(string $message, int $type): void
 {
-    $toComp = $_SERVER['HTTP_ACCEPT_ENCODING'];
     $msg = $message;
     try {
-        ob_clean();
+        if (ob_get_level() > 0) {
+            ob_clean();
+        }
     } catch (OutcontrolException) {
         $msg = $message . "\nFailed to delete buffer!";
     }
@@ -45,11 +44,6 @@ function clean_buf(string $message, int $type): void
     header('Cache-Control: "no-store"');
     header('Encoding: UTF-8');
     header('Content-Type: application/json');
-    if (is_string($toComp) && preg_match('/(,|\s|^)gzip(,|\s|$)/', $toComp) === 1) {
-        header('Content-Encoding: gzip;');
-        ini_set('zlib.output_compression_level', '5');
-        ob_start(ob_gzhandler(...));
-    }
     echo create_error_json($msg, $type);
     ob_end_flush();
 }

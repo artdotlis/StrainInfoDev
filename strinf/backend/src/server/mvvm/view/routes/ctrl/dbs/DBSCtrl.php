@@ -65,7 +65,7 @@ abstract class DBSCtrl
 
     protected function checkPrivate(ServerRequestInterface $request, bool $private): void
     {
-        $host = $request->getServerParams()['HTTP_HOST'];
+        $host = $request->getServerParams()['HTTP_HOST'] ?? '';
         if ($private && !in_array($host, $this->private)) {
             throw new HttpForbiddenException($request);
         }

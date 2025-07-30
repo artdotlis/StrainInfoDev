@@ -1,4 +1,4 @@
-import { ClHtml, Col, Dis, ZInd } from '@strinf/ts/constants/style/ClHtml';
+import { ClHtml, Col, Dis, Pad, ZInd } from '@strinf/ts/constants/style/ClHtml';
 import type AncT from '@strinf/ts/interfaces/misc/anchor';
 import { memo } from 'preact/compat';
 import type { JSX } from 'preact';
@@ -30,7 +30,7 @@ function OnPageNavVD({ children, tId }: PageNav): JSX.Element {
             className={`${Col.lN3} ${Dis.dNone} ${Dis.dBL}`}
             {...(tId === undefined ? {} : { id: tId })}
         >
-            <div className={`${ClHtml.pageNav} ${ZInd.N10}`}>
+            <div className={`${ClHtml.pageNav} ${ZInd.N10} ${Pad.tN15}`}>
                 <div className={ClHtml.cnt}>
                     <Nav>{children}</Nav>
                 </div>

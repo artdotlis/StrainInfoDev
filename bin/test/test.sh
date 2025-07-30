@@ -10,7 +10,7 @@ ARGS=(
     "--url=http://localhost:$BACKEND_STAGE_PORT" --output-sanitize true
     --max-examples 12 --continue-on-failure --phases "examples,coverage,fuzzing"
     --exclude-checks negative_data_rejection -w 4
-    "--request-timeout=300" --suppress-health-check too_slow
+    "--request-timeout=300" "--max-response-time=300"
 )
 
 echo "INSTALLING UV"

@@ -8,7 +8,6 @@ use Psr\Log\LoggerInterface;
 use Slim\App;
 use straininfo\server\interfaces\mvvm\view\ToViewIntV;
 use straininfo\server\mvvm\view\const\ConCtrl;
-use straininfo\server\mvvm\view\routes\ctrl\CompressCtrl;
 use straininfo\server\mvvm\view\routes\ctrl\CusErrHand;
 use straininfo\server\mvvm\view\routes\ctrl\MaintainCtrl;
 use straininfo\server\shared\mvvm\view\StatArgs;
@@ -26,7 +25,6 @@ final class RoutesMain
     private readonly string $version;
 
     private ?MaintainCtrl $m_ctrl;
-    private ?CompressCtrl $c_ctrl;
 
     // mutable
     private ConCtrl $ctrl_con;
@@ -42,7 +40,6 @@ final class RoutesMain
         $this->stat_args = $stat_args;
         $this->version = $version;
         $this->m_ctrl = null;
-        $this->c_ctrl = null;
     }
 
     /**
@@ -103,14 +100,6 @@ final class RoutesMain
         }
     }
 
-    /** @param array<\Slim\Interfaces\RouteInterface> $apps */
-    public function addCompressMW(array $apps): void
-    {
-        foreach ($apps as $app) {
-            $app->add($this->getCompressCtrl());
-        }
-    }
-
     public function getWebArgs(): WebArgsBE
     {
         return $this->wbe_args;
@@ -156,11 +145,6 @@ final class RoutesMain
         return $this->m_ctrl;
     }
 
-    private function getCompressCtrl(): CompressCtrl
-    {
-        $this->c_ctrl ??= new CompressCtrl();
-        return $this->c_ctrl;
-    }
     /** @param App<\Psr\Container\ContainerInterface|null> $app */
     private function initMain(App $app): void
     {

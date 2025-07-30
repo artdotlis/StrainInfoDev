@@ -6,6 +6,7 @@ namespace straininfo\server;
 
 use Psr\Log\LoggerInterface;
 use function Safe\mb_internal_encoding;
+use Slim\App;
 use straininfo\server\configs\ConfigsCont;
 use function straininfo\server\exceptions\get_err_handler_boot_fun;
 use function straininfo\server\exceptions\get_err_handler_fun;
@@ -98,20 +99,25 @@ final class Bootstrap implements Stoppable
         return $this->status() === RunState::STOPPED;
     }
 
-    public function init(): string
+    public function init(bool $auto): string
     {
         $err_fun = static function ($msg): never {
             throw new KnownBootExc($msg, LogLevE::CRITICAL, KEAct::TERM);
         };
         return match ($this->status()) {
-            RunState::NOT_RUNNING => (function (): string {
-                $this->start();
+            RunState::NOT_RUNNING => (function () use ($auto): string {
+                $this->start($auto);
                 return $this->status()->value;
             })(),
             RunState::RUNNING => $this->status()->value,
             RunState::STOPPED => $err_fun('Server restart prohibited!'),
             default => $err_fun('Something went horribly wrong!')
         };
+    }
+    /** @return App<\Psr\Container\ContainerInterface|null> */
+    public function getApp(): App
+    {
+        return $this->getMainServiceCon()->getApp();
     }
 
     public function status(): RunState
@@ -137,7 +143,7 @@ final class Bootstrap implements Stoppable
         $this->main_service_con = $boot_con;
     }
 
-    private function start(): void
+    private function start(bool $auto): void
     {
         date_default_timezone_set(
             $this->configurations->getTimeZone()->getName()
@@ -152,6 +158,8 @@ final class Bootstrap implements Stoppable
         $this->getMainServiceCon()->setSuccess();
         //$this->getMainServiceCon()->setMaintenance(null, true);
         //$this->getMainServiceCon()->setMaintenance(null, false);
-        $this->getMainServiceCon()->run();
+        if ($auto) {
+            $this->getMainServiceCon()->run();
+        }
     }
 }

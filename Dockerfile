@@ -8,19 +8,21 @@ COPY . /tmp/app
 
 WORKDIR /tmp/app
 
-RUN dnf install -y bash
+RUN dnf install -y bash gettext-devel intltool
 RUN mkdir -p "${HOME}/.local/bin" && CGO_ENABLED=0 bash "./${BIN_DEPLOY}"
 
+FROM ghcr.io/roadrunner-server/roadrunner:2025 AS roadrunner
 FROM docker.io/alpine:3.22
 
 ARG USER_GID
 ARG BIN_DEPLOY_REQ_NGINX
 ARG BIN_DEPLOY_ADD_CRON
 ARG DOCKER_ENV_BE
+ARG BACKEND_STAGE_PORT
 ARG DOCKER_ENV_DIR
 ARG SERVER_WEB_CONFS_DIR
-ARG SERVER_PHP_CONFS_DIR
 ENV DOCKER_ENV_BE=${DOCKER_ENV_BE}
+ENV BACKEND_STAGE_PORT=${BACKEND_STAGE_PORT}
 
 RUN apk --no-cache update && apk add --upgrade bash apk-tools && apk upgrade --available
 RUN apk --no-cache add nginx nginx-mod-http-set-misc 
@@ -30,15 +32,11 @@ COPY "./${BIN_DEPLOY_ADD_CRON}" /add_cron.sh
 
 RUN bash /req.nginx.sh && rm /req.nginx.sh
 
-RUN mkdir -p /run/php-fpm/ && chown nginx:nginx /run/php-fpm
-
 RUN rm -rf /etc/nginx/http.d/* || true 
-RUN rm -rf /etc/4/php-fpm.d/* || true 
-RUN mkdir -p /etc/nginx/http.d && mkdir -p /etc/php84/php-fpm.d
+RUN mkdir -p /etc/nginx/http.d
 
+COPY --from=roadrunner /usr/bin/rr /usr/local/bin/rr
 COPY --from=appbuilder $SERVER_WEB_CONFS_DIR/* /etc/nginx/http.d/
-COPY --from=appbuilder $SERVER_PHP_CONFS_DIR/* /etc/php84/php-fpm.d/
-
 COPY --from=appbuilder /entry.sh  /entry.sh
 COPY --from=appbuilder $DOCKER_ENV_DIR/* $DOCKER_ENV_DIR/
 

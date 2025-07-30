@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace straininfo\server\mvvm\view;
 
 use Psr\Log\LoggerInterface;
+use Slim\App;
 use straininfo\server\exceptions\init_phase\KnownRunExc;
 use straininfo\server\interfaces\mvvm\controller\CtrlIntV;
 use straininfo\server\interfaces\mvvm\view\ToViewIntV;
@@ -47,6 +48,11 @@ final class MainView implements VIntCtrl
             $stat_args,
             $version
         );
+    }
+    /** @return App<\Psr\Container\ContainerInterface|null> */
+    public function getApp(): App
+    {
+        return $this->app_fac->getApp();
     }
 
     // controller

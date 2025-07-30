@@ -1,3 +1,4 @@
+FROM ghcr.io/roadrunner-server/roadrunner:2025 AS roadrunner
 FROM docker.io/rockylinux:9
 
 ARG USERNAME=vscode
@@ -10,6 +11,7 @@ ARG BIN_DEPLOY_PREP
 ARG BIN_DEPLOY_REQ
 
 COPY . /tmp/app
+COPY --from=roadrunner /usr/bin/rr /usr/local/bin/rr
 
 WORKDIR /tmp/app
 

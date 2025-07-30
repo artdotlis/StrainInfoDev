@@ -63,9 +63,9 @@
         "web": {
             "domain": "localhost",
             "protocol": "http",
-            "port": 3000,
+            "port": 3030,
             "cors": ["*"],
-            "private": ["localhost:3000"]
+            "private": ["localhost:3030"]
         },
         "statistic": {
             "enable": false,

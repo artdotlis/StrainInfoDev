@@ -96,7 +96,7 @@ final class RootCtrl
 
     private function checkPrivate(ServerRequestInterface $request): bool
     {
-        $host = $request->getServerParams()['HTTP_HOST'];
+        $host = $request->getServerParams()['HTTP_HOST'] ?? '';
         return in_array($host, $this->private);
     }
 }

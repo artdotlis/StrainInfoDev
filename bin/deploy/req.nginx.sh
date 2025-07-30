@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "installing nginx dep"
-apk --no-cache add php84 php84-fpm \
+apk --no-cache add php84 \
     php84-opcache php84-zip php84-intl \
     php84-bcmath php84-mbstring php84-simplexml php84-dom \
     php84-pdo php84-mysqlnd php84-pdo_mysql \
@@ -12,10 +12,7 @@ apk --no-cache add zlib gzip
 # cron
 apk --no-cache add cronie
 
-mkdir /run/php-fpm -p
-
 [[ -f /usr/bin/php ]] || ln -s /usr/bin/php84 /usr/bin/php
-[[ -f /usr/bin/php-fpm ]] || ln -s /usr/sbin/php-fpm84 /usr/bin/php-fpm
 
 echo "finished"
 # increase memory size

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace straininfo\server\interfaces\mvvm\view;
 
+use Slim\App;
 use straininfo\server\interfaces\global\Runnable;
 use straininfo\server\interfaces\mvvm\controller\CtrlIntV;
 
@@ -20,4 +21,6 @@ interface VIntCtrl extends Runnable
         \DateTimeZone $zone,
         bool $mnt
     ): void;
+    /** @return App<\Psr\Container\ContainerInterface|null> */
+    public function getApp(): App;
 }

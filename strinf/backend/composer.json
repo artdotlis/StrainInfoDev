@@ -15,7 +15,9 @@
         "nyholm/psr7-server": "^1.1",
         "predis/predis": "^3.0",
         "thecodingmachine/safe": "^3.3",
-        "matomo/matomo-php-tracker": "^3.3"
+        "matomo/matomo-php-tracker": "^3.3",
+        "spiral/roadrunner-http": "^3.5",
+        "spiral/roadrunner-worker": "^3.6"
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^1.1",

@@ -22,7 +22,6 @@ yarn.lock
 composer.phar*
 vendor/
 phploc.phar
-
 # https://github.com/github/gitignore
 # CC0 1.0 Universal
 # License: https://github.com/github/gitignore/blob/main/LICENSE
