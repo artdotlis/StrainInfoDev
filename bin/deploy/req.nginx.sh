@@ -5,7 +5,7 @@ apk --no-cache add php84 \
     php84-opcache php84-zip php84-intl \
     php84-bcmath php84-mbstring php84-simplexml php84-dom \
     php84-pdo php84-mysqlnd php84-pdo_mysql \
-    php84-curl
+    php84-curl php84-ctype
 
 # php84-json already pre installed
 apk --no-cache add zlib gzip
