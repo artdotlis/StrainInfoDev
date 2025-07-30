@@ -29,7 +29,7 @@ rm -rf /etc/nginx/http.d/*
 mkdir -p "$SERVER_WEB_CONFS_DIR"
 
 cp -RT "$ROOT/$APP_STRINF" "/var/www/$APP_STRINF_ROOT"
-envsubst '$BACKEND_STAGE_PORT' < "$ROOT/$CONFIG_WEB_BACKEND" > "$SERVER_WEB_CONFS_DIR"/default.conf
+BACKEND_STAGE_PORT="$BACKEND_STAGE_PORT"  envsubst '$BACKEND_STAGE_PORT' < "$ROOT/$CONFIG_WEB_BACKEND" > "$SERVER_WEB_CONFS_DIR"/default.conf
 cp "$ROOT/$CONFIG_WEB_FRONTEND" "$SERVER_WEB_CONFS_DIR"/frontend.conf
 
 echo "project installed"
