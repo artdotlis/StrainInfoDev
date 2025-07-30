@@ -20,7 +20,6 @@ $psr7 = new RoadRunner\Http\PSR7Worker(
     $psr17Factory,
     $psr17Factory
 );
-
 while ($request = $psr7->waitRequest()) {
     try {
         $response = $boot->getApp()->handle($request);
@@ -31,5 +30,8 @@ while ($request = $psr7->waitRequest()) {
                 $psr17Factory->createStream('Internal server error!')
             )
         );
+        $boot->stop();
+        $boot = Bootstrap::getBootstrap();
+        $boot->init(false);
     }
 }
