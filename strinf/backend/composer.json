@@ -38,6 +38,7 @@
             "server/shared/text/slim_text.php",
             "server/shared/text/designation.php",
             "server/shared/text/url.php",
+            "server/shared/state/bootstrap.php",
             "server/shared/mvvm/model/index_cache.php",
             "server/shared/arr/filter_arr.php",
             "server/shared/arr/check_arr.php",

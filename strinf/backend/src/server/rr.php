@@ -6,8 +6,10 @@ namespace straininfo\server;
 
 require_once dirname(__FILE__, 2) . '/vendor/autoload.php';
 
-use Nyholm\Psr7\Factory\Psr17Factory;
+use function straininfo\server\shared\state\reboot;
 use Spiral\RoadRunner;
+
+use Nyholm\Psr7\Factory\Psr17Factory;
 
 $boot = Bootstrap::getBootstrap();
 $boot->init(false);
@@ -20,18 +22,20 @@ $psr7 = new RoadRunner\Http\PSR7Worker(
     $psr17Factory,
     $psr17Factory
 );
+
 while ($request = $psr7->waitRequest()) {
     try {
         $response = $boot->getApp()->handle($request);
         $psr7->respond($response);
+        if($response->getStatusCode() >= 500) {
+            $boot = reboot($boot);
+        }
     } catch (\Throwable $e) {
         $psr7->respond(
             $psr17Factory->createResponse(500)->withBody(
                 $psr17Factory->createStream('Internal server error!')
             )
         );
-        $boot->stop();
-        $boot = Bootstrap::getBootstrap();
-        $boot->init(false);
+        $boot = reboot($boot);
     }
 }
