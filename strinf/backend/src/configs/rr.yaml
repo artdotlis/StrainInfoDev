@@ -17,3 +17,7 @@ http:
     min_length: 1024
     content_types:
       - "application/json"
+logs:
+  encoding: console 
+  level: error 
+  mode: "production"
