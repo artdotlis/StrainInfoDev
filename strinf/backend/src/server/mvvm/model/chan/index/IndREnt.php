@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\chan\index;
 
-use Predis;
 use function Safe\shuffle;
 use straininfo\server\interfaces\mvvm\model\chan\index\IMIntEnt;
 
@@ -16,8 +15,8 @@ use function straininfo\server\shared\text\create_slim_key_w;
 final class IndREnt extends RedisMWr implements IMIntEnt
 {
     private readonly string $encode;
-
-    public function __construct(?Predis\Client $dbc, string $encode)
+    /** @param callable(): \Predis\Client|null $dbc */
+    public function __construct(?callable $dbc, string $encode)
     {
         parent::__construct($dbc, true);
         $this->encode = $encode;

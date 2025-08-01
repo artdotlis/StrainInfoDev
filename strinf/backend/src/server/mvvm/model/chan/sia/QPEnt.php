@@ -18,7 +18,8 @@ use function straininfo\server\shared\mvvm\model\sia\sql\parse_sql_index_entity_
 
 final class QPEnt extends PdoMWr implements QMIntEnt
 {
-    public function __construct(?\PDO $dbc)
+    /** @param callable(): \PDO|null $dbc */
+    public function __construct(?callable $dbc)
     {
         parent::__construct($dbc, false);
     }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\dbs;
 
-use Predis;
 use straininfo\server\interfaces\mvvm\model\CacheIntM;
 use straininfo\server\mvvm\model\chan\cache\CaRAll;
 use straininfo\server\mvvm\model\chan\cache\CaRAllSet;
@@ -145,7 +144,8 @@ final class ChCacheDB extends DBCR implements CacheIntM
         return $this->db_conf;
     }
 
-    protected function afterConnect(?Predis\Client $redis): void
+    /** @param callable(): \Predis\Client|null $redis */
+    protected function afterConnect(?callable $redis): void
     {
         $ex_h = $this->db_conf->getExH();
         $tmp_h = $this->db_conf->getTmpH();

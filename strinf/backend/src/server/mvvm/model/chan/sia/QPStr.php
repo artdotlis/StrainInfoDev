@@ -33,7 +33,8 @@ use straininfo\server\shared\mvvm\model\struct\DataCon;
  */
 final class QPStr extends PdoMWr implements QMIntDat
 {
-    public function __construct(?\PDO $dbc)
+    /** @param callable(): \PDO|null $dbc */
+    public function __construct(?callable $dbc)
     {
         parent::__construct($dbc, true);
     }

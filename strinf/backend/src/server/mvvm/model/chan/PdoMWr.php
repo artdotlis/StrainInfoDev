@@ -10,11 +10,17 @@ use straininfo\server\shared\logger\LogLevE;
 
 abstract class PdoMWr
 {
-    protected readonly ?\PDO $dbc;
+    /**
+     * @readonly
+     *
+     * @var callable(): \PDO|null $dbc
+     * */
+    protected $dbc;
     private bool $maintenance;
     private bool $maintain;
 
-    public function __construct(?\PDO $dbc, bool $maintain)
+    /** @param callable(): \PDO|null $dbc */
+    public function __construct(?callable $dbc, bool $maintain)
     {
         $this->dbc = $dbc;
         $this->maintain = $maintain;
@@ -47,7 +53,7 @@ abstract class PdoMWr
                 KEAct::TERM
             );
         }
-        return $this->dbc;
+        return ($this->dbc)();
     }
 
     protected function checkMaintenanceMode(): void

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\chan\cache;
 
-use Predis\Client;
 use Predis\Pipeline\Pipeline;
 use straininfo\server\interfaces\mvvm\model\chan\cache\CaMIntDat;
 use straininfo\server\mvvm\model\chan\RedisMWr;
@@ -17,7 +16,8 @@ final class CaRDat extends RedisMWr implements CaMIntDat
 {
     private readonly string $prefix;
 
-    public function __construct(?Client $dbc, string $prefix)
+    /** @param callable(): \Predis\Client|null $dbc */
+    public function __construct(?callable $dbc, string $prefix)
     {
         $this->prefix = $prefix;
         parent::__construct($dbc, true);

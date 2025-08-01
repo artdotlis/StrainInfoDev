@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\chan\cache;
 
-use Predis;
 use Predis\Pipeline\Pipeline;
 use straininfo\server\interfaces\mvvm\model\chan\cache\CaMIntSeaId;
 use straininfo\server\mvvm\model\chan\RedisMWr;
@@ -12,7 +11,8 @@ use straininfo\server\shared\mvvm\model\redis\RedisStE;
 
 abstract class CaRSeaGet extends RedisMWr implements CaMIntSeaId
 {
-    public function __construct(?Predis\Client $dbc)
+    /** @param callable(): \Predis\Client|null $dbc */
+    public function __construct(?callable $dbc)
     {
         parent::__construct($dbc, true);
     }

@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace straininfo\server;
 
 use Psr\Log\LoggerInterface;
-use function Safe\mb_internal_encoding;
 use Slim\App;
 use straininfo\server\configs\ConfigsCont;
-use function straininfo\server\exceptions\get_err_handler_boot_fun;
-use function straininfo\server\exceptions\get_err_handler_fun;
 use straininfo\server\exceptions\init_phase\KnownBootExc;
 use straininfo\server\interfaces\global\Stoppable;
 use straininfo\server\interfaces\mvvm\controller\CtrlIntBoot;
-
-use function straininfo\server\logger\create_logger;
-use function straininfo\server\logger\create_new_log_channel;
-use function straininfo\server\mvvm\create_mvvm;
 use straininfo\server\shared\exc\KEAct;
 use straininfo\server\shared\logger\LogLevE;
 use straininfo\server\shared\state\RunState;
+
+use function Safe\mb_internal_encoding;
+use function straininfo\server\exceptions\get_err_handler_boot_fun;
+use function straininfo\server\exceptions\get_err_handler_fun;
+use function straininfo\server\logger\create_logger;
+use function straininfo\server\logger\create_new_log_channel;
+use function straininfo\server\mvvm\create_mvvm;
 
 final class Bootstrap implements Stoppable
 {
@@ -51,30 +51,6 @@ final class Bootstrap implements Stoppable
         set_exception_handler(get_err_handler_fun($this->logger_err, $this));
     }
 
-    public function __destruct()
-    {
-        $suc_msg = 'Bootstrap object was successfully stopped!';
-        $res = match ($this->status()) {
-            RunState::RUNNING => function () use ($suc_msg): void {
-                $this->stop();
-                $this->logger_err->notice("[GC] {$suc_msg}");
-            },
-            RunState::STOPPED => function () use ($suc_msg): void {
-                $this->logger_err->notice("[Pre-GC] {$suc_msg}");
-            },
-            RunState::NOT_RUNNING => function (): void {
-                $this->logger_err->warning('Server was never started!');
-            },
-            default => function (): void {
-                $this->logger_err->error('Something went horribly wrong!');
-            }
-        };
-        $this->logger_err->notice('[EP] start');
-        $res();
-        $this->logger_err->notice('[EP] done');
-        self::$instance = null;
-    }
-
     public static function getBootstrap(): self
     {
         if (is_null(self::$instance)) {
@@ -83,10 +59,16 @@ final class Bootstrap implements Stoppable
         return self::$instance;
     }
 
+    public function __destruct()
+    {
+        $this->destruct();
+    }
+
     public function stop(): void
     {
         $this->getMainServiceCon()->stop();
         $this->running = RunState::STOPPED;
+        $this->destruct();
     }
 
     public function maintain(\DateTime $finish_time, bool $maintain): void
@@ -114,6 +96,7 @@ final class Bootstrap implements Stoppable
             default => $err_fun('Something went horribly wrong!')
         };
     }
+
     /** @return App<\Psr\Container\ContainerInterface|null> */
     public function getApp(): App
     {
@@ -123,6 +106,30 @@ final class Bootstrap implements Stoppable
     public function status(): RunState
     {
         return $this->running;
+    }
+
+    private function destruct(): void
+    {
+        $suc_msg = 'Bootstrap object was successfully stopped!';
+        $res = match ($this->status()) {
+            RunState::RUNNING => function () use ($suc_msg): void {
+                $this->stop();
+                $this->logger_err->notice("[GC] {$suc_msg}");
+            },
+            RunState::STOPPED => function () use ($suc_msg): void {
+                $this->logger_err->notice("[Pre-GC] {$suc_msg}");
+            },
+            RunState::NOT_RUNNING => function (): void {
+                $this->logger_err->warning('Server was never started!');
+            },
+            default => function (): void {
+                $this->logger_err->error('Something went horribly wrong!');
+            }
+        };
+        $this->logger_err->notice('[EP] start');
+        $res();
+        $this->logger_err->notice('[EP] done');
+        self::$instance = null;
     }
 
     private function getMainServiceCon(): CtrlIntBoot

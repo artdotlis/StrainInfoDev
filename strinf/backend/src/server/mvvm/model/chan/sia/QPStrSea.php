@@ -22,7 +22,8 @@ use function straininfo\server\shared\text\create_designation_triplet;
 
 final class QPStrSea extends PdoMWr implements QMIntSeaIdStr
 {
-    public function __construct(?\PDO $dbc)
+    /** @param callable(): \PDO|null $dbc */
+    public function __construct(?callable $dbc)
     {
         parent::__construct($dbc, true);
     }

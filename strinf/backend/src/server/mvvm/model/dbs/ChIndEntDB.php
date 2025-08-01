@@ -30,8 +30,8 @@ final class ChIndEntDB extends DBCM implements DBIntEntM
     {
         return $this->q_ent;
     }
-
-    protected function afterConnect(?\PDO $pdo): void
+    /** @param callable(): \PDO|null $pdo */
+    protected function afterConnect(?callable $pdo): void
     {
         $this->q_ent = new QPEnt($pdo);
     }

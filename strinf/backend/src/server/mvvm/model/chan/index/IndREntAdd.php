@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\chan\index;
 
-use Predis;
 use straininfo\server\interfaces\mvvm\model\chan\index\IMIntEntAdd;
 use straininfo\server\mvvm\model\chan\RedisMWr;
 use function straininfo\server\shared\mvvm\model\create_index_array;
@@ -20,8 +19,9 @@ final class IndREntAdd extends RedisMWr implements IMIntEntAdd
     private readonly int $key_len;
     private readonly int $limit;
 
+    /** @param callable(): \Predis\Client|null $dbc */
     public function __construct(
-        ?Predis\Client $dbc,
+        ?callable $dbc,
         string $encode,
         int $key_len,
         int $limit

@@ -15,7 +15,8 @@ use function straininfo\server\shared\mvvm\model\sia\sql\get_all_t_str;
 
 final class QPAll extends PdoMWr implements QMIntAll
 {
-    public function __construct(?\PDO $dbc)
+    /** @param callable(): \PDO|null $dbc */
+    public function __construct(?callable $dbc)
     {
         parent::__construct($dbc, true);
     }

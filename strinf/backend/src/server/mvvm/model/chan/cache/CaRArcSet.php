@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\chan\cache;
 
-use Predis;
 use Predis\Pipeline\Pipeline;
 use straininfo\server\interfaces\mvvm\model\chan\cache\CaMIntArcSet;
 use straininfo\server\mvvm\model\chan\RedisMWr;
@@ -16,7 +15,8 @@ final class CaRArcSet extends RedisMWr implements CaMIntArcSet
     private readonly int $ex_s;
     private readonly int $limit;
 
-    public function __construct(?Predis\Client $dbc, int $ex_h, int $limit)
+    /** @param callable(): \Predis\Client|null $dbc */
+    public function __construct(?callable $dbc, int $ex_h, int $limit)
     {
         $this->ex_s = 3_600 * $ex_h;
         $this->limit = $limit;

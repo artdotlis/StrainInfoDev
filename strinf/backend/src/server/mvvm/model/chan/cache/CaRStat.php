@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\chan\cache;
 
-use Predis;
 use straininfo\server\interfaces\mvvm\model\chan\cache\CaMIntStat;
 use straininfo\server\mvvm\model\chan\RedisMWr;
 use straininfo\server\shared\mvvm\model\redis\RedisStE;
 
 final class CaRStat extends RedisMWr implements CaMIntStat
 {
-    public function __construct(?Predis\Client $dbc)
+    /** @param callable(): \Predis\Client|null $dbc */
+    public function __construct(?callable $dbc)
     {
         parent::__construct($dbc, true);
     }

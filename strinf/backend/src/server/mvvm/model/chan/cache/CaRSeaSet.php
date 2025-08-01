@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\chan\cache;
 
-use Predis;
 use Predis\Pipeline\Pipeline;
 use straininfo\server\interfaces\mvvm\model\chan\cache\CaMIntSeaIdSet;
 use straininfo\server\mvvm\model\chan\RedisMWr;
@@ -16,8 +15,9 @@ abstract class CaRSeaSet extends RedisMWr implements CaMIntSeaIdSet
     protected readonly int $tmp_s;
     protected readonly int $limit;
 
+    /** @param callable(): \Predis\Client|null $dbc */
     public function __construct(
-        ?Predis\Client $dbc,
+        ?callable $dbc,
         int $ex_h,
         int $tmp_h,
         int $limit

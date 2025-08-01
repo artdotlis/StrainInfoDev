@@ -4,39 +4,35 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\dbs\con;
 
-use straininfo\server\exceptions\mvvm\model\KnownDBExc;
-use straininfo\server\interfaces\mvvm\model\ConnectInt;
-use straininfo\server\shared\exc\KEAct;
-use straininfo\server\shared\logger\LogLevE;
 use straininfo\server\shared\mvvm\model\DBArgs;
+use straininfo\server\interfaces\mvvm\model\ConnectInt;
+
+use function straininfo\server\shared\dbs\tryToConnect;
 
 abstract class DBCM implements ConnectInt
 {
     private \PDO $pdo;
     private readonly DBArgs $db_conf;
+    private int $last_call;
 
     public function __construct(DBArgs $args)
     {
         $this->db_conf = $args;
         $this->afterConnect(null);
+        $this->last_call = time() - 86400;
     }
 
     public function connect(): void
     {
-        try {
-            $this->pdo = new \PDO(
-                $this->createDSN(),
-                $this->db_conf->getUser(),
-                $this->db_conf->getPassword(),
-                [
-                    \PDO::ATTR_TIMEOUT => 2,
-                    \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-                ]
-            );
-        } catch (\PDOException $exc) {
-            throw new KnownDBExc($exc->getMessage(), LogLevE::CRITICAL, KEAct::TERM);
-        }
-        $this->afterConnect($this->pdo);
+        tryToConnect($this->create_connection(...), 10);
+        $this->afterConnect(function (): \PDO {
+            $cur = time();
+            if ($cur - $this->last_call > 300) {
+                $this->create_connection();
+            }
+            $this->last_call = $cur;
+            return $this->pdo;
+        });
     }
 
     public function disconnect(): void
@@ -44,7 +40,8 @@ abstract class DBCM implements ConnectInt
         unset($this->pdo);
     }
 
-    abstract protected function afterConnect(?\PDO $pdo): void;
+    /** @param callable(): \PDO|null $pdo */
+    abstract protected function afterConnect(?callable $pdo): void;
 
     protected function createDSN(): string
     {
@@ -59,8 +56,31 @@ abstract class DBCM implements ConnectInt
             $dsn .= "host={$host};port={$port};";
         }
         $dsn .= "dbname={$db};";
-        // TODO: add better converter from mb_encoding strings
         $char = str_replace('-', '', $this->db_conf->getCharSet());
         return $dsn . "charset={$char}";
+    }
+
+    private function tcp_socket_connection(): void
+    {
+        $this->pdo = new \PDO(
+            $this->createDSN(),
+            $this->db_conf->getUser(),
+            $this->db_conf->getPassword(),
+            [
+                \PDO::ATTR_TIMEOUT => 86400,
+                \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+            ]
+        );
+    }
+
+    private function create_connection(): void
+    {
+        try {
+            if ($this->pdo->query('SELECT 1;') === false) {
+                $this->tcp_socket_connection();
+            }
+        } catch (\Throwable) {
+            $this->tcp_socket_connection();
+        }
     }
 }

@@ -26,7 +26,8 @@ use straininfo\server\shared\mvvm\model\struct\DataCon;
 /** @implements QMIntDat<array<string, mixed>> */
 final class QPCul extends PdoMWr implements QMIntDat
 {
-    public function __construct(?\PDO $dbc)
+    /** @param callable(): \PDO|null $dbc */
+    public function __construct(?callable $dbc)
     {
         parent::__construct($dbc, true);
     }

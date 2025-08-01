@@ -11,11 +11,15 @@ use straininfo\server\shared\logger\LogLevE;
 
 abstract class RedisMWr
 {
-    protected readonly ?Predis\Client $dbc;
+    /**
+     * @readonly
+     *
+     * @var callable(): \Predis\Client|null $dbc */
+    protected $dbc;
     private bool $maintenance;
     private bool $maintain;
-
-    public function __construct(?Predis\Client $dbc, bool $maintain)
+    /** @param callable(): \Predis\Client|null $dbc */
+    public function __construct(?callable $dbc, bool $maintain)
     {
         $this->dbc = $dbc;
         $this->maintenance = is_null($dbc);
@@ -41,7 +45,7 @@ abstract class RedisMWr
                 KEAct::TERM
             );
         }
-        return $this->dbc;
+        return ($this->dbc)();
     }
 
     protected function checkMaintenanceMode(): void

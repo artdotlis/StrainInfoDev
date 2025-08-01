@@ -18,7 +18,8 @@ use function straininfo\server\shared\mvvm\model\sia\sql\get_str_type_cnt;
 
 final class QPCnt extends PdoMWr implements QMIntCnt
 {
-    public function __construct(?\PDO $dbc)
+    /** @param callable(): \PDO|null $dbc */
+    public function __construct(?callable $dbc)
     {
         parent::__construct($dbc, true);
     }

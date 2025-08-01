@@ -13,7 +13,8 @@ use function straininfo\server\shared\mvvm\model\sia\sql\parse_sql_arc_id;
 
 final class QPArc extends PdoMWr implements QMIntArc
 {
-    public function __construct(?\PDO $dbc)
+    /** @param callable(): \PDO|null $dbc */
+    public function __construct(?callable $dbc)
     {
         parent::__construct($dbc, true);
     }

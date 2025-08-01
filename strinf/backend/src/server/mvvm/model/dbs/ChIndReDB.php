@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\dbs;
 
-use Predis;
 use straininfo\server\interfaces\mvvm\model\chan\index\IMIntEnt;
 use straininfo\server\interfaces\mvvm\model\IndexIntM;
 use straininfo\server\mvvm\model\chan\index\IndREnt;
@@ -37,8 +36,8 @@ final class ChIndReDB extends DBCR implements IndexIntM
     {
         return $this->db_conf;
     }
-
-    protected function afterConnect(?Predis\Client $redis): void
+    /** @param callable(): \Predis\Client|null $redis */
+    protected function afterConnect(?callable $redis): void
     {
         $this->ca_ind = new IndREnt($redis, $this->getIDBConf()->getCharSet());
     }

@@ -86,7 +86,8 @@ final class ChMainDB extends DBCM implements DBIntM
         return $this->db_conf;
     }
 
-    protected function afterConnect(?\PDO $pdo): void
+    /** @param callable(): \PDO|null $pdo */
+    protected function afterConnect(?callable $pdo): void
     {
         $this->q_cul = new QPCul($pdo);
         $this->q_str = new QPStr($pdo);
