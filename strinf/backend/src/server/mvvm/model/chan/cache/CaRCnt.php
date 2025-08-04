@@ -10,7 +10,7 @@ use straininfo\server\shared\mvvm\model\redis\RedisStE;
 
 final class CaRCnt extends RedisMWr implements CaMIntCnt
 {
-    /** @param callable(): \Predis\Client|null $dbc */
+    /** @param callable(): \Redis|null $dbc */
     public function __construct(?callable $dbc)
     {
         parent::__construct($dbc, true);
@@ -20,7 +20,10 @@ final class CaRCnt extends RedisMWr implements CaMIntCnt
     {
         $this->checkMaintenanceMode();
         $res = $this->getDBC()->get($tag);
-        return (int) ($res ?? -1);
+        if (is_string($res)) {
+            return (int) $res;
+        }
+        return -1;
     }
 
     public function getStrainCount(): int

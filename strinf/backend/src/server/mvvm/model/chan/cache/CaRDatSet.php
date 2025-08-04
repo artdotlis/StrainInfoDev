@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\chan\cache;
 
-use Predis\Pipeline\Pipeline;
 use straininfo\server\interfaces\mvvm\model\chan\cache\CaMIntDatSet;
 use straininfo\server\mvvm\model\chan\RedisMWr;
 use straininfo\server\shared\mvvm\view\api\VersionE;
@@ -16,7 +15,7 @@ final class CaRDatSet extends RedisMWr implements CaMIntDatSet
     private readonly int $limit;
     private readonly string $prefix;
 
-    /** @param callable(): \Predis\Client|null $dbc */
+    /** @param callable(): \Redis|null $dbc */
     public function __construct(
         ?callable $dbc,
         int $ex_h,
@@ -32,19 +31,31 @@ final class CaRDatSet extends RedisMWr implements CaMIntDatSet
     /** @param array<int, string> $data */
     public function setMin(array $data, VersionE $version, bool $perm): void
     {
-        $this->setEntById($data, $this->prefix .  $version->value .'_'.QDE::MIN->value . ':', $perm);
+        $this->setEntById(
+            $data,
+            $this->prefix .  $version->value .'_'.QDE::MIN->value . ':',
+            $perm
+        );
     }
 
     /** @param array<int, string> $data */
     public function setAvg(array $data, VersionE $version, bool $perm): void
     {
-        $this->setEntById($data, $this->prefix . $version->value .'_'. QDE::AVG->value . ':', $perm);
+        $this->setEntById(
+            $data,
+            $this->prefix . $version->value .'_'. QDE::AVG->value . ':',
+            $perm
+        );
     }
 
     /** @param array<int, string> $data */
     public function setMax(array $data, VersionE $version, bool $perm): void
     {
-        $this->setEntById($data, $this->prefix . $version->value .'_'. QDE::MAX->value . ':', $perm);
+        $this->setEntById(
+            $data,
+            $this->prefix . $version->value .'_'. QDE::MAX->value . ':',
+            $perm
+        );
     }
 
     /** @param array<int, string> $data */
@@ -60,37 +71,19 @@ final class CaRDatSet extends RedisMWr implements CaMIntDatSet
     }
 
     /** @param array<int, string> $data */
-    private function setValue(
-        Pipeline $red,
-        array $data,
-        string $dbn,
-        bool $perm
-    ): void {
-        foreach ($data as $id => $json) {
-            if ($perm) {
-                $red->set($dbn . $id, $json);
-            } else {
-                $red->set($dbn . $id, $json, 'ex', $this->ex_s);
-            }
-        }
-    }
-
-    /** @param array<int, string> $data */
     private function setEntById(array $data, string $dbn, bool $perm): void
     {
         $this->checkMaintenanceMode();
         if (count($data) < $this->limit) {
-            $setValue = $this->setValue(...);
-            $this->getDBC()->pipeline(
-                static function (Pipeline $red) use (
-                    $data,
-                    $dbn,
-                    $perm,
-                    $setValue
-                ): void {
-                    $setValue($red, $data, $dbn, $perm);
+            $pipe = $this->getDBC()->pipeline();
+            foreach ($data as $id => $json) {
+                if ($perm) {
+                    $pipe = $pipe->set($dbn . $id, $json);
+                } else {
+                    $pipe = $pipe->set($dbn . $id, $json, ['EX' => $this->ex_s]);
                 }
-            );
+            }
+            $pipe->exec();
         }
     }
 }

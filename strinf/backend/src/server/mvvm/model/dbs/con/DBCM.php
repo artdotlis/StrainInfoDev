@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\dbs\con;
 
-use straininfo\server\shared\mvvm\model\DBArgs;
 use straininfo\server\interfaces\mvvm\model\ConnectInt;
-
 use function straininfo\server\shared\dbs\tryToConnect;
+
+use straininfo\server\shared\mvvm\model\DBArgs;
 
 abstract class DBCM implements ConnectInt
 {

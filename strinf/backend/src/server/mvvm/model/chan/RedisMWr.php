@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\chan;
 
-use Predis;
 use straininfo\server\exceptions\init_phase\KnownMaintainExc;
 use straininfo\server\shared\exc\KEAct;
 use straininfo\server\shared\logger\LogLevE;
@@ -14,11 +13,11 @@ abstract class RedisMWr
     /**
      * @readonly
      *
-     * @var callable(): \Predis\Client|null $dbc */
+     * @var callable(): \Redis|null $dbc */
     protected $dbc;
     private bool $maintenance;
     private bool $maintain;
-    /** @param callable(): \Predis\Client|null $dbc */
+    /** @param callable(): \Redis|null $dbc */
     public function __construct(?callable $dbc, bool $maintain)
     {
         $this->dbc = $dbc;
@@ -36,7 +35,7 @@ abstract class RedisMWr
         return $this->maintenance;
     }
 
-    protected function getDBC(): Predis\Client
+    protected function getDBC(): \Redis
     {
         if (is_null($this->dbc)) {
             throw new KnownMaintainExc(

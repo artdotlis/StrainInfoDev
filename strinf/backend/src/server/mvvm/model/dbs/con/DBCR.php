@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\dbs\con;
 
-use straininfo\server\interfaces\mvvm\model\ConnectInt;
 use straininfo\server\interfaces\container\RedisConf;
-use function straininfo\server\shared\dbs\tryToConnect;
+use straininfo\server\interfaces\mvvm\model\ConnectInt;
 
-use Predis;
+use function straininfo\server\shared\dbs\tryToConnect;
 
 abstract class DBCR implements ConnectInt
 {
@@ -16,7 +15,7 @@ abstract class DBCR implements ConnectInt
     private readonly RedisConf $db_conf;
 
     // mutable
-    private Predis\Client $redis;
+    private \Redis $redis;
     private int $last_call;
 
     public function __construct(RedisConf $args)
@@ -29,7 +28,7 @@ abstract class DBCR implements ConnectInt
     public function connect(): void
     {
         tryToConnect($this->create_connection(...), 10);
-        $this->afterConnect(function (): \Predis\Client {
+        $this->afterConnect(function (): \Redis {
             $cur = time();
             if ($cur - $this->last_call > 300) {
                 $this->create_connection();
@@ -41,32 +40,27 @@ abstract class DBCR implements ConnectInt
 
     public function disconnect(): void
     {
-        $this->redis->disconnect();
+        $this->redis->close();
         unset($this->redis);
     }
 
-    /** @param callable(): \Predis\Client|null $redis */
+    /** @param callable(): \Redis|null $redis */
     abstract protected function afterConnect(?callable $redis): void;
 
     private function socket_connection(): void
     {
-        $this->redis = new Predis\Client([
-            'scheme' => 'unix',
-            'path' => $this->db_conf->getSocket(),
-            'database' => $this->db_conf->getDb(),
-            'timeout' => 86400,
-        ]);
+        [$host, $port] = [$this->db_conf->getSocket(), -1];
+        $this->redis = new \Redis();
+        $this->redis->connect($host, $port, 2, null, 0, 86400.0, null);
+        $this->redis->select($this->db_conf->getDb());
     }
 
     private function tcp_connection(): void
     {
-        $this->redis = new Predis\Client([
-            'scheme' => 'tcp',
-            'host' => $this->db_conf->getHost(),
-            'port' => $this->db_conf->getPort(),
-            'database' => $this->db_conf->getDb(),
-            'timeout' => 86400,
-        ]);
+        [$host, $port] = [$this->db_conf->getHost(),  $this->db_conf->getPort()];
+        $this->redis = new \Redis();
+        $this->redis->connect($host, $port, 2, null, 0, 86400.0, null);
+        $this->redis->select($this->db_conf->getDb());
     }
 
     private function create_connection(): void

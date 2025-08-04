@@ -8,14 +8,13 @@ use Monolog\Formatter\JsonFormatter;
 use Monolog\Handler\RedisHandler;
 use Monolog\Level;
 use Monolog\Logger;
-use Predis;
 use Psr\Log\LoggerInterface;
 use straininfo\server\exceptions\logger\KnownLoggerExc;
-use function straininfo\server\shared\dbs\tryToConnect;
 use straininfo\server\shared\exc\KEAct;
 use straininfo\server\shared\logger\LoggerArgs;
-
 use straininfo\server\shared\logger\LogLevE;
+
+use function straininfo\server\shared\dbs\tryToConnect;
 
 function parse_log_level(LogLevE $level): Level
 {
@@ -62,23 +61,17 @@ function create_new_log_channel(
     );
 }
 
-function create_log_redis_c(LoggerArgs $args, int $tries): Predis\Client
+function create_log_redis_c(LoggerArgs $args, int $tries): \Redis
 {
-    if ($args->getRSocket() !== '') {
-        $redis = new Predis\Client([
-            'scheme' => 'unix',
-            'path' => $args->getRSocket(),
-            'database' => $args->getRDb(),
-            'timeout' => 2,
-        ]);
-    } else {
-        $redis = new Predis\Client([
-            'scheme' => 'tcp',
-            'host' => $args->getRHost(),
-            'port' => $args->getRPort(),
-            'database' => $args->getRDB(),
-        ]);
-    }
-    tryToConnect($redis->connect(...), $tries);
+    $redis = new \Redis();
+    tryToConnect(static function () use ($redis, $args): void {
+        if ($args->getRSocket() !== '') {
+            [$host, $port] = [$args->getRSocket(), -1];
+        } else {
+            [$host, $port] = [$args->getRHost(), $args->getRPort()];
+        }
+        $redis->connect($host, $port, 2, null, 0, 86_400.0, null);
+        $redis->select($args->getRDB());
+    }, $tries);
     return $redis;
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\chan\cache;
 
-use Predis\Pipeline\Pipeline;
 use straininfo\server\interfaces\mvvm\model\chan\cache\CaMIntSeaIdSet;
 use straininfo\server\mvvm\model\chan\RedisMWr;
 use straininfo\server\shared\mvvm\model\redis\RedisStE;
@@ -15,7 +14,7 @@ abstract class CaRSeaSet extends RedisMWr implements CaMIntSeaIdSet
     protected readonly int $tmp_s;
     protected readonly int $limit;
 
-    /** @param callable(): \Predis\Client|null $dbc */
+    /** @param callable(): \Redis|null $dbc */
     public function __construct(
         ?callable $dbc,
         int $ex_h,
@@ -81,15 +80,13 @@ abstract class CaRSeaSet extends RedisMWr implements CaMIntSeaIdSet
     protected function runPipe(array $data, string $dbn, int $ex_s): void
     {
         $lim = $this->limit;
-        $this->getDBC()->pipeline(
-            static function (Pipeline $red) use ($data, $dbn, $ex_s, $lim): void {
-                foreach ($data as $id => $ids) {
-                    if (count($ids) > 0 && count($ids) < $lim) {
-                        $red->rpush($dbn . $id, $ids);
-                        $red->expire($dbn . $id, $ex_s);
-                    }
-                }
+        $pipe = $this->getDBC()->pipeline();
+        foreach ($data as $id => $ids) {
+            if (count($ids) < $lim) {
+                $pipe = $pipe->rpush($dbn . $id, ...$ids);
+                $pipe = $pipe->expire($dbn . $id, $ex_s);
             }
-        );
+        }
+        $pipe->exec();
     }
 }

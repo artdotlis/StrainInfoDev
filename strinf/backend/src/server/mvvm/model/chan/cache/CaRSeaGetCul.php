@@ -16,7 +16,7 @@ final class CaRSeaGetCul extends CaRSeaGet implements CaMIntSeaIdCul
      */
     public function getStrId(array $str_ids): array
     {
-        return $this->getCulIds($str_ids, $this->wrId(RedisStE::STR->value));
+        return $this->getEntIds($str_ids, $this->wrId(RedisStE::STR->value));
     }
 
     protected function wrId(string $id): string

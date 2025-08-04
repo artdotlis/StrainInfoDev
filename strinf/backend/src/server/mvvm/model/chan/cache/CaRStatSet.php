@@ -10,7 +10,7 @@ use straininfo\server\shared\mvvm\model\redis\RedisStE;
 
 final class CaRStatSet extends RedisMWr implements CaMIntStatSet
 {
-    /** @param callable(): \Predis\Client|null $dbc */
+    /** @param callable(): \Redis|null $dbc */
     public function __construct(?callable $dbc)
     {
         parent::__construct($dbc, true);

@@ -19,7 +19,7 @@ final class IndREntAdd extends RedisMWr implements IMIntEntAdd
     private readonly int $key_len;
     private readonly int $limit;
 
-    /** @param callable(): \Predis\Client|null $dbc */
+    /** @param callable(): \Redis|null $dbc */
     public function __construct(
         ?callable $dbc,
         string $encode,
@@ -34,7 +34,7 @@ final class IndREntAdd extends RedisMWr implements IMIntEntAdd
 
     public function flushDB(): void
     {
-        $this->getDBC()->flushdb();
+        $this->getDBC()->flushDB();
     }
 
     /**
@@ -71,8 +71,11 @@ final class IndREntAdd extends RedisMWr implements IMIntEntAdd
             if ($off === $main_len + 1) {
                 continue;
             }
-            $pre_res = $this->getDBC()->hget($key, '__match') ?: '';
-            $this->getDBC()->hset(
+            $pre_res = $this->getDBC()->hGet($key, '__match');
+            if (!\is_string($pre_res)) {
+                $pre_res = '';
+            }
+            $this->getDBC()->hSet(
                 $key,
                 '__match',
                 merge_index_unique_array(
@@ -106,8 +109,11 @@ final class IndREntAdd extends RedisMWr implements IMIntEntAdd
         if (strlen($main_key) + strlen($val_key) >= $this->getMinLen($ignore_len)) {
             $suf = $val_key === '' ? '' : ':' . $val_key;
             $mer_key = $main_key . $suf;
-            $pre_res = $this->getDBC()->hget($mer_key, '__main') ?: '';
-            $this->getDBC()->hset($mer_key, '__main', merge_index_json(
+            $pre_res = $this->getDBC()->hGet($mer_key, '__main');
+            if (!\is_string($pre_res)) {
+                $pre_res = '';
+            }
+            $this->getDBC()->hSet($mer_key, '__main', merge_index_json(
                 $pre_res,
                 create_index_array($full_key, $typ, $first_strain, $relation_size),
                 $this->limit

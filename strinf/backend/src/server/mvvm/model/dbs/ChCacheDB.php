@@ -144,7 +144,7 @@ final class ChCacheDB extends DBCR implements CacheIntM
         return $this->db_conf;
     }
 
-    /** @param callable(): \Predis\Client|null $redis */
+    /** @param callable(): \Redis|null $redis */
     protected function afterConnect(?callable $redis): void
     {
         $ex_h = $this->db_conf->getExH();

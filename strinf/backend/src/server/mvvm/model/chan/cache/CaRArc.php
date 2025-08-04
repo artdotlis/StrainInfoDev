@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\chan\cache;
 
-use Predis\Pipeline\Pipeline;
 use straininfo\server\interfaces\mvvm\model\chan\cache\CaMIntArc;
 use straininfo\server\mvvm\model\chan\RedisMWr;
-use function straininfo\server\shared\arr\filter_arr_no_null;
 use straininfo\server\shared\mvvm\model\redis\RedisStE;
-
 use straininfo\server\shared\mvvm\view_model\data\QDE;
 
 final class CaRArc extends RedisMWr implements CaMIntArc
 {
-    /** @param callable(): \Predis\Client|null $dbc */
+    /** @param callable(): \Redis|null $dbc */
     public function __construct(?callable $dbc)
     {
         parent::__construct($dbc, true);
@@ -27,35 +24,28 @@ final class CaRArc extends RedisMWr implements CaMIntArc
      */
     public function getArcBySiId(array $ids): array
     {
-        return filter_arr_no_null(
-            self::filterCheck(...),
-            $this->getArcById($ids, RedisStE::P_ARC->value . QDE::MAX->value . ':')
-        );
+        return $this->getArcById($ids, RedisStE::P_ARC->value . QDE::MAX->value . ':');
     }
 
     /**
      * @param array<string> $ids
      *
-     * @return array<string, ?string>
+     * @return array<string, string>
      */
     private function getArcById(array $ids, string $dbn): array
     {
         $this->checkMaintenanceMode();
-        $res = $this->getDBC()->pipeline(
-            static function (Pipeline $red) use ($ids, $dbn): void {
-                foreach ($ids as $id) {
-                    $red->get($dbn . $id);
-                }
-            }
-        );
+        $pipe = $this->getDBC()->pipeline();
+        foreach ($ids as $id) {
+            $pipe = $pipe->get($dbn . $id);
+        }
+        $res = $pipe->exec();
         if (is_array($res)) {
-            return array_combine($ids, $res);
+            return array_filter(
+                array_combine($ids, $res),
+                static fn ($val) => \is_string($val) && strlen($val) > 0
+            );
         }
         return [];
-    }
-
-    private static function filterCheck(?string $v_el): bool
-    {
-        return !is_null($v_el) && strlen($v_el) > 0;
     }
 }

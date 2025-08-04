@@ -10,7 +10,7 @@ use straininfo\server\shared\mvvm\model\redis\RedisStE;
 
 final class CaRStat extends RedisMWr implements CaMIntStat
 {
-    /** @param callable(): \Predis\Client|null $dbc */
+    /** @param callable(): \Redis|null $dbc */
     public function __construct(?callable $dbc)
     {
         parent::__construct($dbc, true);
@@ -25,6 +25,9 @@ final class CaRStat extends RedisMWr implements CaMIntStat
     {
         $this->checkMaintenanceMode();
         $res = $this->getDBC()->get($tag);
-        return (string) ($res ?? '');
+        if (\is_string($res)) {
+            return $res;
+        }
+        return '';
     }
 }

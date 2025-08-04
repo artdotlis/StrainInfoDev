@@ -18,11 +18,11 @@ function parse_str_2_arr(string $to_parse, callable $cast, int $str_len): array
     $parsed = array_unique(explode(',', rtrim($to_parse, ',')));
     return array_map(
         $cast,
-        filter_arr(
+        array_filter(
+            $parsed,
             static fn (string $val): bool => strlen(
                 preg_replace('/\s+/', '', $val)
-            ) >= $str_len,
-            $parsed
+            ) >= $str_len
         )
     );
 }

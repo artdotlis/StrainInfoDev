@@ -23,7 +23,7 @@
         "fullstack"
     ],
     "dependencies": {
-        "typescript": "^5.8.3"
+        "typescript": "^5.9.2"
     },
     "devDependencies": {
         "@types/bun": "^1.2.19",

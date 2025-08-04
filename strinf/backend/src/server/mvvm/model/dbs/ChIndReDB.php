@@ -36,7 +36,7 @@ final class ChIndReDB extends DBCR implements IndexIntM
     {
         return $this->db_conf;
     }
-    /** @param callable(): \Predis\Client|null $redis */
+    /** @param callable(): \Redis|null $redis */
     protected function afterConnect(?callable $redis): void
     {
         $this->ca_ind = new IndREnt($redis, $this->getIDBConf()->getCharSet());

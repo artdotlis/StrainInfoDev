@@ -6,7 +6,8 @@ namespace straininfo\server\shared\state;
 
 use straininfo\server\Bootstrap;
 
-function reboot(Bootstrap $boot): Bootstrap {
+function reboot(Bootstrap $boot): Bootstrap
+{
     $boot->stop();
     $new_boot = Bootstrap::getBootstrap();
     $new_boot->init(false);

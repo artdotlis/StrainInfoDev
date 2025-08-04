@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\chan\cache;
 
-use Predis\Pipeline\Pipeline;
-use straininfo\server\interfaces\mvvm\model\chan\cache\CaMIntSeaId;
-use straininfo\server\mvvm\model\chan\RedisMWr;
 use straininfo\server\shared\mvvm\model\redis\RedisStE;
+use straininfo\server\mvvm\model\chan\RedisMWr;
+use straininfo\server\interfaces\mvvm\model\chan\cache\CaMIntSeaId;
+
+use function straininfo\server\shared\types\parse_int;
 
 abstract class CaRSeaGet extends RedisMWr implements CaMIntSeaId
 {
-    /** @param callable(): \Predis\Client|null $dbc */
+    /** @param callable(): \Redis|null $dbc */
     public function __construct(?callable $dbc)
     {
         parent::__construct($dbc, true);
@@ -24,7 +25,7 @@ abstract class CaRSeaGet extends RedisMWr implements CaMIntSeaId
      */
     public function getStrDes(array $str_des): array
     {
-        return $this->getCulIds($str_des, $this->wrId(RedisStE::STR_DES->value));
+        return $this->getEntIds($str_des, $this->wrId(RedisStE::STR_DES->value));
     }
 
     /**
@@ -34,7 +35,7 @@ abstract class CaRSeaGet extends RedisMWr implements CaMIntSeaId
      */
     public function getSeqAcc(array $seq_acc): array
     {
-        return $this->getCulIds($seq_acc, $this->wrId(RedisStE::SEQ->value));
+        return $this->getEntIds($seq_acc, $this->wrId(RedisStE::SEQ->value));
     }
 
     /**
@@ -44,7 +45,7 @@ abstract class CaRSeaGet extends RedisMWr implements CaMIntSeaId
      */
     public function getTaxName(array $tax_name): array
     {
-        return $this->getCulIds($tax_name, $this->wrId(RedisStE::TAX_NAM->value));
+        return $this->getEntIds($tax_name, $this->wrId(RedisStE::TAX_NAM->value));
     }
 
     /**
@@ -54,7 +55,7 @@ abstract class CaRSeaGet extends RedisMWr implements CaMIntSeaId
      */
     public function getStrNo(array $str_no): array
     {
-        return $this->getCulIds($str_no, $this->wrId(RedisStE::STR_NO->value));
+        return $this->getEntIds($str_no, $this->wrId(RedisStE::STR_NO->value));
     }
 
     /**
@@ -64,7 +65,7 @@ abstract class CaRSeaGet extends RedisMWr implements CaMIntSeaId
      */
     public function getBrc(array $str_no): array
     {
-        return $this->getCulIds($str_no, $this->wrId(RedisStE::BRC->value));
+        return $this->getEntIds($str_no, $this->wrId(RedisStE::BRC->value));
     }
     abstract protected function wrId(string $id): string;
 
@@ -75,18 +76,26 @@ abstract class CaRSeaGet extends RedisMWr implements CaMIntSeaId
      *
      * @return array<T, array<int>>
      */
-    protected function getCulIds(array $ids, string $dbn): array
+    protected function getEntIds(array $ids, string $dbn): array
     {
         $this->checkMaintenanceMode();
-        $res = $this->getDBC()->pipeline(
-            static function (Pipeline $red) use ($ids, $dbn): void {
-                foreach ($ids as $id) {
-                    $red->lrange($dbn . $id, 0, -1);
+        $pipe = $this->getDBC()->pipeline();
+        foreach ($ids as $id) {
+            $pipe = $pipe->lrange($dbn . $id, 0, -1);
+        }
+        $res = $pipe->exec();
+        if (is_array($res)) {
+            $res_map = [];
+            foreach ($res as $key => $val) {
+                if (is_array($val)) {
+                    $new_key = $ids[$key];
+                    $res_map[$new_key] = array_map(
+                        static fn ($to_map) => parse_int($to_map),
+                        $val
+                    );
                 }
             }
-        );
-        if (is_array($res)) {
-            return array_combine($ids, $res);
+            return $res_map;
         }
         return [];
     }

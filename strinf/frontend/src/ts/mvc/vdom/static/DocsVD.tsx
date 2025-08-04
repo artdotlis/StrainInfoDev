@@ -57,16 +57,17 @@ const REPL_DES = /{{API_DES_SEA}}\/?/g;
 const REPL_DEP_M = /{{API_DEP_MAX}}\/?/g;
 
 function correctCode(eleBuf: HTMLSpanElement, api: string): void {
-    if (REPL_DOM.test(eleBuf.textContent ?? '')) {
-        eleBuf.textContent = eleBuf.textContent?.replaceAll(REPL_DOM, api) ?? '';
+    if (REPL_DOM.test(eleBuf.textContent)) {
+        eleBuf.textContent = eleBuf.textContent.replaceAll(REPL_DOM, api);
     }
-    if (REPL_DES.test(eleBuf.textContent ?? '')) {
-        eleBuf.textContent =
-            eleBuf.textContent?.replaceAll(REPL_DES, QApiCon.seaCulStrDes) ?? '';
+    if (REPL_DES.test(eleBuf.textContent)) {
+        eleBuf.textContent = eleBuf.textContent.replaceAll(
+            REPL_DES,
+            QApiCon.seaCulStrDes
+        );
     }
-    if (REPL_DEP_M.test(eleBuf.textContent ?? '')) {
-        eleBuf.textContent =
-            eleBuf.textContent?.replaceAll(REPL_DEP_M, QApiCon.culMax) ?? '';
+    if (REPL_DEP_M.test(eleBuf.textContent)) {
+        eleBuf.textContent = eleBuf.textContent.replaceAll(REPL_DEP_M, QApiCon.culMax);
     }
 }
 

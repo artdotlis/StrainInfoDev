@@ -13,7 +13,7 @@ final class CaRAllSet extends RedisMWr implements CaMIntAllSet
     private readonly int $ex_s;
     private readonly int $limit;
 
-    /** @param callable(): \Predis\Client|null $dbc */
+    /** @param callable(): \Redis|null $dbc */
     public function __construct(?callable $dbc, int $ex_h, int $limit)
     {
         $this->ex_s = 3_600 * $ex_h;
@@ -45,7 +45,7 @@ final class CaRAllSet extends RedisMWr implements CaMIntAllSet
     {
         $this->checkMaintenanceMode();
         if ($cnt < $this->limit) {
-            $this->getDBC()->set($tag, $data, 'ex', $this->ex_s);
+            $this->getDBC()->set($tag, $data, ['EX' => $this->ex_s]);
         }
     }
 }

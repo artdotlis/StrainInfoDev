@@ -10,7 +10,7 @@ use straininfo\server\shared\mvvm\model\redis\RedisStE;
 
 final class CaRAll extends RedisMWr implements CaMIntAll
 {
-    /** @param callable(): \Predis\Client|null $dbc */
+    /** @param callable(): \Redis|null $dbc */
     public function __construct(?callable $dbc)
     {
         parent::__construct($dbc, true);
@@ -40,6 +40,9 @@ final class CaRAll extends RedisMWr implements CaMIntAll
     {
         $this->checkMaintenanceMode();
         $res = $this->getDBC()->get($tag);
-        return (string) ($res ?? '');
+        if (is_string($res)) {
+            return $res;
+        }
+        return '';
     }
 }

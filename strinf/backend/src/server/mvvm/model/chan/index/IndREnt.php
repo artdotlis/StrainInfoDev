@@ -15,7 +15,7 @@ use function straininfo\server\shared\text\create_slim_key_w;
 final class IndREnt extends RedisMWr implements IMIntEnt
 {
     private readonly string $encode;
-    /** @param callable(): \Predis\Client|null $dbc */
+    /** @param callable(): \Redis|null $dbc */
     public function __construct(?callable $dbc, string $encode)
     {
         parent::__construct($dbc, true);
@@ -61,9 +61,11 @@ final class IndREnt extends RedisMWr implements IMIntEnt
     {
         $prefix = $val_key === '' ? '' : $main_key . ':';
         $full_key = $main_key . ($val_key === '' ? '' : ':' . $val_key);
-        $match_keys = parse_index_match(
-            $this->getDBC()->hget($full_key, '__match') ?? ''
-        );
+        $mat = $this->getDBC()->hGet($full_key, '__match');
+        if (!\is_string($mat)) {
+            $mat = '';
+        }
+        $match_keys = parse_index_match($mat);
         shuffle($match_keys);
         $cnt = 0;
         $res = [];
@@ -83,8 +85,7 @@ final class IndREnt extends RedisMWr implements IMIntEnt
      */
     private function getMainKey(string $main_key): array
     {
-        $res = $this->getDBC()->hget($main_key, '__main');
-        if ($res !== null) {
+        if (($res = $this->getDBC()->hGet($main_key, '__main')) !== false) {
             return [$res];
         }
         return [];
@@ -93,7 +94,7 @@ final class IndREnt extends RedisMWr implements IMIntEnt
     private function getExactMatch(string $main_key, string $sub_key): string
     {
         $full_key = $main_key . ($sub_key === '' ? '' : ':' . $sub_key);
-        if (($res = $this->getDBC()->hget($full_key, '__main')) !== null) {
+        if (($res = $this->getDBC()->hGet($full_key, '__main')) !== false) {
             return $res;
         }
         return '';

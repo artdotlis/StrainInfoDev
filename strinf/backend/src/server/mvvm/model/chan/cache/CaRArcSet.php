@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\chan\cache;
 
-use Predis\Pipeline\Pipeline;
 use straininfo\server\interfaces\mvvm\model\chan\cache\CaMIntArcSet;
 use straininfo\server\mvvm\model\chan\RedisMWr;
 use straininfo\server\shared\mvvm\model\redis\RedisStE;
@@ -15,7 +14,7 @@ final class CaRArcSet extends RedisMWr implements CaMIntArcSet
     private readonly int $ex_s;
     private readonly int $limit;
 
-    /** @param callable(): \Predis\Client|null $dbc */
+    /** @param callable(): \Redis|null $dbc */
     public function __construct(?callable $dbc, int $ex_h, int $limit)
     {
         $this->ex_s = 3_600 * $ex_h;
@@ -35,17 +34,11 @@ final class CaRArcSet extends RedisMWr implements CaMIntArcSet
         $this->checkMaintenanceMode();
         if (count($data) < $this->limit) {
             $ex_s = $this->ex_s;
-            $this->getDBC()->pipeline(
-                static function (Pipeline $red) use (
-                    $data,
-                    $dbn,
-                    $ex_s
-                ): void {
-                    foreach ($data as $id => $json) {
-                        $red->set($dbn . $id, $json, 'ex', $ex_s);
-                    }
-                }
-            );
+            $pipe = $this->getDBC()->pipeline();
+            foreach ($data as $id => $json) {
+                $pipe = $pipe->set($dbn . $id, $json, ['EX' => $ex_s]);
+            }
+            $pipe->exec();
         }
     }
 }
