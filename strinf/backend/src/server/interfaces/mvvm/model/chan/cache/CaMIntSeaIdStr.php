@@ -9,7 +9,7 @@ interface CaMIntSeaIdStr extends CaMIntSeaId
     /**
      * @param array<int> $cul_id
      *
-     * @return array<int, array<int>>
+     * @return array<int, string>
      */
     public function getCulId(array $cul_id): array;
 }

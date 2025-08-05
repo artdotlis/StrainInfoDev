@@ -12,7 +12,7 @@ final class QDConSea
     /** @var array<T>*/
     private readonly array $missing_sea_id;
 
-    /** @var array<T, array<int>>*/
+    /** @var array<T, string>*/
     private readonly array $buf_sea;
 
     /** @var array<T, array<int>>*/
@@ -20,7 +20,7 @@ final class QDConSea
 
     /**
      * @param array<T> $mis_sea_id
-     * @param array<T, array<int>> $buf_sea
+     * @param array<T, string> $buf_sea
      */
     public function __construct(array $mis_sea_id, array $buf_sea)
     {
@@ -47,15 +47,17 @@ final class QDConSea
         $this->to_buf_sea = $to_buf;
     }
 
-    /** @return array<T, array<int>> */
+    /** @return array<T, string> */
     public function getBuf(): array
     {
         return $this->buf_sea;
     }
 
-    /** @return array<int> */
-    public function getRes(): array
+    public function getRes(): string
     {
-        return arr_merge_2_set([...$this->getBuf(), ...$this->getToBuf()]);
+        if (count($this->getToBuf()) === 0 && count($this->getBuf()) === 1) {
+            return current($this->getBuf());
+        }
+        return implode(',', arr_merge_2_set($this->getToBuf(), $this->getBuf()));
     }
 }

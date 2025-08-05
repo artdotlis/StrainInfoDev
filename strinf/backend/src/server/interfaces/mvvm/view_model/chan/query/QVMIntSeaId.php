@@ -17,6 +17,5 @@ interface QVMIntSeaId
     /** @return array<T> */
     public function parseArg(string $arg): array;
 
-    /** @param array<int> $ids */
-    public function createJson(array $ids): string;
+    public function createJson(string $ids): string;
 }

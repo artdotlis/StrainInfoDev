@@ -8,11 +8,8 @@ use straininfo\server\interfaces\mvvm\model\chan\cache\CaMIntSeaId;
 use straininfo\server\mvvm\model\chan\RedisMWr;
 use straininfo\server\shared\mvvm\model\redis\RedisStE;
 
-use function straininfo\server\shared\types\parse_int;
-
 abstract class CaRSeaGet extends RedisMWr implements CaMIntSeaId
 {
-
     /** @param callable(): \Redis|null $dbc */
     public function __construct(?callable $dbc)
     {
@@ -22,7 +19,7 @@ abstract class CaRSeaGet extends RedisMWr implements CaMIntSeaId
     /**
      * @param array<string> $str_des
      *
-     * @return array<string, array<int>>
+     * @return array<string, string>
      */
     public function getStrDes(array $str_des): array
     {
@@ -32,7 +29,7 @@ abstract class CaRSeaGet extends RedisMWr implements CaMIntSeaId
     /**
      * @param array<string> $seq_acc
      *
-     * @return array<string, array<int>>
+     * @return array<string, string>
      */
     public function getSeqAcc(array $seq_acc): array
     {
@@ -42,7 +39,7 @@ abstract class CaRSeaGet extends RedisMWr implements CaMIntSeaId
     /**
      * @param array<string> $tax_name
      *
-     * @return array<string, array<int>>
+     * @return array<string, string>
      */
     public function getTaxName(array $tax_name): array
     {
@@ -52,7 +49,7 @@ abstract class CaRSeaGet extends RedisMWr implements CaMIntSeaId
     /**
      * @param array<string> $str_no
      *
-     * @return array<string, array<int>>
+     * @return array<string, string>
      */
     public function getStrNo(array $str_no): array
     {
@@ -62,7 +59,7 @@ abstract class CaRSeaGet extends RedisMWr implements CaMIntSeaId
     /**
      * @param array<string> $str_no
      *
-     * @return array<string, array<int>>
+     * @return array<string, string>
      */
     public function getBrc(array $str_no): array
     {
@@ -75,7 +72,7 @@ abstract class CaRSeaGet extends RedisMWr implements CaMIntSeaId
      *
      * @param array<T> $ids
      *
-     * @return array<T, array<int>>
+     * @return array<T, string>
      */
     protected function getEntIds(array $ids, string $dbn): array
     {
@@ -86,17 +83,10 @@ abstract class CaRSeaGet extends RedisMWr implements CaMIntSeaId
         }
         $res = $pipe->exec();
         if (is_array($res)) {
-            $res_map = [];
-            foreach ($res as $key => $val) {
-                if (is_string($val)) {
-                    $new_key = $ids[$key];
-                    $res_map[$new_key] = array_map(
-                        static fn ($to_map) => parse_int($to_map),
-                        explode(',', $val)
-                    );
-                }
-            }
-            return $res_map;
+            return array_filter(
+                array_combine($ids, $res),
+                static fn ($val) => \is_string($val)
+            );
         }
         return [];
     }

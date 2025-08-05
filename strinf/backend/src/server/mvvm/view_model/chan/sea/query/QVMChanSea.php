@@ -36,11 +36,9 @@ abstract class QVMChanSea implements QVMIntSeaId
         }
     }
 
-    /** @param array<int> $ids */
-    public function createJson(array $ids): string
+    public function createJson(string $ids): string
     {
-        $res = implode(',', $ids);
-        return "[{$res}]";
+        return "[{$ids}]";
     }
 
     /** @return M */

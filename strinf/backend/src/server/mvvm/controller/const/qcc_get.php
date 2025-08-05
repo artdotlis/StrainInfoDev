@@ -32,14 +32,15 @@ function search_ent_id(string $sid, ConQGetSId $cha): array
 {
     $args = $cha->getQS()->parseArg($sid);
     if (count($args) === 0) {
-        return [$cha->getQS()->createJson([]), true];
+        return [$cha->getQS()->createJson(''), true];
     }
     $c_sea = $cha->getBS()->getResult($args);
     if ($c_sea->getMisIds()) {
         $c_sea->setToBuf($cha->getQS()->getResult($c_sea->getMisIds()));
     }
     $cha->getBS()->setResult($c_sea);
-    return [$cha->getQS()->createJson($c_sea->getRes()), count($c_sea->getRes()) === 0];
+    $res_str = $c_sea->getRes();
+    return [$cha->getQS()->createJson($res_str), strlen($res_str) === 0];
 }
 
 /**

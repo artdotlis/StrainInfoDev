@@ -20,7 +20,7 @@ final class CaVMSeq extends CaVMChanSea
     {
         $seq = \array_filter(
             $this->getMChan()->getSeqAcc($arg),
-            static fn (array $val): bool => (bool) $val
+            static fn (string $val): bool => $val !== '',
         );
         return new QDConSea(array_diff($arg, array_keys($seq)), $seq);
     }

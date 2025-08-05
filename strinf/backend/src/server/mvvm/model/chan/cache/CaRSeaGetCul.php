@@ -12,7 +12,7 @@ final class CaRSeaGetCul extends CaRSeaGet implements CaMIntSeaIdCul
     /**
      * @param array<int> $str_ids
      *
-     * @return array<int, array<int>>
+     * @return array<int, string>
      */
     public function getStrId(array $str_ids): array
     {

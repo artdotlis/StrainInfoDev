@@ -27,17 +27,22 @@ function merge_2d_arr(array $keys, array $values): array
 
 /**
  * @template T of string|int
- * @template E of string|int
  *
- * @param array<T, array<E>> $arr
+ * @param array<T, array<string|int>> $first
+ * @param array<T, string> $second
  *
- * @return array<E>
+ * @return array<string>
  */
-function arr_merge_2_set(array $arr): array
+function arr_merge_2_set(array $first, array $second): array
 {
     $res = [];
-    foreach ($arr as $arr_el) {
+    foreach ($first as $arr_el) {
         foreach ($arr_el as $str_el) {
+            $res[(string) $str_el] = 1;
+        }
+    }
+    foreach ($second as $arr_str) {
+        foreach (explode(',', $arr_str) as $str_el) {
             $res[$str_el] = 1;
         }
     }

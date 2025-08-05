@@ -20,7 +20,7 @@ final class CaVMStrCul extends CaVMChanSea
     {
         $str = array_filter(
             $this->getMChan()->getCulId($arg),
-            static fn (array $val): bool => (bool) $val
+            static fn (string $val): bool => $val !== ''
         );
         return new QDConSea(array_diff($arg, array_keys($str)), $str);
     }
