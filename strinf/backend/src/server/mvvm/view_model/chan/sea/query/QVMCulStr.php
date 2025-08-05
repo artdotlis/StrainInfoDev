@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace straininfo\server\mvvm\view_model\chan\sea\query;
 
 use function Safe\preg_replace;
-use function straininfo\server\shared\arr\filter_arr;
 use function straininfo\server\shared\arr\parse_str_2_arr;
 
 /**
@@ -36,9 +35,9 @@ final class QVMCulStr extends QVMChanSea
             $res_id[$str] = $this->getMChan()->getStrId([$str]);
             array_push($res, ...$res_id[$str]);
         }
-        return filter_arr(
-            static fn (array $val): bool => (bool) $val,
-            $res_id
+        return array_filter(
+            $res_id,
+            static fn (array $val): bool => (bool) $val
         );
     }
 }

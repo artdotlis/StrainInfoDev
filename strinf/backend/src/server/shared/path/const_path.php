@@ -20,10 +20,6 @@ function get_public_root(): string
     return merge_path(__DIR__, [...get_prefix(), 'public']);
 }
 
-function get_html_root(): string
-{
-    return merge_path(get_public_root(), ['html']);
-}
 
 /** @param array<string> $path_el */
 function merge_path(string $root, array $path_el): string

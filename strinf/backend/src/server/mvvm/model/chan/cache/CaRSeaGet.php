@@ -12,7 +12,6 @@ use function straininfo\server\shared\types\parse_int;
 
 abstract class CaRSeaGet extends RedisMWr implements CaMIntSeaId
 {
-    abstract protected function wrId(string $id): string;
 
     /** @param callable(): \Redis|null $dbc */
     public function __construct(?callable $dbc)
@@ -69,6 +68,7 @@ abstract class CaRSeaGet extends RedisMWr implements CaMIntSeaId
     {
         return $this->getEntIds($str_no, $this->wrId(RedisStE::BRC->value));
     }
+    abstract protected function wrId(string $id): string;
 
     /**
      * @template T of string|int

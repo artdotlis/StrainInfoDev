@@ -6,10 +6,10 @@ namespace straininfo\server\mvvm\view\routes\ctrl;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use straininfo\server\shared\mvvm\view\HeadArgs;
-
 use function Safe\json_encode;
+
 use function straininfo\server\shared\mvvm\view\add_default_headers;
+use straininfo\server\shared\mvvm\view\HeadArgs;
 
 final class RootCtrl
 {

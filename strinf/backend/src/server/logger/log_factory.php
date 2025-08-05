@@ -10,11 +10,11 @@ use Monolog\Level;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use straininfo\server\exceptions\logger\KnownLoggerExc;
+use function straininfo\server\shared\dbs\tryToConnect;
 use straininfo\server\shared\exc\KEAct;
 use straininfo\server\shared\logger\LoggerArgs;
-use straininfo\server\shared\logger\LogLevE;
 
-use function straininfo\server\shared\dbs\tryToConnect;
+use straininfo\server\shared\logger\LogLevE;
 
 function parse_log_level(LogLevE $level): Level
 {

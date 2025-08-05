@@ -39,7 +39,6 @@
             "server/shared/text/url.php",
             "server/shared/state/bootstrap.php",
             "server/shared/mvvm/model/index_cache.php",
-            "server/shared/arr/filter_arr.php",
             "server/shared/arr/check_arr.php",
             "server/shared/arr/parse_arr.php",
             "server/shared/arr/rem_arr.php",

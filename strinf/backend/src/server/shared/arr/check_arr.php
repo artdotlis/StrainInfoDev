@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace straininfo\server\shared\arr;
 
+use function straininfo\server\shared\types\parse_int;
+
 /**
  * @template E
  *
@@ -145,19 +147,6 @@ function check_kt_true(array $arr, string $key): null | true
 /**
  * @template E
  *
- * @param E $value
- */
-function parse_to_id($value): int
-{
-    if (is_string($value) || is_int($value)) {
-        return (int) $value;
-    }
-    return -1;
-}
-
-/**
- * @template E
- *
  * @param array<string, E> $arr
  *
  * @return non-empty-array<positive-int>|null
@@ -167,7 +156,7 @@ function check_kt_arr_id(array $arr, string $key): ?array
     if (key_exists($key, $arr) && is_array($arr[$key])) {
         $arr = [...array_values(array_filter(
             array_map(
-                parse_to_id(...),
+                parse_int(...),
                 $arr[$key]
             ),
             static fn (int $val) => $val > 0

@@ -32,22 +32,3 @@ function rem_null_rec(array $arr): array
     }
     return $res;
 }
-
-/**
- * @template E
- * @template K of string|int
- *
- * @param array<K, E|null> $arr
- *
- * @return array<K, E>
- */
-function rem_null(array $arr): array
-{
-    $res = [];
-    foreach ($arr as $key => $val) {
-        if (!is_null($val)) {
-            $res[$key] = $val;
-        }
-    }
-    return $res;
-}

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\view_model\chan\sea\cache;
 
-use function straininfo\server\shared\arr\filter_arr;
-
 use straininfo\server\shared\mvvm\view_model\data\QDConSea;
 
 /**
@@ -20,9 +18,9 @@ final class CaVMStrDes extends CaVMChanSea
      */
     public function getResult(array $arg): QDConSea
     {
-        $str_des = filter_arr(
-            static fn (array $val): bool => (bool) $val,
-            $this->getMChan()->getStrDes($arg)
+        $str_des = array_filter(
+            $this->getMChan()->getStrDes($arg),
+            static fn (array $val): bool => (bool) $val
         );
         return new QDConSea(array_diff($arg, array_keys($str_des)), $str_des);
     }

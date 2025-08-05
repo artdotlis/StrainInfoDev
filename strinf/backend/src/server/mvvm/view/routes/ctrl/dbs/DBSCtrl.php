@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\view\routes\ctrl\dbs;
 
-use straininfo\server\shared\mvvm\view\StatArgs;
-use straininfo\server\shared\mvvm\view\HeadArgs;
-use function straininfo\server\shared\mvvm\view\contained_in_origin;
-use function straininfo\server\shared\mvvm\view\api\get_do_not_track_arg;
-use function straininfo\server\shared\mvvm\view\add_default_headers;
-use function straininfo\server\exceptions\create_error_json;
-use Slim\Exception\HttpInternalServerErrorException;
-use Slim\Exception\HttpForbiddenException;
-
-use Psr\Log\LoggerInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use MatomoTracker;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Log\LoggerInterface;
+use Slim\Exception\HttpForbiddenException;
+use Slim\Exception\HttpInternalServerErrorException;
+use function straininfo\server\exceptions\create_error_json;
+use function straininfo\server\shared\mvvm\view\add_default_headers;
+
+use function straininfo\server\shared\mvvm\view\api\get_do_not_track_arg;
+use function straininfo\server\shared\mvvm\view\contained_in_origin;
+use straininfo\server\shared\mvvm\view\HeadArgs;
+use straininfo\server\shared\mvvm\view\StatArgs;
 
 abstract class DBSCtrl
 {
@@ -67,12 +67,13 @@ abstract class DBSCtrl
     {
         // TODO: Low level privacy, can be spoofed, mostly redundant
         // more of "you should not do it" rather than "you can not do it"
-        // TODO: Should be removed, 
+        // TODO: Should be removed,
         // so it is not used for crucial security by accident!
         $pr_host = in_array(
-            $request->getServerParams()['HTTP_HOST'] ?? '', $this->private
+            $request->getServerParams()['HTTP_HOST'] ?? '',
+            $this->private
         );
-        foreach($request->getHeaders()['Host'] as $host) {
+        foreach ($request->getHeaders()['Host'] as $host) {
             if (\in_array($host, $this->private)) {
                 $pr_host = \true;
                 break;
