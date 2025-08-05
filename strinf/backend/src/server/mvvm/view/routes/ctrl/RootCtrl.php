@@ -6,10 +6,10 @@ namespace straininfo\server\mvvm\view\routes\ctrl;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use function Safe\json_encode;
-
-use function straininfo\server\shared\mvvm\view\add_default_headers;
 use straininfo\server\shared\mvvm\view\HeadArgs;
+
+use function Safe\json_encode;
+use function straininfo\server\shared\mvvm\view\add_default_headers;
 
 final class RootCtrl
 {
@@ -100,7 +100,7 @@ final class RootCtrl
         // more of "you should not do it" rather than "you can not do it"
         // TODO: Should be removed,
         // so it is not used for crucial security by accident!
-        foreach ($request->getHeaders()['Host'] as $host) {
+        foreach ($request->getHeader('Host') as $host) {
             if (\in_array($host, $this->private)) {
                 return \true;
             }
