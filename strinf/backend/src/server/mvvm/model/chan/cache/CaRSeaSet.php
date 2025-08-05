@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\chan\cache;
 
-use straininfo\server\interfaces\mvvm\model\chan\cache\CaMIntSeaIdSet;
-use straininfo\server\mvvm\model\chan\RedisMWr;
 use straininfo\server\shared\mvvm\model\redis\RedisStE;
+use straininfo\server\mvvm\model\chan\RedisMWr;
+use straininfo\server\interfaces\mvvm\model\chan\cache\CaMIntSeaIdSet;
 
 abstract class CaRSeaSet extends RedisMWr implements CaMIntSeaIdSet
 {
@@ -83,8 +83,7 @@ abstract class CaRSeaSet extends RedisMWr implements CaMIntSeaIdSet
         $pipe = $this->getDBC()->pipeline();
         foreach ($data as $id => $ids) {
             if (count($ids) < $lim) {
-                $pipe = $pipe->rpush($dbn . $id, ...$ids);
-                $pipe = $pipe->expire($dbn . $id, $ex_s);
+                $pipe = $pipe->set($dbn . $id, implode(",", $ids), ['EX' => $ex_s]);
             }
         }
         $pipe->exec();

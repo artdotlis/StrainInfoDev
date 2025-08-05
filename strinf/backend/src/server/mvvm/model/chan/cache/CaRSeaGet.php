@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\model\chan\cache;
 
-use straininfo\server\shared\mvvm\model\redis\RedisStE;
-use straininfo\server\mvvm\model\chan\RedisMWr;
 use straininfo\server\interfaces\mvvm\model\chan\cache\CaMIntSeaId;
+use straininfo\server\mvvm\model\chan\RedisMWr;
+use straininfo\server\shared\mvvm\model\redis\RedisStE;
 
 use function straininfo\server\shared\types\parse_int;
 
 abstract class CaRSeaGet extends RedisMWr implements CaMIntSeaId
 {
+    abstract protected function wrId(string $id): string;
+
     /** @param callable(): \Redis|null $dbc */
     public function __construct(?callable $dbc)
     {
@@ -67,7 +69,6 @@ abstract class CaRSeaGet extends RedisMWr implements CaMIntSeaId
     {
         return $this->getEntIds($str_no, $this->wrId(RedisStE::BRC->value));
     }
-    abstract protected function wrId(string $id): string;
 
     /**
      * @template T of string|int
@@ -81,17 +82,17 @@ abstract class CaRSeaGet extends RedisMWr implements CaMIntSeaId
         $this->checkMaintenanceMode();
         $pipe = $this->getDBC()->pipeline();
         foreach ($ids as $id) {
-            $pipe = $pipe->lrange($dbn . $id, 0, -1);
+            $pipe = $pipe->get($dbn . $id);
         }
         $res = $pipe->exec();
         if (is_array($res)) {
             $res_map = [];
             foreach ($res as $key => $val) {
-                if (is_array($val)) {
+                if (is_string($val)) {
                     $new_key = $ids[$key];
                     $res_map[$new_key] = array_map(
                         static fn ($to_map) => parse_int($to_map),
-                        $val
+                        explode(',', $val)
                     );
                 }
             }
