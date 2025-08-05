@@ -7,10 +7,8 @@ http:
   address: 0.0.0.0:$BACKEND_STAGE_PORT
   middleware:
     - gzip   
-  workers:
-    command: php $SERVER_RR_PHP
-    pool:
-      num_workers: 4
+  pool:
+    num_workers: 4
 
   gzip:
     level: 5

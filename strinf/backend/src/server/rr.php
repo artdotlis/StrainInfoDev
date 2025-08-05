@@ -6,10 +6,10 @@ namespace straininfo\server;
 
 require_once dirname(__FILE__, 2) . '/vendor/autoload.php';
 
-use Nyholm\Psr7\Factory\Psr17Factory;
+use function straininfo\server\shared\state\reboot;
 use Spiral\RoadRunner;
 
-use function straininfo\server\shared\state\reboot;
+use Nyholm\Psr7\Factory\Psr17Factory;
 
 $boot = Bootstrap::getBootstrap();
 $boot->init(false);

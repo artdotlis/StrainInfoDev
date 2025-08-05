@@ -6,10 +6,10 @@ namespace straininfo\server\mvvm\view\routes\ctrl;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use function Safe\json_encode;
-
-use function straininfo\server\shared\mvvm\view\add_default_headers;
 use straininfo\server\shared\mvvm\view\HeadArgs;
+
+use function Safe\json_encode;
+use function straininfo\server\shared\mvvm\view\add_default_headers;
 
 final class RootCtrl
 {
@@ -31,7 +31,7 @@ final class RootCtrl
         string $version,
         bool $maintenance,
         ?\DateTime $time,
-        ?\DateTimeZone $zone,
+        ?\DateTimeZone $zone
     ) {
         $this->charset = $charset;
         $this->version = $version;
@@ -96,7 +96,15 @@ final class RootCtrl
 
     private function checkPrivate(ServerRequestInterface $request): bool
     {
-        $host = $request->getServerParams()['HTTP_HOST'] ?? '';
-        return in_array($host, $this->private);
+        // TODO: Low level privacy, can be spoofed, mostly redundant
+        // more of "you should not do it" rather than "you can not do it"
+        // TODO: Should be removed,
+        // so it is not used for crucial security by accident!
+        foreach ($request->getHeaders()['Host'] as $host) {
+            if (\in_array($host, $this->private)) {
+                return \true;
+            }
+        }
+        return in_array($request->getServerParams()['HTTP_HOST'] ?? '', $this->private);
     }
 }
