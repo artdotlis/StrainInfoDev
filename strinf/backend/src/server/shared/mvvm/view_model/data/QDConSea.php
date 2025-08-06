@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace straininfo\server\shared\mvvm\view_model\data;
 
-use function straininfo\server\shared\arr\arr_merge_2_set;
 
 /** @template T of string|int */
 final class QDConSea
@@ -58,6 +57,17 @@ final class QDConSea
         if (count($this->getToBuf()) === 0 && count($this->getBuf()) === 1) {
             return current($this->getBuf());
         }
-        return implode(',', arr_merge_2_set($this->getToBuf(), $this->getBuf()));
+        $res = [];
+        foreach($this->getBuf() as $val_str) {
+            foreach(explode(",", $val_str) as $val) {
+                $res[$val] = true;
+            }
+        }
+        foreach($this->getToBuf() as $val_arr) {
+            foreach($val_arr as $val) {
+                $res[(string) $val] = true;
+            }
+        }
+        return implode(",", \array_keys($res));
     }
 }
