@@ -11,7 +11,7 @@ http:
     num_workers: 4 
 
   gzip:
-    level: 5
+    level: 6
     min_length: 1024
     content_types:
       - "application/json"
