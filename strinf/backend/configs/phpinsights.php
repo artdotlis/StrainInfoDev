@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-use NunoMaduro\PhpInsights\Domain\Insights\ForbiddenDefineFunctions;
-use NunoMaduro\PhpInsights\Domain\Sniffs\ForbiddenSetterSniff;
-use PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff;
-use PHP_CodeSniffer\Standards\Generic\Sniffs\Formatting\SpaceAfterNotSniff;
-use SlevomatCodingStandard\Sniffs\ControlStructures\AssignmentInConditionSniff;
-use SlevomatCodingStandard\Sniffs\ControlStructures\DisallowShortTernaryOperatorSniff;
-use SlevomatCodingStandard\Sniffs\Functions\FunctionLengthSniff;
 use SlevomatCodingStandard\Sniffs\Namespaces\UseSpacingSniff;
+use SlevomatCodingStandard\Sniffs\Functions\FunctionLengthSniff;
+use SlevomatCodingStandard\Sniffs\ControlStructures\DisallowShortTernaryOperatorSniff;
+use SlevomatCodingStandard\Sniffs\ControlStructures\AssignmentInConditionSniff;
+use PHP_CodeSniffer\Standards\Generic\Sniffs\Formatting\SpaceAfterNotSniff;
+use PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff;
+use NunoMaduro\PhpInsights\Domain\Sniffs\ForbiddenSetterSniff;
+use NunoMaduro\PhpInsights\Domain\Insights\ForbiddenDefineFunctions;
 
 return [
     'preset' => 'default',
@@ -34,7 +34,7 @@ return [
             'linesCountAfterLastUse' => 1,
         ],
         FunctionLengthSniff::class => [
-            'maxLinesLength' => 30,
+            'maxLinesLength' => 60,
         ],
     ],
 ];

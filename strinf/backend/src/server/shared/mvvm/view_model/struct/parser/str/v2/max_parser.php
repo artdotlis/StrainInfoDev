@@ -47,7 +47,7 @@ function get_max_arr_cul_ent(array $val): array
                 continue;
             }
             $cul_id = check_kt_int($cul, DBStructCulE::CULTURE_ID->value) ?: -1; // @phpstan-ignore argument.type
-            if (!empty($sub_buf = create_reg($cul, DBStructSubE::class))) { // @phpstan-ignore argument.type
+            if (count($sub_buf = create_reg($cul, DBStructSubE::class)) > 0) { // @phpstan-ignore argument.type
                 $submitter[$cul_id] = $sub_buf;
             }
         }

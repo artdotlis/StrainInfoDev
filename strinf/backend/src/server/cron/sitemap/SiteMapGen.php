@@ -26,7 +26,7 @@ use function straininfo\server\shared\path\get_public_root;
 use straininfo\server\shared\path\QUIMap;
 use function straininfo\server\shared\text\createURL;
 
-class SiteMapGen
+final class SiteMapGen
 {
     // immutable
     private readonly LoggerInterface $logger_err;
@@ -87,7 +87,8 @@ class SiteMapGen
         <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
         EOF;
         $url = createURL($this->configurations->getWebArgsFE(), QUIMap::STRAIN->value);
-        for ($cnt_i = $start; $cnt_i < count($strain_ids) && $cnt_i < $end; $cnt_i++) {
+        $str_ids = count($strain_ids);
+        for ($cnt_i = $start; $cnt_i < $str_ids && $cnt_i < $end; $cnt_i++) {
             $loc = $url . '/' . $strain_ids[$cnt_i];
             $data .= '<url><loc>' . $loc . '</loc></url>';
         }

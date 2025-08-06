@@ -82,7 +82,7 @@ final class QPStr extends PdoMWr implements QMIntDat
             return null;
         }
         $main_id = parse_sql_main_str_id($main_ids_fetched[0]);
-        $merge_ids = $merge_ids = array_map(
+        $merge_ids = array_map(
             parse_sql_merge_str_id(...),
             $this->fetchConSql(get_sql_merge_src_str_id(), [$main_id]),
         );

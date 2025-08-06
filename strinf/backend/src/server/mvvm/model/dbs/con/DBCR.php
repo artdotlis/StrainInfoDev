@@ -27,11 +27,11 @@ abstract class DBCR implements ConnectInt
 
     public function connect(): void
     {
-        tryToConnect($this->create_connection(...), 10);
+        tryToConnect($this->createConnection(...), 10);
         $this->afterConnect(function (): \Redis {
             $cur = time();
             if ($cur - $this->last_call > 300) {
-                $this->create_connection();
+                $this->createConnection();
             }
             $this->last_call = $cur;
             return $this->redis;
@@ -47,7 +47,7 @@ abstract class DBCR implements ConnectInt
     /** @param callable(): \Redis|null $redis */
     abstract protected function afterConnect(?callable $redis): void;
 
-    private function socket_connection(): void
+    private function socketConnection(): void
     {
         [$host, $port] = [$this->db_conf->getSocket(), -1];
         $this->redis = new \Redis();
@@ -55,7 +55,7 @@ abstract class DBCR implements ConnectInt
         $this->redis->select($this->db_conf->getDb());
     }
 
-    private function tcp_connection(): void
+    private function tcpConnection(): void
     {
         [$host, $port] = [$this->db_conf->getHost(),  $this->db_conf->getPort()];
         $this->redis = new \Redis();
@@ -63,15 +63,15 @@ abstract class DBCR implements ConnectInt
         $this->redis->select($this->db_conf->getDb());
     }
 
-    private function create_connection(): void
+    private function createConnection(): void
     {
         try {
             $this->redis->ping();
         } catch (\Throwable $ex) {
             if ($this->db_conf->getSocket() !== '') {
-                $this->socket_connection();
+                $this->socketConnection();
             } else {
-                $this->tcp_connection();
+                $this->tcpConnection();
             }
         }
     }

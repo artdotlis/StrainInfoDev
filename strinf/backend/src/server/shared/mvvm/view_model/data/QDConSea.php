@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace straininfo\server\shared\mvvm\view_model\data;
 
-
 /** @template T of string|int */
 final class QDConSea
 {
@@ -58,16 +57,16 @@ final class QDConSea
             return current($this->getBuf());
         }
         $res = [];
-        foreach($this->getBuf() as $val_str) {
-            foreach(explode(",", $val_str) as $val) {
+        foreach ($this->getBuf() as $val_str) {
+            foreach (explode(',', $val_str) as $val) {
                 $res[$val] = true;
             }
         }
-        foreach($this->getToBuf() as $val_arr) {
-            foreach($val_arr as $val) {
+        foreach ($this->getToBuf() as $val_arr) {
+            foreach ($val_arr as $val) {
                 $res[(string) $val] = true;
             }
         }
-        return implode(",", \array_keys($res));
+        return implode(',', \array_keys($res));
     }
 }

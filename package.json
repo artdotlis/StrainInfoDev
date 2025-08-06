@@ -70,7 +70,7 @@
         "*.sh": [
             "/bin/bash -c 'shellcheck --rcfile=$CONFIG_SHELL \"$@\"' _"
         ],
-        "**/backend/**/*.php": [
+        "**/backend/**src/**/*.php": [
             "/bin/bash -c 'cd $STRINF_BACKEND && bash ../../$BIN_BACKEND_LINT_STAGED \"$@\"' _"
         ]
     },

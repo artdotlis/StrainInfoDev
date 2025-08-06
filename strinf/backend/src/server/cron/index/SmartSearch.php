@@ -18,7 +18,7 @@ use function straininfo\server\shared\dbs\tryToConnect;
 use straininfo\server\shared\mvvm\view\api\IndexEntity;
 use function straininfo\server\shared\text\rm_taxon_name_ranks;
 
-class SmartSearch
+final class SmartSearch
 {
     // immutable
     private readonly LoggerInterface $logger_err;

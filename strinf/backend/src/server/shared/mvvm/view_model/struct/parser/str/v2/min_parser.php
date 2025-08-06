@@ -60,7 +60,10 @@ function throwableError(): KnownViewModelExc
 function getDepositCount(array $strain): int
 {
     $strain_con = $strain[StStrE::CON->value];
-    if (!is_array($strain_con) || !array_key_exists(StRelDepositE::REL_CON->value, $strain_con)) {
+    if (!is_array($strain_con) || !array_key_exists(
+        StRelDepositE::REL_CON->value,
+        $strain_con
+    )) {
         throw throwableError();
     }
     $rel = $strain_con[StRelDepositE::REL_CON->value];
@@ -101,7 +104,12 @@ function get_min_arr_str(array $val, array $strain): array
                 StStrE::SAM_SRC->value => check_kt_f_str($val, $db::SAM_SRC->value),
                 StStrE::SAM_CC->value => check_kt_f_str($val, $db::SAM_CC->value),
             ],
-            StStrE::STA->value => get_strain_status($type_cul, $cul_on, $cul_cnt, $cul_err),
+            StStrE::STA->value => get_strain_status(
+                $type_cul,
+                $cul_on,
+                $cul_cnt,
+                $cul_err
+            ),
         ],
     ];
 }

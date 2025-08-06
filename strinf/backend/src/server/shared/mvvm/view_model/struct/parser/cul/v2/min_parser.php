@@ -175,7 +175,7 @@ function get_min_arr_reg(array $val): array
             if (!is_array($reg)) {
                 continue;
             }
-            if (!empty($sub_buf = create_reg($reg, DBStructSubE::class))) { // @phpstan-ignore argument.type
+            if (count($sub_buf = create_reg($reg, DBStructSubE::class)) > 0) { // @phpstan-ignore argument.type
                 $sub = $sub_buf;
             }
         }
