@@ -88,10 +88,12 @@ function ContentVD({
     const ctx: BreadCrumbsG | undefined = useContext(MainConGl);
     const errR = useRef<HTMLDivElement>(null);
     const conR = useRef<HTMLDivElement>(null);
+    let errorP = '';
     useEffect(() => {
         if (error()) {
             conR.current?.classList.add(Dis.dNone);
             errR.current?.classList.remove(Dis.dNone);
+            errorP = window.location.pathname + window.location.search;
             disable();
             disableLoader();
         } else {
@@ -132,9 +134,14 @@ function ContentVD({
             >
                 <Router
                     onRouteChange={(path) => {
-                        conR.current?.classList.remove(Dis.dNone);
-                        errR.current?.classList.add(Dis.dNone);
-                        onRouteChange(path);
+                        if (errorP !== path) {
+                            errorP = '';
+                        }
+                        if (errorP === '') {
+                            conR.current?.classList.remove(Dis.dNone);
+                            errR.current?.classList.add(Dis.dNone);
+                            onRouteChange(path);
+                        }
                     }}
                 >
                     <Route path={UIApiCon.index} component={INDEX_VD} />
