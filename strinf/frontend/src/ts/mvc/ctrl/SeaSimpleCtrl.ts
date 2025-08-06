@@ -4,7 +4,6 @@ import ApiChan from '@strinf/ts/mvc/ctrl/chan/ApiChan';
 import Known500Error from '@strinf/ts/errors/known/500';
 import getServerStatus from '@strinf/ts/functions/api/status';
 import onPrError from '@strinf/ts/functions/err/async';
-import emptyCall from '@strinf/ts/functions/misc/call';
 import Controller from '@strinf/ts/mvc/ctrl/Controller';
 import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
 
@@ -29,13 +28,9 @@ class SeaSimpleCtrl extends Controller<ViewChanInt, [string, string, number[]]> 
                 seaTable.initSea(cha, args, api, omitIds);
             });
         };
-        getServerStatus(
-            dataReq,
-            () => {
-                onPrError(errC);
-            },
-            emptyCall
-        );
+        getServerStatus(dataReq, () => {
+            onPrError(errC);
+        });
     }
 }
 

@@ -10,7 +10,6 @@ import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
 import { getActiveWrapperCookies } from '@strinf/ts/functions/cookie/acc';
 import getServerStatus from '@strinf/ts/functions/api/status';
 import Known503Error from '@strinf/ts/errors/known/503';
-import Known500Error from '@strinf/ts/errors/known/500';
 import type { GlStInt } from '@strinf/ts/interfaces/dom/global';
 import { reInitCStyle } from '@strinf/ts/functions/libs/style';
 import type { TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
@@ -53,21 +52,12 @@ class MainVD extends Component<
                 this.onError();
             }
         };
-        const cErr = () => {
-            this.criticalError();
-        };
         const onErr = () => {
             this.setState({ panic: true });
         };
         const sig = { signal: AbortSignal.timeout(60000) };
         this.errHandler();
-        getServerStatus(sta, cErr, onErr, sig);
-    }
-
-    private criticalError(): void {
-        const msg = 'Internal server error!';
-        this.setServerError(msg, new Known500Error(msg));
-        this.onError();
+        getServerStatus(sta, onErr, sig);
     }
 
     // eslint-disable-next-line @typescript-eslint/class-methods-use-this
@@ -114,9 +104,6 @@ class MainVD extends Component<
                         this.errCr = true;
                 }
                 this.onError();
-            },
-            () => {
-                this.criticalError();
             },
             () => {
                 const { panic } = this.state;

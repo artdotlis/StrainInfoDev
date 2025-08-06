@@ -1,7 +1,6 @@
 import Known500Error from '@strinf/ts/errors/known/500';
 import getServerStatus from '@strinf/ts/functions/api/status';
 import onPrError from '@strinf/ts/functions/err/async';
-import emptyCall from '@strinf/ts/functions/misc/call';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/sea_ind';
 import ApiChan from '@strinf/ts/mvc/ctrl/chan/ApiChan';
 import SeaIndexCon from '@strinf/ts/mvc/model/sea/SeaIndexCon';
@@ -52,13 +51,9 @@ class SeaIndexCtrl extends Controller<ViewChanInt, [string]> {
                     this.indexCon.initSea(this.createCacheHook(cha, cacheKey), args);
                 });
             };
-            getServerStatus(
-                dataReq,
-                () => {
-                    onPrError(errC);
-                },
-                emptyCall
-            );
+            getServerStatus(dataReq, () => {
+                onPrError(errC);
+            });
         }
     }
 }

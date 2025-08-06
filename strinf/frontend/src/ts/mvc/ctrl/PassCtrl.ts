@@ -3,7 +3,6 @@ import PassCon from '@strinf/ts/mvc/model/pass/PassCon';
 import ApiChan from '@strinf/ts/mvc/ctrl/chan/ApiChan';
 import Known500Error from '@strinf/ts/errors/known/500';
 import onPrError from '@strinf/ts/functions/err/async';
-import emptyCall from '@strinf/ts/functions/misc/call';
 import getServerStatus from '@strinf/ts/functions/api/status';
 import Controller from '@strinf/ts/mvc/ctrl/Controller';
 import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
@@ -26,13 +25,9 @@ class PassCtrl extends Controller<ViewChanInt, [number]> {
                 this.passCon.initPass(cha, strainId);
             });
         };
-        getServerStatus(
-            dataReq,
-            () => {
-                onPrError(errC);
-            },
-            emptyCall
-        );
+        getServerStatus(dataReq, () => {
+            onPrError(errC);
+        });
     }
 }
 

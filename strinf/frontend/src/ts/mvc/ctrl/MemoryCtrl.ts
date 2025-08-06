@@ -1,7 +1,6 @@
 import Known500Error from '@strinf/ts/errors/known/500';
 import getServerStatus from '@strinf/ts/functions/api/status';
 import onPrError from '@strinf/ts/functions/err/async';
-import emptyCall from '@strinf/ts/functions/misc/call';
 import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
 
 const LIMIT = 200;
@@ -108,13 +107,9 @@ class MemoryCtrl<T> {
         const dataReq = (status: ServerStatusJT): void => {
             this.dataReq(status, mCal, culIds);
         };
-        getServerStatus(
-            dataReq,
-            () => {
-                onPrError(errC);
-            },
-            emptyCall
-        );
+        getServerStatus(dataReq, () => {
+            onPrError(errC);
+        });
     }
 
     public init(cha: Chan<T>, args: number[]): void {

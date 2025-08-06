@@ -5,6 +5,7 @@ import { trackSearch } from '@strinf/ts/mvc/vdom/fun/mat/track';
 import Known404Error from '@strinf/ts/errors/known/404';
 import errSty from '@strinf/css/mods/error.module.css';
 import Known503Error from '@strinf/ts/errors/known/503';
+import type { MutableRef} from 'preact/hooks';
 import { useContext } from 'preact/hooks';
 import type { ErrStCon } from '@strinf/ts/interfaces/dom/global';
 import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
@@ -30,10 +31,10 @@ interface E404Prpos {
 
 function Error500(): JSX.Element {
     return (
-        <div className={errSty.err}>
+        <>
             <h1>500</h1>
             <h2>Internal server error!</h2>
-        </div>
+        </>
     );
 }
 
@@ -49,10 +50,10 @@ function Error404({ msgM, msgFM, ctx }: E404Prpos): JSX.Element {
         msg = `Not found! - ${sea}`;
     }
     return (
-        <div className={errSty.err}>
+        <>
             <h1>404</h1>
             <h2>{msg}</h2>
-        </div>
+        </>
     );
 }
 
@@ -72,19 +73,19 @@ function Error503({ msgM, msgFM }: EProps): JSX.Element {
         const msgD = time !== '' ? `Will be up on ${date}` : '';
         const msgT = time !== '' ? `around ${timeL}` : '';
         return (
-            <div className={errSty.err}>
+            <>
                 <h2>Currently down for maintenance!</h2>
                 <i className={ClHtmlI.wrenchF} style={{ 'font-size': '20rem' }} />
                 <p className={errSty.info}>{msgD}</p>
                 <p className={errSty.info}>{msgT}</p>
-            </div>
+            </>
         );
     }
     return (
-        <div className={errSty.err}>
+        <>
             <h1>503</h1>
             <h2>{msgM}</h2>
-        </div>
+        </>
     );
 }
 
@@ -101,12 +102,17 @@ function ErrorWr({ errM, errFM, errT, ctx }: ErrorWrProps): JSX.Element | null {
     return null;
 }
 
-function ErrorVD(): JSX.Element | null {
+function ErrorVD({ blocked }: { blocked: MutableRef<boolean> }): JSX.Element | null {
     const ctx: (ErrStCon & InValStInt) | undefined = useContext(MainConGl);
     if (ctx === undefined) {
         return null;
     }
-    return <ErrorWr errT={ctx.errT} errFM={ctx.errS[0]} errM={ctx.errS[1]} ctx={ctx} />;
+    return (
+        <div className={errSty.err}>
+            <ErrorWr errT={ctx.errT} errFM={ctx.errS[0]} errM={ctx.errS[1]} ctx={ctx} />
+            {blocked.current ? <h3>Try reloading the webpage!</h3> : null}
+        </div>
+    );
 }
 
 export default ErrorVD;

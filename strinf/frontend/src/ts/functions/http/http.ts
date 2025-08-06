@@ -96,7 +96,7 @@ async function fetchRetry(
             return resp;
         }
     } catch (err: unknown) {
-        if (retries > 0) {
+        if (retries > 1) {
             await delay(retries);
             return fetchRetry(url, fetchInit, retries - 1);
         } else {

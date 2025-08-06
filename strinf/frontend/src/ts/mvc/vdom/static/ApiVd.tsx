@@ -22,7 +22,6 @@ import type AncT from '@strinf/ts/interfaces/misc/anchor';
 import { memo } from 'preact/compat';
 import { CookieValue } from '@strinf/ts/constants/style/Acc';
 import { isDyslexiaSet } from '@strinf/ts/functions/cookie/acc';
-import emptyCall from '@strinf/ts/functions/misc/call';
 import CONFIG from '@strinf/ts/configs/config';
 import * as yaml from 'js-yaml';
 import { hasProp } from '@strinf/ts/functions/types/arr';
@@ -98,13 +97,9 @@ function loadApiSpec(
                     .catch(onPrError);
             }
         };
-        getServerStatus(
-            calB,
-            () => {
-                onPrError(crit);
-            },
-            emptyCall
-        );
+        getServerStatus(calB, () => {
+            onPrError(crit);
+        });
     }
 }
 /* eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["rap"] }] */

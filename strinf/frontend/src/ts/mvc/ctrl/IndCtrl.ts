@@ -4,7 +4,6 @@ import DisCpsCnt from '@strinf/ts/mvc/model/charts/DisCpsCnt';
 import StatsConM from '@strinf/ts/mvc/model/charts/StatsConM';
 import ApiChan from '@strinf/ts/mvc/ctrl/chan/ApiChan';
 import getServerStatus from '@strinf/ts/functions/api/status';
-import emptyCall from '@strinf/ts/functions/misc/call';
 import onPrError from '@strinf/ts/functions/err/async';
 import Known500Error from '@strinf/ts/errors/known/500';
 import Controller from '@strinf/ts/mvc/ctrl/Controller';
@@ -36,13 +35,9 @@ class IndCtrl extends Controller<ViewChanInt, [undefined]> {
                 }
             });
         };
-        getServerStatus(
-            dataReq,
-            () => {
-                onPrError(errC);
-            },
-            emptyCall
-        );
+        getServerStatus(dataReq, () => {
+            onPrError(errC);
+        });
     }
 }
 
