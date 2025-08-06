@@ -4,15 +4,6 @@ declare(strict_types=1);
 
 namespace straininfo\server\shared\mvvm\view_model\struct\parser\cul\v1;
 
-use function straininfo\server\shared\arr\check_kt_arr_id;
-use function straininfo\server\shared\arr\check_kt_bool;
-use function straininfo\server\shared\arr\check_kt_f_arr_id;
-use function straininfo\server\shared\arr\check_kt_f_arr_str;
-use function straininfo\server\shared\arr\check_kt_f_str;
-use function straininfo\server\shared\arr\check_kt_false_bool;
-use function straininfo\server\shared\arr\check_kt_int;
-use function straininfo\server\shared\arr\check_kt_str;
-use function straininfo\server\shared\arr\check_kt_true;
 use straininfo\server\shared\mvvm\model\sia\fields\DBStructBrcE;
 use straininfo\server\shared\mvvm\model\sia\fields\DBStructCulE;
 use straininfo\server\shared\mvvm\model\sia\fields\DBStructDepE;
@@ -21,7 +12,6 @@ use straininfo\server\shared\mvvm\model\sia\fields\DBStructIsoE;
 use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
 use straininfo\server\shared\mvvm\model\sia\fields\DBStructSubE;
 use straininfo\server\shared\mvvm\model\sia\fields\DBStructSupE;
-
 use straininfo\server\shared\mvvm\model\struct\DataCon;
 use straininfo\server\shared\mvvm\view_model\struct\json\v1\StBrcE;
 use straininfo\server\shared\mvvm\view_model\struct\json\v1\StCulE;
@@ -31,6 +21,16 @@ use straininfo\server\shared\mvvm\view_model\struct\json\v1\StRegE;
 use straininfo\server\shared\mvvm\view_model\struct\json\v1\StRelDesE;
 use straininfo\server\shared\mvvm\view_model\struct\json\v1\StSamE;
 use straininfo\server\shared\mvvm\view_model\struct\json\v1\StStrE;
+
+use function straininfo\server\shared\arr\check_kt_arr_id;
+use function straininfo\server\shared\arr\check_kt_bool;
+use function straininfo\server\shared\arr\check_kt_f_arr_id;
+use function straininfo\server\shared\arr\check_kt_f_arr_str;
+use function straininfo\server\shared\arr\check_kt_f_str;
+use function straininfo\server\shared\arr\check_kt_false_bool;
+use function straininfo\server\shared\arr\check_kt_int;
+use function straininfo\server\shared\arr\check_kt_str;
+use function straininfo\server\shared\arr\check_kt_true;
 use function straininfo\server\shared\text\encodeUrl;
 
 /**
@@ -127,12 +127,13 @@ function get_avg_arr_dep(array $val): array
 {
     $reg = [];
     $key = DataCon::DEP->value;
-    if (array_key_exists($key, $val) && is_array($val[$key])) {
-        foreach ($val[$key] as $dep) {
+    if (array_key_exists($key, $val) && is_array($arr = $val[$key])) {
+        foreach ($arr as $dep) {
             if (!is_array($dep)) {
                 continue;
             }
-            $reg[] = create_dep($dep);  // @phpstan-ignore argument.type
+            // @phpstan-ignore argument.type
+            $reg[] = create_dep($dep);
         }
     }
     return [
@@ -164,12 +165,13 @@ function get_avg_arr_iso(array $val): array
 {
     $reg = [];
     $key = DataCon::ISO->value;
-    if (array_key_exists($key, $val) && is_array($val[$key])) {
-        foreach ($val[$key] as $iso) {
+    if (array_key_exists($key, $val) && is_array($arr = $val[$key])) {
+        foreach ($arr as $iso) {
             if (!is_array($iso)) {
                 continue;
             }
-            $reg[] = create_iso($iso);  // @phpstan-ignore argument.type
+            // @phpstan-ignore argument.type
+            $reg[] = create_iso($iso);
         }
     }
     return [
@@ -256,7 +258,6 @@ function get_avg_arr_cul(array $val): array
             StCulE::CAT_ON->value => check_kt_bool($val, $db::CAT_ON->value),
         ];
     }
-
     $his = check_kt_f_str($val, $db::HIST->value);
     $his_con = [];
     if (!is_null($his) && $his !== '') {
@@ -333,15 +334,17 @@ function get_avg_arr_reg(array $val): array
     /** @var class-string<DBStructSupE> $supDB */
     $supDB = DBStructSupE::class;
     $key = DataCon::REG->value;
-    if (array_key_exists($key, $val) && is_array($val[$key])) {
-        foreach ($val[$key] as $reg) {
+    if (array_key_exists($key, $val) && is_array($arr = $val[$key])) {
+        foreach ($arr as $reg) {
             if (!is_array($reg)) {
                 continue;
             }
-            if (count($sub_buf = create_reg($reg, $subDB)) > 0) {  // @phpstan-ignore argument.type
+            // @phpstan-ignore argument.type
+            if (count($sub_buf = create_reg($reg, $subDB)) > 0) {
                 $sub = $sub_buf;
             }
-            if (count($sup_buf = create_reg($reg, $supDB)) > 0) {  // @phpstan-ignore argument.type
+            // @phpstan-ignore argument.type
+            if (count($sup_buf = create_reg($reg, $supDB)) > 0) {
                 $sup = $sup_buf;
             }
         }
@@ -393,12 +396,13 @@ function get_avg_rel_des(
     $res = [];
     /** @var class-string<DBStructDesE> */
     $db = DBStructDesE::class;
-    if (array_key_exists($db_con, $val) && is_array($val[$db_con])) {
-        foreach ($val[$db_con] as $des) {
+    if (array_key_exists($db_con, $val) && is_array($arr = $val[$db_con])) {
+        foreach ($arr as $des) {
             if (!is_array($des)) {
                 continue;
             }
-            $des_id = check_kt_f_str($des, $db::DES->value);  // @phpstan-ignore argument.type
+            // @phpstan-ignore argument.type
+            $des_id = check_kt_f_str($des, $db::DES->value);
             if (!(is_string($des_id) && $des_id !== '')) {
                 continue;
             }

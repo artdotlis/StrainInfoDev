@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace straininfo\server\shared\mvvm\view_model\struct\parser\str\v2;
 
-use function straininfo\server\shared\arr\check_kt_f_str;
-use function straininfo\server\shared\arr\check_kt_int;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructCulE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructSubE;
-use straininfo\server\shared\mvvm\model\struct\DataCon;
-
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StRegE;
 use straininfo\server\shared\mvvm\view_model\struct\json\v2\StStrE;
-use function straininfo\server\shared\mvvm\view_model\struct\parser\cul\v2\create_reg;
-use function straininfo\server\shared\mvvm\view_model\struct\parser\cul\v2\get_max_arr_pub as get_max_arr_pub_cul;
-use function straininfo\server\shared\mvvm\view_model\struct\parser\cul\v2\get_min_arr_brc_plain;
-use function straininfo\server\shared\mvvm\view_model\struct\parser\cul\v2\get_min_arr_cul_base;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StRegE;
+use straininfo\server\shared\mvvm\model\struct\DataCon;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructSubE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructCulE;
+
 use function straininfo\server\shared\mvvm\view_model\struct\parser\cul\v2\get_min_arr_tax_base;
+use function straininfo\server\shared\mvvm\view_model\struct\parser\cul\v2\get_min_arr_cul_base;
+use function straininfo\server\shared\mvvm\view_model\struct\parser\cul\v2\get_min_arr_brc_plain;
+use function straininfo\server\shared\mvvm\view_model\struct\parser\cul\v2\get_max_arr_pub as get_max_arr_pub_cul;
+use function straininfo\server\shared\mvvm\view_model\struct\parser\cul\v2\create_reg;
+use function straininfo\server\shared\arr\check_kt_int;
+use function straininfo\server\shared\arr\check_kt_f_str;
 
 /**
  * @template TV
@@ -41,8 +41,8 @@ function get_max_arr_cul_ent(array $val): array
 {
     $submitter = [];
     $key = DataCon::ENT_CON->value;
-    if (array_key_exists($key, $val) && is_array($val[$key])) {
-        foreach ($val[$key] as $cul) {
+    if (array_key_exists($key, $val) && is_array($arr = $val[$key])) {
+        foreach ($arr as $cul) {
             if (!is_array($cul)) {
                 continue;
             }
@@ -66,9 +66,9 @@ function get_max_arr_cul(array $val): array
 {
     $cultures = [];
     $key = DataCon::CUL_CON->value;
-    if (array_key_exists($key, $val) && is_array($val[$key])) {
+    if (array_key_exists($key, $val) && is_array($arr = $val[$key])) {
         $submitter = get_max_arr_cul_ent($val);
-        foreach ($val[$key] as $cul) {
+        foreach ($arr as $cul) {
             if (!is_array($cul)) {
                 continue;
             }

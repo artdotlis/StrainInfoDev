@@ -4,28 +4,28 @@ declare(strict_types=1);
 
 namespace straininfo\server\shared\mvvm\view_model\struct\parser\cul\v2;
 
-use function straininfo\server\shared\arr\check_kt_arr_id;
-use function straininfo\server\shared\arr\check_kt_bool;
-use function straininfo\server\shared\arr\check_kt_f_str;
-use function straininfo\server\shared\arr\check_kt_int;
-use function straininfo\server\shared\arr\check_kt_str;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructArcE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructPubE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructRelCulE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructSeqE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructTaxE;
-use straininfo\server\shared\mvvm\model\struct\DataCon;
-use straininfo\server\shared\mvvm\model\struct\StrainStatus;
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StArcE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StDepositE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StPubE;
-
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StRelDepositE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StRelDesE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StSeqE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StStrE;
 use straininfo\server\shared\mvvm\view_model\struct\json\v2\StTaxE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StStrE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StSeqE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StRelDesE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StRelDepositE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StPubE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StDepositE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StArcE;
+use straininfo\server\shared\mvvm\model\struct\StrainStatus;
+use straininfo\server\shared\mvvm\model\struct\DataCon;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructTaxE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructSeqE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructRelCulE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructPubE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructArcE;
+
+use function straininfo\server\shared\arr\check_kt_str;
+use function straininfo\server\shared\arr\check_kt_int;
+use function straininfo\server\shared\arr\check_kt_f_str;
+use function straininfo\server\shared\arr\check_kt_bool;
+use function straininfo\server\shared\arr\check_kt_arr_id;
 
 function get_strain_status(?int $type_cul, ?int $cul_on, int $cul_cnt, ?int $cul_err): StrainStatus
 {
@@ -160,8 +160,8 @@ function get_max_arr_pub(array $val): array
     /** @var class-string<DBStructPubE> */
     $db = DBStructPubE::class;
     $key_con = DataCon::LIT->value;
-    if (array_key_exists($key_con, $val) && is_array($val[$key_con])) {
-        foreach ($val[$key_con] as $lit) {
+    if (array_key_exists($key_con, $val) && is_array($arr = $val[$key_con])) {
+        foreach ($arr as $lit) {
             if (!is_array($lit)) {
                 continue;
             }
@@ -207,8 +207,8 @@ function get_max_arr_arc(array $val): array
     /** @var class-string<DBStructArcE> */
     $db = DBStructArcE::class;
     $key_con = DataCon::ARC->value;
-    if (array_key_exists($key_con, $val) && is_array($val[$key_con])) {
-        foreach ($val[$key_con] as $con) {
+    if (array_key_exists($key_con, $val) && is_array($arr = $val[$key_con])) {
+        foreach ($arr as $con) {
             if (!is_array($con)) {
                 continue;
             }
@@ -235,8 +235,8 @@ function get_max_arr_seq(array $val): array
     /** @var class-string<DBStructSeqE> */
     $db = DBStructSeqE::class;
     $key_con = DataCon::SEQ->value;
-    if (array_key_exists($key_con, $val) && is_array($val[$key_con])) {
-        foreach ($val[$key_con] as $seq) {
+    if (array_key_exists($key_con, $val) && is_array($arr = $val[$key_con])) {
+        foreach ($arr as $seq) {
             if (!is_array($seq)) {
                 continue;
             }
@@ -282,8 +282,8 @@ function get_max_arr_rel_cul(array $val): array
     /** @var class-string<DBStructRelCulE> */
     $db = DBStructRelCulE::class;
     $key_con = DataCon::R_CUL->value;
-    if (array_key_exists($key_con, $val) && is_array($val[$key_con])) {
-        foreach ($val[$key_con] as $rcul) {
+    if (array_key_exists($key_con, $val) && is_array($arr = $val[$key_con])) {
+        foreach ($arr as $rcul) {
             if (!is_array($rcul)) {
                 continue;
             }
