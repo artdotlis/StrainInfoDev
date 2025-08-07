@@ -2,7 +2,7 @@ import type { JSX } from 'preact';
 import { createUrlStr } from '@strinf/ts/functions/http/http';
 import linkSty from '@strinf/css/mods/link.module.css';
 import conSty from '@strinf/css/mods/container.module.css';
-import { Align, Dis, Mar, Tex } from '@strinf/ts/constants/style/ClHtml';
+import { Align, Dis, Tex } from '@strinf/ts/constants/style/ClHtml';
 import DOI_L from '@strinf/ts/constants/links/doi';
 import LogoDoiVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoDoiVD';
 import crAlert from '@strinf/ts/mvc/vdom/fun/alert/alert';
@@ -24,14 +24,14 @@ const DOI_R = new RegExp(`^(.+)(${IdAcrTagCon.strId}.+)(\\.\\d+)$`);
 function splitDoi(doi: string): JSX.Element {
     const splDoi = DOI_R.exec(doi);
     if (splDoi === null) {
-        return <p className={Mar.N0}>{doi}</p>;
+        return <span>{doi}</span>;
     }
     return (
-        <p className={Mar.N0}>
+        <span>
             {splDoi[1]}
             <strong className={Tex.p}>{splDoi[2]}</strong>
             {splDoi[3]}
-        </p>
+        </span>
     );
 }
 
@@ -72,7 +72,7 @@ function ArcLinkVD(props: ArcLink): JSX.Element | null {
             >
                 <LogoDoiVD height="22" cla="" />
             </button>
-            <span>{splitDoi(doi)}</span>
+            {splitDoi(doi)}
         </span>
     );
 }

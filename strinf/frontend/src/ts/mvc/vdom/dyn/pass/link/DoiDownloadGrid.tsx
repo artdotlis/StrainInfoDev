@@ -40,8 +40,7 @@ function DoiDownloadGrid(props: DownloadT): JSX.Element {
     const { doi } = props;
     const siId = doi.replace(/10\.\d{4,}(?:\.\d+)*\/([^\n\r\s\t]+)$/, '$1');
     const spCon = `${Align.jb} ${Dis.dIFlex} ${conSty.fbundle} ${Wid.f}`;
-    const btnC = `${ClHtmlSt.mask} ${ClHtml.btn} ${ClHtml.link} 
-        ${Pad.lN0} ${Pad.rN5}`;
+    const btnC = `${ClHtmlSt.mask} ${ClHtml.btn} ${ClHtml.link} ${Pad.lN0} ${Pad.rN5}`;
     const claB = `${linkSty.linkicon} ${linkSty.cleanbutton}`;
     return (
         <span className={spCon}>

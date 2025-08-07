@@ -73,9 +73,7 @@ function DownloadBlobVD({
                 style={{ outline: 'none', boxShadow: 'none' }}
             >
                 <i className={ico} />
-                <span>
-                    <b>{desc}</b>
-                </span>
+                {desc !== '' ? <b>{desc}</b> : null}
             </button>
         );
     }
@@ -92,9 +90,7 @@ function DownloadBlobVD({
                 rel="noopener"
             >
                 <i className={ico} />
-                <span>
-                    <b>{desc}</b>
-                </span>
+                {desc !== '' ? <b>{desc}</b> : null}
             </a>
         </span>
     );

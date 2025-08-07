@@ -1,11 +1,3 @@
-// critical style
-import 'digidive/css/digidive.css';
-import '@strinf/css/root.css';
-// non critical style
-import 'digidive/css/d3icons/style.css';
-import '@phosphor-icons/web/regular';
-import '@strinf/css/adhoc/anchor.css';
-
 // style functionality
 import 'digidive';
 
@@ -22,10 +14,21 @@ import { ErrorBoundary, LocationProvider } from 'preact-iso';
 
 import loaderSty from '@strinf/css/mods/loader.module.css';
 import PreConnectH from '@strinf/ts/mvc/vdom/static/helmet/ConnectH';
+import { useEffect } from 'preact/hooks';
+
+// critical style
+import 'digidive/css/digidive.css';
+import '@strinf/css/root.css';
 
 hidePrivateInfo();
 
 function IndexBody(): JSX.Element {
+    useEffect(async () => {
+        // non critical style
+        await import('@phosphor-icons/web/regular/style.css');
+        await import('digidive/css/d3icons/style.css');
+        await import('@strinf/css/adhoc/anchor.css');
+    }, []);
     return (
         <body className={`${ClHtml.sideSM} ${loaderSty.loadoverlay}`} {...SIDE_SMALL}>
             <LocationProvider>
