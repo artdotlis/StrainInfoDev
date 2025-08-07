@@ -1,5 +1,5 @@
 import { Router, Route, lazy, useLocation } from 'preact-iso';
-import type { MutableRef} from 'preact/hooks';
+import type { MutableRef } from 'preact/hooks';
 import { useContext, useEffect, useRef } from 'preact/hooks';
 import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
 import type { BreadCrumbsG, ErrStCon } from '@strinf/ts/interfaces/dom/global';

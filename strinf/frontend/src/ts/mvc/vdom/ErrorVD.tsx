@@ -5,7 +5,7 @@ import { trackSearch } from '@strinf/ts/mvc/vdom/fun/mat/track';
 import Known404Error from '@strinf/ts/errors/known/404';
 import errSty from '@strinf/css/mods/error.module.css';
 import Known503Error from '@strinf/ts/errors/known/503';
-import type { MutableRef} from 'preact/hooks';
+import type { MutableRef } from 'preact/hooks';
 import { useContext } from 'preact/hooks';
 import type { ErrStCon } from '@strinf/ts/interfaces/dom/global';
 import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';

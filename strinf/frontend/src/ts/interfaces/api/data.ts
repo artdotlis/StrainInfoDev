@@ -275,6 +275,8 @@ type SerSeaAllJT = z_infer<typeof SerSeaAllJ>;
 type SerSeaEleT = z_infer<typeof SerSeaEle>;
 type SeaIndJT = z_infer<typeof SeaIndJ>;
 type SeaIndConT = z_infer<typeof SeaIndCon>;
+type InfoDJT = z_infer<typeof InfoDJ>;
+type InfoSJT = z_infer<typeof InfoSJ>;
 export type {
     ServerStatusJT,
     DetailsJT,
@@ -283,6 +285,8 @@ export type {
     SeaIndJT,
     SeaIndConT,
     SerSeaEleT,
+    InfoDJT,
+    InfoSJT,
 };
 
 export { ServerStatusJ, InfoSJ, InfoDJ, DetailsJ, PassJ, SerSeaAllJ, SeaIndJ, SerSeaEle };

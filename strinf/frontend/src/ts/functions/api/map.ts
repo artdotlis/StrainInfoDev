@@ -36,6 +36,8 @@ import type {
     SerSeaAllJT,
     ServerStatusJT,
     DetailsJT,
+    InfoDJT,
+    InfoSJT,
 } from '@strinf/ts/interfaces/api/data';
 import {
     DetailsJ,
@@ -47,6 +49,7 @@ import {
     SeaIndJ,
     SerSeaEle,
 } from '@strinf/ts/interfaces/api/data';
+import Known500Error from '@strinf/ts/errors/known/500';
 
 const SEA_INPUT_COMB: SeaInputCombEl[] = [
     {
@@ -144,11 +147,8 @@ const SEA_INPUT_COMB: SeaInputCombEl[] = [
     },
 ];
 
-function skipAPIchecks(): boolean {
-    if (CONFIG.production || CONFIG.stage) {
-        return true;
-    }
-    return false;
+function isZodEnabled(): boolean {
+    return !CONFIG.production;
 }
 
 const ENC = new TextEncoder();
@@ -477,8 +477,18 @@ function getPubTuple(): string[] {
     return ['Title', 'Deposit', 'Authors', 'Publisher', 'Year'];
 }
 
+function isArrPassRes(data: unknown): data is PassJT {
+    if (isZodEnabled()) {
+        PassJ.parse(data);
+    }
+    return true;
+}
+
 function toArrPassRes(data: unknown): PassR {
-    const pData = PassJ.parse(data);
+    if (!isArrPassRes(data)) {
+        throw new Known500Error('Wrong data type received!');
+    }
+    const pData = data;
     return {
         overview: createOVCon(pData),
         relations: createRelCon(pData),
@@ -502,42 +512,67 @@ function toArrPassRes(data: unknown): PassR {
 }
 
 function isSerSeaAllJ(data: unknown): data is SerSeaAllJT {
-    if (skipAPIchecks()) {
-        return true;
+    if (isZodEnabled()) {
+        SerSeaAllJ.parse(data);
     }
-    SerSeaAllJ.parse(data);
+    return true;
+}
+
+function isSeaIndJ(data: unknown): data is SeaIndJT {
+    if (isZodEnabled()) {
+        SeaIndJ.parse(data);
+    }
     return true;
 }
 
 function toArrIndSeaIndRes(data: unknown): SeaIndJT {
-    return SeaIndJ.parse(data);
+    if (!isSeaIndJ(data)) {
+        throw new Known500Error('Wrong data type received!');
+    }
+    return data;
 }
 
 function isServerStatus(data: unknown): data is ServerStatusJT {
-    if (skipAPIchecks()) {
-        return true;
+    if (isZodEnabled()) {
+        ServerStatusJ.parse(data);
     }
-    ServerStatusJ.parse(data);
+    return true;
+}
+
+function isInfoDJ(data: unknown): data is InfoDJT {
+    if (isZodEnabled()) {
+        InfoDJ.parse(data);
+    }
     return true;
 }
 
 function toArrInfoDepRes(data: unknown): InfoR {
-    const pData = InfoDJ.parse(data);
+    if (!isInfoDJ(data)) {
+        throw new Known500Error('Wrong data type received!');
+    }
     return [
-        pData.deposit.siDP,
-        pData.deposit.designation,
-        pData.deposit.taxon?.name ?? '',
-        pData.deposit.status === DepositStatus.err ||
-            (pData.deposit.cultureCollection?.deprecated ?? false),
+        data.deposit.siDP,
+        data.deposit.designation,
+        data.deposit.taxon?.name ?? '',
+        data.deposit.status === DepositStatus.err ||
+            (data.deposit.cultureCollection?.deprecated ?? false),
     ];
+}
+function isInfoSJ(data: unknown): data is InfoSJT {
+    if (isZodEnabled()) {
+        InfoSJ.parse(data);
+    }
+    return true;
 }
 
 function toArrInfoStrRes(data: unknown): InfoS {
-    const pData = InfoSJ.parse(data);
+    if (!isInfoSJ(data)) {
+        throw new Known500Error('Wrong data type received!');
+    }
     return [
-        pData.strain.siID,
-        pData.strain.taxon?.name ?? 'UNKNOWN',
-        pData.strain.relation.deposit.map((dat) => dat.designation).join(','),
+        data.strain.siID,
+        data.strain.taxon?.name ?? 'UNKNOWN',
+        data.strain.relation.deposit.map((dat) => dat.designation).join(','),
     ];
 }
 
@@ -552,14 +587,22 @@ function getInfoStrTuple(): string[] {
 function getInfoDesTuple(): string {
     return 'Designation';
 }
+function isDetailsJ(data: unknown): data is DetailsJT {
+    if (isZodEnabled()) {
+        DetailsJ.parse(data);
+    }
+    return true;
+}
 
 function toArrDetailsRes(data: unknown): DetailsR {
-    const pData = DetailsJ.parse(data);
+    if (!isDetailsJ(data)) {
+        throw new Known500Error('Wrong data type received!');
+    }
     return [
-        pData.strain.siID,
-        ...detConMain(pData),
-        ...detConExtra(pData),
-        pData.deposit.relation ?? [],
+        data.strain.siID,
+        ...detConMain(data),
+        ...detConExtra(data),
+        data.deposit.relation ?? [],
     ];
 }
 
@@ -575,16 +618,26 @@ function getApiToStr(api: string): string {
     return label;
 }
 
-function toArrSerSeaRes(data: unknown, skip = false): SeaR {
-    const pData = data as SerSeaEleT;
-    if (!(skipAPIchecks() && !skip)) {
+function isSerSeaEle(data: unknown): data is SerSeaEleT {
+    if (isZodEnabled()) {
         SerSeaEle.parse(data);
     }
-    return [...pData.slice(0, 3), pData[3] === 1, ENC.encode(pData[4]), pData[5]] as SeaR;
+    return true;
+}
+
+function toSeaResEle(data: SerSeaEleT): SeaR {
+    return [...data.slice(0, 3), data[3] === 1, ENC.encode(data[4]), data[5]] as SeaR;
+}
+
+function toArrSerSeaRes(data: unknown): SeaR {
+    if (!isSerSeaEle(data)) {
+        throw new Known500Error('Wrong data type received!');
+    }
+    return toSeaResEle(data);
 }
 
 function toArrSerSeaResSim(dataCon: SerSeaAllJT): SeaR[] {
-    return dataCon.data.map((val) => toArrSerSeaRes(val, true));
+    return dataCon.data.map((val) => toSeaResEle(val));
 }
 
 export {
