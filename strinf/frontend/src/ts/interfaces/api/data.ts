@@ -15,7 +15,6 @@ import {
     string,
     length,
     array,
-    coerce,
     number,
     boolean,
     url,
@@ -25,6 +24,7 @@ import {
     literal,
     config as z_config,
 } from 'zod/mini';
+import type { ParsePayload } from 'zod/v4/core';
 
 // config
 
@@ -32,6 +32,17 @@ z_config({
     jitless: true,
 });
 
+// check functions
+function checkDate(ctx: ParsePayload<string>): void {
+    if (isNaN(Date.parse(ctx.value))) {
+        ctx.issues.push({
+            code: 'invalid_format',
+            message: 'Date format error',
+            input: ctx.value,
+            format: 'Date',
+        });
+    }
+}
 // --- parts
 
 const EntityCon = strictObject({
@@ -44,7 +55,7 @@ const EntityCon = strictObject({
 });
 
 const RegConMin = strictObject({
-    date: coerce.date(),
+    date: string().check(checkDate),
     submitter: optional(EntityCon),
 });
 
@@ -67,7 +78,7 @@ const SamSlimCon = strictObject({
 
 const SamCon = strictObject({
     ...SamSlimCon.shape,
-    date: optional(coerce.date()),
+    date: optional(string().check(checkDate)),
     place: optional(array(string().check(minLength(1)))),
 });
 
@@ -78,7 +89,7 @@ const IsoCon = strictObject({
 
 const ArcCon = strictObject({
     doi: string().check(minLength(1)),
-    date: coerce.date(),
+    date: string().check(checkDate),
     title: string().check(minLength(1)),
 });
 
@@ -166,7 +177,7 @@ const DepositMin = strictObject({
     catalogue: optional(UrlCon),
     status: z_enum(DepositStatus),
     typeStrain: boolean(),
-    lastUpdate: coerce.date(),
+    lastUpdate: string().check(checkDate),
     dataSource: array(z_enum(DataSource)).check(minLength(1)),
     registration: optional(RegConMin),
     taxon: optional(TaxonCon),

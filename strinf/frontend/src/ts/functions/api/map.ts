@@ -252,13 +252,13 @@ function detConExtra(data: DetailsJT): DetET {
         [dep_ins, dep_ror],
         data.deposit.deposition?.year,
         data.deposit.deposition?.designation ?? '',
-        data.deposit.lastUpdate.toDateString(),
+        data.deposit.lastUpdate,
         data.deposit.isolation?.sample?.source ?? '',
-        data.deposit.isolation?.sample?.date?.toDateString() ?? '',
+        data.deposit.isolation?.sample?.date ?? '',
         data.deposit.isolation?.sample?.countryCode ?? '',
         [sub?.name ?? '', sub?.orcid ?? ''],
         [sub?.institute ?? '', sub?.ror ?? ''],
-        data.deposit.registration?.date.toDateString() ?? '',
+        data.deposit.registration?.date ?? '',
         [sup?.name ?? '', sup?.orcid ?? ''],
         [sup?.institute ?? '', sup?.ror ?? ''],
         data.deposit.history?.[0]?.encoded ?? '',
@@ -467,7 +467,7 @@ function getArcTuple(): string[] {
 function createArcCon(data: PassJT): ArcT[] {
     const res: ArcT[] = [];
     for (const pubEl of data.strain.archive) {
-        const toPush: ArcT = [pubEl.doi, pubEl.title, pubEl.date.toDateString()];
+        const toPush: ArcT = [pubEl.doi, pubEl.title, pubEl.date];
         res.push(toPush);
     }
     return res;
