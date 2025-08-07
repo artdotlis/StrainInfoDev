@@ -133,10 +133,11 @@ function createPassLinkStrain(
 }
 
 function createSimpleTile(key: number, name: string, exCl: string): JSX.Element {
-    const clV = `${exCl} ${tilSty.tiletext} ${tilSty.cursor} ${Pad.N0} ${ClHtml.til}`;
+    const clV = `${exCl} ${tilSty.tiletext} ${tilSty.cursor} ${ClHtml.til} ${Tex.tr}`;
     return (
         <span key={key} className={clV}>
-            <span className={Tex.tr}>{name}</span>
+            {' '}
+            {name}{' '}
         </span>
     );
 }
@@ -164,9 +165,8 @@ function createLinkedTile(
     exCl: string
 ): JSX.Element {
     const [key, , name] = val;
-    let clV = `${exCl} ${tilSty.tiletext} ${Pad.N0} `;
-    clV += `${ClHtml.til} ${ClHtml.tLin}`;
-    const cont = <span className={Tex.tr}>{name}</span>;
+    const clV = `${exCl} ${tilSty.tiletext} ${ClHtml.til} ${ClHtml.tLin} ${Tex.tr}`;
+    const cont = <>{name}</>;
     return crALink(cont, cal, {
         key,
         href: anc,

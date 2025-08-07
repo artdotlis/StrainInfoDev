@@ -1,17 +1,13 @@
 .tilestext .tiletext {
-    max-height: 3rem;
-    min-height: 2.5rem;
-    max-width: 10rem;
-    min-width: 9.5rem;
-    overflow: hidden;
-    margin-top: 0px;
-    margin-left: 0px;
-    margin-right: 2px;
-    margin-bottom: 0.25px;
-}
-
-.tilestext .tiletext span {
-    width: 9rem;
+    display: inline-block;
+    max-height: 2.6rem;
+    min-height: 2.6rem;
+    max-width: 10.4rem;
+    min-width: 10.4rem;
+    margin: 0 1px;
+    padding: 0.25rem;
+    vertical-align: bottom;
+    line-height: 2rem;
 }
 
 span.title {
