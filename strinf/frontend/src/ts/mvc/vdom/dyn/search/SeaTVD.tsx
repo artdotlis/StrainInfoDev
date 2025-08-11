@@ -448,6 +448,8 @@ function DownloadBtn({ worker, view, term }: DownloadProps): JSX.Element {
     );
 }
 
+const SEARCH_FILTER_CL = 'strinf-search-table-filter';
+
 function FilterWrapper({ data, filter }: FilterProps): JSX.Element {
     const [filOpt, filSt] = createFilter(data);
     const [filterSt, setFilterSt] = useState<FILTER_STATE>(filSt);
@@ -456,7 +458,7 @@ function FilterWrapper({ data, filter }: FilterProps): JSX.Element {
     }
     return (
         <>
-            <div className={ClHtml.drD}>
+            <div className={`${ClHtml.drD} ${SEARCH_FILTER_CL}`}>
                 <button
                     aria-label="Search results filters"
                     className={`${ClHtml.btn} ${ClHtml.pri}`}
@@ -782,4 +784,4 @@ function SeaTVD({ res, sea, hook }: SeaTProps): JSX.Element | null {
 
 export default SeaTVD;
 
-export { SeaTable };
+export { SeaTable, SEARCH_FILTER_CL };

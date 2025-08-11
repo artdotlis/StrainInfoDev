@@ -115,8 +115,6 @@ function Pagination({ sel, cnt, page }: PageProps): JSX.Element | null {
     );
 }
 
-const SEARCH_TABLE_IN_CL = 'strinf-table-search-input';
-
 function SearchWr({
     val,
     set,
@@ -125,7 +123,7 @@ function SearchWr({
     set: (val: string) => void;
 }): JSX.Element {
     return (
-        <div className={`${ClHtml.ig} ${Wid.N250} ${SEARCH_TABLE_IN_CL}`}>
+        <div className={`${ClHtml.ig} ${Wid.N250}`}>
             <input
                 value={val}
                 type="text"
@@ -534,7 +532,7 @@ abstract class TableCon<T, E extends TableProps<T>> extends Component<E, TableSt
 
     protected renderContainer(): JSX.Element {
         const claB = `${Mar.tN15} ${Dis.dFlex} ${Align.js} ${Align.jb}`;
-        const claT = `${Mar.bN10} ${Dis.dFlex} ${Align.js} ${Align.jb}`;
+        const claT = `${Mar.bN10} ${Dis.dFlex} ${Align.js} ${Align.jb} `;
         const claE = `${Mar.bN10} ${Font.N12}`;
         return (
             <div className={`${ClHtml.cnt} ${Mar.lN0} ${Mar.rN0}`}>
@@ -590,4 +588,4 @@ abstract class TableCon<T, E extends TableProps<T>> extends Component<E, TableSt
 
 export default TableCon;
 export type { TableProps };
-export { SearchWr, SEARCH_TABLE_IN_CL };
+export { SearchWr };

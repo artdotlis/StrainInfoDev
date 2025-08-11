@@ -180,7 +180,7 @@ function TooltipVD({ hook, id, cla }: TTProps): JSX.Element {
     const lID = id;
     const localH = hook;
     return (
-        <div className={cla} id={IdHtmlTour.statusHead}>
+        <div className={cla}>
             <TooltipWrapper
                 key={lKey}
                 chi={
@@ -207,7 +207,7 @@ function LightsVD({ dat, miss, ttHook }: LightsVDProps): JSX.Element {
         return <span className={loadCl}></span>;
     }
     return (
-        <span>
+        <span id={IdHtmlTour.statusHead}>
             <TooltipVD
                 hook={ttHook}
                 id={StrainStatus.err}

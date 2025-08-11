@@ -82,7 +82,7 @@ function crTour(driverTour: Driver, location: LocationHook): DriveStep[] {
             popover: {
                 side: 'bottom' as const,
                 disableButtons: ['previous'],
-                description: `Let&quot;s search the genus name
+                description: `Let&#39;s search the genus name
                         <i>Eubacterium</i> in the StrainInfo
                         database.`,
                 onPopoverRender: (popover: PopoverDOM) => {
@@ -108,7 +108,7 @@ function crTour(driverTour: Driver, location: LocationHook): DriveStep[] {
             popover: {
                 side: 'left' as const,
                 description: `The table can be filtered using 
-                                    the "search in table" input field.`,
+                                    the search button.`,
                 onPopoverRender: (popover: PopoverDOM) => {
                     createButtons(driverTour, popover, [true, true, false], location);
                 },

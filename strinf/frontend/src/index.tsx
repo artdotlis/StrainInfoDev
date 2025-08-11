@@ -23,11 +23,13 @@ import '@strinf/css/root.css';
 hidePrivateInfo();
 
 function IndexBody(): JSX.Element {
-    useEffect(async () => {
-        // non critical style
-        await import('@phosphor-icons/web/regular/style.css');
-        await import('digidive/css/d3icons/style.css');
-        await import('@strinf/css/adhoc/anchor.css');
+    useEffect(() => {
+        setTimeout(async () => {
+            // non critical style
+            await import('@phosphor-icons/web/regular/style.css');
+            await import('digidive/css/d3icons/style.css');
+            await import('@strinf/css/adhoc/anchor.css');
+        }, 10);
     }, []);
     return (
         <body className={`${ClHtml.sideSM} ${loaderSty.loadoverlay}`} {...SIDE_SMALL}>
