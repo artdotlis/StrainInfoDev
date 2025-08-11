@@ -42,6 +42,7 @@ function add_default_headers(
     $response = $response->withHeader('Cache-Control', '"no-store";');
     if (Config::isProductionBuild()) {
         $response = $response->withHeader('Content-Security-Policy', cspHeader());
+        $response = $response->withHeader('Strict-Transport-Security', '"max-age=31536000; includeSubDomains; preload" always');
     }
     if ($hArgs->isEmbeddable()) {
         return $response->withHeader('Access-Control-Allow-Origin', '*');

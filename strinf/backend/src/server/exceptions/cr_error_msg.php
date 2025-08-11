@@ -13,7 +13,6 @@ use function Safe\ob_end_flush;
 use function Safe\ob_start;
 use function Safe\simplexml_load_string;
 use straininfo\server\configs\Config;
-use function straininfo\server\shared\mvvm\view\cspHeader;
 
 function print_msg_500(bool $over): void
 {
@@ -38,7 +37,11 @@ function clean_buf(string $message, int $type): void
     ob_start();
     http_response_code($type);
     if (Config::isProductionBuild()) {
-        header('Content-Security-Policy: ' . cspHeader());
+        header(
+            'Strict-Transport-Security: "max-age=31536000;'
+            . 'includeSubDomains; preload" always'
+        );
+        header('Content-Type: application/json');
     }
     header('Access-Control-Allow-Origin: *');
     header('Cache-Control: "no-store"');

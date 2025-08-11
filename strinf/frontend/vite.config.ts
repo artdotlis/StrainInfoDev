@@ -216,7 +216,10 @@ function addCspHeaders(): OutgoingHttpHeaders {
             "img-src 'self' data:",
             "media-src 'self' data:",
             'frame-src youtube.com www.youtube.com',
+            "frame-ancestors 'self'",
         ].join(';'),
+        'Cross-Origin-Opener-Policy': 'same-origin',
+        'X-Frame-Options': 'DENY',
     };
 }
 
