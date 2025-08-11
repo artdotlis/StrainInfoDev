@@ -24,12 +24,9 @@ hidePrivateInfo();
 
 function IndexBody(): JSX.Element {
     useEffect(() => {
-        setTimeout(async () => {
-            // non critical style
-            await import('@phosphor-icons/web/regular/style.css');
-            await import('digidive/css/d3icons/style.css');
-            await import('@strinf/css/adhoc/anchor.css');
-        }, 10);
+        void import('@phosphor-icons/web/regular/style.css');
+        void import('digidive/css/d3icons/style.css');
+        void import('@strinf/css/adhoc/anchor.css');
     }, []);
     return (
         <body className={`${ClHtml.sideSM} ${loaderSty.loadoverlay}`} {...SIDE_SMALL}>
