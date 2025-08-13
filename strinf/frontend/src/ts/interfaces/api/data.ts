@@ -137,12 +137,8 @@ const RelCulCon = strictObject({
     ccID: optional(number().check(minimum(1))),
 });
 
-const RelConMin = strictObject({
-    deposit: array(RelCulCon).check(minLength(1)),
-});
-
 const RelCon = strictObject({
-    ...RelConMin.shape,
+    deposit: array(RelCulCon).check(minLength(1)),
     designation: optional(array(string().check(minLength(1))).check(minLength(1))),
 });
 
@@ -207,7 +203,7 @@ const StrainMin = strictObject({
     merged: optional(array(number().check(minimum(1))).check(minLength(1))),
     typeStrain: boolean(),
     status: z_enum(StrainStatus),
-    relation: RelConMin,
+    relation: RelCon,
     taxon: optional(TaxonCon),
     sample: optional(SamSlimCon),
     bdID: optional(number().check(minimum(1))),

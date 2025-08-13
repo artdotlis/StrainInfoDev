@@ -6,8 +6,9 @@ namespace straininfo\server\mvvm\model\chan\sia;
 
 use straininfo\server\interfaces\mvvm\model\chan\query\QMIntDat;
 use straininfo\server\mvvm\model\chan\PdoMWr;
-use function straininfo\server\shared\mvvm\model\pdo\bind_and_exe;
+use straininfo\server\shared\mvvm\model\struct\DataCon;
 
+use function straininfo\server\shared\mvvm\model\pdo\bind_and_exe;
 use function straininfo\server\shared\mvvm\model\sia\sql\cul\get_cul_min_reg_id;
 use function straininfo\server\shared\mvvm\model\sia\sql\cul\get_cul_min_str_id;
 use function straininfo\server\shared\mvvm\model\sia\sql\parse_sql_alt_str_id;
@@ -26,7 +27,6 @@ use function straininfo\server\shared\mvvm\model\sia\sql\str\get_sql_seq;
 use function straininfo\server\shared\mvvm\model\sia\sql\str\get_sql_strain_err;
 use function straininfo\server\shared\mvvm\model\sia\sql\str\get_sql_strain_online;
 use function straininfo\server\shared\mvvm\model\sia\sql\str\get_strain_type_cul;
-use straininfo\server\shared\mvvm\model\struct\DataCon;
 
 /**
  * @implements QMIntDat<array<string, mixed>>
@@ -84,7 +84,7 @@ final class QPStr extends PdoMWr implements QMIntDat
         $main_id = parse_sql_main_str_id($main_ids_fetched[0]);
         $merge_ids = array_map(
             parse_sql_merge_str_id(...),
-            $this->fetchConSql(get_sql_merge_src_str_id(), [$main_id]),
+            $this->fetchConSql(get_sql_merge_src_str_id(), [$main_id])
         );
         $res = $this->fetchConSql(get_strain_type_cul(), [$main_id]);
         $base = $this->fetchConSql($sta_str, [$main_id])[0];
@@ -95,13 +95,19 @@ final class QPStr extends PdoMWr implements QMIntDat
                 [$main_id]
             ),
         ];
+        $rel_des = [
+            DataCon::R_DES_S->value => $this->fetchConSql(
+                get_rel_des(),
+                [$main_id, $main_id]
+            ),
+        ];
         $merged_con = array_merge($base, $this->fetchConSql(
             get_sql_strain_online(),
             [$main_id]
         )[0], $this->fetchConSql(
             get_sql_strain_err(),
             [$main_id]
-        )[0], $rel_cul, $merge);
+        )[0], $rel_cul, $rel_des, $merge);
         if (count($res) > 0) {
             $merged_con = array_merge($res[0], $merged_con);
         }
@@ -114,12 +120,6 @@ final class QPStr extends PdoMWr implements QMIntDat
      */
     private function addAvgStrCon(int $main_id): array
     {
-        $rel_des = [
-            DataCon::R_DES_S->value => $this->fetchConSql(
-                get_rel_des(),
-                [$main_id, $main_id]
-            ),
-        ];
         $seq = [
             DataCon::SEQ->value => $this->fetchConSql(
                 get_main_str_con(get_sql_seq()),
@@ -146,7 +146,7 @@ final class QPStr extends PdoMWr implements QMIntDat
                 )
             ),
         ];
-        return array_merge($rel_des, $seq, $arc, $lit, $alt);
+        return array_merge($seq, $arc, $lit, $alt);
     }
 
     /**

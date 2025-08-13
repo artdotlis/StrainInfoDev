@@ -31,7 +31,7 @@ import QApiCon from '@strinf/ts/constants/api/q_api';
 import DetSt from '@strinf/ts/mvc/vdom/state/DetSt';
 import { trackSearch } from '@strinf/ts/mvc/vdom/fun/mat/track';
 import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
-import { SR_CUL_ID } from '@strinf/ts/constants/api/sea_reg';
+import { SR_CUL_ID } from '@strinf/ts/constants/regexp/sea_reg';
 import TaxLinkVD, { LinkType } from '@strinf/ts/mvc/vdom/dyn/pass/link/TaxLinkVD';
 import CatalogLinkVD from '@strinf/ts/mvc/vdom/dyn/pass/link/CatalogLinkVD';
 import icSt from '@strinf/css/mods/icon.module.css';

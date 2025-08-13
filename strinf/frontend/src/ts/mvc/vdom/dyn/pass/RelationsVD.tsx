@@ -14,7 +14,7 @@ import type {
 } from '@strinf/ts/interfaces/dom/tooltip';
 import type AncT from '@strinf/ts/interfaces/misc/anchor';
 import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
-import { SR_CUL_ID } from '@strinf/ts/constants/api/sea_reg';
+import { SR_CUL_ID } from '@strinf/ts/constants/regexp/sea_reg';
 import { getInfoDesTuple } from '@strinf/ts/functions/api/map';
 import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
 import { PureComponent } from 'preact/compat';

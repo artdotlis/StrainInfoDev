@@ -8,7 +8,7 @@ import {
     SR_SEQ_ACC,
     SR_STR_ID,
     SR_TAX,
-} from '@strinf/ts/constants/api/sea_reg';
+} from '@strinf/ts/constants/regexp/sea_reg';
 import THESAURUS_MAP, { getShortText } from '@strinf/ts/constants/api/thes_api';
 import type {
     DetT,
@@ -50,6 +50,7 @@ import {
     SerSeaEle,
 } from '@strinf/ts/interfaces/api/data';
 import Known500Error from '@strinf/ts/errors/known/500';
+import getSynEqStruct from '@strinf/ts/constants/des/uniq_des';
 
 const SEA_INPUT_COMB: SeaInputCombEl[] = [
     {
@@ -565,14 +566,24 @@ function isInfoSJ(data: unknown): data is InfoSJT {
     return true;
 }
 
-function toArrInfoStrRes(data: unknown): InfoS {
+function toArrInfoStrRes(data: unknown, oriDes: string[]): InfoS {
     if (!isInfoSJ(data)) {
         throw new Known500Error('Wrong data type received!');
     }
+    const oriInd = new Set(oriDes.map((des) => getSynEqStruct(des)));
+    const designations = [
+        ...data.strain.relation.deposit.map((des) => des.designation),
+        ...(data.strain.relation.designation ?? []),
+    ];
     return [
         data.strain.siID,
         data.strain.taxon?.name ?? 'UNKNOWN',
         data.strain.relation.deposit.map((dat) => dat.designation).join(','),
+        designations
+            .map((des) => [getSynEqStruct(des), des])
+            .filter(([ind]) => ind != null && oriInd.has(ind))
+            .map(([, des]) => des)
+            .join(','),
     ];
 }
 
@@ -581,7 +592,7 @@ function getInfoDepTuple(): string[] {
 }
 
 function getInfoStrTuple(): string[] {
-    return ['Strain id', 'Taxonomy', 'Designations'];
+    return ['Strain id', 'Taxonomy', 'Designations', 'Overlapping designations'];
 }
 
 function getInfoDesTuple(): string {

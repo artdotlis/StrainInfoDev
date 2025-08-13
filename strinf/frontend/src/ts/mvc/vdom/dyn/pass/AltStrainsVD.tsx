@@ -15,12 +15,11 @@ import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import tilSty from '@strinf/css/mods/tile.module.css';
 
-const TIT = 'Other strains - Designation';
 const ID = PassAncId.alt_str;
 
 function getAnchorAS(ord: number, alt: number[]): AncT {
     if (alt.length > 0) {
-        return { [ord]: [ID, TIT] };
+        return { [ord]: [ID, 'Other strains - Designation'] };
     }
     return {};
 }
@@ -32,7 +31,8 @@ interface AltProps {
 function createTiles(
     tiles: [JSX.Element, number][],
     hook: TTSrcTVInt & DatIdTVInt<TT_GL_TYPE>,
-    addInd: number
+    addInd: number,
+    oriDes: string[]
 ): JSX.Element[] {
     return tiles.map((til, ind: number) => (
         <TooltipWrapper
@@ -41,7 +41,7 @@ function createTiles(
             srcH={hook}
             upD={() => {
                 if (hook.data !== undefined) {
-                    hook.data(til[1]);
+                    hook.data([til[1], oriDes]);
                 }
             }}
         />
@@ -51,9 +51,10 @@ function createTiles(
 interface TProps {
     alt: number[];
     strH: TTSrcTVInt & DatIdTVInt<TT_GL_TYPE>;
+    oriDes: string[];
 }
 
-function AltStrains({ strH, alt }: TProps): JSX.Element | null {
+function AltStrains({ strH, alt, oriDes }: TProps): JSX.Element | null {
     const ctx: InValStInt | undefined = useContext(MainConGl);
     const tilesStr = createRStrTiles(
         alt,
@@ -63,7 +64,7 @@ function AltStrains({ strH, alt }: TProps): JSX.Element | null {
     if (tilesStr.length === 0) {
         return null;
     }
-    const tiles = createTiles(tilesStr, strH, 0);
+    const tiles = createTiles(tilesStr, strH, 0, oriDes);
     const cla = `${ClHtml.tils} ${tilSty.tilestext}`;
     return <div className={cla}>{tiles}</div>;
 }
@@ -71,20 +72,21 @@ function AltStrains({ strH, alt }: TProps): JSX.Element | null {
 interface AltProps {
     altSiId: number[];
     hookStr: DatIdTVInt<TT_GL_TYPE> & TTSrcTVInt;
+    oriDes: string[];
 }
 
-function AltStrainsVD({ altSiId, hookStr }: AltProps): JSX.Element | null {
+function AltStrainsVD({ altSiId, hookStr, oriDes }: AltProps): JSX.Element | null {
     if (altSiId.length === 0) {
         return null;
     }
     return (
         <div id={IdHtmlTour.strainAlt} className={Col.col}>
             <h3 className={ClHtml.titSec}>
-                {TIT}
+                Other strains with overlapping designations
                 <span id={ID} />
             </h3>
             <section>
-                <AltStrains alt={altSiId} strH={hookStr} />
+                <AltStrains alt={altSiId} strH={hookStr} oriDes={oriDes} />
             </section>
         </div>
     );

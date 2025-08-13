@@ -14,7 +14,6 @@ import type InfoCtrl from '@strinf/ts/mvc/ctrl/InfoCtrl';
 interface ToolState<I extends InfoS | InfoR> {
     selId: number;
     res?: I;
-    info?: JSX.Element | undefined;
 }
 
 interface ToolTipProps<I extends InfoS | InfoR> {
@@ -25,7 +24,7 @@ interface ToolTipProps<I extends InfoS | InfoR> {
 
 interface ToolProps<I extends InfoS | InfoR> {
     hookName: string;
-    createCtrl: (ver: string) => InfoCtrl<I>;
+    createCtrl: (ver: string, extra: string[]) => InfoCtrl<I>;
     createTT: (props: ToolTipProps<I>) => JSX.Element;
 }
 
@@ -35,13 +34,17 @@ class ToolTipInfoVD<I extends InfoS | InfoR> extends Component<
 > {
     private readonly modelH: InfoSt<I>;
 
-    private ctrl?: InfoCtrl<I>;
+    private ctrl: InfoCtrl<I> | undefined;
 
     private readonly tooRef: RefObject<HTMLDivElement>;
 
     private readonly arrRef: RefObject<HTMLDivElement>;
 
     private loading: boolean;
+
+    private extra: string[];
+
+    private info: JSX.Element | undefined;
 
     private readonly hook: ToolTipHookInt<TT_GL_TYPE>;
 
@@ -50,6 +53,9 @@ class ToolTipInfoVD<I extends InfoS | InfoR> extends Component<
     constructor(props: ToolProps<I>) {
         super(props);
         this.state = { selId: 0 };
+        this.extra = [];
+        this.info = undefined;
+        this.ctrl = undefined;
         this.modelH = new InfoSt<I>();
         this.loading = true;
         this.hook = new ToolTipHook();
@@ -75,7 +81,7 @@ class ToolTipInfoVD<I extends InfoS | InfoR> extends Component<
         this.ctrl?.setVersion(ctx.version);
         if (this.ctrl === undefined) {
             const { createCtrl } = this.props;
-            this.ctrl = createCtrl(ctx.version);
+            this.ctrl = createCtrl(ctx.version, this.extra);
             this.ctrl.init(this.modelH, [...this.buffer.values()]);
         } else {
             this.ctrl.init(this.modelH, [...this.buffer.values()]);
@@ -86,17 +92,27 @@ class ToolTipInfoVD<I extends InfoS | InfoR> extends Component<
         const ctx: (TTHookS<TT_GL_TYPE> & GlobVersionGet) | undefined = this.context;
         const { hookName } = this.props;
         ctx?.ttHookSet(hookName)(this.hook);
-        this.hook.dataSetter((culIdH: TT_GL_TYPE) => {
-            const [selId, info] = Array.isArray(culIdH) ? culIdH : [culIdH, undefined];
+        this.hook.dataSetter((curIdH: TT_GL_TYPE) => {
+            const [selId, info_extra] = Array.isArray(curIdH)
+                ? curIdH
+                : [curIdH, undefined];
+            this.info = undefined;
+            this.extra = [];
+            if (Array.isArray(info_extra)) {
+                this.extra = info_extra;
+                this.ctrl = undefined;
+            } else {
+                this.info = info_extra;
+            }
             if (typeof selId !== 'number') {
                 throw new Known500Error(
-                    `deposit tooltips accept only numbers [${typeof culIdH}]`
+                    `deposit tooltips accept only numbers [${typeof curIdH}]`
                 );
             }
             const { res } = this.state;
             let newState: ToolState<I> = { selId: selId };
             if (res !== undefined) {
-                newState = { res, selId: selId, info: info };
+                newState = { res, selId: selId };
             }
             this.buffer.add(selId);
             this.setState(newState);
@@ -109,7 +125,7 @@ class ToolTipInfoVD<I extends InfoS | InfoR> extends Component<
 
     public render(): JSX.Element {
         this.initCtrl();
-        const { res, selId, info } = this.state;
+        const { res, selId } = this.state;
         const { createTT } = this.props;
         return (
             <div ref={this.tooRef} className={tooSty.tooltip} {...HIDE_ATTR} {...TT_SRC}>
@@ -117,7 +133,7 @@ class ToolTipInfoVD<I extends InfoS | InfoR> extends Component<
                     ? null
                     : createTT({
                           loading: this.loading,
-                          info: info,
+                          info: this.info,
                           res: res,
                       })}
                 <div ref={this.arrRef} className={tooSty.arrow} {...TT_ARR} />

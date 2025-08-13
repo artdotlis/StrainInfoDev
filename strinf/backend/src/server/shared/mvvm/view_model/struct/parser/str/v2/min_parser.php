@@ -18,8 +18,26 @@ use straininfo\server\shared\mvvm\model\struct\DataCon;
 use straininfo\server\shared\mvvm\view_model\struct\json\v2\StRelDepositE;
 use straininfo\server\shared\mvvm\view_model\struct\json\v2\StStrE;
 use straininfo\server\shared\mvvm\view_model\struct\json\v2\StTaxE;
+use function straininfo\server\shared\mvvm\view_model\struct\parser\cul\v1\create_rel_str_con;
+use function straininfo\server\shared\mvvm\view_model\struct\parser\cul\v2\get_avg_rel_des;
 use function straininfo\server\shared\mvvm\view_model\struct\parser\cul\v2\get_max_arr_rel_cul;
 use function straininfo\server\shared\mvvm\view_model\struct\parser\cul\v2\get_strain_status;
+
+/**
+ * @template TV
+ *
+ * @param array<string, TV> $val
+ *
+ * @return array<string, array<string, array<string, array<string>>>>
+ */
+function get_min_rel_des_str(array $val): array
+{
+    return get_avg_rel_des(
+        $val,
+        DataCon::R_DES_S->value,
+        create_rel_str_con(...)
+    );
+}
 
 /**
  * @template TV

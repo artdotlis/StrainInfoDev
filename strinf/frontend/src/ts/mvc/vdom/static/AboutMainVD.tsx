@@ -23,6 +23,7 @@ import LogoCirmVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoCirmVD';
 import LogoRccVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoRccVD';
 import LogoIcmpVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoIcmpVD';
 import LogoBccmVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoBccmVD';
+import LogoUamhVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoUamhVD';
 import { getCurFullPath } from '@strinf/ts/functions/http/http';
 import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
 import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
@@ -35,6 +36,7 @@ const LOGOS = {
     cirm: <LogoCirmVD />,
     icmp: <LogoIcmpVD />,
     rcc: <LogoRccVD />,
+    uamh: <LogoUamhVD />,
 };
 
 interface AboutElProps {

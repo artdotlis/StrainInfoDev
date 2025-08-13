@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace straininfo\server\shared\mvvm\model\sia\sql\str;
 
 use straininfo\server\shared\mvvm\model\sia\fields\DBStructArcE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructDesE;
 use straininfo\server\shared\mvvm\model\sia\fields\DBStructSeqE;
 use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
 
@@ -102,33 +101,6 @@ function get_sql_seq(): string
             ON culture.ccno_id=culture_collection_number.id
         LEFT JOIN culture_collection
             ON culture_collection.id=culture_collection_number.brc_id
-    EOF;
-}
-
-function get_rel_des(): string
-{
-    $des = DBStructDesE::DES->value;
-    return <<<EOF
-    SELECT DISTINCT designation.designation as {$des}
-    FROM strain
-        INNER JOIN culture
-            ON culture.strain_id = strain.id
-        INNER JOIN culture_relation as des_rel
-            ON des_rel.cul_id = culture.id
-        INNER JOIN designation
-            ON des_rel.des_id=designation.id AND 
-            designation.id NOT IN (
-                SELECT DISTINCT str_cul.designation_id
-                FROM strain as loc_str
-                    INNER JOIN culture as str_cul
-                        ON loc_str.id=str_cul.strain_id
-                WHERE loc_str.main_id=?
-            )
-        LEFT JOIN culture_collection_number
-            ON culture.ccno_id=culture_collection_number.id
-        LEFT JOIN culture_collection
-            ON culture_collection.id=culture_collection_number.brc_id    
-    WHERE strain.main_id=?;
     EOF;
 }
 

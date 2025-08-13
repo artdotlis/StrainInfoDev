@@ -24,7 +24,7 @@ interface ChartKeyXY {
 // |-> just use one central type containing all data?
 
 type InfoR = [number, string, string, boolean];
-type InfoS = [number, string, string];
+type InfoS = [number, string, string, string];
 
 type SeaR = [number, string[], string, boolean, Uint8Array, number];
 type DetailsR = [

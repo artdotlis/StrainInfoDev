@@ -1,13 +1,13 @@
 .tilestext .tiletext {
-    display: inline-block;
-    max-height: 2.6rem;
-    min-height: 2.6rem;
-    max-width: 10.4rem;
-    min-width: 10.4rem;
-    margin: 0 1px;
-    padding: 0.25rem;
-    vertical-align: bottom;
-    line-height: 2rem;
+    display: inline-block !important;
+    max-height: 2.6rem !important;
+    min-height: 2.6rem !important;
+    max-width: 10.4rem !important;
+    min-width: 10.4rem !important;
+    margin: 0 1px !important;
+    padding: 0.25rem !important;
+    vertical-align: bottom !important;
+    line-height: 2rem !important;
 }
 
 span.title {

@@ -25,7 +25,7 @@ import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
 import type { InValInt, InValStInt } from '@strinf/ts/interfaces/dom/inp';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import updateAnc from '@strinf/ts/functions/links/update_anc';
-import { SR_CUL_ID } from '@strinf/ts/constants/api/sea_reg';
+import { SR_CUL_ID } from '@strinf/ts/constants/regexp/sea_reg';
 import scSty from '@strinf/css/mods/scroll.module.css';
 
 const M_TOP = 10;

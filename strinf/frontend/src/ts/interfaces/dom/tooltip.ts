@@ -19,7 +19,7 @@ interface DatIdTVSet<T> {
     get dataSetter(): DatIdSetF<T>;
 }
 
-type TT_GL_TYPE = JSX.Element | number | [number, JSX.Element];
+type TT_GL_TYPE = JSX.Element | number | [number, JSX.Element | string[]];
 
 interface DatIdTVInt<T> {
     get data(): DatIdF<T> | undefined;

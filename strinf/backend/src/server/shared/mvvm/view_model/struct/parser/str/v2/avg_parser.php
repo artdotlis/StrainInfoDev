@@ -8,26 +8,8 @@ use function straininfo\server\shared\arr\check_kt_arr_id;
 use straininfo\server\shared\mvvm\model\struct\DataCon;
 
 use straininfo\server\shared\mvvm\view_model\struct\json\v2\StStrE;
-use function straininfo\server\shared\mvvm\view_model\struct\parser\cul\v2\create_rel_str_con;
-use function straininfo\server\shared\mvvm\view_model\struct\parser\cul\v2\get_avg_rel_des;
 use function straininfo\server\shared\mvvm\view_model\struct\parser\cul\v2\get_max_arr_arc;
 use function straininfo\server\shared\mvvm\view_model\struct\parser\cul\v2\get_max_arr_seq;
-
-/**
- * @template TV
- *
- * @param array<string, TV> $val
- *
- * @return array<string, array<string, array<string, array<string>>>>
- */
-function get_avg_rel_des_str(array $val): array
-{
-    return get_avg_rel_des(
-        $val,
-        DataCon::R_DES_S->value,
-        create_rel_str_con(...)
-    );
-}
 
 /**
  * @template TV

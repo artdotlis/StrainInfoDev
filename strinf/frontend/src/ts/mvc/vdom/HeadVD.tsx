@@ -80,8 +80,12 @@ function ToolTipCon(): JSX.Element {
             />
             <ToolTipInfoVD
                 hookName={TT_ID_STR}
-                createCtrl={(ver: string) =>
-                    new InfoCtrl(ver, toArrInfoStrRes, QApiCon.strMin)
+                createCtrl={(ver: string, des: string[]) =>
+                    new InfoCtrl(
+                        ver,
+                        (data: unknown) => toArrInfoStrRes(data, des),
+                        QApiCon.strMin
+                    )
                 }
                 createTT={(prpos) => <ToolTipStrCM {...prpos} />}
             />

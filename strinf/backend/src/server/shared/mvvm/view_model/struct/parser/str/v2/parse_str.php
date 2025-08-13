@@ -83,7 +83,7 @@ function create_max(array $val): ParStr
         pub: rem_null_rec(get_max_arr_pub($val)),
         seq: rem_null_rec(get_avg_arr_seq($val)),
         arc: rem_null_rec(get_avg_arr_arc($val)),
-        rel_des: rem_null_rec(get_avg_rel_des_str($val)),
+        rel_des: rem_null_rec(get_min_rel_des_str($val)),
         rel_cul: rem_null_rec(get_min_arr_rel_cul($val)),
         str: rem_null_rec(get_avg_arr_str($val, $cultures)),
         tax: rem_null_rec(get_min_arr_tax($val))
@@ -103,7 +103,7 @@ function create_avg(array $val): ParStr
         pub: rem_null_rec(get_max_arr_pub($val)),
         seq: rem_null_rec(get_avg_arr_seq($val)),
         arc: rem_null_rec(get_avg_arr_arc($val)),
-        rel_des: rem_null_rec(get_avg_rel_des_str($val)),
+        rel_des: rem_null_rec(get_min_rel_des_str($val)),
         rel_cul: $cultures,
         str: rem_null_rec(get_avg_arr_str($val, $cultures)),
         tax: rem_null_rec(get_min_arr_tax($val))
@@ -121,9 +121,9 @@ function create_min(array $val): ParStr
     return new ParStr(
         cul: [],
         arc: [],
-        rel_des: [],
         pub: [],
         seq: [],
+        rel_des: rem_null_rec(get_min_rel_des_str($val)),
         rel_cul: $cultures,
         str: rem_null_rec(get_min_arr_str($val, $cultures)),
         tax: rem_null_rec(get_min_arr_tax($val))

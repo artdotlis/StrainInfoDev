@@ -20,19 +20,19 @@ import { getSeaResTuple } from '@strinf/ts/functions/api/map';
 import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
 import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
 import SeaSimpleCtrl from '@strinf/ts/mvc/ctrl/SeaSimpleCtrl';
-import SeaSimpleSt from '../../state/SeaSimpleSt';
+import SeaSimpleSt from '@strinf/ts/mvc/vdom/state/SeaSimpleSt';
 
 interface NamNavProps {
     strId: number[];
     taxN: string;
     emptyCall: () => void;
 }
-const TIT_TMP = 'Other strains - ';
+const TIT = 'Other strains with the same Taxonomy';
 const ID = PassAncId.rel_str;
 
 function getAnchorRS(ord: number, taxa: string, empty: boolean): AncT {
     if (taxa !== '' && !empty) {
-        return { [ord]: [ID, TIT_TMP + 'Taxonomy'] };
+        return { [ord]: [ID, 'Other strains - Taxonomy'] };
     }
     return {};
 }
@@ -106,8 +106,7 @@ class RelStrainsVD extends Component<NamNavProps, IdState> {
         return (
             <div id={IdHtmlTour.strainRel}>
                 <h3 className={ClHtml.titSec}>
-                    {TIT_TMP}
-                    <i>{taxN}</i>
+                    {TIT}
                     <span id={ID} />
                 </h3>
                 <div>

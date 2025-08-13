@@ -16,3 +16,4 @@ items:
                 relation:
                     allOf:
                         - $ref: ./v2_strain/rel_dep_con.yaml
+                        - $ref: ./v2_strain/rel_des_con.yaml

@@ -147,6 +147,7 @@ function MainContainer({
             hookInf={hookInf}
         />
     );
+    const oriDes = [...res.designations, ...res.relations.map(([, des]) => des)];
     return (
         <div className={Col.lN9}>
             <CultureView
@@ -162,7 +163,7 @@ function MainContainer({
                     selCuId={selId}
                     hisRec={hisRec}
                 />
-                <AltStrainsVD altSiId={res.altStrIds} hookStr={hookStr} />
+                <AltStrainsVD altSiId={res.altStrIds} oriDes={oriDes} hookStr={hookStr} />
             </div>
             <RelStrainsVD
                 strId={res.allStrIds}

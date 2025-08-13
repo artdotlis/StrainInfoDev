@@ -24,6 +24,8 @@ const ICMP =
 
 const RCC = 'https://www.roscoff-culture-collection.org/';
 
+const UAMH = 'https://www.uamh.ca/';
+
 // services
 const LPSN = createUrlStr(LPSN_L, '');
 const NCBI = createUrlStr(NCBI_L, '');
@@ -71,4 +73,5 @@ export {
     ROR,
     ORCID,
     RCC,
+    UAMH,
 };

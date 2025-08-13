@@ -9,6 +9,7 @@ import {
     CIRM,
     ICMP,
     RCC,
+    UAMH,
 } from '@strinf/ts/constants/links/collection';
 
 To include your data in the StrainInfo database, please <a href={UIApiCon.contact}>contact us</a>.
@@ -63,5 +64,12 @@ With permission, we can continuously retrieve catalogue data directly from your 
         target="_blank"
     >
         {props.logos.rcc}
+    </a>
+    <a
+        className={`${tilSty.tileslogo} ${ClHtml.til} ${ClHtml.tLin}`}
+        href={UAMH}
+        target="_blank"
+    >
+        {props.logos.uamh}
     </a>
 </div>

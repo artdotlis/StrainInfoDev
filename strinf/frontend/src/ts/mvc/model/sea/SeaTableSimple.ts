@@ -1,5 +1,5 @@
 import QApiCon from '@strinf/ts/constants/api/q_api';
-import getLeTrComma from '@strinf/ts/constants/regexp/sep';
+import LEAD_TRAIL_COMMA from '@strinf/ts/constants/regexp/sep';
 import LoadT from '@strinf/ts/constants/type/LoadT';
 import Known404Error from '@strinf/ts/errors/known/404';
 import KnownLostWarnError from '@strinf/ts/errors/known/lost_warn';
@@ -60,7 +60,7 @@ class SeaTable {
                 added += 1;
             }
         }
-        return [argsStr.replace(getLeTrComma(), ''), added];
+        return [argsStr.replace(LEAD_TRAIL_COMMA, ''), added];
     }
 
     private getSeaStrJson(cha: ViewChanInt, jsonId: number[]): void {
