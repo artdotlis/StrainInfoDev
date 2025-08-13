@@ -27,7 +27,6 @@ interface NamNavProps {
     taxN: string;
     emptyCall: () => void;
 }
-const TIT = 'Other strains with the same Taxonomy';
 const ID = PassAncId.rel_str;
 
 function getAnchorRS(ord: number, taxa: string, empty: boolean): AncT {
@@ -106,7 +105,7 @@ class RelStrainsVD extends Component<NamNavProps, IdState> {
         return (
             <div id={IdHtmlTour.strainRel}>
                 <h3 className={ClHtml.titSec}>
-                    {TIT}
+                    Other strains with the same taxonomy
                     <span id={ID} />
                 </h3>
                 <div>
