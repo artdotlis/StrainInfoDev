@@ -1,13 +1,13 @@
+import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/ind';
+import Known500Error from '@strinf/ts/errors/known/500';
+import getServerStatus from '@strinf/ts/functions/api/status';
+import onPrError from '@strinf/ts/functions/err/async';
+import ApiChan from '@strinf/ts/mvc/ctrl/chan/ApiChan';
+import Controller from '@strinf/ts/mvc/ctrl/Controller';
 import DisConM from '@strinf/ts/mvc/model/charts/DisConM';
 import DisCpsCnt from '@strinf/ts/mvc/model/charts/DisCpsCnt';
 import StatsConM from '@strinf/ts/mvc/model/charts/StatsConM';
-import ApiChan from '@strinf/ts/mvc/ctrl/chan/ApiChan';
-import getServerStatus from '@strinf/ts/functions/api/status';
-import onPrError from '@strinf/ts/functions/err/async';
-import Known500Error from '@strinf/ts/errors/known/500';
-import Controller from '@strinf/ts/mvc/ctrl/Controller';
-import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
 
 class IndCtrl extends Controller<ViewChanInt, [undefined]> {
     private readonly apiChan: ApiChan;

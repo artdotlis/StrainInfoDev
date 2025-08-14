@@ -1,10 +1,10 @@
-import type { RefObject } from 'preact';
 import type {
     DatIdF,
     DatIdSetF,
-    TT_GL_TYPE,
     ToolTipHookInt,
+    TT_GL_TYPE,
 } from '@strinf/ts/interfaces/dom/tooltip';
+import type { RefObject } from 'preact';
 
 class ToolTipHook implements ToolTipHookInt<TT_GL_TYPE> {
     private dataIdH?: DatIdF<TT_GL_TYPE>;

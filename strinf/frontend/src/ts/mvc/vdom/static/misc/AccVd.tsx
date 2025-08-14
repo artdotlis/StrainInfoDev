@@ -1,3 +1,10 @@
+import type { DefAttr } from '@strinf/ts/constants/style/AtHtml';
+import type { CookieG, WrapperInt } from '@strinf/ts/interfaces/dom/global';
+import type { JSX, RefObject } from 'preact';
+import type { TargetedEvent } from 'preact/compat';
+import CONFIG from '@strinf/ts/configs/config';
+import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
+import ClHtmlSt from '@strinf/ts/constants/stat/ClHtml';
 import { FormNames, IDC } from '@strinf/ts/constants/style/Acc';
 import {
     ACC_LC,
@@ -8,26 +15,19 @@ import {
     accInD,
     accInM,
     DD_B,
-    type DefAttr,
 } from '@strinf/ts/constants/style/AtHtml';
 import { ClHtml, Mar, Pad, Tex, Wid } from '@strinf/ts/constants/style/ClHtml';
-import ClHtmlSt from '@strinf/ts/constants/stat/ClHtml';
-import type { TargetedEvent } from 'preact/compat';
-import type { JSX, RefObject } from 'preact';
-import { memo } from 'preact/compat';
-import { useContext, useRef } from 'preact/hooks';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
-import type { CookieG, WrapperInt } from '@strinf/ts/interfaces/dom/global';
 import {
-    getAllWrapperCookies,
     getActiveWrapperCookies,
+    getAllWrapperCookies,
     setContrast,
     setDyslexia,
     setTransition,
 } from '@strinf/ts/functions/cookie/acc';
 import { getFormInputCheckValue } from '@strinf/ts/functions/types/html';
-import CONFIG from '@strinf/ts/configs/config';
-import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
+import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { memo } from 'preact/compat';
+import { useContext as use, useRef } from 'preact/hooks';
 
 function crFormGr(
     label: string,
@@ -73,7 +73,7 @@ function applyAccChanges(
 }
 
 function AccForm(props: { cont: RefObject<HTMLDivElement> }): JSX.Element | null {
-    const ctx: (WrapperInt & CookieG) | undefined = useContext(MainConGl);
+    const ctx: (WrapperInt & CookieG) | undefined = use(MainConGl);
 
     if (ctx === undefined) {
         return null;

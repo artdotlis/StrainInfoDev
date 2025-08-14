@@ -13,4 +13,4 @@ interface DetTMInt {
 
 type DetStInt = DetTMInt & DetTSet;
 
-export type { DetTMInt, DetSetF, DetF, DetStInt };
+export type { DetF, DetSetF, DetStInt, DetTMInt };

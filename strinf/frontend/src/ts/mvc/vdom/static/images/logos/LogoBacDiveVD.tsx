@@ -1,6 +1,6 @@
 import type { JSX } from 'preact';
-import linkSty from '@strinf/css/mods/link.module.css';
 import src from '@extra/straininfo/logos/bacdive.webp';
+import linkSty from '@strinf/css/mods/link.module.css';
 
 function LogoBacDiveVD(): JSX.Element {
     return (

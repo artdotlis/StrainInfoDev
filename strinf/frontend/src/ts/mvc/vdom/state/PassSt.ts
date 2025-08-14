@@ -1,6 +1,6 @@
-import Known500Error from '@strinf/ts/errors/known/500';
 import type { LoadFS } from '@strinf/ts/interfaces/dom/global';
 import type { PassStInt, TabF, TabSetF } from '@strinf/ts/interfaces/dom/pass';
+import Known500Error from '@strinf/ts/errors/known/500';
 
 class PassSt implements PassStInt {
     private tabH?: TabF;

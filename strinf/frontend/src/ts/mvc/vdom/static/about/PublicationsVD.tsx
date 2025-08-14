@@ -1,6 +1,6 @@
-import { memo } from 'preact/compat';
 import type { JSX } from 'preact';
 import { PubSimVD } from '@strinf/ts/mvc/vdom/dyn/pass/PubVD';
+import { memo } from 'preact/compat';
 
 // doi, title, authors, journal, year
 const PUB_CON: [string, string, string, string, number][] = [

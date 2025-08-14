@@ -1,22 +1,23 @@
+import type { Driver, DriveStep, PopoverDOM } from 'driver.js';
+import type { JSX } from 'preact';
+
+import type { LocationHook } from 'preact-iso';
+import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
+import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
+import PassAncId from '@strinf/ts/constants/page/pass';
 import { ClHtml, DdM, Pad } from '@strinf/ts/constants/style/ClHtml';
 import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
-
 import { createButtons, onClose, TOUR_OPTIONS } from '@strinf/ts/constants/tour/Settings';
 import { routeUri, scrollToId } from '@strinf/ts/functions/http/http';
-import { render } from 'preact';
-import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
-import { callSearch } from '@strinf/ts/functions/http/sea';
 import callPass from '@strinf/ts/functions/http/pass';
-import PassAncId from '@strinf/ts/constants/page/pass';
+import { callSearch } from '@strinf/ts/functions/http/sea';
+import { isSmallScreen } from '@strinf/ts/functions/misc/screen';
 import {
     getInputSearch,
     getSortSearch,
 } from '@strinf/ts/mvc/vdom/static/tour/main_end_points';
-import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
-import { type Driver, driver, type DriveStep, type PopoverDOM } from 'driver.js';
-import type { JSX } from 'preact';
-import { isSmallScreen } from '@strinf/ts/functions/misc/screen';
-import type { LocationHook } from 'preact-iso';
+import { driver } from 'driver.js';
+import { render } from 'preact';
 import { useLocation } from 'preact-iso';
 
 function crTour(driverTour: Driver, location: LocationHook): DriveStep[] {

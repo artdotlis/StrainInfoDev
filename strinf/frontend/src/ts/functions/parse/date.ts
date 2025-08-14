@@ -37,10 +37,10 @@ function createDate(date: string): string {
 // TODO still very simple
 function createDateRKMS(date: string): string {
     if (date.startsWith('/')) {
-        return 'before ' + createDate(date.slice(1));
+        return `before ${createDate(date.slice(1))}`;
     }
     if (date.endsWith('/')) {
-        return 'after ' + createDate(date.slice(0, -1));
+        return `after ${createDate(date.slice(0, -1))}`;
     }
     const btw = BETWEEN_R.exec(date);
     if (btw?.[1] !== undefined && btw[2] !== undefined) {

@@ -1,19 +1,19 @@
-import { useContext } from 'preact/hooks';
+import type { SeaIndJT } from '@strinf/ts/interfaces/api/data';
+import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
 import type { JSX } from 'preact';
+import type { LocationHook } from 'preact-iso';
+import dropdown from '@strinf/css/mods/dropdown.module.css';
+import linkSty from '@strinf/css/mods/link.module.css';
 import { ClHtml, DdM, Wid } from '@strinf/ts/constants/style/ClHtml';
+import { routeUri } from '@strinf/ts/functions/http/http';
+
 import { createKnownSeaCall } from '@strinf/ts/functions/links/create_sea';
 import updateHrefVal from '@strinf/ts/functions/links/update_href';
-import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
 import getDDExp, { getDDRes } from '@strinf/ts/mvc/vdom/fun/sea/drop_down';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
-
-import linkSty from '@strinf/css/mods/link.module.css';
-import dropdown from '@strinf/css/mods/dropdown.module.css';
-import { routeUri } from '@strinf/ts/functions/http/http';
 import { addTagToInput } from '@strinf/ts/mvc/vdom/fun/sea/input';
-import type { LocationHook } from 'preact-iso';
+import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import { useLocation } from 'preact-iso';
-import type { SeaIndJT } from '@strinf/ts/interfaces/api/data';
+import { useContext as use } from 'preact/hooks';
 
 function clickEvent(
     ctx: InValStInt | undefined,
@@ -70,7 +70,7 @@ function MainDropWr({ children, height }: WrapProps): JSX.Element {
 }
 
 function DropSeaVD({ results, input }: DropProps): JSX.Element | null {
-    const ctx: InValStInt | undefined = useContext(MainConGl);
+    const ctx: InValStInt | undefined = use(MainConGl);
     const drHei = (getDDExp().length + 1) * 3.2;
     const height = `height: ${drHei}rem;`;
     let tit = 'Search examples';

@@ -1,11 +1,11 @@
 import type { JSX } from 'preact';
-import linkSty from '@strinf/css/mods/link.module.css';
-
 import src from '@extra/straininfo/logos/lpsn.webp';
+
+import linkSty from '@strinf/css/mods/link.module.css';
 
 function LogoLpsnVD({ height }: { height?: string }): JSX.Element {
     const heightI = typeof height === 'string' ? height : '22';
-    let width = 1.45 * parseInt(heightI, 10);
+    const width = 1.45 * Number.parseInt(heightI, 10);
     return (
         <img
             loading="lazy"

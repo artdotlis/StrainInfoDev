@@ -14,4 +14,4 @@ interface StaMInt {
 
 type IndStInt = StaSet & StaMInt & DiaSet & DiaMInt;
 
-export type { IndStInt, StaF, StaSetF, StaMInt };
+export type { IndStInt, StaF, StaMInt, StaSetF };

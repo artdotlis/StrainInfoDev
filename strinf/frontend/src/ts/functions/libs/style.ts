@@ -43,10 +43,10 @@ function reInitCStyle(): void {
 }
 
 export {
+    deactivateAllDropdownToggles,
+    disableSideBar,
     enableScroll,
     reInitCStyle,
-    disableSideBar,
-    toggleSideBar,
     SIDE_ID,
-    deactivateAllDropdownToggles,
+    toggleSideBar,
 };

@@ -1,6 +1,6 @@
+import type { JSX } from 'preact';
 import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
 import PreLoadH from '@strinf/ts/mvc/vdom/static/helmet/LoadH';
-import type { JSX } from 'preact';
 
 const bgI1920 = new URL('@assets/bg/main_1920.webp', import.meta.url).href;
 const bgI1280 = new URL('@assets/bg/main_1280.webp', import.meta.url).href;
@@ -26,7 +26,7 @@ const BANNER_URL = [UIApiCon.search, UIApiCon.pass] as const;
 function createPreloadBanner(): JSX.Element {
     if (UIApiCon.index === window.location.pathname) {
         return (
-            <PreLoadH type="image/webp" id={'banner_image'} href={selectBannerImage()} />
+            <PreLoadH type="image/webp" id="banner_image" href={selectBannerImage()} />
         );
     }
     for (const ban of BANNER_URL) {
@@ -34,7 +34,7 @@ function createPreloadBanner(): JSX.Element {
             return (
                 <PreLoadH
                     type="image/webp"
-                    id={'banner_image'}
+                    id="banner_image"
                     href={selectBannerImage()}
                 />
             );
@@ -43,4 +43,4 @@ function createPreloadBanner(): JSX.Element {
     return <></>;
 }
 
-export { selectBannerImage, createPreloadBanner };
+export { createPreloadBanner, selectBannerImage };

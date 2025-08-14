@@ -11,4 +11,4 @@ interface InValSet {
 
 type InValInt = InValSet & InValStInt;
 
-export type { InValInt, InValFS, InValStInt };
+export type { InValFS, InValInt, InValStInt };

@@ -1,24 +1,24 @@
-import { useContext } from 'preact/hooks';
-import type { JSX } from 'preact';
-import { ClHtml, Tex } from '@strinf/ts/constants/style/ClHtml';
-import { filterArrRowStr, filterRowStr } from '@strinf/ts/functions/arr/parse';
 import type { DesT, RelT } from '@strinf/ts/interfaces/api/mapped';
 import type { InValInt, InValStInt } from '@strinf/ts/interfaces/dom/inp';
-import { TooltipWrapper, createRDepTiles } from '@strinf/ts/mvc/vdom/fun/tab/pass';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
-import tilSty from '@strinf/css/mods/tile.module.css';
 import type {
     DatIdTVInt,
-    TTSrcTVInt,
     TT_GL_TYPE,
+    TTSrcTVInt,
 } from '@strinf/ts/interfaces/dom/tooltip';
 import type AncT from '@strinf/ts/interfaces/misc/anchor';
+import type { JSX } from 'preact';
+import tilSty from '@strinf/css/mods/tile.module.css';
 import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
 import { SR_CUL_ID } from '@strinf/ts/constants/regexp/sea_reg';
-import { getInfoDesTuple } from '@strinf/ts/functions/api/map';
+import { ClHtml, Tex } from '@strinf/ts/constants/style/ClHtml';
 import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
-import { PureComponent } from 'preact/compat';
+import { getInfoDesTuple } from '@strinf/ts/functions/api/map';
+import { filterArrRowStr, filterRowStr } from '@strinf/ts/functions/arr/parse';
 import { createSimpleTiles } from '@strinf/ts/mvc/vdom/fun/tab/misc';
+import { createRDepTiles, TooltipWrapper } from '@strinf/ts/mvc/vdom/fun/tab/pass';
+import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { PureComponent } from 'preact/compat';
+import { useContext as use } from 'preact/hooks';
 
 interface ResProps {
     detAnc: string;
@@ -92,7 +92,7 @@ function createTilesDes(
 }
 
 function Table({ detAnc, curId, culH, desH, des, rel }: TProps): JSX.Element | null {
-    const ctx: InValStInt | undefined = useContext(MainConGl);
+    const ctx: InValStInt | undefined = use(MainConGl);
     const tilesCul = createRDepTiles(
         rel,
         (dat: RelT) => [dat[0], dat[1], dat[3] === undefined, dat[4]],
@@ -138,7 +138,7 @@ class RelationsVD extends PureComponent<ResProps, RelState> {
     public render(): JSX.Element | null {
         const ctx: InValInt | undefined = this.context;
         ctx?.inValSet('RelationsVD')((val: string) => {
-            const valInt = parseInt(
+            const valInt = Number.parseInt(
                 val.replace(new RegExp(IdAcrTagCon.depId, 'i'), '').replace(/,.*/, ''),
                 10
             );
@@ -176,4 +176,4 @@ class RelationsVD extends PureComponent<ResProps, RelState> {
 }
 RelationsVD.contextType = MainConGl;
 export default RelationsVD;
-export { getAnchorR, getAnc4Det };
+export { getAnc4Det, getAnchorR };

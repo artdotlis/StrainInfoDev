@@ -1,11 +1,11 @@
+import type { InfoS } from '@strinf/ts/interfaces/api/mapped';
 import type { JSX } from 'preact';
-import { memo } from 'preact/compat';
+import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
 import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
 import { getInfoStrTuple } from '@strinf/ts/functions/api/map';
 import { filterArrStr } from '@strinf/ts/functions/arr/parse';
-import type { InfoS } from '@strinf/ts/interfaces/api/mapped';
 import { create2ColDiv, parseVal2Html } from '@strinf/ts/mvc/vdom/fun/tab/misc';
-import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
+import { memo } from 'preact/compat';
 
 type EleT = number | boolean | string | string[] | JSX.Element;
 
@@ -50,4 +50,4 @@ function ToolTipC({ res, loading, info }: ToolTipProps): JSX.Element {
 
 const ToolTipStrCM = memo(ToolTipC);
 
-export { TT_ID_STR, ToolTipStrCM };
+export { ToolTipStrCM, TT_ID_STR };

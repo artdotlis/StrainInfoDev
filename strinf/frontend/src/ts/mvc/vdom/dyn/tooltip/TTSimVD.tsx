@@ -1,14 +1,14 @@
+import type { TTHookS } from '@strinf/ts/interfaces/dom/global';
+import type { ToolTipHookInt, TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
 import type { JSX, RefObject } from 'preact';
-import { createRef, isValidElement } from 'preact';
-import { memo, PureComponent } from 'preact/compat';
+import tooSty from '@strinf/css/mods/tooltip.module.css';
 import { HIDE_ATTR, TT_ARR, TT_SRC } from '@strinf/ts/constants/style/AtHtml';
 import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
-import tooSty from '@strinf/css/mods/tooltip.module.css';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
-import type { TTHookS } from '@strinf/ts/interfaces/dom/global';
-import type { TT_GL_TYPE, ToolTipHookInt } from '@strinf/ts/interfaces/dom/tooltip';
-import ToolTipHook from '@strinf/ts/mvc/vdom/state/InfoHk';
 import Known500Error from '@strinf/ts/errors/known/500';
+import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import ToolTipHook from '@strinf/ts/mvc/vdom/state/InfoHk';
+import { createRef, isValidElement } from 'preact';
+import { memo, PureComponent } from 'preact/compat';
 
 interface ToolState {
     changes: boolean;

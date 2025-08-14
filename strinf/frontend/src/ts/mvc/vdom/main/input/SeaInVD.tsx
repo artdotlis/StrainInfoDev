@@ -1,11 +1,11 @@
-import type { JSX, RefObject } from 'preact';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import type PagPosT from '@strinf/ts/constants/type/PagPosT';
 import type { GlobVersionGet, LoadSet } from '@strinf/ts/interfaces/dom/global';
 import type { InValInt } from '@strinf/ts/interfaces/dom/inp';
-import type PagPosT from '@strinf/ts/constants/type/PagPosT';
+import type { JSX, RefObject } from 'preact';
 import { ERR_MARK } from '@strinf/ts/constants/type/ErrT';
 import markErr from '@strinf/ts/mvc/vdom/fun/sea/input';
 import InputVD from '@strinf/ts/mvc/vdom/main/input/InputVD';
+import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import { Component, createRef } from 'preact';
 
 interface SeaInProps {
@@ -40,9 +40,9 @@ class SeaInVD extends Component<SeaInProps, SeaInState> {
                 callB={() => this.inR}
                 upD={() => {
                     const cuInVal = this.inR.current?.value ?? '';
-                    ctx.inVal.map((eleF) => {
+                    for (const eleF of ctx.inVal) {
                         eleF(cuInVal);
-                    });
+                    }
                 }}
                 val={inVal.length > 0 ? inVal : ctx.inValCur}
                 len={len}

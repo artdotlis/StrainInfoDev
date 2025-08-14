@@ -13,4 +13,4 @@ interface SeaIndTMInt {
 
 type SeaIndStInt = SeaIndTMInt & SeaIndTSet;
 
-export type { SeaIndStInt, SeaIndTMInt, TabSetF, TabF };
+export type { SeaIndStInt, SeaIndTMInt, TabF, TabSetF };

@@ -15,4 +15,4 @@ interface PassTMInt {
 
 type PassStInt = PassTMInt & PassTSet & LoadStMInt & LoadStVInt;
 
-export type { PassStInt, PassTMInt, TabSetF, TabF };
+export type { PassStInt, PassTMInt, TabF, TabSetF };

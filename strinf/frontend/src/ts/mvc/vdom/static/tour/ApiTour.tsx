@@ -1,22 +1,23 @@
+import type { Driver, DriveStep, PopoverDOM } from 'driver.js';
+import type { JSX } from 'preact';
+import type { LocationHook } from 'preact-iso';
 import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
+import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
 import { Align, ClHtml, Dis, Pad, Wid } from '@strinf/ts/constants/style/ClHtml';
 import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
 import { createButtons, onClose, TOUR_OPTIONS } from '@strinf/ts/constants/tour/Settings';
+import ErrType from '@strinf/ts/constants/type/ErrT';
 import { routeUri } from '@strinf/ts/functions/http/http';
-import { driver, type PopoverDOM, type DriveStep, type Driver } from 'driver.js';
+import { isSmallScreen } from '@strinf/ts/functions/misc/screen';
+import crAlert from '@strinf/ts/mvc/vdom/fun/alert/alert';
 import {
     getApiRequest,
     getEndPoint,
     getEndPointPath,
     openEndPointPath,
 } from '@strinf/ts/mvc/vdom/static/tour/api_end_points';
-import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
+import { driver } from 'driver.js';
 import { render } from 'preact';
-import crAlert from '@strinf/ts/mvc/vdom/fun/alert/alert';
-import ErrType from '@strinf/ts/constants/type/ErrT';
-import type { JSX } from 'preact';
-import { isSmallScreen } from '@strinf/ts/functions/misc/screen';
-import type { LocationHook } from 'preact-iso';
 import { useLocation } from 'preact-iso';
 
 function createElement(ele: Element | null): { element?: Element } {

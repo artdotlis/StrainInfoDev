@@ -58,4 +58,4 @@ function filterRowStr<T>(vals: T[]): T[] {
         .filter((elV) => elV !== undefined && typeof elV === 'string' && elV.length > 0);
 }
 
-export { filterArrStr, filterArrRowStr, filterRowStr };
+export { filterArrRowStr, filterArrStr, filterRowStr };

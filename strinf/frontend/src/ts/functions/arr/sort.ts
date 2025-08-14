@@ -33,7 +33,7 @@ function strNumSort<T>(sort: number, val1: T, val2: T): number {
     if (typeof val1 !== 'string' || typeof val2 !== 'string') {
         return 0;
     }
-    return (parseInt(val1, 10) - parseInt(val2)) * sort;
+    return (Number.parseInt(val1, 10) - Number.parseInt(val2)) * sort;
 }
 
 function numSort<T>(sort: number, val1: T, val2: T): number {
@@ -42,4 +42,4 @@ function numSort<T>(sort: number, val1: T, val2: T): number {
     }
     return (val1 - val2) * sort;
 }
-export { defaultSort, strNumSort, numSort, sortDate };
+export { defaultSort, numSort, sortDate, strNumSort };

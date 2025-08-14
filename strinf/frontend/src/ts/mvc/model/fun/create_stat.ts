@@ -1,7 +1,7 @@
+import type { DataCon } from '@strinf/ts/interfaces/dom/global';
 import Known500Error from '@strinf/ts/errors/known/500';
 import onPrError from '@strinf/ts/functions/err/async';
 import { checkRespArr, fetchRetry } from '@strinf/ts/functions/http/http';
-import type { DataCon } from '@strinf/ts/interfaces/dom/global';
 
 async function crStat(call: string, name: string): Promise<DataCon<number>> {
     const res = fetchRetry(call)

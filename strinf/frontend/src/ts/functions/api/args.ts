@@ -25,4 +25,4 @@ function isOnlyOneStr(api: string, args: string): boolean {
     return false;
 }
 
-export { isOnlyOneStr, getArgs };
+export { getArgs, isOnlyOneStr };

@@ -81,4 +81,4 @@ function getApiRequest(click: boolean): HTMLElement | null {
     return null;
 }
 
-export { openEndPointPath, getEndPoint, getEndPointPath, getApiRequest };
+export { getApiRequest, getEndPoint, getEndPointPath, openEndPointPath };

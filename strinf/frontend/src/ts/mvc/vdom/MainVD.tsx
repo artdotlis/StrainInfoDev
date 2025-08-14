@@ -1,21 +1,21 @@
-import type { JSX, ErrorInfo, RefObject } from 'preact';
-import { Component, createRef } from 'preact';
-import KnownError from '@strinf/ts/errors/known/main';
-import HeadVD from '@strinf/ts/mvc/vdom/HeadVD';
-import ContentVD from '@strinf/ts/mvc/vdom/ContentVD';
-import GlState, { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
-import ErrType from '@strinf/ts/constants/type/ErrT';
-import crAlert from '@strinf/ts/mvc/vdom/fun/alert/alert';
-import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
-import { getActiveWrapperCookies } from '@strinf/ts/functions/cookie/acc';
-import getServerStatus from '@strinf/ts/functions/api/status';
-import Known503Error from '@strinf/ts/errors/known/503';
-import type { GlStInt } from '@strinf/ts/interfaces/dom/global';
-import { reInitCStyle } from '@strinf/ts/functions/libs/style';
-import type { TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
-import CONFIG from '@strinf/ts/configs/config';
-import initMat from '@strinf/ts/mvc/vdom/fun/mat/init';
 import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
+import type { GlStInt } from '@strinf/ts/interfaces/dom/global';
+import type { TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
+import type { ErrorInfo, JSX, RefObject } from 'preact';
+import CONFIG from '@strinf/ts/configs/config';
+import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
+import ErrType from '@strinf/ts/constants/type/ErrT';
+import Known503Error from '@strinf/ts/errors/known/503';
+import KnownError from '@strinf/ts/errors/known/main';
+import getServerStatus from '@strinf/ts/functions/api/status';
+import { getActiveWrapperCookies } from '@strinf/ts/functions/cookie/acc';
+import { reInitCStyle } from '@strinf/ts/functions/libs/style';
+import ContentVD from '@strinf/ts/mvc/vdom/ContentVD';
+import crAlert from '@strinf/ts/mvc/vdom/fun/alert/alert';
+import initMat from '@strinf/ts/mvc/vdom/fun/mat/init';
+import HeadVD from '@strinf/ts/mvc/vdom/HeadVD';
+import GlState, { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { Component, createRef } from 'preact';
 
 type OnErrorArg = [
     Event | string,
@@ -60,7 +60,6 @@ class MainVD extends Component<
         getServerStatus(sta, onErr, sig);
     }
 
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
     public override componentDidMount(): void {
         reInitCStyle();
     }
@@ -157,7 +156,7 @@ class MainVD extends Component<
         const { panic } = this.state;
         return (
             <>
-                <MainConGl.Provider value={this.initGlState()}>
+                <MainConGl value={this.initGlState()}>
                     <div
                         ref={this.wrapper}
                         className={`${ClHtml.pgWr} ${getActiveWrapperCookies().join(' ')}`}
@@ -169,7 +168,7 @@ class MainVD extends Component<
                             disable={() => (this.errCr = false)}
                         />
                     </div>
-                </MainConGl.Provider>
+                </MainConGl>
             </>
         );
     }

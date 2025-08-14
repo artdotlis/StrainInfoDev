@@ -1,10 +1,10 @@
+import type { LocationHook } from 'preact-iso';
+import Known500Error from '@strinf/ts/errors/known/500';
+import { routeUri } from '@strinf/ts/functions/http/http';
 import {
     createStrainCall,
     createStrainCultureCall,
 } from '@strinf/ts/functions/links/create_pass';
-import { routeUri } from '@strinf/ts/functions/http/http';
-import Known500Error from '@strinf/ts/errors/known/500';
-import type { LocationHook } from 'preact-iso';
 
 function callPass(
     strain: string,

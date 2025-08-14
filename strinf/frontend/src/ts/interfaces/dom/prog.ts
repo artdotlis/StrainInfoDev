@@ -7,4 +7,4 @@ interface ProgSet {
 interface ProgStMInt {
     get prog(): ProgF;
 }
-export type { ProgSet, ProgStMInt, ProgSetF, ProgF };
+export type { ProgF, ProgSet, ProgSetF, ProgStMInt };

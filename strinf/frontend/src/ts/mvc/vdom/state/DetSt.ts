@@ -1,5 +1,5 @@
-import Known500Error from '@strinf/ts/errors/known/500';
 import type { DetF, DetSetF, DetStInt } from '@strinf/ts/interfaces/dom/detail';
+import Known500Error from '@strinf/ts/errors/known/500';
 
 class DetSt implements DetStInt {
     private resH?: DetF;

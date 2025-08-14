@@ -1,3 +1,5 @@
+import type { infer as z_infer } from 'zod/mini';
+import type { ParsePayload } from 'zod/v4/core';
 import {
     AssemblyLvl,
     DataSource,
@@ -5,26 +7,24 @@ import {
     SeqType,
     StrainStatus,
 } from '@strinf/ts/constants/api/data';
-import type { infer as z_infer } from 'zod/mini';
 import {
-    object,
-    strictObject,
+    array,
+    boolean,
+    length,
+    literal,
     minimum,
     minLength,
-    optional,
-    string,
-    length,
-    array,
     number,
-    boolean,
-    url,
-    enum as z_enum,
+    object,
+    optional,
+    strictObject,
+    string,
     tuple,
     union,
-    literal,
+    url,
     config as z_config,
+    enum as z_enum,
 } from 'zod/mini';
-import type { ParsePayload } from 'zod/v4/core';
 
 // config
 
@@ -34,7 +34,7 @@ z_config({
 
 // check functions
 function checkDate(ctx: ParsePayload<string>): void {
-    if (isNaN(Date.parse(ctx.value))) {
+    if (Number.isNaN(Date.parse(ctx.value))) {
         ctx.issues.push({
             code: 'invalid_format',
             message: 'Date format error',
@@ -285,15 +285,15 @@ type SeaIndConT = z_infer<typeof SeaIndCon>;
 type InfoDJT = z_infer<typeof InfoDJ>;
 type InfoSJT = z_infer<typeof InfoSJ>;
 export type {
-    ServerStatusJT,
     DetailsJT,
-    PassJT,
-    SerSeaAllJT,
-    SeaIndJT,
-    SeaIndConT,
-    SerSeaEleT,
     InfoDJT,
     InfoSJT,
+    PassJT,
+    SeaIndConT,
+    SeaIndJT,
+    SerSeaAllJT,
+    SerSeaEleT,
+    ServerStatusJT,
 };
 
-export { ServerStatusJ, InfoSJ, InfoDJ, DetailsJ, PassJ, SerSeaAllJ, SeaIndJ, SerSeaEle };
+export { DetailsJ, InfoDJ, InfoSJ, PassJ, SeaIndJ, SerSeaAllJ, SerSeaEle, ServerStatusJ };

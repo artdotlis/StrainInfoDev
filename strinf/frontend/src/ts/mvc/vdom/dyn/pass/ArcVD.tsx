@@ -1,17 +1,17 @@
-import { Align, ClHtml, Dis, Font } from '@strinf/ts/constants/style/ClHtml';
-import type AncT from '@strinf/ts/interfaces/misc/anchor';
-import type { JSX } from 'preact';
-import { getArcTuple } from '@strinf/ts/functions/api/map';
 import type { ArcT } from '@strinf/ts/interfaces/api/mapped';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
-import DoiDownloadGrid from '@strinf/ts/mvc/vdom/dyn/pass/link/DoiDownloadGrid';
-import { defaultSort, sortDate } from '@strinf/ts/functions/arr/sort';
-import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
-import PassAncId from '@strinf/ts/constants/page/pass';
-import { memo } from 'preact/compat';
-import TableCon, { SearchWr } from '@strinf/ts/mvc/vdom/dyn/table/Table';
+import type AncT from '@strinf/ts/interfaces/misc/anchor';
 import type { TableProps } from '@strinf/ts/mvc/vdom/dyn/table/Table';
+import type { JSX } from 'preact';
+import PassAncId from '@strinf/ts/constants/page/pass';
+import { Align, ClHtml, Dis, Font } from '@strinf/ts/constants/style/ClHtml';
+import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
+import { getArcTuple } from '@strinf/ts/functions/api/map';
+import { defaultSort, sortDate } from '@strinf/ts/functions/arr/sort';
 import { createDate } from '@strinf/ts/functions/parse/date';
+import DoiDownloadGrid from '@strinf/ts/mvc/vdom/dyn/pass/link/DoiDownloadGrid';
+import TableCon, { SearchWr } from '@strinf/ts/mvc/vdom/dyn/table/Table';
+import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { memo } from 'preact/compat';
 
 interface ResProps {
     res: ArcT[];
@@ -107,10 +107,11 @@ class ArcTable extends TableCon<ArcT, TableProps<ArcT>> {
             </tbody>
         );
     }
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
+
     protected override renderWindow(): JSX.Element | null {
         return null;
     }
+
     protected override renderInput(): JSX.Element | null {
         return (
             <div className={`${Dis.dFlex} ${Align.js}`}>
@@ -123,7 +124,7 @@ class ArcTable extends TableCon<ArcT, TableProps<ArcT>> {
             </div>
         );
     }
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
+
     protected override filter(_val: unknown, limit: number[]): number[] {
         return limit;
     }

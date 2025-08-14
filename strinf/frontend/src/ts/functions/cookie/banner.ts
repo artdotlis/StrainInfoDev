@@ -8,7 +8,7 @@ function setFirstAgreed(): void {
 }
 
 function checkFirstCookie(): boolean {
-    return /.*\s?agreed=true;?.*/.test(document.cookie);
+    return /.*\s?agreed=true.*/.test(document.cookie);
 }
 
 export { checkFirstCookie, setFirstAgreed };

@@ -6,9 +6,9 @@ export default {
         'sharp',
         'svgo',
         '@mdx-js/mdx',
-        /^@typescript-eslint\/.+/,
         /^typescript-plugin.+/,
         /^@?eslint.*/,
+        '@antfu/eslint-config',
     ],
     ignoreBinaries: ['knip', 'eslint', 'tsc', 'vite'],
     compilers: {

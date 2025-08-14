@@ -1,8 +1,8 @@
 import {
-    UNIQUE_DES,
     CL_CORE,
     SINGLE_WORD_CHAR,
     STR_DEFINED_SEP,
+    UNIQUE_DES,
 } from '@strinf/ts/constants/regexp/des';
 
 function cleanPre(pre: string): string {

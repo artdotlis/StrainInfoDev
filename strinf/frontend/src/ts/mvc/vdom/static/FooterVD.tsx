@@ -1,10 +1,10 @@
-import { memo } from 'preact/compat';
 import type { JSX } from 'preact';
+import linkSty from '@strinf/css/mods/link.module.css';
 import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
 import { C_NOT } from '@strinf/ts/constants/page/copy';
 import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
 
-import linkSty from '@strinf/css/mods/link.module.css';
+import { memo } from 'preact/compat';
 
 function FooterVD(): JSX.Element {
     return (

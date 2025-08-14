@@ -1,11 +1,11 @@
+import type { JSX, RefObject } from 'preact';
+import hubSty from '@strinf/css/mods/hub.module.css';
+import btnSty from '@strinf/css/mods/icon.module.css';
+import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
 import { hub_dsmz_search } from '@strinf/ts/constants/links/hub_dsmz';
 import { Align, ClHtml, Dis, Mar, Wid } from '@strinf/ts/constants/style/ClHtml';
-import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
-import btnSty from '@strinf/css/mods/icon.module.css';
-import type { JSX, RefObject } from 'preact';
-import { useRef } from 'preact/hooks';
 import LogoHubDsmzVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoHubDsmzVD';
-import hubSty from '@strinf/css/mods/hub.module.css';
+import { useRef } from 'preact/hooks';
 
 function actSearch(eve: JSX.TargetedKeyboardEvent<HTMLInputElement>): boolean {
     return eve.key === 'Enter' || eve.key === 'Accept' || eve.key === 'Tab';

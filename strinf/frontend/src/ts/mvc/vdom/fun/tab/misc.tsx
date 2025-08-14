@@ -1,5 +1,20 @@
+import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
+import type {
+    DatIdTVInt,
+    TT_GL_TYPE,
+    TTSrcTVInt,
+} from '@strinf/ts/interfaces/dom/tooltip';
 import type { JSX } from 'preact';
-import { Fragment, createRef, isValidElement } from 'preact';
+import conSty from '@strinf/css/mods/container.module.css';
+import linkSty from '@strinf/css/mods/link.module.css';
+import tilSty from '@strinf/css/mods/tile.module.css';
+import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
+import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
+import DOI_L from '@strinf/ts/constants/links/doi';
+import { ena_genome, ena_nucleotide } from '@strinf/ts/constants/links/ena';
+import { ncbi_genome, ncbi_nucleotide } from '@strinf/ts/constants/links/ncbi';
+import { DB_ACC_REG } from '@strinf/ts/constants/regexp/seq';
+import { TT_TAR } from '@strinf/ts/constants/style/AtHtml';
 import {
     Align,
     ClHtml,
@@ -9,33 +24,18 @@ import {
     Tex,
     Wid,
 } from '@strinf/ts/constants/style/ClHtml';
-import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
+import Known500Error from '@strinf/ts/errors/known/500';
+import { createUrlStr } from '@strinf/ts/functions/http/http';
 import {
     createStrainCall,
     createStrainCultureCall,
 } from '@strinf/ts/functions/links/create_pass';
-import tilSty from '@strinf/css/mods/tile.module.css';
-import Known500Error from '@strinf/ts/errors/known/500';
-import { createUrlStr } from '@strinf/ts/functions/http/http';
 import updateHrefVal from '@strinf/ts/functions/links/update_href';
-import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
-import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
-import linkSty from '@strinf/css/mods/link.module.css';
-import conSty from '@strinf/css/mods/container.module.css';
-import { ena_genome, ena_nucleotide } from '@strinf/ts/constants/links/ena';
-import { ncbi_genome, ncbi_nucleotide } from '@strinf/ts/constants/links/ncbi';
-import { DB_ACC_REG } from '@strinf/ts/constants/regexp/seq';
-import LogoNcbiVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoNcbiVD';
-import LogoEnaVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoEnaVD';
-import crToolTip from '@strinf/ts/mvc/vdom/fun/tooltip/tooltip';
-import type {
-    DatIdTVInt,
-    TTSrcTVInt,
-    TT_GL_TYPE,
-} from '@strinf/ts/interfaces/dom/tooltip';
-import DOI_L from '@strinf/ts/constants/links/doi';
-import { TT_TAR } from '@strinf/ts/constants/style/AtHtml';
 import { useTooltipForRef } from '@strinf/ts/mvc/vdom/fun/tab/pass';
+import crToolTip from '@strinf/ts/mvc/vdom/fun/tooltip/tooltip';
+import LogoEnaVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoEnaVD';
+import LogoNcbiVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoNcbiVD';
+import { Fragment, isValidElement } from 'preact';
 import { useRef } from 'preact/hooks';
 
 function createBoolIcon(val: boolean, dark = false): JSX.Element {
@@ -45,7 +45,7 @@ function createBoolIcon(val: boolean, dark = false): JSX.Element {
             <div
                 style={{
                     color: 'var(--color-logo-green)',
-                    filter: filter,
+                    filter,
                 }}
             >
                 <i className={ClHtmlI.check} />
@@ -56,7 +56,7 @@ function createBoolIcon(val: boolean, dark = false): JSX.Element {
         <div
             style={{
                 color: 'var(--color-logo-red)',
-                filter: filter,
+                filter,
             }}
         >
             <i className={ClHtmlI.cross} />
@@ -291,7 +291,7 @@ function create2ColDiv<T>(
         }
         rows.push(
             <div key={ind}>
-                <b>{side}</b>: {parser(val, side)}
+                <b>{side}</b>:{parser(val, side)}
             </div>
         );
     }
@@ -306,8 +306,31 @@ interface RowElProps {
     stEv: (eve: Events) => void;
     events: Events;
 }
+interface RowChildProps {
+    chiEl: [number, JSX.Element];
+    hooks: TTSrcTVInt & DatIdTVInt<TT_GL_TYPE>;
+    stEv: (eve: Events) => void;
+}
 
-function createRowElWTT(props: RowElProps): JSX.Element[] {
+function RowWTT({ chiEl, hooks, stEv }: RowChildProps): JSX.Element {
+    const rowRef = useRef<HTMLDivElement>(null);
+    crToolTip(
+        [rowRef, hooks],
+        () => {
+            if (hooks.data !== undefined) {
+                hooks.data(chiEl[0]);
+            }
+        },
+        stEv
+    );
+    return (
+        <div ref={rowRef} {...TT_TAR}>
+            {chiEl[1]}
+        </div>
+    );
+}
+
+function RowElWTT(props: RowElProps): JSX.Element {
     const { events, chi, hooks, stEv } = props;
     for (const eve of events) {
         if (eve[1] === 'blur') {
@@ -315,25 +338,13 @@ function createRowElWTT(props: RowElProps): JSX.Element[] {
         }
         eve[2].removeEventListener(eve[1], eve[0]);
     }
-    const children = [];
-    for (const chiEl of chi) {
-        const rowRef = createRef<HTMLDivElement>();
-        crToolTip(
-            [rowRef, hooks],
-            () => {
-                if (hooks.data !== undefined) {
-                    hooks.data(chiEl[0]);
-                }
-            },
-            stEv
-        );
-        children.push(
-            <div ref={rowRef} {...TT_TAR}>
-                {chiEl[1]}
-            </div>
-        );
-    }
-    return children;
+    return (
+        <>
+            {chi.map((val, ind) => (
+                <RowWTT chiEl={val} hooks={hooks} stEv={stEv} key={ind} />
+            ))}
+        </>
+    );
 }
 
 interface DotTTProps {
@@ -364,16 +375,16 @@ function DotTT({ head, data, hook }: DotTTProps): JSX.Element | null {
 }
 
 export {
-    createBoolIcon,
-    parseVal2Html,
-    createDoiLink,
-    createSeqAccLink,
-    createDepositTile,
-    createStrainTile,
-    createSimpleTiles,
-    createPassLinkStrain,
     create2ColDiv,
+    createBoolIcon,
+    createDepositTile,
+    createDoiLink,
     createPassCulHref,
-    createRowElWTT,
+    createPassLinkStrain,
+    createSeqAccLink,
+    createSimpleTiles,
+    createStrainTile,
     DotTT,
+    parseVal2Html,
+    RowElWTT,
 };

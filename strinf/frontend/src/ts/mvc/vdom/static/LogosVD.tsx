@@ -1,10 +1,10 @@
-import { memo } from 'preact/compat';
 import type { JSX } from 'preact';
-import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
 import logSty from '@strinf/css/mods/log.module.css';
+import { BCCM_LMG, N4M } from '@strinf/ts/constants/links/collection';
+import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
 import LogoLmgVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoLmgVD';
 import LogoN4MVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoN4MVD';
-import { BCCM_LMG, N4M } from '@strinf/ts/constants/links/collection';
+import { memo } from 'preact/compat';
 
 function LogosVD(): JSX.Element {
     return (

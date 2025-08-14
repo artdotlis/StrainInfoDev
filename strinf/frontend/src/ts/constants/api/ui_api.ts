@@ -37,4 +37,4 @@ enum UIApiCon {
     sitemap = '/sitemap_index.xml',
 }
 
-export { UIApiCon, UIApiAnc };
+export { UIApiAnc, UIApiCon };

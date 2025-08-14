@@ -1,22 +1,22 @@
-import type { JSX } from 'preact';
-import { memo } from 'preact/compat';
-import { useContext } from 'preact/hooks';
-import { ClHtml as ClHtmlPl, Font } from '@strinf/ts/constants/style/ClHtml';
-import ClHtmlSt from '@strinf/ts/constants/stat/ClHtml';
 import type { BreadCrumbsG } from '@strinf/ts/interfaces/dom/global';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
-
-import { getFormSelValue } from '@strinf/ts/functions/types/html';
-
+import type { JSX } from 'preact';
 import CInfo from '@strinf/md/contact/info.mdx';
-import HeadT from '@strinf/ts/constants/type/HeadT';
-import { openMailClient, scrambleMail } from '@strinf/ts/functions/links/mail';
+import CONFIG from '@strinf/ts/configs/config';
 import { strain_info_mail } from '@strinf/ts/constants/links/mail';
-import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
-import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
+import ClHtmlSt from '@strinf/ts/constants/stat/ClHtml';
+import { ClHtml as ClHtmlPl, Font } from '@strinf/ts/constants/style/ClHtml';
+
+import HeadT from '@strinf/ts/constants/type/HeadT';
 
 import { getCurFullPath } from '@strinf/ts/functions/http/http';
-import CONFIG from '@strinf/ts/configs/config';
+import { openMailClient, scrambleMail } from '@strinf/ts/functions/links/mail';
+import { getFormSelValue } from '@strinf/ts/functions/types/html';
+import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
+import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
+import { memo } from 'preact/compat';
+
+import { useContext as use } from 'preact/hooks';
 
 enum FormE {
     sub = 'subject',
@@ -94,14 +94,10 @@ interface WrProps {
     children?: JSX.Element[] | JSX.Element;
 }
 
-function ContactWr(props: WrProps): JSX.Element {
-    const { children } = props;
+function ContactWr({ children = [] }: WrProps): JSX.Element {
     return (
         <>
-            <MetaH
-                title={'StrainInfo - Contact'}
-                desc={'StrainInfo contact information'}
-            />
+            <MetaH title="StrainInfo - Contact" desc="StrainInfo contact information" />
             <CanonH href={getCurFullPath()} />
             <div className={ClHtmlPl.con}>
                 <div className={ClHtmlPl.cnt}>{children}</div>
@@ -110,16 +106,12 @@ function ContactWr(props: WrProps): JSX.Element {
     );
 }
 
-ContactWr.defaultProps = {
-    children: [],
-};
-
 function Contact(): JSX.Element | null {
-    const ctx: BreadCrumbsG | undefined = useContext(MainConGl);
+    const ctx: BreadCrumbsG | undefined = use(MainConGl);
     if (ctx?.bread !== undefined) {
-        ctx.bread.map((actF) => {
+        for (const actF of ctx.bread) {
             actF(HeadT.CONTACT);
-        });
+        }
     }
     if (ctx === undefined) {
         return null;

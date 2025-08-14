@@ -5,28 +5,28 @@
  * Date: 2024
  */
 
-import type { JSX } from 'preact';
-import PassAncId from '@strinf/ts/constants/page/pass';
 import type { RelT } from '@strinf/ts/interfaces/api/mapped';
-import type AncT from '@strinf/ts/interfaces/misc/anchor';
-import * as d3Sankey from 'd3-sankey';
-import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
-import { ClHtml, Col } from '@strinf/ts/constants/style/ClHtml';
-import svgSty from '@strinf/css/mods/svg.module.css';
+import type { InValInt, InValStInt } from '@strinf/ts/interfaces/dom/inp';
 import type {
     DatIdTVInt,
-    TTSrcTVInt,
     TT_GL_TYPE,
+    TTSrcTVInt,
 } from '@strinf/ts/interfaces/dom/tooltip';
-import { useContext, useRef, useState } from 'preact/hooks';
-import { useTooltipForRef } from '@strinf/ts/mvc/vdom/fun/tab/pass';
-import updateHrefVal from '@strinf/ts/functions/links/update_href';
-import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
-import type { InValInt, InValStInt } from '@strinf/ts/interfaces/dom/inp';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
-import updateAnc from '@strinf/ts/functions/links/update_anc';
-import { SR_CUL_ID } from '@strinf/ts/constants/regexp/sea_reg';
+import type AncT from '@strinf/ts/interfaces/misc/anchor';
+import type { JSX } from 'preact';
 import scSty from '@strinf/css/mods/scroll.module.css';
+import svgSty from '@strinf/css/mods/svg.module.css';
+import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
+import PassAncId from '@strinf/ts/constants/page/pass';
+import { SR_CUL_ID } from '@strinf/ts/constants/regexp/sea_reg';
+import { ClHtml, Col } from '@strinf/ts/constants/style/ClHtml';
+import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
+import updateAnc from '@strinf/ts/functions/links/update_anc';
+import updateHrefVal from '@strinf/ts/functions/links/update_href';
+import { useTooltipForRef } from '@strinf/ts/mvc/vdom/fun/tab/pass';
+import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import * as d3Sankey from 'd3-sankey';
+import { useContext as use, useRef, useState } from 'preact/hooks';
 
 const M_TOP = 10;
 const M_LEFT = 10;
@@ -74,7 +74,7 @@ const COLORS = new Map<string, string>([
 
 const FB_COLORS = ['#3484bb', '#ff8b25', '#40a940', '#da3c3d', '#9e75c3', '#00D7FF'];
 
-const REG_DES = /^([A-Z]+).+$/;
+const REG_DES = /^([A-Z]+)[^A-Z].*$/;
 function getColor(ccno: string, counter: number): string {
     const known = REG_DES.exec(ccno);
     const def = FB_COLORS[counter % FB_COLORS.length] ?? '#2ca25f';
@@ -103,10 +103,10 @@ function formatMsg(culCnt: number): JSX.Element {
     if (culCnt === 0) {
         return <></>;
     }
-    let msg = culCnt < 2 ? `${culCnt} collection` : `${culCnt} collections`;
+    const msg = culCnt < 2 ? `${culCnt} collection` : `${culCnt} collections`;
     return (
         <span>
-            <b>Send to</b>: {msg}
+            <b>Send to</b>:{msg}
         </span>
     );
 }
@@ -128,7 +128,7 @@ function formatData(rel: RelT[]): DATA_T {
         return node;
     });
     return {
-        nodes: nodes,
+        nodes,
         links: fRel
             .filter(([, , linkId]) => linkId !== undefined)
             .map(([mId, , link]) => {
@@ -205,7 +205,7 @@ function correctNodeXPos(
 }
 
 function scaleNodeYPos(node: d3Sankey.SankeyNode<NODE_T, LINK_T>, scaleH: number): void {
-    let [, y0, , y1] = getCoords(node);
+    const [, y0, , y1] = getCoords(node);
     node.y0 = y0 * scaleH;
     node.y1 = y1 * scaleH;
 }
@@ -274,7 +274,7 @@ function crLink(
                     <g
                         key={index}
                         className={svgSty.mul}
-                        strokeOpacity={rel.source.siCu == selCuId ? 0.7 : 0.1}
+                        strokeOpacity={rel.source.siCu === selCuId ? 0.7 : 0.1}
                     >
                         <path
                             key={`p_${index}`}
@@ -304,8 +304,8 @@ function crLabel(
                             key={`l_${index}`}
                             x={x1 + 6}
                             y={(y1 + y0) / 2}
-                            dy={'8px'}
-                            textAnchor={'start'}
+                            dy="8px"
+                            textAnchor="start"
                             fontWeight={selCuId === rel.siCu ? 'bold' : 'normal'}
                             filter={`url(#${FILTER_ID_L})`}
                             fontSize="20px"
@@ -322,7 +322,7 @@ function crLabel(
 function crGraphSizes(graph: d3Sankey.SankeyGraph<NODE_T, LINK_T>): GraphMap {
     const [heightS, sizeM] = [new Set<number>(), new Map<number, number>()];
     let [originX, maxD] = [0, 0];
-    graph.nodes.map((val) => {
+    for (const val of graph.nodes) {
         const dep = val.depth ?? -1;
         const locS = sizeM.get(dep) ?? 0;
         heightS.add((val.y1 ?? 1) - (val.y0 ?? 0));
@@ -333,7 +333,7 @@ function crGraphSizes(graph: d3Sankey.SankeyGraph<NODE_T, LINK_T>): GraphMap {
             maxD = dep;
         }
         sizeM.set(dep, locS + 1);
-    });
+    }
     sizeM.delete(-1);
     const heiMin = Math.min(...heightS);
     const rows = Math.max(...sizeM.values());
@@ -342,7 +342,7 @@ function crGraphSizes(graph: d3Sankey.SankeyGraph<NODE_T, LINK_T>): GraphMap {
         oriX: originX,
         height: DEF_H * scaleH,
         width: maxD * N_WID + maxD * L_WID,
-        scaleH: scaleH,
+        scaleH,
     };
 }
 
@@ -395,9 +395,9 @@ function HistoryStrain({ data, hooks, detAnc, selCuId, ctx }: HStrainProps): JSX
                 <g transform={`translate(${M_LEFT}, ${M_TOP})`}>
                     {crLink(graph, selCuId)}
                     {crNode(graph, selCuId, {
-                        hooks: hooks,
+                        hooks,
                         anc: detAnc,
-                        ctx: ctx,
+                        ctx,
                     })}
                     {crLabel(graph, selCuId)}
                 </g>
@@ -413,7 +413,8 @@ function hasCycle(
     verified: Set<number>
 ): [boolean, Set<number>] {
     visited.add(key);
-    for (const target of graph.get(key) ?? []) {
+    const target = graph.get(key)?.values().next().value;
+    if (target !== undefined) {
         if (verified.has(target)) {
             return [false, visited];
         }
@@ -456,7 +457,7 @@ function HistoryVD({
 }: RelProps): JSX.Element | null {
     const data = formatData(rel);
     const [selSiCu, setSelSiCu] = useState<number>(selCuId);
-    const ctx: (InValStInt & InValInt) | undefined = useContext(MainConGl);
+    const ctx: (InValStInt & InValInt) | undefined = use(MainConGl);
     if (detectRec(data)) {
         hisRec();
         return null;
@@ -465,7 +466,7 @@ function HistoryVD({
         return null;
     }
     ctx?.inValSet('HistoryVD')((val: string) => {
-        const valInt = parseInt(
+        const valInt = Number.parseInt(
             val.replace(new RegExp(IdAcrTagCon.depId, 'i'), '').replace(/,.*/, ''),
             10
         );

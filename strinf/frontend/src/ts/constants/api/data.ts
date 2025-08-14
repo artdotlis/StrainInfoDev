@@ -36,4 +36,4 @@ enum AssemblyLvl {
     con = 'contig',
 }
 
-export { StrainStatus, DepositStatus, DataSource, SeqType, AssemblyLvl };
+export { AssemblyLvl, DataSource, DepositStatus, SeqType, StrainStatus };

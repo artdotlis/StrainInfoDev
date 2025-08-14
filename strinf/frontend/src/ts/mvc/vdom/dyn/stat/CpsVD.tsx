@@ -5,20 +5,20 @@
  * Licensed under the ISC license
  */
 
+import type { DiaCon, DiaDataCPS, DiaSetF } from '@strinf/ts/interfaces/dom/dia';
+import type { TTHookG } from '@strinf/ts/interfaces/dom/global';
+import type { ToolTipHookInt, TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
+import type * as d3 from 'd3';
 import type { JSX } from 'preact';
-import { useContext, useRef, useState } from 'preact/hooks';
+import svgSty from '@strinf/css/mods/svg.module.css';
 import { Col, Tex } from '@strinf/ts/constants/style/ClHtml';
 import DiaT from '@strinf/ts/constants/type/DiaT';
 import Known500Error from '@strinf/ts/errors/known/500';
-import type { DiaCon, DiaDataCPS, DiaSetF } from '@strinf/ts/interfaces/dom/dia';
-import type * as d3 from 'd3';
-import { scaleBand, scaleLinear, select, axisLeft, axisBottom } from 'd3';
-import type { TTHookG } from '@strinf/ts/interfaces/dom/global';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import { TT_ID_SIM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
-import type { TT_GL_TYPE, ToolTipHookInt } from '@strinf/ts/interfaces/dom/tooltip';
 import { useTooltipForRef } from '@strinf/ts/mvc/vdom/fun/tab/pass';
-import svgSty from '@strinf/css/mods/svg.module.css';
+import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { axisBottom, axisLeft, scaleBand, scaleLinear, select } from 'd3';
+import { useContext as use, useRef, useState } from 'preact/hooks';
 
 interface CpsProps {
     dia: DiaSetF;
@@ -48,7 +48,7 @@ function createTitle(): JSX.Element {
         <text
             x={400}
             y={20}
-            fontSize={'1.4rem'}
+            fontSize="1.4rem"
             style={{
                 'text-anchor': 'middle',
                 fill: '#404040',
@@ -64,7 +64,7 @@ function createXLabel(label: string): JSX.Element {
         <text
             x={400}
             y={395}
-            fontSize={'1.2rem'}
+            fontSize="1.2rem"
             style={{
                 'text-anchor': 'middle',
                 fill: 'grey',
@@ -80,8 +80,8 @@ function createYLabel(label: string): JSX.Element {
         <text
             x={-200}
             y={10}
-            fontSize={'1.2rem'}
-            transform={'rotate(-90)'}
+            fontSize="1.2rem"
+            transform="rotate(-90)"
             style={{
                 'text-anchor': 'middle',
                 fill: 'grey',
@@ -136,8 +136,8 @@ interface DataT {
 }
 
 function wrCulText(cnt: number | string): string {
-    const cntL = typeof cnt !== 'number' ? parseInt(cnt, 10) : cnt;
-    if (isNaN(cntL) || cntL > 1) {
+    const cntL = typeof cnt !== 'number' ? Number.parseInt(cnt, 10) : cnt;
+    if (Number.isNaN(cntL) || cntL > 1) {
         return `${cnt} deposits`;
     }
     return 'one deposit';
@@ -164,7 +164,11 @@ function RectDia({ scX, scY, val, index, yDa, ttH }: RectDiaT): JSX.Element {
             if (ttH.data !== undefined) {
                 ttH.data(
                     <p>
-                        <b>Strains with {wrCulText(val)}:</b> {yDa[index]}
+                        <b>
+                            Strains with
+                            {wrCulText(val)}:
+                        </b>{' '}
+                        {yDa[index]}
                     </p>
                 );
             }
@@ -217,7 +221,7 @@ function Dia({ data, scX, scY, ttH }: DataT): JSX.Element | null {
 
 function CpsDia({ dia }: { dia: DiaCon }): JSX.Element {
     const cps = dia[DiaT.CPS];
-    const ctx: TTHookG<TT_GL_TYPE> | undefined = useContext(MainConGl);
+    const ctx: TTHookG<TT_GL_TYPE> | undefined = use(MainConGl);
     const ttH = ctx?.getTTHook(TT_ID_SIM);
     if (cps === undefined) {
         throw new Known500Error('canvas has no 2d context or cps dia was not defined');

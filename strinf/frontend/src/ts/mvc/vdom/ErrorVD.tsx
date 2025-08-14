@@ -1,15 +1,15 @@
-import type { JSX } from 'preact';
-import ErrType, { ERR_MARK } from '@strinf/ts/constants/type/ErrT';
-import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
-import { trackSearch } from '@strinf/ts/mvc/vdom/fun/mat/track';
-import Known404Error from '@strinf/ts/errors/known/404';
-import errSty from '@strinf/css/mods/error.module.css';
-import Known503Error from '@strinf/ts/errors/known/503';
-import type { MutableRef } from 'preact/hooks';
-import { useContext } from 'preact/hooks';
 import type { ErrStCon } from '@strinf/ts/interfaces/dom/global';
 import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
+import type { JSX } from 'preact';
+import type { MutableRef } from 'preact/hooks';
+import errSty from '@strinf/css/mods/error.module.css';
+import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
+import ErrType, { ERR_MARK } from '@strinf/ts/constants/type/ErrT';
+import Known404Error from '@strinf/ts/errors/known/404';
+import Known503Error from '@strinf/ts/errors/known/503';
+import { trackSearch } from '@strinf/ts/mvc/vdom/fun/mat/track';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { useContext as use } from 'preact/hooks';
 
 interface ErrorWrProps {
     errT: ErrType | undefined;
@@ -42,9 +42,9 @@ function Error404({ msgM, msgFM, ctx }: E404Prpos): JSX.Element {
     const res = Known404Error.splitMsg(msgFM);
     let msg = msgM;
     if (res != null) {
-        ctx.inVal.map((eleF) => {
+        for (const eleF of ctx.inVal) {
             eleF(ERR_MARK);
-        });
+        }
         const [cat, sea] = res;
         trackSearch(cat, sea, 0, false, 0);
         msg = `Not found! - ${sea}`;
@@ -103,7 +103,7 @@ function ErrorWr({ errM, errFM, errT, ctx }: ErrorWrProps): JSX.Element | null {
 }
 
 function ErrorVD({ blocked }: { blocked: MutableRef<boolean> }): JSX.Element | null {
-    const ctx: (ErrStCon & InValStInt) | undefined = useContext(MainConGl);
+    const ctx: (ErrStCon & InValStInt) | undefined = use(MainConGl);
     if (ctx === undefined) {
         return null;
     }

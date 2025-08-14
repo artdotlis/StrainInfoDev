@@ -1,11 +1,11 @@
 import type { JSX } from 'preact';
+import staSty from '@strinf/css/mods/status.module.css';
+import FiEn from '@strinf/md/popup/info.mdx';
+import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
+import { ClHtml, Wid } from '@strinf/ts/constants/style/ClHtml';
+import { checkFirstCookie, setFirstAgreed } from '@strinf/ts/functions/cookie/banner';
 import { memo } from 'preact/compat';
 import { useState } from 'preact/hooks';
-import FiEn from '@strinf/md/popup/info.mdx';
-import { ClHtml, Wid } from '@strinf/ts/constants/style/ClHtml';
-import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
-import { checkFirstCookie, setFirstAgreed } from '@strinf/ts/functions/cookie/banner';
-import staSty from '@strinf/css/mods/status.module.css';
 
 function crBtn(setAgreed: (val: boolean) => void): JSX.Element {
     return (

@@ -1,9 +1,9 @@
-import QApiCon from '@strinf/ts/constants/api/q_api';
-import { getApiToStr } from '@strinf/ts/functions/api/map';
-import onPrError from '@strinf/ts/functions/err/async';
 import type { ApiChanInt } from '@strinf/ts/interfaces/api/mapped';
 import type { DataCon } from '@strinf/ts/interfaces/dom/global';
 import type { StaF } from '@strinf/ts/interfaces/dom/ind';
+import QApiCon from '@strinf/ts/constants/api/q_api';
+import { getApiToStr } from '@strinf/ts/functions/api/map';
+import onPrError from '@strinf/ts/functions/err/async';
 import crStat from '@strinf/ts/mvc/model/fun/create_stat';
 
 const THE: [string, string][] = [

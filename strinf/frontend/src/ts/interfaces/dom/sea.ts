@@ -21,4 +21,4 @@ interface SeaTMInt {
 
 type SeaStInt = ProgSet & ProgStMInt & SeaTMInt & SeaTSet & LoadStMInt & LoadStVInt;
 
-export type { SeaStInt, TabSetF, TabF, SeaTMInt, ToPassF, ToPassSetF };
+export type { SeaStInt, SeaTMInt, TabF, TabSetF, ToPassF, ToPassSetF };

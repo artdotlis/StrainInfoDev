@@ -20,4 +20,4 @@ function getFormInputCheckValue(key: string, formEl: object): string {
     return '';
 }
 
-export { getFormSelValue, getFormInputCheckValue };
+export { getFormInputCheckValue, getFormSelValue };

@@ -74,21 +74,21 @@ const SIDE_SMALL = {
 const SIDE_HIDDEN: [string, string] = ['data-sidebar-hidden', 'hidden'];
 
 export {
+    ACC_LC,
+    ACC_LD,
+    ACC_LM,
+    ACC_M,
+    accInC,
+    accInD,
+    accInM,
+    DD_B,
     HIDE,
     HIDE_ATTR,
+    SIDE_HIDDEN,
+    SIDE_SMALL,
     TT_ARR,
     TT_SRC,
     TT_TAR,
-    accInD,
-    ACC_LD,
-    accInM,
-    ACC_LM,
-    accInC,
-    ACC_LC,
-    ACC_M,
-    DD_B,
-    SIDE_SMALL,
-    SIDE_HIDDEN,
 };
 
 export type { DefAttr };

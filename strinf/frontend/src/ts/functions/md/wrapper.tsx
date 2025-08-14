@@ -1,3 +1,7 @@
+import type { JSX } from 'preact';
+import hubSty from '@strinf/css/mods/hub.module.css';
+import tabSty from '@strinf/css/mods/tab.module.css';
+import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
 import {
     ClHtml,
     Col,
@@ -9,11 +13,7 @@ import {
     Tex,
     Wid,
 } from '@strinf/ts/constants/style/ClHtml';
-import tabSty from '@strinf/css/mods/tab.module.css';
-import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
-import type { JSX } from 'preact';
 import UserPicVD from '@strinf/ts/mvc/vdom/static/images/user/UserPicVD';
-import hubSty from '@strinf/css/mods/hub.module.css';
 
 interface TabT {
     children: JSX.Element[];
@@ -32,7 +32,7 @@ function TeamWr({ children }: TeamT): JSX.Element {
 }
 
 const DEF_SEP_REG = /;/;
-const DEF_SEP_CH_REG = /(.*;.*)+/;
+const DEF_SEP_CH_REG = /(?:[^;]*;)+/;
 
 interface PersT {
     children: JSX.Element[] | string;
@@ -216,14 +216,14 @@ function OListWr({ children }: OlT): JSX.Element {
 }
 
 export {
+    AnchorWr,
+    factoryNewsDateWr,
+    type NewsT,
+    OListWr,
+    PersonWr,
     StrHierLiWr,
     StrHierUlWr,
     TableWr,
-    AnchorWr,
-    factoryNewsDateWr,
-    UListWr,
-    OListWr,
     TeamWr,
-    PersonWr,
-    type NewsT,
+    UListWr,
 };

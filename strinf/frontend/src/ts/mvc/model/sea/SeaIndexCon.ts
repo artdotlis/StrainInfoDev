@@ -1,11 +1,11 @@
+import type { SeaIndJT } from '@strinf/ts/interfaces/api/data';
+import type { ApiChanInt } from '@strinf/ts/interfaces/api/mapped';
+import type ViewChanInt from '@strinf/ts/interfaces/chan/sea_ind';
 import QApiCon from '@strinf/ts/constants/api/q_api';
 import Known404Error from '@strinf/ts/errors/known/404';
 import { toArrIndSeaIndRes } from '@strinf/ts/functions/api/map';
 import onPrError from '@strinf/ts/functions/err/async';
 import { checkRespTyp, fetchRetry } from '@strinf/ts/functions/http/http';
-import type { SeaIndJT } from '@strinf/ts/interfaces/api/data';
-import type { ApiChanInt } from '@strinf/ts/interfaces/api/mapped';
-import type ViewChanInt from '@strinf/ts/interfaces/chan/sea_ind';
 
 class SeaIndexCon {
     private readonly apiCall: ApiChanInt;

@@ -1,36 +1,35 @@
-import type { JSX } from 'preact';
-import { Component } from 'preact';
-import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
-import UIArgCon from '@strinf/ts/constants/api/ui_arg';
-import LoadT from '@strinf/ts/constants/type/LoadT';
-import { getArgs } from '@strinf/ts/functions/api/args';
-import callPass from '@strinf/ts/functions/http/pass';
 import type { SeaR } from '@strinf/ts/interfaces/api/mapped';
 import type {
-    LoadStMInt,
-    LoadSet,
-    LoadFS,
     BreadCrumbsG,
-    TTHookG,
     GlobVersionGet,
+    LoadSet,
+    LoadStMInt,
+    TTHookG,
 } from '@strinf/ts/interfaces/dom/global';
+import type { TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
+import type { JSX } from 'preact';
+import type { LocationHook } from 'preact-iso';
+import QApiCon from '@strinf/ts/constants/api/q_api';
+import { getSeaApiFPath } from '@strinf/ts/constants/api/thes_api';
+import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
+import UIArgCon from '@strinf/ts/constants/api/ui_arg';
+import HeadT from '@strinf/ts/constants/type/HeadT';
+import LoadT from '@strinf/ts/constants/type/LoadT';
+import { getArgs } from '@strinf/ts/functions/api/args';
+import { getApiToStr } from '@strinf/ts/functions/api/map';
+import callPass from '@strinf/ts/functions/http/pass';
+import { checkSeaTags } from '@strinf/ts/functions/links/create_sea';
 import SeaCtrl from '@strinf/ts/mvc/ctrl/SeaCtrl';
 import ProgVD from '@strinf/ts/mvc/vdom/dyn/misc/ProgVD';
 import SeaTVD from '@strinf/ts/mvc/vdom/dyn/search/SeaTVD';
+import { TT_ID_SIM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
+import { trackSearch } from '@strinf/ts/mvc/vdom/fun/mat/track';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import SeaSt from '@strinf/ts/mvc/vdom/state/SeaSt';
-import { getApiToStr } from '@strinf/ts/functions/api/map';
-import { trackSearch } from '@strinf/ts/mvc/vdom/fun/mat/track';
-import HeadT from '@strinf/ts/constants/type/HeadT';
-import QApiCon from '@strinf/ts/constants/api/q_api';
-import { checkSeaTags } from '@strinf/ts/functions/links/create_sea';
-import HubSeaVD from '@strinf/ts/mvc/vdom/static/HubSeaVD';
-import type { TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
-import { TT_ID_SIM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
-import Loading from '@strinf/ts/mvc/vdom/static/misc/LoadVD';
-import type { LocationHook } from 'preact-iso';
-import { getSeaApiFPath } from '@strinf/ts/constants/api/thes_api';
 import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
+import HubSeaVD from '@strinf/ts/mvc/vdom/static/HubSeaVD';
+import Loading from '@strinf/ts/mvc/vdom/static/misc/LoadVD';
+import { Component } from 'preact';
 
 type CTX = GlobVersionGet & LoadSet & LoadStMInt & BreadCrumbsG & TTHookG<TT_GL_TYPE>;
 interface SearchState {
@@ -43,10 +42,12 @@ interface SearchState {
 const REG_PASS = new RegExp(`[?&]{1}${UIArgCon.pass}(.+?)(?:&.*$|$)`, 'gi');
 const REG_SEA = new RegExp(`[?&]{1}${UIArgCon.search}(.+?)(?:&.*$|$)`, 'gi');
 const REG_SEA_API = new RegExp(`[?&]{1}${UIArgCon.qApi}(.+?)(?:&.*$|$)`, 'gi');
-const H_DESC = (sTerm: string, sApi: string): string => `
+function H_DESC(sTerm: string, sApi: string): string {
+    return `
 StrainInfo results for the search term ${sTerm}.
 ${getApiToStr(sApi)} was/were used as search queries.
 `;
+}
 interface SEA_PROP {
     location: LocationHook;
     val: string | undefined;
@@ -91,13 +92,13 @@ class SearchVD<T extends SEA_PROP> extends Component<T, SearchState> {
     private pageView: boolean;
 
     private initCtrl(ctx: CTX, newSea: [string, string]): void {
-        ctx.bread.map((actF) => {
+        for (const actF of ctx.bread) {
             if (newSea[1] === QApiCon.seaStrAll) {
                 actF(HeadT.STRDB);
             } else {
                 actF(HeadT.SEARCH);
             }
-        });
+        }
         ctx.loadSet('SEARCH')((load: LoadT) => {
             this.load = load;
             const { state } = this;
@@ -160,11 +161,12 @@ class SearchVD<T extends SEA_PROP> extends Component<T, SearchState> {
     }
 
     public override componentWillUnmount(): void {
-        this.hooks.load.map((ele: LoadFS) => {
+        for (const ele of this.hooks.load) {
             ele(LoadT.INI);
-        });
+        }
         this.state.tab.splice(0, this.state.tab.length);
     }
+
     public render(): JSX.Element | null {
         const ctx: CTX | undefined = this.context;
         const ttHook = ctx?.getTTHook(TT_ID_SIM);
@@ -181,14 +183,14 @@ class SearchVD<T extends SEA_PROP> extends Component<T, SearchState> {
                 </>
             );
         }
-        if (ttHook == undefined) {
+        if (ttHook === undefined) {
             return null;
         }
         const [sTerm, sApi] = this.sea;
         return (
             <>
                 <MetaH
-                    title={'StrainInfo - Search'}
+                    title="StrainInfo - Search"
                     desc={H_DESC(sTerm, sApi)}
                     index={false}
                 />

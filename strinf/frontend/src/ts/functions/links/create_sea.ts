@@ -1,15 +1,15 @@
+import type { SeaInputMap } from '@strinf/ts/interfaces/api/mapped';
 import QApiCon from '@strinf/ts/constants/api/q_api';
+import { getSeaPathFApi } from '@strinf/ts/constants/api/thes_api';
 import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
 import UIArgCon from '@strinf/ts/constants/api/ui_arg';
 import Known500Error from '@strinf/ts/errors/known/500';
 import KnownInWarnError from '@strinf/ts/errors/known/in_warn';
-import type { SeaInputMap } from '@strinf/ts/interfaces/api/mapped';
 import { SEA_INPUT_COMB } from '@strinf/ts/functions/api/map';
-import { createStrainCall, createPassCall } from '@strinf/ts/functions/links/create_pass';
-import { getSeaPathFApi } from '@strinf/ts/constants/api/thes_api';
+import { createPassCall, createStrainCall } from '@strinf/ts/functions/links/create_pass';
 
 function parseSeaStr<T extends string | number>(sea: T | T[]): string {
-    if (sea instanceof Array || `${sea}`.length === 0) {
+    if (Array.isArray(sea) || `${sea}`.length === 0) {
         throw new KnownInWarnError('no input given');
     }
     return `${sea}`;
@@ -70,4 +70,4 @@ function createKnownSeaCall(search: string, qApi = ''): string {
 }
 
 export default createSeaCall;
-export { createKnownSeaCall, checkSeaTags };
+export { checkSeaTags, createKnownSeaCall };

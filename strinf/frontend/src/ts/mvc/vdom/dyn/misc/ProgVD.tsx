@@ -1,9 +1,9 @@
-import { useState } from 'preact/hooks';
+import type { ProgSet } from '@strinf/ts/interfaces/dom/prog';
 import type { JSX } from 'preact';
 
 import progSty from '@strinf/css/mods/status.module.css';
 import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
-import type { ProgSet } from '@strinf/ts/interfaces/dom/prog';
+import { useState } from 'preact/hooks';
 
 function ProgVD({ progSet }: ProgSet): JSX.Element | null {
     const [prog, setProg] = useState<number>(0);

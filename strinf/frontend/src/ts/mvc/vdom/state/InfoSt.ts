@@ -1,6 +1,6 @@
-import Known500Error from '@strinf/ts/errors/known/500';
 import type { InfoR, InfoS } from '@strinf/ts/interfaces/api/mapped';
 import type { InfF, InfoStInt, InfSetF } from '@strinf/ts/interfaces/dom/tooltip';
+import Known500Error from '@strinf/ts/errors/known/500';
 
 class InfoSt<I extends InfoS | InfoR> implements InfoStInt<I> {
     private resH?: InfF<I>;

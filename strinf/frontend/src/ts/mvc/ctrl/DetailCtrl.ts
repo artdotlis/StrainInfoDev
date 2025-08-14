@@ -1,11 +1,11 @@
-import type ViewChanInt from '@strinf/ts/interfaces/chan/details';
-import DetailsCon from '@strinf/ts/mvc/model/info/DetailsCon';
-import ApiChan from '@strinf/ts/mvc/ctrl/chan/ApiChan';
+import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
 import type { DetailsR } from '@strinf/ts/interfaces/api/mapped';
+import type ViewChanInt from '@strinf/ts/interfaces/chan/details';
 import QApiCon from '@strinf/ts/constants/api/q_api';
+import ApiChan from '@strinf/ts/mvc/ctrl/chan/ApiChan';
 import Controller from '@strinf/ts/mvc/ctrl/Controller';
 import MemoryCtrl from '@strinf/ts/mvc/ctrl/MemoryCtrl';
-import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
+import DetailsCon from '@strinf/ts/mvc/model/info/DetailsCon';
 
 class DetailCtrl extends Controller<ViewChanInt, [number[]]> {
     private readonly memory: MemoryCtrl<DetailsR>;

@@ -1,5 +1,9 @@
+import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
+import type { TTSrcTVInt } from '@strinf/ts/interfaces/dom/tooltip';
 import type { JSX, RefObject } from 'preact';
-import { useRef, useState } from 'preact/hooks';
+import tilSty from '@strinf/css/mods/tile.module.css';
+import { TT_TAR } from '@strinf/ts/constants/style/AtHtml';
+
 import { BgCol, ClHtml, Font, Tex } from '@strinf/ts/constants/style/ClHtml';
 import Known500Error from '@strinf/ts/errors/known/500';
 import {
@@ -7,12 +11,8 @@ import {
     createStrainTile,
     parseVal2Html,
 } from '@strinf/ts/mvc/vdom/fun/tab/misc';
-
-import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
-import type { TTSrcTVInt } from '@strinf/ts/interfaces/dom/tooltip';
 import crToolTip from '@strinf/ts/mvc/vdom/fun/tooltip/tooltip';
-import { TT_TAR } from '@strinf/ts/constants/style/AtHtml';
-import tilSty from '@strinf/css/mods/tile.module.css';
+import { useRef, useState } from 'preact/hooks';
 
 const TAB_GEN = `${ClHtml.tab} ${ClHtml.sm} ${ClHtml.hov}`;
 
@@ -208,10 +208,10 @@ function createRStrTiles(
 }
 
 export {
+    createRDepTiles,
+    createRStrTiles,
     createStrainTitleBar,
     createXColTable,
-    createRDepTiles,
     TooltipWrapper,
     useTooltipForRef,
-    createRStrTiles,
 };

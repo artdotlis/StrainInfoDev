@@ -1,7 +1,7 @@
-import { ClHtml, Col, Dis, Pad, ZInd } from '@strinf/ts/constants/style/ClHtml';
 import type AncT from '@strinf/ts/interfaces/misc/anchor';
-import { memo } from 'preact/compat';
 import type { JSX } from 'preact';
+import { ClHtml, Col, Dis, Pad, ZInd } from '@strinf/ts/constants/style/ClHtml';
+import { memo } from 'preact/compat';
 
 interface PageNav {
     children: JSX.Element[];
@@ -24,7 +24,7 @@ function Nav({ children }: NavT): JSX.Element | null {
     );
 }
 
-function OnPageNavVD({ children, tId }: PageNav): JSX.Element {
+function OnPageNavVD({ children, tId = undefined }: PageNav): JSX.Element {
     return (
         <div
             className={`${Col.lN3} ${Dis.dNone} ${Dis.dBL}`}
@@ -38,10 +38,6 @@ function OnPageNavVD({ children, tId }: PageNav): JSX.Element {
         </div>
     );
 }
-OnPageNavVD.defaultProps = {
-    addCnt: undefined,
-    tId: undefined,
-};
 
 function createNavLinks(anc: AncT | undefined): JSX.Element[] {
     if (anc === undefined) {

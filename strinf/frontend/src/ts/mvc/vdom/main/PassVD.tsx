@@ -1,31 +1,30 @@
-import { Component } from 'preact';
-import type { JSX } from 'preact';
-import LoadT from '@strinf/ts/constants/type/LoadT';
-import { getArgs } from '@strinf/ts/functions/api/args';
 import type { PassR } from '@strinf/ts/interfaces/api/mapped';
 import type {
     BreadCrumbsG,
     GlobVersionGet,
-    LoadFS,
     LoadSet,
     LoadStMInt,
 } from '@strinf/ts/interfaces/dom/global';
+import type { JSX } from 'preact';
+import type { LocationHook } from 'preact-iso';
+import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
+import { StatTags } from '@strinf/ts/constants/api/thes_api';
+import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
+import HeadT from '@strinf/ts/constants/type/HeadT';
+import LoadT from '@strinf/ts/constants/type/LoadT';
+import { getArgs } from '@strinf/ts/functions/api/args';
+import { getCurFullPath, routeUri } from '@strinf/ts/functions/http/http';
+import DetailCtrl from '@strinf/ts/mvc/ctrl/DetailCtrl';
 import PassCtrl from '@strinf/ts/mvc/ctrl/PassCtrl';
+import OverviewVD from '@strinf/ts/mvc/vdom/dyn/pass/OverviewVD';
 import PassCVD from '@strinf/ts/mvc/vdom/dyn/pass/PassCVD';
+import { trackSearch } from '@strinf/ts/mvc/vdom/fun/mat/track';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import PassSt from '@strinf/ts/mvc/vdom/state/PassSt';
-import { trackSearch } from '@strinf/ts/mvc/vdom/fun/mat/track';
-import HeadT from '@strinf/ts/constants/type/HeadT';
-import OverviewVD from '@strinf/ts/mvc/vdom/dyn/pass/OverviewVD';
-import { StatTags } from '@strinf/ts/constants/api/thes_api';
-import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
-import DetailCtrl from '@strinf/ts/mvc/ctrl/DetailCtrl';
-import { getCurFullPath, routeUri } from '@strinf/ts/functions/http/http';
-import Loading from '@strinf/ts/mvc/vdom/static/misc/LoadVD';
-import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
-import type { LocationHook } from 'preact-iso';
-import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
 import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
+import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
+import Loading from '@strinf/ts/mvc/vdom/static/misc/LoadVD';
+import { Component } from 'preact';
 
 type CTX = GlobVersionGet & LoadSet & LoadStMInt & BreadCrumbsG;
 
@@ -39,12 +38,14 @@ interface PassState {
 }
 
 const REG_ARG = new RegExp(`[?&]{1}${IdAcrTagCon.depId}\\s*(\\d+)`, 'gi');
-const H_DESC = (sid: number | undefined, tax: string | undefined): string => `
+function H_DESC(sid: number | undefined, tax: string | undefined): string {
+    return `
 A strain passport, from the microbial strain database StrainInfo,
 depicting all information for the strain
-${sid !== undefined ? ' with the identifier ' + IdAcrTagCon.strId + ' ' + sid : ''} 
-${tax !== undefined ? ', the name ' + tax : ''}. 
+${sid !== undefined ? ` with the identifier ${IdAcrTagCon.strId} ${sid}` : ''} 
+${tax !== undefined ? `, the name ${tax}` : ''}. 
 `;
+}
 
 class PassVD extends Component<PassProps, PassState> {
     private readonly hooks: PassSt;
@@ -83,9 +84,9 @@ class PassVD extends Component<PassProps, PassState> {
     }
 
     public override componentWillUnmount(): void {
-        this.hooks.load.map((ele: LoadFS) => {
+        for (const ele of this.hooks.load) {
             ele(LoadT.INI);
-        });
+        }
         this.state.tab?.clear();
     }
 
@@ -100,7 +101,7 @@ class PassVD extends Component<PassProps, PassState> {
         if (nextProps.id === undefined) {
             return false;
         }
-        return !(tab?.allStrIds.includes(parseInt(nextProps.id, 10)) ?? false);
+        return !(tab?.allStrIds.includes(Number.parseInt(nextProps.id, 10)) ?? false);
     }
 
     public render(): JSX.Element {
@@ -113,9 +114,9 @@ class PassVD extends Component<PassProps, PassState> {
             return <Loading />;
         }
         if (tab !== undefined) {
-            ctx?.bread.map((actF) => {
+            for (const actF of ctx?.bread ?? []) {
                 actF(HeadT.PASS);
-            });
+            }
         }
         const sid = `${IdAcrTagCon.strId} ${String(tab?.overview[0] ?? 'unknown')}`;
         const tax = tab?.overview[2][0] ?? 'StrainInfo';
@@ -144,7 +145,7 @@ class PassVD extends Component<PassProps, PassState> {
         this.dCtrl ??= new DetailCtrl(ctx.version);
         this.dCtrl.setVersion(ctx.version);
         this.pCtrl ??= new PassCtrl(ctx.version);
-        this.pCtrl.init(this.hooks, parseInt(id ?? '0', 10));
+        this.pCtrl.init(this.hooks, Number.parseInt(id ?? '0', 10));
         this.pCtrl.setVersion(ctx.version);
     }
 
@@ -153,12 +154,12 @@ class PassVD extends Component<PassProps, PassState> {
         if (id === undefined) {
             return false;
         }
-        if (parseInt(id, 10) < 1) {
+        if (Number.parseInt(id, 10) < 1) {
             routeUri(UIApiCon.index, '', location);
             return false;
         }
         const { tab } = this.state;
-        return !(tab?.allStrIds.includes(parseInt(id, 10)) ?? false);
+        return !(tab?.allStrIds.includes(Number.parseInt(id, 10)) ?? false);
     }
 
     private initCtrl(ctx: CTX, location: LocationHook): void {

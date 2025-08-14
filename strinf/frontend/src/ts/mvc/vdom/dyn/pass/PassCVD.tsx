@@ -1,33 +1,33 @@
-import { Component } from 'preact';
-import type { JSX } from 'preact';
-import { memo, useCallback, useState } from 'preact/compat';
-import { ClHtml, Col } from '@strinf/ts/constants/style/ClHtml';
 import type { DetailsR, PassR, RelT } from '@strinf/ts/interfaces/api/mapped';
-import type { TT_GL_TYPE, ToolTipHookInt } from '@strinf/ts/interfaces/dom/tooltip';
-import DetailsVD, { getAnchorD } from '@strinf/ts/mvc/vdom/dyn/pass/DetailsVD';
-
-import PubVD, { getAnchorP } from '@strinf/ts/mvc/vdom/dyn/pass/PubVD';
-import RelationsVD, {
-    getAnchorR,
-    getAnc4Det,
-} from '@strinf/ts/mvc/vdom/dyn/pass/RelationsVD';
-import HistoryVD, { getAnchorH } from '@strinf/ts/mvc/vdom/dyn/pass/HistoryVD';
-import SeqVD, { getAnchorS } from '@strinf/ts/mvc/vdom/dyn/pass/SeqVD';
-
-import ArcVD, { getAnchorA } from '@strinf/ts/mvc/vdom/dyn/pass/ArcVD';
-import createCVSchema from '@strinf/ts/mvc/vdom/fun/schema/pass';
-import type DetailCtrl from '@strinf/ts/mvc/ctrl/DetailCtrl';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
-import type { TTHookG } from '@strinf/ts/interfaces/dom/global';
-import { TT_ID_DEP } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTDepVD';
-import { TT_ID_STR } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTStrVD';
-import { TT_ID_SIM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/details';
-import AltStrainsVD, { getAnchorAS } from '@strinf/ts/mvc/vdom/dyn/pass/AltStrainsVD';
+import type { TTHookG } from '@strinf/ts/interfaces/dom/global';
+import type { ToolTipHookInt, TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
+import type DetailCtrl from '@strinf/ts/mvc/ctrl/DetailCtrl';
+import type { JSX } from 'preact';
+import { ClHtml, Col } from '@strinf/ts/constants/style/ClHtml';
+
 import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
 import OnPageNavVD, { createNavLinks } from '@strinf/ts/mvc/vdom/dyn/misc/OnPageNav';
+import AltStrainsVD, { getAnchorAS } from '@strinf/ts/mvc/vdom/dyn/pass/AltStrainsVD';
+import ArcVD, { getAnchorA } from '@strinf/ts/mvc/vdom/dyn/pass/ArcVD';
+
+import DetailsVD, { getAnchorD } from '@strinf/ts/mvc/vdom/dyn/pass/DetailsVD';
+import HistoryVD, { getAnchorH } from '@strinf/ts/mvc/vdom/dyn/pass/HistoryVD';
+import PubVD, { getAnchorP } from '@strinf/ts/mvc/vdom/dyn/pass/PubVD';
+import RelationsVD, {
+    getAnc4Det,
+    getAnchorR,
+} from '@strinf/ts/mvc/vdom/dyn/pass/RelationsVD';
 import RelStrainsVD, { getAnchorRS } from '@strinf/ts/mvc/vdom/dyn/pass/RelStrainsVD';
+import SeqVD, { getAnchorS } from '@strinf/ts/mvc/vdom/dyn/pass/SeqVD';
+import { TT_ID_DEP } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTDepVD';
+import { TT_ID_SIM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
+import { TT_ID_STR } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTStrVD';
+import createCVSchema from '@strinf/ts/mvc/vdom/fun/schema/pass';
+import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import SchemaMainH from '@strinf/ts/mvc/vdom/static/helmet/SchemaH';
+import { Component } from 'preact';
+import { memo, useCallback, useState } from 'preact/compat';
 
 interface PassRProps {
     res: PassR | undefined;
@@ -124,7 +124,7 @@ function MainContainer({
     hisRec: () => void;
 }): JSX.Element {
     const [selId, selDes] = selectCul(
-        culId === '' ? 0 : parseInt(culId, 10),
+        culId === '' ? 0 : Number.parseInt(culId, 10),
         res.relations
     );
     const culOv = (

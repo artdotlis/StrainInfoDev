@@ -1,13 +1,13 @@
+import type { BreadCrumbsS } from '@strinf/ts/interfaces/dom/global';
 import type { JSX } from 'preact';
-import { useContext, useState } from 'preact/hooks';
+import menSty from '@strinf/css/mods/menu.module.css';
+import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
 import { ClHtml, Mar } from '@strinf/ts/constants/style/ClHtml';
 import HeadT from '@strinf/ts/constants/type/HeadT';
-import type { BreadCrumbsS } from '@strinf/ts/interfaces/dom/global';
 import Known500Error from '@strinf/ts/errors/known/500';
-import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import { memo } from 'preact/compat';
-import menSty from '@strinf/css/mods/menu.module.css';
+import { useContext as use, useState } from 'preact/hooks';
 
 const NAV: { [key in keyof typeof HeadT]?: string } = {
     [HeadT.HOME]: 'Home',
@@ -62,7 +62,7 @@ function mapLink(nav: string): string {
 }
 
 function MainNavVD(): JSX.Element {
-    const conf: BreadCrumbsS | undefined = useContext(MainConGl);
+    const conf: BreadCrumbsS | undefined = use(MainConGl);
     const [act, setAct] = useState<HeadT>(0);
     conf?.breadSet('HEAD_BREAD_CRUMBS')((actI: HeadT) => {
         setAct(actI);

@@ -1,5 +1,5 @@
-import type { RefObject, JSX } from 'preact';
 import type { InfoR, InfoS } from '@strinf/ts/interfaces/api/mapped';
+import type { JSX, RefObject } from 'preact';
 
 type InfSetF<I extends InfoR | InfoS> = (setter: (res: I[]) => void) => void;
 type InfF<I extends InfoR | InfoS> = (res: I[]) => void;
@@ -38,14 +38,14 @@ type InfoStInt<I extends InfoR | InfoS> = InfoTMInt<I> & InfoTSet<I>;
 type ToolTipHookInt<T> = DatIdTVInt<T> & DatIdTVSet<T> & TTSrcTVSet & TTSrcTVInt;
 
 export type {
-    ToolTipHookInt,
+    DatIdF,
+    DatIdSetF,
+    DatIdTVInt,
+    InfF,
     InfoStInt,
     InfoTMInt,
     InfSetF,
-    InfF,
-    DatIdF,
-    DatIdSetF,
-    TTSrcTVInt,
-    DatIdTVInt,
+    ToolTipHookInt,
     TT_GL_TYPE,
+    TTSrcTVInt,
 };

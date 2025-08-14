@@ -1,5 +1,5 @@
-import createComb from '@strinf/ts/functions/arr/comb';
 import QApiCon from '@strinf/ts/constants/api/q_api';
+import createComb from '@strinf/ts/functions/arr/comb';
 
 enum StatTags {
     st_str = 'Strains',
@@ -105,4 +105,4 @@ function getSeaApiFPath(path: string): string {
 }
 
 export default THESAURUS_MAP;
-export { StatTags, getShortText, getSeaPathFApi, getSeaApiFPath };
+export { getSeaApiFPath, getSeaPathFApi, getShortText, StatTags };

@@ -1,13 +1,13 @@
-import { memo } from 'preact/compat';
 import type { JSX, VNode } from 'preact';
+import logSty from '@strinf/css/mods/log.module.css';
 
 import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
-import { ClHtml, Col, Mar } from '@strinf/ts/constants/style/ClHtml';
 import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
-
-import logSty from '@strinf/css/mods/log.module.css';
-import LogoDfgVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoDfgVD';
 import { D3_BSKY, D3_LN, DFG } from '@strinf/ts/constants/links/collection';
+
+import { ClHtml, Col, Mar } from '@strinf/ts/constants/style/ClHtml';
+import LogoDfgVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoDfgVD';
+import { memo } from 'preact/compat';
 
 interface SocProps {
     text: string;

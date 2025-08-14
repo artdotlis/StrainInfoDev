@@ -1,17 +1,17 @@
-import { Router, Route, lazy, useLocation } from 'preact-iso';
-import type { MutableRef } from 'preact/hooks';
-import { useContext, useEffect, useRef } from 'preact/hooks';
-import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
 import type { BreadCrumbsG, ErrStCon } from '@strinf/ts/interfaces/dom/global';
+import type { JSX } from 'preact';
+import type { MutableRef } from 'preact/hooks';
+import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
+import { ClHtml, Dis, Pad } from '@strinf/ts/constants/style/ClHtml';
+import ErrType from '@strinf/ts/constants/type/ErrT';
+import FootVD from '@strinf/ts/mvc/vdom/FootVD';
 import { trackPageV } from '@strinf/ts/mvc/vdom/fun/mat/track';
 import defaultRouteBeh from '@strinf/ts/mvc/vdom/fun/route/default';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import Redirect from '@strinf/ts/mvc/vdom/fun/route/Redirect';
-import type { JSX } from 'preact';
-import { ClHtml, Dis, Pad } from '@strinf/ts/constants/style/ClHtml';
-import FootVD from '@strinf/ts/mvc/vdom/FootVD';
+import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import { LID } from '@strinf/ts/mvc/vdom/static/misc/LoadVD';
-import ErrType from '@strinf/ts/constants/type/ErrT';
+import { lazy, Route, Router, useLocation } from 'preact-iso';
+import { useContext as use, useEffect, useRef } from 'preact/hooks';
 
 const INDEX_VD = lazy(async () => import('@strinf/ts/mvc/vdom/main/IndexVD'));
 const CONTACT_VD = lazy(async () => import('@strinf/ts/mvc/vdom/static/ContactVD'));
@@ -114,7 +114,7 @@ function ContentVD({
 }: {
     panic: boolean;
 } & ERR_PROP): JSX.Element | null {
-    const ctx: (BreadCrumbsG & ErrStCon) | undefined = useContext(MainConGl);
+    const ctx: (BreadCrumbsG & ErrStCon) | undefined = use(MainConGl);
     const errR = useRef<HTMLDivElement>(null);
     const conR = useRef<HTMLDivElement>(null);
     const errorP = useRef<string>('');

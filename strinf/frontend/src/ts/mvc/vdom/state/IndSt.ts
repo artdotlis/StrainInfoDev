@@ -1,6 +1,6 @@
-import Known500Error from '@strinf/ts/errors/known/500';
 import type { DiaF, DiaSetF } from '@strinf/ts/interfaces/dom/dia';
 import type { IndStInt, StaF, StaSetF } from '@strinf/ts/interfaces/dom/ind';
+import Known500Error from '@strinf/ts/errors/known/500';
 
 class IndSt implements IndStInt {
     private staH?: StaF;

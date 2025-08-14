@@ -1,59 +1,20 @@
 {
     "compilerOptions": {
+        "incremental": false,
+        "composite": false,
+        /* Language and Environment */
+        "target": "ESNext",
         /* Projects */
         "jsx": "react-jsx",
         "jsxImportSource": "preact",
-        "incremental": false,
-        "composite": false,
-        "allowJs": true,
-        "allowSyntheticDefaultImports": true,
-        /* Language and Environment */
-        "target": "ESNext",
+        "lib": ["ESNext", "DOM", "DOM.Iterable"],
         "noLib": false,
         "useDefineForClassFields": true,
+        "baseUrl": "../../",
+        "rootDir": "./",
         /* Modules */
         "module": "ESNext",
         "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "baseUrl": "../../",
-        "lib": ["ESNext", "DOM", "DOM.Iterable"],
-        "rootDir": "./",
-        "preserveSymlinks": true,
-        /* Emit */
-        "noEmit": true,
-        "declaration": true,
-        "isolatedModules": true,
-        "forceConsistentCasingInFileNames": true,
-        "removeComments": false,
-        /* Type Checking */
-        "strict": true,
-        "noImplicitAny": true,
-        "strictNullChecks": true,
-        "strictFunctionTypes": true,
-        "strictPropertyInitialization": true,
-        "noImplicitThis": true,
-        "useUnknownInCatchVariables": true,
-        "alwaysStrict": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "exactOptionalPropertyTypes": true,
-        "noImplicitReturns": true,
-        "noFallthroughCasesInSwitch": false,
-        "noUncheckedIndexedAccess": true,
-        "noImplicitOverride": true,
-        "noPropertyAccessFromIndexSignature": true,
-        "skipLibCheck": true,
-        "checkJs": false,
-        "types": ["vite/client"],
-        "plugins": [
-            {
-                "name": "typescript-plugin-css-modules",
-                "options": {
-                    "allowUnknownClassnames": false,
-                    "classnameTransform": "camelCase"
-                }
-            }
-        ],
         "paths": {
             "react": ["./node_modules/preact/compat/"],
             "react/jsx-runtime": ["./node_modules/preact/jsx-runtime"],
@@ -62,7 +23,46 @@
             "@strinf/*": ["./strinf/frontend/src/*"],
             "@extra/*": ["./extra/*"],
             "@assets/*": ["./strinf/frontend/assets/*"]
-        }
+        },
+        "resolveJsonModule": true,
+        "types": ["vite/client"],
+        "allowJs": true,
+        "checkJs": false,
+        /* Type Checking */
+        "strict": true,
+        "strictFunctionTypes": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true,
+        "alwaysStrict": true,
+        "exactOptionalPropertyTypes": true,
+        "noFallthroughCasesInSwitch": false,
+        "noImplicitAny": true,
+        "noImplicitOverride": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "useUnknownInCatchVariables": true,
+        "declaration": true,
+        /* Emit */
+        "noEmit": true,
+        "removeComments": false,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        "isolatedModules": true,
+        "preserveSymlinks": true,
+        "skipLibCheck": true,
+        "plugins": [
+            {
+                "name": "typescript-plugin-css-modules",
+                "options": {
+                    "allowUnknownClassnames": false,
+                    "classnameTransform": "camelCase"
+                }
+            }
+        ]
     },
     "include": ["src"]
 }

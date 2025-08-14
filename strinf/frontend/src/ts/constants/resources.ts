@@ -1,6 +1,6 @@
-const GREP_GEN = /^.*\/([^/]+)\..+$/;
+const GREP_GEN = /\/([^/]+)\.[^/.]+$/;
 const GREP_WEBP = /^.*\/([^/]+)\.webp+$/;
-const GREP_ID = /^.*@(.+)@.*$/;
+const GREP_ID = /^[^@]*@([^@]+)@.*$/;
 
 const RESOURCES_PATH: Record<string, (path: string) => string> = {
     '@extra/straininfo/users/': (path: string) => {
@@ -37,4 +37,4 @@ function createUserPicMap(userPics: [string, unknown][]): Map<string, string> {
     return picMap;
 }
 
-export { RESOURCES_PATH, createUserPicMap };
+export { createUserPicMap, RESOURCES_PATH };

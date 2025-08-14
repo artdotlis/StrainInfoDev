@@ -1,18 +1,18 @@
+import type { SeaIndJT } from '@strinf/ts/interfaces/api/data';
+import type { GlobVersionGet } from '@strinf/ts/interfaces/dom/global';
 import type { JSX, RefObject } from 'preact';
+import type { LocationHook } from 'preact-iso';
 import btnSty from '@strinf/css/mods/icon.module.css';
-import { Component } from 'preact';
-import DropSeaVD from '@strinf/ts/mvc/vdom/dyn/misc/DropSeaVD';
-import { callSearch } from '@strinf/ts/functions/http/sea';
-import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
+import CONFIG from '@strinf/ts/configs/config';
 import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
+import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
+import { callSearch } from '@strinf/ts/functions/http/sea';
+import SeaIndexCtrl from '@strinf/ts/mvc/ctrl/SeaIndexCtrl';
+import DropSeaVD from '@strinf/ts/mvc/vdom/dyn/misc/DropSeaVD';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import IndSeaSt from '@strinf/ts/mvc/vdom/state/IndSeaSt';
-import SeaIndexCtrl from '@strinf/ts/mvc/ctrl/SeaIndexCtrl';
-import type { GlobVersionGet } from '@strinf/ts/interfaces/dom/global';
-import CONFIG from '@strinf/ts/configs/config';
-import type { LocationHook } from 'preact-iso';
+import { Component } from 'preact';
 import { useLocation } from 'preact-iso';
-import type { SeaIndJT } from '@strinf/ts/interfaces/api/data';
 
 interface InputMProps {
     callB: () => RefObject<HTMLInputElement>;
@@ -65,7 +65,7 @@ function seaIndEvent(
     input: JSX.TargetedEvent<HTMLInputElement>
 ): void {
     const val = input.currentTarget.value;
-    const valLen = val.length >= keyLen || val.replaceAll(/[^A-Za-z]/g, '').length >= 1;
+    const valLen = val.length >= keyLen || val.replaceAll(/[^A-Z]/gi, '').length >= 1;
     if (val.length < 40 && valLen && !val.includes(',')) {
         ctrl.init(hooks, encodeURIComponent(val.replaceAll('.', '_').replace('/', ':')));
     } else {

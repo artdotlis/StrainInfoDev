@@ -1,9 +1,9 @@
-import QApiCon from '@strinf/ts/constants/api/q_api';
+import type { SeaIndConT } from '@strinf/ts/interfaces/api/data';
+import type { JSX } from 'preact';
 import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
+import QApiCon from '@strinf/ts/constants/api/q_api';
 import { StatTags } from '@strinf/ts/constants/api/thes_api';
 import { getApiToStr } from '@strinf/ts/functions/api/map';
-import type { JSX } from 'preact';
-import type { SeaIndConT } from '@strinf/ts/interfaces/api/data';
 
 const FULL: [string, string][] = [
     ['Designation', 'DSM 20543'],

@@ -1,19 +1,19 @@
-import { Component } from 'preact';
-import type { JSX } from 'preact';
-import { Align, ClHtml, Dis, Font } from '@strinf/ts/constants/style/ClHtml';
 import type { PubT } from '@strinf/ts/interfaces/api/mapped';
-import { createDoiLink } from '@strinf/ts/mvc/vdom/fun/tab/misc';
-import type AncT from '@strinf/ts/interfaces/misc/anchor';
-import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
-import PassAncId from '@strinf/ts/constants/page/pass';
 import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import type { ToolTipHookInt, TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
+import type AncT from '@strinf/ts/interfaces/misc/anchor';
 import type { TableProps } from '@strinf/ts/mvc/vdom/dyn/table/Table';
+import type { JSX } from 'preact';
+import PassAncId from '@strinf/ts/constants/page/pass';
+import { Align, ClHtml, Dis, Font } from '@strinf/ts/constants/style/ClHtml';
+import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
+import { getPubTuple } from '@strinf/ts/functions/api/map';
+import { defaultSort, strNumSort } from '@strinf/ts/functions/arr/sort';
 import TableCon, { SearchWr } from '@strinf/ts/mvc/vdom/dyn/table/Table';
 import formatCultureTT from '@strinf/ts/mvc/vdom/fun/pass/culture';
-import { getPubTuple } from '@strinf/ts/functions/api/map';
-import type { TT_GL_TYPE, ToolTipHookInt } from '@strinf/ts/interfaces/dom/tooltip';
-import { defaultSort, strNumSort } from '@strinf/ts/functions/arr/sort';
+import { createDoiLink } from '@strinf/ts/mvc/vdom/fun/tab/misc';
+import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { Component } from 'preact';
 
 const TIT = 'Publications';
 const ID = PassAncId.pub;
@@ -167,7 +167,7 @@ class PubTable extends TableCon<MOD_PUB_T, PubProps> {
             </tbody>
         );
     }
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
+
     protected override renderWindow(): JSX.Element | null {
         return null;
     }
@@ -184,7 +184,7 @@ class PubTable extends TableCon<MOD_PUB_T, PubProps> {
             </div>
         );
     }
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
+
     protected override filter(_val: unknown, limit: number[]): number[] {
         return limit;
     }

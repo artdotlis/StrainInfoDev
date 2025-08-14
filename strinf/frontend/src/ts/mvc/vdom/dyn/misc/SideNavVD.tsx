@@ -1,15 +1,15 @@
-import type { JSX } from 'preact';
-import { useContext, useRef, useState } from 'preact/hooks';
-import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
-import SideT from '@strinf/ts/constants/type/HeadT';
 import type { BreadCrumbsS } from '@strinf/ts/interfaces/dom/global';
-import Known500Error from '@strinf/ts/errors/known/500';
+import type { JSX } from 'preact';
 import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
+import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
+import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
+import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
+import SideT from '@strinf/ts/constants/type/HeadT';
+import Known500Error from '@strinf/ts/errors/known/500';
+import onPrError from '@strinf/ts/functions/err/async';
 import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import { memo } from 'preact/compat';
-import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
-import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
-import onPrError from '@strinf/ts/functions/err/async';
+import { useContext as use, useRef, useState } from 'preact/hooks';
 
 const NAV: { [key in keyof typeof SideT]?: string } = {
     [SideT.HOME]: 'Home',
@@ -180,7 +180,7 @@ function mapSide(val: SideT, ind: number, act: number): JSX.Element | null {
 }
 
 function SideNavVD(): JSX.Element {
-    const conf: BreadCrumbsS | undefined = useContext(MainConGl);
+    const conf: BreadCrumbsS | undefined = use(MainConGl);
     const [act, setAct] = useState<SideT>(0);
     conf?.breadSet('SIDE_BAR_NAV')((actI: number) => {
         setAct(actI);

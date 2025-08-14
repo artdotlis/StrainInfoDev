@@ -1,6 +1,6 @@
-import Known500Error from '@strinf/ts/errors/known/500';
 import type { LoadFS } from '@strinf/ts/interfaces/dom/global';
 import type { SeaStInt, TabF, TabSetF } from '@strinf/ts/interfaces/dom/sea_sim';
+import Known500Error from '@strinf/ts/errors/known/500';
 
 class SeaSimpleSt implements SeaStInt {
     private tabH?: TabF;

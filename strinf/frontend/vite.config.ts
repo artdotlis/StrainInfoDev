@@ -1,55 +1,148 @@
-import { defineConfig, loadEnv } from 'vite';
-import type { PreviewOptions, ServerOptions, UserConfig } from 'vite';
-import preact from '@preact/preset-vite';
-import mdx from '@mdx-js/rollup';
-import Path from 'path';
-import RemGfm from 'remark-gfm';
-import RemImg from 'remark-images';
-import RehHig from 'rehype-highlight';
-import rollupPluginLicense from 'rollup-plugin-license';
-import fs from 'node:fs';
-import { visualizer } from 'rollup-plugin-visualizer';
 import type { OutgoingHttpHeaders } from 'node:http';
-import { PurgeCSS } from 'purgecss';
-import { UIApiCon } from './src/ts/constants/api/ui_api';
-import { RESOURCES_PATH } from './src/ts/constants/resources';
+import type { PreviewOptions, ServerOptions, UserConfig } from 'vite';
+import fs from 'node:fs';
+import Path from 'node:path';
+import process from 'node:process';
+import mdx from '@mdx-js/rollup';
+import preact from '@preact/preset-vite';
 import browserslist from 'browserslist';
 import { browserslistToTargets } from 'lightningcss';
+import { PurgeCSS } from 'purgecss';
+import RehHig from 'rehype-highlight';
+import RemGfm from 'remark-gfm';
+import RemImg from 'remark-images';
+import rollupPluginLicense from 'rollup-plugin-license';
+import { visualizer } from 'rollup-plugin-visualizer';
+import { defineConfig, loadEnv } from 'vite';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
+import {
+    array,
+    boolean,
+    number,
+    strictObject,
+    string,
+    config as z_config,
+} from 'zod/mini';
+import { UIApiCon } from './src/ts/constants/api/ui_api';
+import { RESOURCES_PATH } from './src/ts/constants/resources';
+
+// config
+
+z_config({
+    jitless: true,
+});
+
+// config
+const DPP = strictObject({
+    domain: string(),
+    protocol: string(),
+    port: number(),
+});
+
+const CSS = strictObject({
+    global: strictObject({
+        service: strictObject({
+            timezone: string(),
+            charset: string(),
+            maintenance: number(),
+            version: string(),
+        }),
+        logger: strictObject({
+            name: string(),
+            key: string(),
+            db: number(),
+            level: string(),
+            bubble: boolean(),
+            cap_size: number(),
+        }),
+        redis: strictObject({
+            host: string(),
+            port: number(),
+            socket: string(),
+        }),
+    }),
+    model: strictObject({
+        database: strictObject({
+            host: string(),
+            db: string(),
+            user: string(),
+            password: string(),
+            port: number(),
+            socket: string(),
+        }),
+        cache: strictObject({
+            db: number(),
+            expire_h: number(),
+            tmp_h: number(),
+            limit: number(),
+        }),
+        index: strictObject({
+            db: number(),
+            key_len: number(),
+            limit: number(),
+        }),
+    }),
+    frontend: strictObject({
+        web: strictObject({
+            ...DPP.shape,
+            sitemap: string(),
+        }),
+        statistic: strictObject({
+            enable: boolean(),
+            id: number(),
+            matomo: DPP,
+            domain: array(string()),
+        }),
+    }),
+    backend: strictObject({
+        web: strictObject({
+            ...DPP.shape,
+            cors: array(string()),
+            private: array(string()),
+        }),
+        statistic: strictObject({
+            enable: boolean(),
+            matomo: string(),
+            id: number(),
+            token: string(),
+            ignore: array(string()),
+        }),
+    }),
+});
 
 const ROOT = Path.resolve(__dirname, '../../');
 const LOCAL_DIR = Path.resolve(__dirname);
 const TIME_STAMP = Math.floor(Date.now() / 1000).toString(36);
 
 function getNonceSub(): string {
-    return process.env['NONCE_WEB'] ?? 'N0nce_W3B';
+    return process.env.NONCE_WEB ?? 'N0nce_W3B';
 }
 
 function getEnv(): string {
-    return process.env['NODE_ENV'] ?? 'development';
+    return process.env.NODE_ENV ?? 'development';
 }
 
 function isStage(): boolean {
     if (!('STAGE' in process.env)) {
         return false;
     }
-    return process.env['STAGE'] === 'true';
+    return process.env.STAGE === 'true';
 }
 
 function getBench(): string {
-    return process.env['BENCHMARK'] ?? 'false';
+    return process.env.BENCHMARK ?? 'false';
 }
 
 function getPurgeCss(): string {
-    return process.env['PURGE_CSS'] ?? 'false';
+    return process.env.PURGE_CSS ?? 'false';
 }
 
 function getPreviewPort(): number {
-    return Number(process.env['FRONTEND_STAGE_PORT'] ?? '9000');
+    return Number(process.env.FRONTEND_STAGE_PORT ?? '9000');
 }
 
 function getDevPort(): number {
-    return Number(process.env['FRONTEND_DEV_PORT'] ?? '9000');
+    return Number(process.env.FRONTEND_DEV_PORT ?? '9000');
 }
 
 const ENV = loadEnv(getEnv(), LOCAL_DIR, '') as {
@@ -93,17 +186,19 @@ async function runPurgeCss(): Promise<void> {
         `${STYLE_DIR}/**/*.js`,
     ];
     const results = await new PurgeCSS().purge({
-        content: content,
+        content,
         css: [`${APP_DIR}/**/@digidive*.css`, `${APP_DIR}/**/@icons*.css`],
     });
-    await results.map(async ({ css, file }) => {
-        if (file !== undefined) {
-            const initS = fs.statSync(file).size / 1024;
-            fs.writeFileSync(file, css);
-            const newS = fs.statSync(file).size / 1024;
-            console.log(`${file}: ${initS} -> ${newS} KB`);
-        }
-    });
+    await Promise.all(
+        results.map(async ({ css, file }) => {
+            if (file !== undefined) {
+                const initS = fs.statSync(file).size / 1024;
+                fs.writeFileSync(file, css);
+                const newS = fs.statSync(file).size / 1024;
+                console.log(`${file}: ${initS} -> ${newS} KB`);
+            }
+        })
+    );
 }
 
 function createCopyPath(): {
@@ -127,27 +222,27 @@ function createCopyPath(): {
 }
 
 function crFEConfEnv(): [ConfLinkT, string] {
-    const glConf = JSON.parse(
-        fs.readFileSync(Path.resolve(ROOT, ENV_GL.CONFIG_STRINF)).toString()
+    const glConf = CSS.parse(
+        JSON.parse(fs.readFileSync(Path.resolve(ROOT, ENV_GL.CONFIG_STRINF)).toString())
     );
     const [fe_dom, fe_pro, fe_por] = [
         glConf.frontend.web.domain,
         glConf.frontend.web.protocol,
         glConf.frontend.web.port,
     ];
-    process.env['VITE_FEC_KEY_LEN'] = glConf.model.index.key_len;
-    process.env['VITE_FEC_BE_DOMAIN'] = glConf.backend.web.domain;
-    process.env['VITE_FEC_BE_PROTOCOL'] = glConf.backend.web.protocol;
-    process.env['VITE_FEC_BE_PORT'] = glConf.backend.web.port;
-    process.env['VITE_FEC_FE_DOMAIN'] = fe_dom;
-    process.env['VITE_FEC_FE_PROTOCOL'] = fe_pro;
-    process.env['VITE_FEC_FE_PORT'] = fe_por;
-    process.env['VITE_FEC_ST_ENABLE'] = glConf.frontend.statistic.enable;
-    process.env['VITE_FEC_ST_ID'] = glConf.frontend.statistic.id;
-    process.env['VITE_FEC_ST_DOMAIN'] = glConf.frontend.statistic.domain;
-    process.env['VITE_FEC_ST_PW_DOMAIN'] = glConf.frontend.statistic.matomo.domain;
-    process.env['VITE_FEC_ST_PW_PROTOCOL'] = glConf.frontend.statistic.matomo.protocol;
-    process.env['VITE_FEC_ST_PW_PORT'] = glConf.frontend.statistic.matomo.port;
+    process.env.VITE_FEC_KEY_LEN = String(glConf.model.index.key_len);
+    process.env.VITE_FEC_BE_DOMAIN = glConf.backend.web.domain;
+    process.env.VITE_FEC_BE_PROTOCOL = glConf.backend.web.protocol;
+    process.env.VITE_FEC_BE_PORT = String(glConf.backend.web.port);
+    process.env.VITE_FEC_FE_DOMAIN = fe_dom;
+    process.env.VITE_FEC_FE_PROTOCOL = fe_pro;
+    process.env.VITE_FEC_FE_PORT = String(fe_por);
+    process.env.VITE_FEC_ST_ENABLE = String(glConf.frontend.statistic.enable);
+    process.env.VITE_FEC_ST_ID = String(glConf.frontend.statistic.id);
+    process.env.VITE_FEC_ST_DOMAIN = String(glConf.frontend.statistic.domain);
+    process.env.VITE_FEC_ST_PW_DOMAIN = glConf.frontend.statistic.matomo.domain;
+    process.env.VITE_FEC_ST_PW_PROTOCOL = glConf.frontend.statistic.matomo.protocol;
+    process.env.VITE_FEC_ST_PW_PORT = String(glConf.frontend.statistic.matomo.port);
     return [
         {
             domain: String(fe_dom),
@@ -196,8 +291,8 @@ function copyToOut(): void {
 }
 
 function addCspHeaders(): OutgoingHttpHeaders {
-    const glConf = JSON.parse(
-        fs.readFileSync(Path.resolve(ROOT, ENV_GL.CONFIG_STRINF)).toString()
+    const glConf = CSS.parse(
+        JSON.parse(fs.readFileSync(Path.resolve(ROOT, ENV_GL.CONFIG_STRINF)).toString())
     );
     const {
         backend: {
@@ -357,9 +452,9 @@ function createShared(build: boolean): UserConfig {
                 rehypePlugins: [RehHig],
             }),
             // TODO readd when workers are supported
-            //legacy({
+            // legacy({
             //    targets: ['last 2 versions, not dead, > 0.2%'],
-            //}),
+            // }),
             {
                 name: 'purgecss',
                 async closeBundle() {
@@ -411,7 +506,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
     console.log('BENCHMARK:', getBench());
     copyToOut();
     if (isStage()) {
-        process.env['VITE_STAGE'] = 'true';
+        process.env.VITE_STAGE = 'true';
     }
     let [preview, server] = [{}, {}];
     if (command === 'serve' && !(isPreview ?? false)) {

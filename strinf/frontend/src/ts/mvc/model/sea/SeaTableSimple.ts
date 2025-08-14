@@ -1,3 +1,5 @@
+import type { ApiChanInt, SeaR } from '@strinf/ts/interfaces/api/mapped';
+import type ViewChanInt from '@strinf/ts/interfaces/chan/sea_sim';
 import QApiCon from '@strinf/ts/constants/api/q_api';
 import LEAD_TRAIL_COMMA from '@strinf/ts/constants/regexp/sep';
 import LoadT from '@strinf/ts/constants/type/LoadT';
@@ -6,9 +8,6 @@ import KnownLostWarnError from '@strinf/ts/errors/known/lost_warn';
 import { getApiToStr, toArrSerSeaRes } from '@strinf/ts/functions/api/map';
 import onPrError from '@strinf/ts/functions/err/async';
 import { checkRespArr, fetchRetry } from '@strinf/ts/functions/http/http';
-import type { ApiChanInt, SeaR } from '@strinf/ts/interfaces/api/mapped';
-import type ViewChanInt from '@strinf/ts/interfaces/chan/sea_sim';
-import type { LoadFS } from '@strinf/ts/interfaces/dom/global';
 
 class SeaTable {
     private readonly apiCall: ApiChanInt;
@@ -119,9 +118,9 @@ class SeaTable {
     }
 
     private static onStop(cha: ViewChanInt): void {
-        cha.load.map((ele: LoadFS) => {
+        for (const ele of cha.load) {
             ele(LoadT.FIN);
-        });
+        }
     }
 
     private runSearchApi(
@@ -136,9 +135,9 @@ class SeaTable {
             .then((json: number[]): void => {
                 const res = json.filter((siId) => !omitIds.includes(siId));
                 this.foundCnt = res.length;
-                cha.load.map((ele: LoadFS) => {
+                for (const ele of cha.load) {
                     ele(LoadT.FET);
-                });
+                }
                 switch (json.length) {
                     case 0:
                         throw new Known404Error(getApiToStr(api), args);
@@ -164,9 +163,9 @@ class SeaTable {
             QApiCon.seaStrBrc,
         ];
         if (allowedApis.includes(cApi)) {
-            cha.load.map((ele: LoadFS) => {
+            for (const ele of cha.load) {
                 ele(LoadT.STA);
-            });
+            }
             this.runSearchApi(cha, api, args, omitIds);
         }
     }

@@ -27,7 +27,7 @@ function setCookie(name: string, value: string, domain: string): void {
     document.cookie = cookStr;
 }
 
-const SUB = /^.+?(\..+)$/;
+const SUB = /^[^.]+\.(.+)$/;
 
 function asSubDomain(domain: string): string {
     const subDom = SUB.exec(domain);
@@ -72,8 +72,8 @@ export {
     getActiveWrapperCookies,
     getAllWrapperCookies,
     isContrastSet,
-    isTransitionSet,
     isDyslexiaSet,
+    isTransitionSet,
     setContrast,
     setDyslexia,
     setTransition,

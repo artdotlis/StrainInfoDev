@@ -1,35 +1,35 @@
-import type { JSX } from 'preact';
-import { ClHtml, Col } from '@strinf/ts/constants/style/ClHtml';
 import type { BreadCrumbsG } from '@strinf/ts/interfaces/dom/global';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import type AncT from '@strinf/ts/interfaces/misc/anchor';
+import type { JSX } from 'preact';
+import WebSerPy from '@strinf/md/manual/api_python.mdx';
 
 import Doc from '@strinf/md/manual/doc.mdx';
-import WebSerPy from '@strinf/md/manual/api_python.mdx';
-import Terminology from '@strinf/md/manual/terminology.mdx';
 import StrainHier from '@strinf/md/manual/strain_hierarchy.mdx';
-import VotingStrIdentity from '@strinf/md/manual/voting_str_identity.mdx';
 import StrainStatuses from '@strinf/md/manual/strain_statuses.mdx';
-import HeadT from '@strinf/ts/constants/type/HeadT';
-import { Container, wrapSectionGen } from '@strinf/ts/mvc/vdom/fun/content/content';
-import OnPageNavVD, { createNavLinks } from '@strinf/ts/mvc/vdom/dyn/misc/OnPageNav';
-import type AncT from '@strinf/ts/interfaces/misc/anchor';
-import { createUrlStr, getCurFullPath } from '@strinf/ts/functions/http/http';
-import 'highlight.js/styles/monokai.min.css';
-import {
-    TableWr,
-    StrHierUlWr,
-    StrHierLiWr,
-    OListWr,
-} from '@strinf/ts/functions/md/wrapper';
-import MainTourVD from '@strinf/ts/mvc/vdom/static/tour/MainTour';
-import ApiTourVD from '@strinf/ts/mvc/vdom/static/tour/ApiTour';
-import { useContext, useEffect, useRef } from 'preact/hooks';
-import { memo } from 'preact/compat';
-
-import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
-import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
+import Terminology from '@strinf/md/manual/terminology.mdx';
+import VotingStrIdentity from '@strinf/md/manual/voting_str_identity.mdx';
 import CONFIG from '@strinf/ts/configs/config';
 import QApiCon from '@strinf/ts/constants/api/q_api';
+import { ClHtml, Col } from '@strinf/ts/constants/style/ClHtml';
+import HeadT from '@strinf/ts/constants/type/HeadT';
+import { createUrlStr, getCurFullPath } from '@strinf/ts/functions/http/http';
+import {
+    OListWr,
+    StrHierLiWr,
+    StrHierUlWr,
+    TableWr,
+} from '@strinf/ts/functions/md/wrapper';
+import OnPageNavVD, { createNavLinks } from '@strinf/ts/mvc/vdom/dyn/misc/OnPageNav';
+import { Container, wrapSectionGen } from '@strinf/ts/mvc/vdom/fun/content/content';
+import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
+import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
+import ApiTourVD from '@strinf/ts/mvc/vdom/static/tour/ApiTour';
+
+import MainTourVD from '@strinf/ts/mvc/vdom/static/tour/MainTour';
+import { memo } from 'preact/compat';
+import { useContext as use, useEffect, useRef } from 'preact/hooks';
+import 'highlight.js/styles/monokai.min.css';
 
 function genAnchor(id: number | string): string {
     if (id === IDS.strain) {
@@ -43,18 +43,18 @@ interface DocsPPT {
 }
 
 enum IDS {
-    'webSerPy' = 1,
-    'webTour' = 2,
-    'webSerTour' = 3,
-    'term' = 4,
-    'votStrId' = 5,
-    'strain' = 6,
-    'status' = 7,
+    webSerPy = 1,
+    webTour = 2,
+    webSerTour = 3,
+    term = 4,
+    votStrId = 5,
+    strain = 6,
+    status = 7,
 }
 
-const REPL_DOM = /{{API_DOMAIN}}\/?/g;
-const REPL_DES = /{{API_DES_SEA}}\/?/g;
-const REPL_DEP_M = /{{API_DEP_MAX}}\/?/g;
+const REPL_DOM = /\{\{API_DOMAIN\}\}\/?/g;
+const REPL_DES = /\{\{API_DES_SEA\}\}\/?/g;
+const REPL_DEP_M = /\{\{API_DEP_MAX\}\}\/?/g;
 
 function correctCode(eleBuf: HTMLSpanElement, api: string): void {
     if (REPL_DOM.test(eleBuf.textContent)) {
@@ -144,10 +144,7 @@ function DocCon(props: { children: JSX.Element }): JSX.Element {
     const { children } = props;
     return (
         <>
-            <MetaH
-                title={'StrainInfo - Documentation'}
-                desc={'StrainInfo documentation'}
-            />
+            <MetaH title="StrainInfo - Documentation" desc="StrainInfo documentation" />
             <CanonH href={getCurFullPath()} />
             <div className={ClHtml.row}>{children}</div>
         </>
@@ -155,11 +152,11 @@ function DocCon(props: { children: JSX.Element }): JSX.Element {
 }
 
 function Docs(): JSX.Element {
-    const ctx: BreadCrumbsG | undefined = useContext(MainConGl);
+    const ctx: BreadCrumbsG | undefined = use(MainConGl);
     if (ctx?.bread !== undefined) {
-        ctx.bread.map((actF) => {
+        for (const actF of ctx.bread) {
             actF(HeadT.MANUAL);
-        });
+        }
     }
     const api = createUrlStr(CONFIG.backend, '');
     return (

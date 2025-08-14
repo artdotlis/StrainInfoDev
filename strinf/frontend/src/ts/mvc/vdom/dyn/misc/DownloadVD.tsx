@@ -1,7 +1,7 @@
+import type { JSX } from 'preact';
 import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
 import onPrError from '@strinf/ts/functions/err/async';
 import { useEffect, useRef, useState } from 'preact/hooks';
-import type { JSX } from 'preact';
 
 interface DBProp {
     btnC: string;

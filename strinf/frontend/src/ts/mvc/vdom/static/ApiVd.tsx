@@ -1,39 +1,39 @@
+import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
+import type { BreadCrumbsG, CookieS } from '@strinf/ts/interfaces/dom/global';
+import type AncT from '@strinf/ts/interfaces/misc/anchor';
+
+import type { ConfLinkT } from '@strinf/ts/interfaces/misc/configs';
 import type { JSX } from 'preact';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+
+import type { Dispatch, StateUpdater } from 'preact/hooks';
+
+import drSty from '@strinf/css/mods/dropdown.module.css';
+import linkSty from '@strinf/css/mods/link.module.css';
+import CONFIG from '@strinf/ts/configs/config';
+import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
+import { CookieValue } from '@strinf/ts/constants/style/Acc';
+import { DD_B } from '@strinf/ts/constants/style/AtHtml';
+import { ClHtml, Col, DdM, Dis, Mar, Pad, Wid } from '@strinf/ts/constants/style/ClHtml';
 import HeadT from '@strinf/ts/constants/type/HeadT';
 
-import 'rapidoc';
-import OnPageNavVD, { createNavLinks } from '@strinf/ts/mvc/vdom/dyn/misc/OnPageNav';
-
-import type { BreadCrumbsG, CookieS } from '@strinf/ts/interfaces/dom/global';
-
-import getServerStatus from '@strinf/ts/functions/api/status';
-import type { ConfLinkT } from '@strinf/ts/interfaces/misc/configs';
-import { createUrlStr, fetchRetry, getCurFullPath } from '@strinf/ts/functions/http/http';
-import Known503Error from '@strinf/ts/errors/known/503';
-import { useContext, useEffect, useState } from 'preact/hooks';
-import type { Dispatch, StateUpdater } from 'preact/hooks';
 import Known500Error from '@strinf/ts/errors/known/500';
-import onPrError from '@strinf/ts/functions/err/async';
-
-import '@strinf/css/adhoc/api.css';
-import { ClHtml, Col, DdM, Dis, Mar, Pad, Wid } from '@strinf/ts/constants/style/ClHtml';
-import type AncT from '@strinf/ts/interfaces/misc/anchor';
-import { memo } from 'preact/compat';
-import { CookieValue } from '@strinf/ts/constants/style/Acc';
+import Known503Error from '@strinf/ts/errors/known/503';
+import getServerStatus from '@strinf/ts/functions/api/status';
 import { isDyslexiaSet } from '@strinf/ts/functions/cookie/acc';
-import CONFIG from '@strinf/ts/configs/config';
-import * as yaml from 'js-yaml';
-import { hasProp } from '@strinf/ts/functions/types/arr';
-import Loading from '@strinf/ts/mvc/vdom/static/misc/LoadVD';
-import { DD_B } from '@strinf/ts/constants/style/AtHtml';
-import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
-import linkSty from '@strinf/css/mods/link.module.css';
-import drSty from '@strinf/css/mods/dropdown.module.css';
+import onPrError from '@strinf/ts/functions/err/async';
+import { createUrlStr, fetchRetry, getCurFullPath } from '@strinf/ts/functions/http/http';
 import { deactivateAllDropdownToggles } from '@strinf/ts/functions/libs/style';
-import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
-import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
+import { hasProp } from '@strinf/ts/functions/types/arr';
+import OnPageNavVD, { createNavLinks } from '@strinf/ts/mvc/vdom/dyn/misc/OnPageNav';
+import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
+import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
+import Loading from '@strinf/ts/mvc/vdom/static/misc/LoadVD';
+import * as yaml from 'js-yaml';
+import { memo } from 'preact/compat';
+import { useContext as use, useEffect, useState } from 'preact/hooks';
+import 'rapidoc';
+import '@strinf/css/adhoc/api.css';
 
 async function awaitYaml(resp: Response): Promise<unknown> {
     if (resp.ok) {
@@ -76,9 +76,9 @@ function loadApiSpec(
 ): void {
     const crit = new Known500Error('Internal server error!');
     if (ctx?.bread !== undefined) {
-        ctx.bread.map((actF) => {
+        for (const actF of ctx.bread) {
             actF(HeadT.API);
-        });
+        }
         const calB = (res: ServerStatusJT): void => {
             if (res.maintenance.status) {
                 throw new Known503Error(
@@ -257,7 +257,7 @@ interface RapiDocProps {
 
 async function loadSpec(docu: Element, specUrl: unknown): Promise<void> {
     if (hasProp('loadSpec', docu) && typeof docu.loadSpec === 'function') {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        // eslint-disable-next-line ts/no-unsafe-call
         await docu.loadSpec(specUrl);
     }
 }
@@ -287,7 +287,7 @@ function RapDoc({
             setSectionTags(docu, anc);
         }
     }, [specUrl]);
-    let font = dyslexia ? 'OpenDyslexic' : 'Rubik';
+    const font = dyslexia ? 'OpenDyslexic' : 'Rubik';
     return (
         <div
             className={Col.lN9}
@@ -384,7 +384,7 @@ function ApiVD(): JSX.Element {
     const [spec, setSpec] = useState<[unknown, string] | undefined>();
     const [dys, setDys] = useState<boolean>(isDyslexiaSet());
     const [anc, setAnc] = useState<AncT | undefined>();
-    const ctx: (BreadCrumbsG & CookieS) | undefined = useContext(MainConGl);
+    const ctx: (BreadCrumbsG & CookieS) | undefined = use(MainConGl);
     const [ver, setVer] = useState(ApiVer.v2);
     useEffect(() => {
         loadApiSpec(ctx, setSpec, spec === undefined, ver);
@@ -401,8 +401,8 @@ function ApiVD(): JSX.Element {
     return (
         <>
             <MetaH
-                title={'StrainInfo - Web service'}
-                desc={'Documentation for the StrainInfo-API'}
+                title="StrainInfo - Web service"
+                desc="Documentation for the StrainInfo-API"
             />
             <CanonH href={getCurFullPath()} />
             <div className={ClHtml.row}>

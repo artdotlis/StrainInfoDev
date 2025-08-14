@@ -1,20 +1,20 @@
-// style functionality
-import 'digidive';
-
-import { render } from 'preact';
-
-import MainVD from '@strinf/ts/mvc/vdom/MainVD';
-import { createUrlStr, hidePrivateInfo } from '@strinf/ts/functions/http/http';
-import { createPreloadBanner } from '@strinf/ts/functions/files/image';
-import CONFIG from '@strinf/ts/configs/config';
 import type { JSX } from 'preact';
-import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
-import { SIDE_SMALL } from '@strinf/ts/constants/style/AtHtml';
-import { ErrorBoundary, LocationProvider } from 'preact-iso';
 
 import loaderSty from '@strinf/css/mods/loader.module.css';
+
+import CONFIG from '@strinf/ts/configs/config';
+import { SIDE_SMALL } from '@strinf/ts/constants/style/AtHtml';
+import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
+import { createPreloadBanner } from '@strinf/ts/functions/files/image';
+import { createUrlStr, hidePrivateInfo } from '@strinf/ts/functions/http/http';
+import MainVD from '@strinf/ts/mvc/vdom/MainVD';
 import PreConnectH from '@strinf/ts/mvc/vdom/static/helmet/ConnectH';
+import { render } from 'preact';
+
+import { ErrorBoundary, LocationProvider } from 'preact-iso';
 import { useEffect } from 'preact/hooks';
+// style functionality
+import 'digidive';
 
 // critical style
 import 'digidive/css/digidive.css';
@@ -37,10 +37,10 @@ function IndexBody(): JSX.Element {
                     }}
                 >
                     <PreConnectH
-                        id={'matomo_con'}
+                        id="matomo_con"
                         href={createUrlStr(CONFIG.statistic.matomo, '')}
                     />
-                    <PreConnectH id={'api_con'} href={createUrlStr(CONFIG.backend, '')} />
+                    <PreConnectH id="api_con" href={createUrlStr(CONFIG.backend, '')} />
                     {createPreloadBanner()}
                     <MainVD />
                 </ErrorBoundary>

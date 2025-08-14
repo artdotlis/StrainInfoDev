@@ -1,5 +1,5 @@
-import Known500Error from '@strinf/ts/errors/known/500';
 import type { SeaIndStInt, TabF, TabSetF } from '@strinf/ts/interfaces/dom/sea_ind';
+import Known500Error from '@strinf/ts/errors/known/500';
 
 class SeaIndSt implements SeaIndStInt {
     private tabH?: TabF;

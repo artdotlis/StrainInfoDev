@@ -1,32 +1,32 @@
-import { useContext } from 'preact/hooks';
-import type { JSX } from 'preact';
-import { memo } from 'preact/compat';
-import { ClHtml, Col } from '@strinf/ts/constants/style/ClHtml';
 import type { BreadCrumbsG } from '@strinf/ts/interfaces/dom/global';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
-import HeadT from '@strinf/ts/constants/type/HeadT';
-import RoadMapVD from '@strinf/ts/mvc/vdom/static/about/RoadMapVD';
-import { Container, wrapSectionGen } from '@strinf/ts/mvc/vdom/fun/content/content';
-import PublicationsVD from '@strinf/ts/mvc/vdom/static/about/PublicationsVD';
-
-import Contribution from '@strinf/md/about/contribution.mdx';
-import Services from '@strinf/md/about/services.mdx';
-import Info from '@strinf/md/about/info.mdx';
-import { TableWr, AnchorWr } from '@strinf/ts/functions/md/wrapper';
-import OnPageNavVD, { createNavLinks } from '@strinf/ts/mvc/vdom/dyn/misc/OnPageNav';
 import type AncT from '@strinf/ts/interfaces/misc/anchor';
-import AboutIluVD from '@strinf/ts/mvc/vdom/static/images/docu/AboutIluVD';
-import LogoDsmzVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoDsmzVD';
-import LogoCipVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoCipVD';
-import LogoCcugVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoCcugVD';
-import LogoCirmVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoCirmVD';
-import LogoRccVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoRccVD';
-import LogoIcmpVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoIcmpVD';
-import LogoBccmVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoBccmVD';
-import LogoUamhVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoUamhVD';
+import type { JSX } from 'preact';
+import Contribution from '@strinf/md/about/contribution.mdx';
+import Info from '@strinf/md/about/info.mdx';
+import Services from '@strinf/md/about/services.mdx';
+import { ClHtml, Col } from '@strinf/ts/constants/style/ClHtml';
+import HeadT from '@strinf/ts/constants/type/HeadT';
 import { getCurFullPath } from '@strinf/ts/functions/http/http';
-import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
+import { AnchorWr, TableWr } from '@strinf/ts/functions/md/wrapper';
+
+import OnPageNavVD, { createNavLinks } from '@strinf/ts/mvc/vdom/dyn/misc/OnPageNav';
+import { Container, wrapSectionGen } from '@strinf/ts/mvc/vdom/fun/content/content';
+import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import PublicationsVD from '@strinf/ts/mvc/vdom/static/about/PublicationsVD';
+import RoadMapVD from '@strinf/ts/mvc/vdom/static/about/RoadMapVD';
 import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
+import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
+import AboutIluVD from '@strinf/ts/mvc/vdom/static/images/docu/AboutIluVD';
+import LogoBccmVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoBccmVD';
+import LogoCcugVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoCcugVD';
+import LogoCipVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoCipVD';
+import LogoCirmVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoCirmVD';
+import LogoDsmzVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoDsmzVD';
+import LogoIcmpVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoIcmpVD';
+import LogoRccVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoRccVD';
+import LogoUamhVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoUamhVD';
+import { memo } from 'preact/compat';
+import { useContext as use } from 'preact/hooks';
 
 const LOGOS = {
     dsmz: <LogoDsmzVD />,
@@ -44,11 +44,11 @@ interface AboutElProps {
 }
 
 enum IDS {
-    'main' = 1,
-    'cont' = 2,
-    'road' = 3,
-    'pub' = 4,
-    'ser' = 5,
+    main = 1,
+    cont = 2,
+    road = 3,
+    pub = 4,
+    ser = 5,
 }
 
 function InfoE(): JSX.Element {
@@ -108,15 +108,15 @@ function crAnc(): AncT {
 }
 
 function AboutP(): JSX.Element {
-    const ctx: BreadCrumbsG | undefined = useContext(MainConGl);
+    const ctx: BreadCrumbsG | undefined = use(MainConGl);
     if (ctx?.bread !== undefined) {
-        ctx.bread.map((actF) => {
+        for (const actF of ctx.bread) {
             actF(HeadT.ABOUT);
-        });
+        }
     }
     return (
         <>
-            <MetaH title={'StrainInfo - About'} desc={'About StrainInfo'} />
+            <MetaH title="StrainInfo - About" desc="About StrainInfo" />
             <CanonH href={getCurFullPath()} />
             <div className={ClHtml.row}>
                 <div className={Col.lN9}>

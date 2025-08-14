@@ -1,5 +1,12 @@
-import { useCallback, useState } from 'preact/hooks';
+import type { SeaR } from '@strinf/ts/interfaces/api/mapped';
+import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
+import type { ToolTipHookInt, TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
+import type { TableProps } from '@strinf/ts/mvc/vdom/dyn/table/Table';
 import type { JSX } from 'preact';
+import linkSty from '@strinf/css/mods/link.module.css';
+import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
+import ClHtmlSt from '@strinf/ts/constants/stat/ClHtml';
+import { DD_B } from '@strinf/ts/constants/style/AtHtml';
 import {
     Align,
     ClHtml,
@@ -10,35 +17,28 @@ import {
     Tex,
     Wid,
 } from '@strinf/ts/constants/style/ClHtml';
-import type { SeaR } from '@strinf/ts/interfaces/api/mapped';
+import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
 import {
     convertStrainStatusToEnum,
     getApiToStr,
     getSeaResTuple,
 } from '@strinf/ts/functions/api/map';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
-import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
-import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
-import type { TableProps } from '@strinf/ts/mvc/vdom/dyn/table/Table';
-import TableCon from '@strinf/ts/mvc/vdom/dyn/table/Table';
-import parseCountryCode from '@strinf/ts/functions/parse/country';
-import {
-    DotTT,
-    createBoolIcon,
-    createPassLinkStrain,
-} from '@strinf/ts/mvc/vdom/fun/tab/misc';
-import { DD_B } from '@strinf/ts/constants/style/AtHtml';
-import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
-import type { TT_GL_TYPE, ToolTipHookInt } from '@strinf/ts/interfaces/dom/tooltip';
 import { defaultSort, numSort } from '@strinf/ts/functions/arr/sort';
 import { selectBannerImage } from '@strinf/ts/functions/files/image';
-import linkSty from '@strinf/css/mods/link.module.css';
-import ClHtmlSt from '@strinf/ts/constants/stat/ClHtml';
-import { trackDownload } from '@strinf/ts/mvc/vdom/fun/mat/track';
 import { getCurFullPathWithArgs } from '@strinf/ts/functions/http/http';
+import { isSmallScreen } from '@strinf/ts/functions/misc/screen';
+import parseCountryCode from '@strinf/ts/functions/parse/country';
 import DownloadBlobVD from '@strinf/ts/mvc/vdom/dyn/misc/DownloadVD';
 import { LightsSmVD } from '@strinf/ts/mvc/vdom/dyn/misc/StrainStatus';
-import { isSmallScreen } from '@strinf/ts/functions/misc/screen';
+import TableCon from '@strinf/ts/mvc/vdom/dyn/table/Table';
+import { trackDownload } from '@strinf/ts/mvc/vdom/fun/mat/track';
+import {
+    createBoolIcon,
+    createPassLinkStrain,
+    DotTT,
+} from '@strinf/ts/mvc/vdom/fun/tab/misc';
+import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { useCallback, useState } from 'preact/hooks';
 
 interface SeaTProps {
     res: SeaR[];
@@ -93,8 +93,8 @@ interface FILTER_CON {
     sta: Set<number> | null;
 }
 
-const ACR = /^([A-Za-z]+)[^A-Za-z]+.*$/;
-const NAME = /^([A-Z][a-z]+)[^A-Za-z]*.*$/;
+const ACR = /^([A-Z]+)[^A-Z]+(?:[A-Z].*)?$/i;
+const NAME = /^([A-Z][a-z]+)[^A-Za-z].*$/;
 
 function createEmptyFilter(): FILTER_STATE {
     return { tax: '', acr: '', sam: '', typ: -1, sta: -1 };
@@ -347,7 +347,7 @@ function FilterOptions({ opt, state, setSt, filter }: OptionsProps): JSX.Element
                     onChange={(val) => {
                         const newSt = {
                             ...state,
-                            typ: parseInt(val, 10),
+                            typ: Number.parseInt(val, 10),
                         };
                         setSt(newSt);
                         filter(crFilter(newSt));
@@ -372,7 +372,7 @@ function FilterOptions({ opt, state, setSt, filter }: OptionsProps): JSX.Element
                     onChange={(val) => {
                         const newSt = {
                             ...state,
-                            sta: parseInt(val, 10),
+                            sta: Number.parseInt(val, 10),
                         };
                         setSt(newSt);
                         filter(crFilter(newSt));
@@ -398,10 +398,11 @@ async function createCSV(
     term: string
 ): Promise<[string, string]> {
     const workerP = new Promise<[string, string]>((resolve) => {
+        let jsonBlob: Blob;
         worker.postMessage({ type: 'request', data: indices });
         worker.onmessage = (eve) => {
             if (typeof eve.data === 'string') {
-                var jsonBlob: Blob = new Blob([eve.data], {
+                jsonBlob = new Blob([eve.data], {
                     type: 'text/plain;charset=utf-8',
                 });
                 trackDownload(
@@ -551,7 +552,8 @@ function crDesignation(
     }
     return (
         <span className={Font.norm}>
-            {main},
+            {main}
+            ,
             <DotTT hook={ttH} data={data} head="Designation" />
         </span>
     );
@@ -617,7 +619,7 @@ class SeaTable extends TableCon<MOD_SEA_T, SeaTableProps> {
         for (const [, , , , code] of res) {
             uCodes.add(DEC.decode(code));
         }
-        this.codeMap = new Array<[string, Uint8Array]>(uCodes.size);
+        this.codeMap = Array.from({ length: uCodes.size });
         let ind = 0;
         for (const code of uCodes) {
             this.codeMap[ind] = [parseCountryCode(code).toLowerCase(), ENC.encode(code)];
@@ -649,7 +651,7 @@ class SeaTable extends TableCon<MOD_SEA_T, SeaTableProps> {
         value: [string | number, number][],
         limit: number[]
     ): number[] {
-        const filteredRes = new Array<number>(limit.length);
+        const filteredRes: number[] = Array.from({ length: limit.length });
         for (const ind of limit) {
             const val = this.data[ind];
             if (val === undefined) {
@@ -675,7 +677,7 @@ class SeaTable extends TableCon<MOD_SEA_T, SeaTableProps> {
         }
         return filteredRes.filter((val) => val >= 0);
     }
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
+
     protected override search(_filter: string, limit: number[]): number[] {
         return limit;
     }
@@ -784,4 +786,4 @@ function SeaTVD({ res, sea, hook }: SeaTProps): JSX.Element | null {
 
 export default SeaTVD;
 
-export { SeaTable, SEARCH_FILTER_CL };
+export { SEARCH_FILTER_CL, SeaTable };

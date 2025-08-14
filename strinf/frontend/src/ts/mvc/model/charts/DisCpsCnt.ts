@@ -1,11 +1,11 @@
+import type { ChartData } from '@strinf/ts/interfaces/api/mapped';
+import type DisChartT from '@strinf/ts/interfaces/chan/model';
+import type { DiaCon } from '@strinf/ts/interfaces/dom/dia';
 import QApiCon from '@strinf/ts/constants/api/q_api';
 import DiaT from '@strinf/ts/constants/type/DiaT';
 import Known500Error from '@strinf/ts/errors/known/500';
 import onPrError from '@strinf/ts/functions/err/async';
 import { checkRespObjOk, fetchRetry } from '@strinf/ts/functions/http/http';
-import type { ChartData } from '@strinf/ts/interfaces/api/mapped';
-import type DisChartT from '@strinf/ts/interfaces/chan/model';
-import type { DiaCon } from '@strinf/ts/interfaces/dom/dia';
 
 const X_ID = 'deposits per strain';
 const Y_ID = 'count';
@@ -40,7 +40,7 @@ class DisCpsCnt implements DisChartT {
     private static sortDis(data: ChartData<number[]>): ChartData<number[] | string[]> {
         const xData = data[X_ID] ?? [0];
         const yData = data[Y_ID] ?? [0];
-        const sortedProto = [...Array(Math.max(...xData) + 1).keys()];
+        const sortedProto = [...Array.from({ length: Math.max(...xData) + 1 }).keys()];
         const xMap = xData
             .map((xVal, xInd) => ({ [xVal]: xInd }))
             .reduce((wObj, item) => ({ ...wObj, ...item }));

@@ -1,15 +1,15 @@
+import type { PassR, SeqT } from '@strinf/ts/interfaces/api/mapped';
+import type { ConfLinkT } from '@strinf/ts/interfaces/misc/configs';
+import CONFIG from '@strinf/ts/configs/config';
+import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
+import { DOI_P, LPSN_P, NCBI_P, SCH_ORG } from '@strinf/ts/constants/links/collection';
+import { DSMZ_DET } from '@strinf/ts/constants/links/dsmz';
+import { C_LIC_LIN } from '@strinf/ts/constants/page/copy';
 import { createUrlStr } from '@strinf/ts/functions/http/http';
 import {
     createApiStrainCall,
     createStrainCall,
 } from '@strinf/ts/functions/links/create_pass';
-import type { PassR, SeqT } from '@strinf/ts/interfaces/api/mapped';
-import type { ConfLinkT } from '@strinf/ts/interfaces/misc/configs';
-import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
-import { DOI_P, LPSN_P, NCBI_P, SCH_ORG } from '@strinf/ts/constants/links/collection';
-import { DSMZ_DET } from '@strinf/ts/constants/links/dsmz';
-import { C_LIC_LIN } from '@strinf/ts/constants/page/copy';
-import CONFIG from '@strinf/ts/configs/config';
 
 const logoI = new URL('@assets/logo/strinf.webp', import.meta.url).pathname;
 
@@ -52,7 +52,7 @@ function getArchiveDates(pass: PassR): [string, string] {
         if (version?.[1] === undefined) {
             continue;
         }
-        const versionNum = parseInt(version[1], 10);
+        const versionNum = Number.parseInt(version[1], 10);
         if (versionNum === 1) {
             crDate = `${arc[2]}T00:00:00+01:00`;
         }

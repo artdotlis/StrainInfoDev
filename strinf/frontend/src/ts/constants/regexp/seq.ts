@@ -12,8 +12,8 @@ const SEQ_ACC = [
 ];
 
 const DB_ACC_REG = {
-    nucleotide: /[A-Z]\d{5}|[A-Z]{2}\d{6}|[A-Z]{2}\d{8}/,
+    nucleotide: /[A-Z]\d{5}|[A-Z]{2}\d{6}(?:\d{2})?/,
     assembly: /GCA_\d+/,
 };
 
-export { SEQ_ACC, DB_ACC_REG };
+export { DB_ACC_REG, SEQ_ACC };

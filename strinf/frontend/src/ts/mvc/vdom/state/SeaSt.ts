@@ -1,4 +1,3 @@
-import Known500Error from '@strinf/ts/errors/known/500';
 import type { LoadFS } from '@strinf/ts/interfaces/dom/global';
 import type { ProgF, ProgSetF } from '@strinf/ts/interfaces/dom/prog';
 import type {
@@ -8,6 +7,7 @@ import type {
     ToPassF,
     ToPassSetF,
 } from '@strinf/ts/interfaces/dom/sea';
+import Known500Error from '@strinf/ts/errors/known/500';
 
 class SeaSt implements SeaStInt {
     private progH?: ProgF;

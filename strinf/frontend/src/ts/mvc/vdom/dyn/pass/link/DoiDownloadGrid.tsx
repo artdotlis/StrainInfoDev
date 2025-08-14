@@ -1,19 +1,19 @@
-import QApiCon from '@strinf/ts/constants/api/q_api';
-import linkSty from '@strinf/css/mods/link.module.css';
+import type { JSX } from 'preact';
 import conSty from '@strinf/css/mods/container.module.css';
+import linkSty from '@strinf/css/mods/link.module.css';
+import CONFIG from '@strinf/ts/configs/config';
+import QApiCon from '@strinf/ts/constants/api/q_api';
+import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
+import DOI_L from '@strinf/ts/constants/links/doi';
+import ClHtmlSt from '@strinf/ts/constants/stat/ClHtml';
+import { Align, ClHtml, Dis, Pad, Wid } from '@strinf/ts/constants/style/ClHtml';
+import ErrType from '@strinf/ts/constants/type/ErrT';
+import onPrError from '@strinf/ts/functions/err/async';
 import readTextFile from '@strinf/ts/functions/files/reader';
 import { createUrlStr } from '@strinf/ts/functions/http/http';
-import type { JSX } from 'preact';
-import ClHtmlSt from '@strinf/ts/constants/stat/ClHtml';
-import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
-import { trackDownload } from '@strinf/ts/mvc/vdom/fun/mat/track';
-import { Align, ClHtml, Dis, Pad, Wid } from '@strinf/ts/constants/style/ClHtml';
-import crAlert from '@strinf/ts/mvc/vdom/fun/alert/alert';
-import DOI_L from '@strinf/ts/constants/links/doi';
-import onPrError from '@strinf/ts/functions/err/async';
-import ErrType from '@strinf/ts/constants/type/ErrT';
-import CONFIG from '@strinf/ts/configs/config';
 import DownloadBlobVD from '@strinf/ts/mvc/vdom/dyn/misc/DownloadVD';
+import crAlert from '@strinf/ts/mvc/vdom/fun/alert/alert';
+import { trackDownload } from '@strinf/ts/mvc/vdom/fun/mat/track';
 
 interface DownloadT {
     doi: string;
@@ -38,7 +38,7 @@ function activeLink(siId: string): (eve: Event) => Promise<[string, string]> {
 
 function DoiDownloadGrid(props: DownloadT): JSX.Element {
     const { doi } = props;
-    const siId = doi.replace(/10\.\d{4,}(?:\.\d+)*\/([^\n\r\s\t]+)$/, '$1');
+    const siId = doi.replace(/10\.\d{4,}(?:\.\d+)*\/(\S+)$/, '$1');
     const spCon = `${Align.jb} ${Dis.dIFlex} ${conSty.fbundle} ${Wid.f}`;
     const btnC = `${ClHtmlSt.mask} ${ClHtml.btn} ${ClHtml.link} ${Pad.lN0} ${Pad.rN5}`;
     const claB = `${linkSty.linkicon} ${linkSty.cleanbutton}`;
@@ -54,7 +54,7 @@ function DoiDownloadGrid(props: DownloadT): JSX.Element {
                         ico={ClHtmlI.downlF}
                         callBack={activeLink(siId)}
                         emptyLoad={true}
-                        state={'DOI - archive'}
+                        state="DOI - archive"
                         desc=""
                     />
                 </span>

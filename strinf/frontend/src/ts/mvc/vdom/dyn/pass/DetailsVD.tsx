@@ -1,6 +1,26 @@
+import type { DetailsR, DetT, RelT } from '@strinf/ts/interfaces/api/mapped';
+import type { InValInt, InValStInt } from '@strinf/ts/interfaces/dom/inp';
+import type {
+    DatIdTVInt,
+    TT_GL_TYPE,
+    TTSrcTVInt,
+} from '@strinf/ts/interfaces/dom/tooltip';
+import type AncT from '@strinf/ts/interfaces/misc/anchor';
+import type { ConfLinkT } from '@strinf/ts/interfaces/misc/configs';
+import type DetailCtrl from '@strinf/ts/mvc/ctrl/DetailCtrl';
 import type { JSX } from 'preact';
-import { ClHtml, Dis, Hei, Mar, Pad, Tex, Wid } from '@strinf/ts/constants/style/ClHtml';
+import icoSty from '@strinf/css/mods/icon.module.css';
+import logoSt from '@strinf/css/mods/link.module.css';
+import scSty from '@strinf/css/mods/scroll.module.css';
+import tilSty from '@strinf/css/mods/tile.module.css';
+import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
+import QApiCon from '@strinf/ts/constants/api/q_api';
 import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
+import ORCID_L from '@strinf/ts/constants/links/orcid';
+import ROR_L from '@strinf/ts/constants/links/ror';
+import { SR_CUL_ID } from '@strinf/ts/constants/regexp/sea_reg';
+import { ClHtml, Dis, Hei, Mar, Pad, Tex, Wid } from '@strinf/ts/constants/style/ClHtml';
+import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
 import {
     flattenDetTto1dim,
     getApiToStr,
@@ -9,46 +29,25 @@ import {
     wrapDetValues,
 } from '@strinf/ts/functions/api/map';
 import { filterArrStr } from '@strinf/ts/functions/arr/parse';
-import type { DetT, DetailsR, RelT } from '@strinf/ts/interfaces/api/mapped';
+import { createUrlStr } from '@strinf/ts/functions/http/http';
+import parseCountryCode from '@strinf/ts/functions/parse/country';
+import { createDate, createDateRKMS } from '@strinf/ts/functions/parse/date';
+import CatalogLinkVD from '@strinf/ts/mvc/vdom/dyn/pass/link/CatalogLinkVD';
+import TaxLinkVD, { LinkType } from '@strinf/ts/mvc/vdom/dyn/pass/link/TaxLinkVD';
+import { trackSearch } from '@strinf/ts/mvc/vdom/fun/mat/track';
 import { parseVal2Html } from '@strinf/ts/mvc/vdom/fun/tab/misc';
 import {
-    TooltipWrapper,
-    createXColTable,
     createRDepTiles,
+    createXColTable,
+    TooltipWrapper,
     useTooltipForRef,
 } from '@strinf/ts/mvc/vdom/fun/tab/pass';
-import type { InValInt, InValStInt } from '@strinf/ts/interfaces/dom/inp';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
-import tilSty from '@strinf/css/mods/tile.module.css';
-import type AncT from '@strinf/ts/interfaces/misc/anchor';
-import type {
-    DatIdTVInt,
-    TTSrcTVInt,
-    TT_GL_TYPE,
-} from '@strinf/ts/interfaces/dom/tooltip';
-import type DetailCtrl from '@strinf/ts/mvc/ctrl/DetailCtrl';
-import QApiCon from '@strinf/ts/constants/api/q_api';
 import DetSt from '@strinf/ts/mvc/vdom/state/DetSt';
-import { trackSearch } from '@strinf/ts/mvc/vdom/fun/mat/track';
-import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
-import { SR_CUL_ID } from '@strinf/ts/constants/regexp/sea_reg';
-import TaxLinkVD, { LinkType } from '@strinf/ts/mvc/vdom/dyn/pass/link/TaxLinkVD';
-import CatalogLinkVD from '@strinf/ts/mvc/vdom/dyn/pass/link/CatalogLinkVD';
-import icSt from '@strinf/css/mods/icon.module.css';
-import logoSt from '@strinf/css/mods/link.module.css';
-import scSty from '@strinf/css/mods/scroll.module.css';
-import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
-import { Component } from 'preact';
-import parseCountryCode from '@strinf/ts/functions/parse/country';
-import { useRef } from 'preact/hooks';
-import { createDate, createDateRKMS } from '@strinf/ts/functions/parse/date';
-import LogoRORVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoRORVD';
-import { createUrlStr } from '@strinf/ts/functions/http/http';
-import ROR_L from '@strinf/ts/constants/links/ror';
+import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import LogoORCIDVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoORCIDVD';
-import type { ConfLinkT } from '@strinf/ts/interfaces/misc/configs';
-import ORCID_L from '@strinf/ts/constants/links/orcid';
-import icoSty from '@strinf/css/mods/icon.module.css';
+import LogoRORVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoRORVD';
+import { Component } from 'preact';
+import { useRef } from 'preact/hooks';
 
 const TIT = 'Deposit details';
 const ID = 'section_nav_details';
@@ -121,7 +120,7 @@ function createHistEl(
     if (last) {
         return tilesEl;
     }
-    const cla = `${Wid.N50} ${Hei.N25} ${icSt.center}`;
+    const cla = `${Wid.N50} ${Hei.N25} ${icoSty.center}`;
     return [
         ...tilesEl,
         <div key={tilesEl.length + lKey} className={cla}>
@@ -283,7 +282,9 @@ function IncDep({
             if (hookInf.data !== undefined) {
                 hookInf.data(
                     <p>
-                        <b>Incorrect identifier</b>:<br />
+                        <b>Incorrect identifier</b>
+                        :
+                        <br />
                         The culture collection number could not be verified, possibly due
                         to typos or similar input errors.
                     </p>
@@ -312,7 +313,7 @@ function modCatalog(
     const ccInd = filH.indexOf(head[2] ?? '');
 
     let [cat_link, code, name, country, brc_link, ror] = cat;
-    brc_link = cat_link == '' ? brc_link : '';
+    brc_link = cat_link === '' ? brc_link : '';
     if (err !== null) {
         filD.splice(catInd, 1, err);
     } else if (code !== '') {
@@ -491,7 +492,7 @@ function Details({ ctx, data, cid, rel, hookCul, hookInf, ccno }: ResProps): JSX
             if (hookInf.data !== undefined) {
                 hookInf.data(
                     <p>
-                        <b>StrainRegistry</b>: {ccno} | {IdAcrTagCon.depId} {cid}
+                        <b>StrainRegistry</b>:{ccno} |{IdAcrTagCon.depId} {cid}
                     </p>
                 );
             }
@@ -503,7 +504,7 @@ function Details({ ctx, data, cid, rel, hookCul, hookInf, ccno }: ResProps): JSX
             <h3 className={ClHtml.titSec}>
                 {TIT}:<span className={`${Tex.p} ${Pad.lN10}`}>{ccno}</span>
                 {localData[3] ? (
-                    <span className={`${icSt.tc} ${Tex.s}`}>
+                    <span className={`${icoSty.tc} ${Tex.s}`}>
                         <span ref={ref}>
                             <i className={ClHtml.strRegT} />
                         </span>
@@ -621,7 +622,7 @@ class DetailsVD extends Component<DetailsProps, DetailsState> {
     private updateInVal(ctx: InValInt, id: string, initId: number, init: boolean): void {
         ctx.inValSet(id)((val: string) => {
             const { rel } = this.props;
-            const culId = parseInt(
+            const culId = Number.parseInt(
                 val.replace(new RegExp(IdAcrTagCon.depId, 'i'), '').replace(/,.*/, ''),
                 10
             );

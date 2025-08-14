@@ -1,19 +1,19 @@
-import PassAncId from '@strinf/ts/constants/page/pass';
-import { ClHtml, Col } from '@strinf/ts/constants/style/ClHtml';
-import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
-import type AncT from '@strinf/ts/interfaces/misc/anchor';
-import { useContext } from 'preact/hooks';
-import type { JSX } from 'preact';
-import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
+import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
 import type {
     DatIdTVInt,
     TT_GL_TYPE,
     TTSrcTVInt,
 } from '@strinf/ts/interfaces/dom/tooltip';
-import { createRStrTiles, TooltipWrapper } from '@strinf/ts/mvc/vdom/fun/tab/pass';
-import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import type AncT from '@strinf/ts/interfaces/misc/anchor';
+import type { JSX } from 'preact';
 import tilSty from '@strinf/css/mods/tile.module.css';
+import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
+import PassAncId from '@strinf/ts/constants/page/pass';
+import { ClHtml, Col } from '@strinf/ts/constants/style/ClHtml';
+import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
+import { createRStrTiles, TooltipWrapper } from '@strinf/ts/mvc/vdom/fun/tab/pass';
+import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { useContext as use } from 'preact/hooks';
 
 const ID = PassAncId.alt_str;
 
@@ -55,7 +55,7 @@ interface TProps {
 }
 
 function AltStrains({ strH, alt, oriDes }: TProps): JSX.Element | null {
-    const ctx: InValStInt | undefined = useContext(MainConGl);
+    const ctx: InValStInt | undefined = use(MainConGl);
     const tilesStr = createRStrTiles(
         alt,
         (dat: number) => [dat, `${IdAcrTagCon.strId} ${dat}`],

@@ -1,32 +1,28 @@
-import type { JSX } from 'preact';
-import { memo } from 'preact/compat';
-import { useContext } from 'preact/hooks';
-
+import type { NewsT } from '@strinf/ts/functions/md/wrapper';
 import type { BreadCrumbsG } from '@strinf/ts/interfaces/dom/global';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import type { JSX } from 'preact';
 
 import News from '@strinf/md/news/news.mdx';
 import HeadT from '@strinf/ts/constants/type/HeadT';
-import {
-    type NewsT,
-    TableWr,
-    UListWr,
-    factoryNewsDateWr,
-} from '@strinf/ts/functions/md/wrapper';
-import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
-import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
+
 import { getCurFullPath } from '@strinf/ts/functions/http/http';
+import { factoryNewsDateWr, TableWr, UListWr } from '@strinf/ts/functions/md/wrapper';
+import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
+import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
+import { memo } from 'preact/compat';
+import { useContext as use } from 'preact/hooks';
 
 function NewsM(): JSX.Element {
-    const ctx: BreadCrumbsG | undefined = useContext(MainConGl);
+    const ctx: BreadCrumbsG | undefined = use(MainConGl);
     if (ctx?.bread !== undefined) {
-        ctx.bread.map((actF) => {
+        for (const actF of ctx.bread) {
             actF(HeadT.NEWS);
-        });
+        }
     }
     return (
         <>
-            <MetaH title={'StrainInfo - News'} desc={'StrainInfo news'} />
+            <MetaH title="StrainInfo - News" desc="StrainInfo news" />
             <CanonH href={getCurFullPath()} />
             <News
                 components={{

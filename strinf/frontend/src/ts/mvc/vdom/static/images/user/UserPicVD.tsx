@@ -1,9 +1,9 @@
-import { Pad, Tex } from '@strinf/ts/constants/style/ClHtml';
 import type { JSX } from 'preact/jsx-runtime';
-import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
-import { useState } from 'preact/hooks';
 import hubSty from '@strinf/css/mods/hub.module.css';
+import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
 import { createUserPicMap } from '@strinf/ts/constants/resources';
+import { Pad, Tex } from '@strinf/ts/constants/style/ClHtml';
+import { useState } from 'preact/hooks';
 
 function DefaultImage(): JSX.Element {
     return (

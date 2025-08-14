@@ -1,9 +1,9 @@
 import type { JSX } from 'preact';
+import { lpsn_taxon_id } from '@strinf/ts/constants/links/lpsn';
+import { ncbi_taxon_id } from '@strinf/ts/constants/links/ncbi';
+import { Font } from '@strinf/ts/constants/style/ClHtml';
 import LogoLpsnVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoLpsnVD';
 import LogoNcbiVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoNcbiVD';
-import { ncbi_taxon_id } from '@strinf/ts/constants/links/ncbi';
-import { lpsn_taxon_id } from '@strinf/ts/constants/links/lpsn';
-import { Font } from '@strinf/ts/constants/style/ClHtml';
 
 enum LinkType {
     LPSN = 'lpsn',
@@ -28,14 +28,14 @@ function TaxLinkVD(props: TaxLink): JSX.Element {
             case LinkType.NCBI:
                 link = (
                     <a href={ncbi_taxon_id(ele.path)} target="_blank" rel="noopener">
-                        <LogoNcbiVD height={'22'} />
+                        <LogoNcbiVD height="22" />
                     </a>
                 );
                 break;
             case LinkType.LPSN:
                 link = (
                     <a href={lpsn_taxon_id(ele.path)} target="_blank" rel="noopener">
-                        <LogoLpsnVD height={'22'} />
+                        <LogoLpsnVD height="22" />
                     </a>
                 );
                 break;

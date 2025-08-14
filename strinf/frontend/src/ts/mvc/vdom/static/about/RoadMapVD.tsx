@@ -1,8 +1,8 @@
-import { memo } from 'preact/compat';
 import type { JSX } from 'preact';
-import { ClHtml, Tex } from '@strinf/ts/constants/style/ClHtml';
 import timeSty from '@strinf/css/mods/timeline.module.css';
 import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
+import { ClHtml, Tex } from '@strinf/ts/constants/style/ClHtml';
+import { memo } from 'preact/compat';
 
 const ROAD_MAP: [string, (string | JSX.Element)[]][] = [
     [

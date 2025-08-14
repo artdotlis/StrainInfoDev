@@ -1,7 +1,7 @@
 import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
-import { checkRespObjOk, createUrlStr, fetchRetry } from '@strinf/ts/functions/http/http';
-import { isServerStatus } from '@strinf/ts/functions/api/map';
 import CONFIG from '@strinf/ts/configs/config';
+import { isServerStatus } from '@strinf/ts/functions/api/map';
+import { checkRespObjOk, createUrlStr, fetchRetry } from '@strinf/ts/functions/http/http';
 
 const CACHE: {
     time: number;

@@ -1,9 +1,9 @@
-import { createUrlStr } from '@strinf/ts/functions/http/http';
-import { dsmz_mail } from '@strinf/ts/constants/links/mail';
-import { openMailClient, scrambleMail } from '@strinf/ts/functions/links/mail';
-import linkSty from '@strinf/css/mods/link.module.css';
-import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
 import type { JSX } from 'preact';
+import linkSty from '@strinf/css/mods/link.module.css';
+import { dsmz_mail } from '@strinf/ts/constants/links/mail';
+import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
+import { createUrlStr } from '@strinf/ts/functions/http/http';
+import { openMailClient, scrambleMail } from '@strinf/ts/functions/links/mail';
 
 const DSMZ_L = {
     domain: 'www.dsmz.de',
@@ -77,4 +77,4 @@ function ImprintDsmzVD(): JSX.Element {
 }
 
 export default DSMZ_L;
-export { DSMZ_DET, ImprintDsmzVD, DSMZ_BULK };
+export { DSMZ_BULK, DSMZ_DET, ImprintDsmzVD };

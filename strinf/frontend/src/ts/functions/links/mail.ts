@@ -9,4 +9,4 @@ function openMailClient(destMail: string, subj?: string, body?: string): void {
     document.location.href = `mailto:${mailto}?subject=${enSub}&body=${enBod}`;
 }
 
-export { scrambleMail, openMailClient };
+export { openMailClient, scrambleMail };

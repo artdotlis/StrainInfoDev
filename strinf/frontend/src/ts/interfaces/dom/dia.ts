@@ -31,4 +31,4 @@ interface DiaMInt {
     get conf(): DiaF;
 }
 
-export type { DiaCon, DiaSetF, DiaF, DiaSet, DiaMInt, DiaDataCPS };
+export type { DiaCon, DiaDataCPS, DiaF, DiaMInt, DiaSet, DiaSetF };

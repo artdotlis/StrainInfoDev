@@ -14,4 +14,4 @@ function ena_nucleotide(acc: string): string {
     return ena_genome(acc);
 }
 
-export { ena_nucleotide, ena_genome };
+export { ena_genome, ena_nucleotide };

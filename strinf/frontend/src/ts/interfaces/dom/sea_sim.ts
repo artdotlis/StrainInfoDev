@@ -15,4 +15,4 @@ interface SeaTMInt {
 
 type SeaStInt = SeaTMInt & SeaTSet & LoadStMInt & LoadStVInt;
 
-export type { SeaStInt, TabSetF, TabF, SeaTMInt };
+export type { SeaStInt, SeaTMInt, TabF, TabSetF };

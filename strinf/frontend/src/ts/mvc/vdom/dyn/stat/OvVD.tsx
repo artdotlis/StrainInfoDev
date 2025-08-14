@@ -1,16 +1,16 @@
-import { useState } from 'preact/hooks';
-import type { JSX } from 'preact';
-import { ClHtml, Col, Mar, Tex } from '@strinf/ts/constants/style/ClHtml';
 import type { DiaSetF } from '@strinf/ts/interfaces/dom/dia';
 import type { DataCon } from '@strinf/ts/interfaces/dom/global';
 import type { StaSetF } from '@strinf/ts/interfaces/dom/ind';
-import CpsVD from '@strinf/ts/mvc/vdom/dyn/stat/CpsVD';
+import type { JSX } from 'preact';
+import { ClHtml, Col, Mar, Tex } from '@strinf/ts/constants/style/ClHtml';
 import { selectBannerImage } from '@strinf/ts/functions/files/image';
+import CpsVD from '@strinf/ts/mvc/vdom/dyn/stat/CpsVD';
+import { useState } from 'preact/hooks';
 
 function mapStats(sta: DataCon<number>): JSX.Element {
     return (
         <p key={sta.id} className={`${Mar.lN15} ${Mar.yN5}`}>
-            {sta.id}: {sta.data}
+            {sta.id}:{sta.data}
         </p>
     );
 }

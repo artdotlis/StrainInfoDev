@@ -14,11 +14,11 @@ function joinCSV(data: MOD_SEA_T): string {
 }
 
 function createCSV(indices: number[]): string {
-    let res = getSeaResTuple(true).join(',') + '\n';
+    let res = `${getSeaResTuple(true).join(',')}\n`;
     for (const ind of indices) {
         const buf = ALL_DATA.get(ind);
         if (buf !== undefined) {
-            res += buf + '\n';
+            res += `${buf}\n`;
         }
     }
     return res;

@@ -1,21 +1,22 @@
+import type { DetailsR, OvT, RelT } from '@strinf/ts/interfaces/api/mapped';
+import type ViewChanInt from '@strinf/ts/interfaces/chan/details';
+import type { TTHookG } from '@strinf/ts/interfaces/dom/global';
+import type { ToolTipHookInt, TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
+import type DetailCtrl from '@strinf/ts/mvc/ctrl/DetailCtrl';
 import type { JSX } from 'preact';
 import { ClHtml, Dis, Font, Mar } from '@strinf/ts/constants/style/ClHtml';
 import { getOVTuple } from '@strinf/ts/functions/api/map';
 import { filterArrStr } from '@strinf/ts/functions/arr/parse';
-import type { DetailsR, OvT, RelT } from '@strinf/ts/interfaces/api/mapped';
-import { createStrainTitleBar } from '@strinf/ts/mvc/vdom/fun/tab/pass';
-import TaxLinkVD, { LinkType } from '@strinf/ts/mvc/vdom/dyn/pass/link/TaxLinkVD';
-import BacDiveLinkVD from '@strinf/ts/mvc/vdom/dyn/pass/link/BacDiveLinkVD';
-import ArcLinkVD from '@strinf/ts/mvc/vdom/dyn/pass/link/ArcLinkVD';
-import type DetailCtrl from '@strinf/ts/mvc/ctrl/DetailCtrl';
-import { useContext, useState } from 'preact/hooks';
-import type ViewChanInt from '@strinf/ts/interfaces/chan/details';
-import { memo } from 'preact/compat';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
-import type { TTHookG } from '@strinf/ts/interfaces/dom/global';
-import { TT_ID_SIM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
-import type { TT_GL_TYPE, ToolTipHookInt } from '@strinf/ts/interfaces/dom/tooltip';
 import LightsVD from '@strinf/ts/mvc/vdom/dyn/misc/StrainStatus';
+import ArcLinkVD from '@strinf/ts/mvc/vdom/dyn/pass/link/ArcLinkVD';
+import BacDiveLinkVD from '@strinf/ts/mvc/vdom/dyn/pass/link/BacDiveLinkVD';
+import TaxLinkVD, { LinkType } from '@strinf/ts/mvc/vdom/dyn/pass/link/TaxLinkVD';
+import { TT_ID_SIM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
+import { createStrainTitleBar } from '@strinf/ts/mvc/vdom/fun/tab/pass';
+import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { memo } from 'preact/compat';
+import { useContext as use, useState } from 'preact/hooks';
+
 interface ResProps {
     res: OvT | undefined;
     dCtrl: DetailCtrl | undefined;
@@ -139,7 +140,7 @@ function StrainStatus({ rel, dCtrl, ttHook }: StatusProps): JSX.Element | null {
 const StrainStatusVD = memo(StrainStatus);
 
 function OverviewVD({ res, dCtrl, rel }: ResProps): JSX.Element | null {
-    const ctx: TTHookG<TT_GL_TYPE> | undefined = useContext(MainConGl);
+    const ctx: TTHookG<TT_GL_TYPE> | undefined = use(MainConGl);
     const ttHook = ctx?.getTTHook(TT_ID_SIM);
     if (res === undefined || ttHook === undefined) {
         return null;
@@ -149,7 +150,7 @@ function OverviewVD({ res, dCtrl, rel }: ResProps): JSX.Element | null {
     modName(filD[0], filD[1], res[2]);
     modBacDive(filD[0], filD[1], res[3]);
     modArchive(filD[0], filD[1], res[4], ttHook);
-    const extraCl: string[] = Array(filD[1].length).fill('');
+    const extraCl: string[] = Array.from({ length: filD[1].length }).fill('') as string[];
     if (res[3] !== undefined) {
         extraCl.splice(filD[1].length - 1, 1, `${Mar.lNAT} ${Dis.dNone} ${Dis.dBM}`);
     }

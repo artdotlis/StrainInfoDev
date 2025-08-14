@@ -1,6 +1,6 @@
 import type { JSX } from 'preact';
-import LogoBacDiveVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoBacDiveVD';
 import { bac_dive_id } from '@strinf/ts/constants/links/bacdive';
+import LogoBacDiveVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoBacDiveVD';
 
 interface BacLink {
     id: number;

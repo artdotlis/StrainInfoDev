@@ -1,4 +1,3 @@
-import { createContext } from 'preact';
 import type ErrType from '@strinf/ts/constants/type/ErrT';
 import type {
     BreadFS,
@@ -9,8 +8,9 @@ import type {
     LoadFS,
 } from '@strinf/ts/interfaces/dom/global';
 import type { InValFS } from '@strinf/ts/interfaces/dom/inp';
+import type { ToolTipHookInt, TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
 import type { RefObject } from 'preact';
-import type { TT_GL_TYPE, ToolTipHookInt } from '@strinf/ts/interfaces/dom/tooltip';
+import { createContext } from 'preact';
 
 class GlobSt implements GlStInt<TT_GL_TYPE> {
     private breadH: Record<string, BreadFS>;

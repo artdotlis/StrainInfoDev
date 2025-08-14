@@ -1,18 +1,17 @@
-import checkConfCon from '@strinf/ts/functions/types/configs';
+import { ConfCon } from '@strinf/ts/interfaces/misc/configs';
 
 function evaluatedEnv(): boolean {
     const prod: unknown = import.meta.env.PROD;
     if ('VITE_STAGE' in import.meta.env) {
         return false;
     }
-    if (typeof prod === 'string' || prod instanceof String) {
-        return /^TRUE$/.test(String(prod).toUpperCase());
+    if (typeof prod === 'string' || typeof prod === 'string') {
+        return /^TRUE$/.test(prod.toUpperCase());
     }
     return Boolean(prod);
 }
-
 const CONFIG = Object.freeze(
-    checkConfCon({
+    ConfCon.parse({
         production: evaluatedEnv(),
         stage: 'VITE_STAGE' in import.meta.env,
         index: {

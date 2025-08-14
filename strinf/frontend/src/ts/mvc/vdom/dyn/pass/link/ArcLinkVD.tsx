@@ -1,18 +1,18 @@
+import type { ToolTipHookInt, TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
 import type { JSX } from 'preact';
-import { createUrlStr } from '@strinf/ts/functions/http/http';
-import linkSty from '@strinf/css/mods/link.module.css';
 import conSty from '@strinf/css/mods/container.module.css';
-import { Align, Dis, Tex } from '@strinf/ts/constants/style/ClHtml';
-import DOI_L from '@strinf/ts/constants/links/doi';
-import LogoDoiVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoDoiVD';
-import crAlert from '@strinf/ts/mvc/vdom/fun/alert/alert';
+import linkSty from '@strinf/css/mods/link.module.css';
 import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
+import DOI_L from '@strinf/ts/constants/links/doi';
+import { Align, Dis, Tex } from '@strinf/ts/constants/style/ClHtml';
 import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
-import { useRef } from 'preact/hooks';
-import { useTooltipForRef } from '@strinf/ts/mvc/vdom/fun/tab/pass';
-import type { TT_GL_TYPE, ToolTipHookInt } from '@strinf/ts/interfaces/dom/tooltip';
 import ErrType from '@strinf/ts/constants/type/ErrT';
 import onPrError from '@strinf/ts/functions/err/async';
+import { createUrlStr } from '@strinf/ts/functions/http/http';
+import crAlert from '@strinf/ts/mvc/vdom/fun/alert/alert';
+import { useTooltipForRef } from '@strinf/ts/mvc/vdom/fun/tab/pass';
+import LogoDoiVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoDoiVD';
+import { useRef } from 'preact/hooks';
 
 interface ArcLink {
     doi: string;

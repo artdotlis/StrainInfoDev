@@ -1,15 +1,15 @@
-import type { JSX, RefObject } from 'preact';
-import { Component, createRef } from 'preact';
-import { HIDE_ATTR, TT_ARR, TT_SRC } from '@strinf/ts/constants/style/AtHtml';
 import type { InfoR, InfoS } from '@strinf/ts/interfaces/api/mapped';
 import type { GlobVersionGet, TTHookS } from '@strinf/ts/interfaces/dom/global';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
-import InfoSt from '@strinf/ts/mvc/vdom/state/InfoSt';
-import tooSty from '@strinf/css/mods/tooltip.module.css';
-import type { TT_GL_TYPE, ToolTipHookInt } from '@strinf/ts/interfaces/dom/tooltip';
-import ToolTipHook from '@strinf/ts/mvc/vdom/state/InfoHk';
-import Known500Error from '@strinf/ts/errors/known/500';
+import type { ToolTipHookInt, TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
 import type InfoCtrl from '@strinf/ts/mvc/ctrl/InfoCtrl';
+import type { JSX, RefObject } from 'preact';
+import tooSty from '@strinf/css/mods/tooltip.module.css';
+import { HIDE_ATTR, TT_ARR, TT_SRC } from '@strinf/ts/constants/style/AtHtml';
+import Known500Error from '@strinf/ts/errors/known/500';
+import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import ToolTipHook from '@strinf/ts/mvc/vdom/state/InfoHk';
+import InfoSt from '@strinf/ts/mvc/vdom/state/InfoSt';
+import { Component, createRef } from 'preact';
 
 interface ToolState<I extends InfoS | InfoR> {
     selId: number;
@@ -67,7 +67,7 @@ class ToolTipInfoVD<I extends InfoS | InfoR> extends Component<
                 const { selId } = this.state;
                 if (selId === locCid) {
                     this.loading = false;
-                    this.setState({ selId: selId, res });
+                    this.setState({ selId, res });
                 }
             }
         });
@@ -110,9 +110,9 @@ class ToolTipInfoVD<I extends InfoS | InfoR> extends Component<
                 );
             }
             const { res } = this.state;
-            let newState: ToolState<I> = { selId: selId };
+            let newState: ToolState<I> = { selId };
             if (res !== undefined) {
-                newState = { res, selId: selId };
+                newState = { res, selId };
             }
             this.buffer.add(selId);
             this.setState(newState);
@@ -134,7 +134,7 @@ class ToolTipInfoVD<I extends InfoS | InfoR> extends Component<
                     : createTT({
                           loading: this.loading,
                           info: this.info,
-                          res: res,
+                          res,
                       })}
                 <div ref={this.arrRef} className={tooSty.arrow} {...TT_ARR} />
             </div>

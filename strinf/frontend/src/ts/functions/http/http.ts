@@ -1,7 +1,7 @@
-import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
-import Known500Error from '@strinf/ts/errors/known/500';
 import type { ConfLinkT } from '@strinf/ts/interfaces/misc/configs';
 import type { LocationHook } from 'preact-iso';
+import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
+import Known500Error from '@strinf/ts/errors/known/500';
 
 function routeUri(uri: string, replace: string, location: LocationHook): void {
     if (uri.length === 0) {
@@ -151,14 +151,14 @@ function getCurFullPathWithArgs(extraArgs: string): string {
 }
 
 export {
-    scrollToId,
-    routeUri,
     checkRespArr,
     checkRespObjOk,
     checkRespTyp,
     createUrlStr,
-    hidePrivateInfo,
+    fetchRetry,
     getCurFullPath,
     getCurFullPathWithArgs,
-    fetchRetry,
+    hidePrivateInfo,
+    routeUri,
+    scrollToId,
 };

@@ -1,11 +1,11 @@
+import type { ApiChanInt, InfoR, InfoS } from '@strinf/ts/interfaces/api/mapped';
+import type ViewChanInt from '@strinf/ts/interfaces/chan/info';
 import QApiCon from '@strinf/ts/constants/api/q_api';
 import Known404Error from '@strinf/ts/errors/known/404';
 import Known500Error from '@strinf/ts/errors/known/500';
 import { getApiToStr } from '@strinf/ts/functions/api/map';
 import onPrError from '@strinf/ts/functions/err/async';
 import { checkRespArr, fetchRetry } from '@strinf/ts/functions/http/http';
-import type { ApiChanInt, InfoR, InfoS } from '@strinf/ts/interfaces/api/mapped';
-import type ViewChanInt from '@strinf/ts/interfaces/chan/info';
 
 class InfoCon<T extends InfoR | InfoS> {
     private readonly apiCall: ApiChanInt;

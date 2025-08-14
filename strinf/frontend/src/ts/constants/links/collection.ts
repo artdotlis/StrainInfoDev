@@ -1,8 +1,8 @@
-import { createUrlStr } from '@strinf/ts/functions/http/http';
-import LPSN_L from '@strinf/ts/constants/links/lpsn';
-import NCBI_L from '@strinf/ts/constants/links/ncbi';
 import BD_L from '@strinf/ts/constants/links/bacdive';
 import DSMZ_L from '@strinf/ts/constants/links/dsmz';
+import LPSN_L from '@strinf/ts/constants/links/lpsn';
+import NCBI_L from '@strinf/ts/constants/links/ncbi';
+import { createUrlStr } from '@strinf/ts/functions/http/http';
 
 const DSMZ = createUrlStr(DSMZ_L, '');
 const N4M = 'https://nfdi4microbiota.de';
@@ -49,29 +49,29 @@ const D3_BSKY = 'https://bsky.app/profile/dsmzd3.bsky.social';
 const D3_LN = 'https://www.linkedin.com/company/dsmzd3';
 
 export {
+    BacDive,
+    BCCM,
+    BCCM_LMG,
+    CCUG,
+    CIP,
+    CIRM,
+    Crossref,
     D3_BSKY,
     D3_LN,
-    DFG,
-    SCH_ORG,
-    NCBI_P,
-    LPSN_P,
-    DOI_P,
-    BacDive,
-    BCCM_LMG,
-    BCCM,
-    DSMZ,
-    CIP,
-    CCUG,
-    CIRM,
-    ICMP,
-    N4M,
-    LPSN,
-    NCBI,
-    GBIF,
     DataCite,
-    Crossref,
-    ROR,
+    DFG,
+    DOI_P,
+    DSMZ,
+    GBIF,
+    ICMP,
+    LPSN,
+    LPSN_P,
+    N4M,
+    NCBI,
+    NCBI_P,
     ORCID,
     RCC,
+    ROR,
+    SCH_ORG,
     UAMH,
 };

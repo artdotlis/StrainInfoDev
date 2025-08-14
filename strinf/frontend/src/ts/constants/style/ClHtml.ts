@@ -249,4 +249,4 @@ enum ClHtml {
     req = 'required',
 }
 
-export { ClHtml, DdM, Font, Align, Hei, Wid, Tex, BgCol, Dis, Mar, Col, Pad, ZInd };
+export { Align, BgCol, ClHtml, Col, DdM, Dis, Font, Hei, Mar, Pad, Tex, Wid, ZInd };

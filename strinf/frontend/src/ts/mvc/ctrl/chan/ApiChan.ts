@@ -1,6 +1,6 @@
-import CONFIG from '@strinf/ts/configs/config';
 import type { ApiChanInt } from '@strinf/ts/interfaces/api/mapped';
 import type { ConfLinkT } from '@strinf/ts/interfaces/misc/configs';
+import CONFIG from '@strinf/ts/configs/config';
 
 class ApiChan implements ApiChanInt {
     private readonly apiConf: ConfLinkT;

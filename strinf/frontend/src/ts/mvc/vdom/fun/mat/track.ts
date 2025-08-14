@@ -44,4 +44,4 @@ function trackDownload(url: string, bytes: number): void {
     });
 }
 
-export { trackPageV, trackSearch, trackDownload };
+export { trackDownload, trackPageV, trackSearch };

@@ -1,6 +1,36 @@
+import type {
+    DetailsJT,
+    InfoDJT,
+    InfoSJT,
+    PassJT,
+    SeaIndJT,
+    SerSeaAllJT,
+    SerSeaEleT,
+    ServerStatusJT,
+} from '@strinf/ts/interfaces/api/data';
+import type {
+    ArcT,
+    DesT,
+    DetailsR,
+    DetET,
+    DetMT,
+    DetT,
+    InfoR,
+    InfoS,
+    OvT,
+    PassR,
+    PubT,
+    RelT,
+    SeaInputCombEl,
+    SeaR,
+    SeqT,
+} from '@strinf/ts/interfaces/api/mapped';
+import type { JSX } from 'preact';
 import CONFIG from '@strinf/ts/configs/config';
 import { DepositStatus, StrainStatus } from '@strinf/ts/constants/api/data';
 import QApiCon from '@strinf/ts/constants/api/q_api';
+import THESAURUS_MAP, { getShortText } from '@strinf/ts/constants/api/thes_api';
+import getSynEqStruct from '@strinf/ts/constants/des/uniq_des';
 import {
     SR_BRC,
     SR_CUL_ID,
@@ -9,48 +39,18 @@ import {
     SR_STR_ID,
     SR_TAX,
 } from '@strinf/ts/constants/regexp/sea_reg';
-import THESAURUS_MAP, { getShortText } from '@strinf/ts/constants/api/thes_api';
-import type {
-    DetT,
-    OvT,
-    PassR,
-    PubT,
-    RelT,
-    SeaInputCombEl,
-    SeaR,
-    SeqT,
-    InfoR,
-    DetailsR,
-    DesT,
-    ArcT,
-    DetET,
-    DetMT,
-    InfoS,
-} from '@strinf/ts/interfaces/api/mapped';
-import type { JSX } from 'preact';
+import Known500Error from '@strinf/ts/errors/known/500';
 import { isSlimScreen } from '@strinf/ts/functions/misc/screen';
-import type {
-    SerSeaEleT,
-    PassJT,
-    SeaIndJT,
-    SerSeaAllJT,
-    ServerStatusJT,
-    DetailsJT,
-    InfoDJT,
-    InfoSJT,
-} from '@strinf/ts/interfaces/api/data';
 import {
     DetailsJ,
     InfoDJ,
     InfoSJ,
-    ServerStatusJ,
     PassJ,
-    SerSeaAllJ,
     SeaIndJ,
+    SerSeaAllJ,
     SerSeaEle,
+    ServerStatusJ,
 } from '@strinf/ts/interfaces/api/data';
-import Known500Error from '@strinf/ts/errors/known/500';
-import getSynEqStruct from '@strinf/ts/constants/des/uniq_des';
 
 const SEA_INPUT_COMB: SeaInputCombEl[] = [
     {
@@ -234,7 +234,7 @@ function detConMain(data: DetailsJT): DetMT {
     ];
 }
 
-/*eslint complexity: ["error", 40]*/
+/* eslint complexity: ["error", 40] */
 function detConExtra(data: DetailsJT): DetET {
     const sub = data.deposit.registration?.submitter;
     const sup = data.deposit.registration?.supervisor;
@@ -374,7 +374,7 @@ function flattenDetTto1dim(data: DetT): EleT[] {
 function createRelCon(data: PassJT): RelT[] {
     const relCon: RelT[] = [];
     const siDPM = new Map();
-    let notDepIds = new Set();
+    const notDepIds = new Set();
     for (const dep of data.strain.relation.deposit) {
         siDPM.set(dep.siDP, dep.ccID);
         if (dep.ccID === undefined) {
@@ -499,7 +499,7 @@ function toArrPassRes(data: unknown): PassR {
         archive: createArcCon(pData),
         allStrIds: createAllStrIds(pData),
         altStrIds: createAltStrIds(pData),
-        clear: function () {
+        clear() {
             this.overview.splice(0, this.overview.length);
             this.relations.splice(0, this.relations.length);
             this.designations.splice(0, this.designations.length);
@@ -652,28 +652,28 @@ function toArrSerSeaResSim(dataCon: SerSeaAllJT): SeaR[] {
 }
 
 export {
-    SEA_INPUT_COMB,
-    toArrSerSeaResSim,
-    toArrSerSeaRes,
-    isSerSeaAllJ,
-    getSeaResTuple,
-    toArrPassRes,
-    getOVTuple,
-    getDetTuple,
-    getPubTuple,
-    getSeqTuple,
+    convertStrainStatusToEnum,
+    flattenDetTto1dim,
     getApiToStr,
+    getArcTuple,
+    getDetTuple,
+    getInfoDepTuple,
+    getInfoDesTuple,
+    getInfoStrTuple,
+    getOVTuple,
+    getPubTuple,
+    getSeaResTuple,
+    getSeqTuple,
+    isSerSeaAllJ,
+    isServerStatus,
+    mapDetails2DetT,
+    SEA_INPUT_COMB,
+    toArrDetailsRes,
+    toArrIndSeaIndRes,
     toArrInfoDepRes,
     toArrInfoStrRes,
-    toArrDetailsRes,
-    getInfoDepTuple,
-    getInfoStrTuple,
-    mapDetails2DetT,
-    getInfoDesTuple,
-    getArcTuple,
+    toArrPassRes,
+    toArrSerSeaRes,
+    toArrSerSeaResSim,
     wrapDetValues,
-    flattenDetTto1dim,
-    isServerStatus,
-    toArrIndSeaIndRes,
-    convertStrainStatusToEnum,
 };

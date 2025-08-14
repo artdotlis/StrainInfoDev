@@ -1,10 +1,10 @@
 import type { JSX } from 'preact';
-import { memo } from 'preact/compat';
+import linkSty from '@strinf/css/mods/link.module.css';
+import About from '@strinf/md/about/about.mdx';
 import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
 import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
-import linkSty from '@strinf/css/mods/link.module.css';
 
-import About from '@strinf/md/about/about.mdx';
+import { memo } from 'preact/compat';
 
 function AboutI(): JSX.Element {
     return (

@@ -1,7 +1,7 @@
-import { computePosition, offset, shift, arrow, autoPlacement } from '@floating-ui/dom';
-import type { RefObject } from 'preact';
-import { HIDE } from '@strinf/ts/constants/style/AtHtml';
 import type { TTSrcTVInt } from '@strinf/ts/interfaces/dom/tooltip';
+import type { RefObject } from 'preact';
+import { arrow, autoPlacement, computePosition, offset, shift } from '@floating-ui/dom';
+import { HIDE } from '@strinf/ts/constants/style/AtHtml';
 import onPrError from '@strinf/ts/functions/err/async';
 import { isSmallScreen } from '@strinf/ts/functions/misc/screen';
 
@@ -48,9 +48,9 @@ function hideEv(
     timerGl: number[]
 ): () => void {
     const event = () => {
-        [...timerGl, ...timerSh].map((ele) => {
+        for (const ele of [...timerGl, ...timerSh]) {
             clearTimeout(ele);
-        });
+        }
         too.setAttribute(HIDE, '');
     };
     tarC.addEventListener(hid, event);
@@ -102,14 +102,12 @@ function assignToolTip<T extends Element>(
 ): void {
     const [tar, src] = tar_con;
     const tarC = tar.current;
-    /* eslint-disable @typescript-eslint/prefer-optional-chain */
     if (
         tarC !== null &&
         src.ttSrc !== undefined &&
         src.ttSrc[0].current !== null &&
         src.ttSrc[1].current !== null
     ) {
-        /* eslint-enable  @typescript-eslint/prefer-optional-chain */
         const srcC = src.ttSrc[0].current;
         const arrowC = src.ttSrc[1].current;
         srcC.setAttribute(HIDE, '');

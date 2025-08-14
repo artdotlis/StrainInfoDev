@@ -1,11 +1,11 @@
+import type { SeaIndJT, ServerStatusJT } from '@strinf/ts/interfaces/api/data';
+import type ViewChanInt from '@strinf/ts/interfaces/chan/sea_ind';
 import Known500Error from '@strinf/ts/errors/known/500';
 import getServerStatus from '@strinf/ts/functions/api/status';
 import onPrError from '@strinf/ts/functions/err/async';
-import type ViewChanInt from '@strinf/ts/interfaces/chan/sea_ind';
 import ApiChan from '@strinf/ts/mvc/ctrl/chan/ApiChan';
-import SeaIndexCon from '@strinf/ts/mvc/model/sea/SeaIndexCon';
 import Controller from '@strinf/ts/mvc/ctrl/Controller';
-import type { SeaIndJT, ServerStatusJT } from '@strinf/ts/interfaces/api/data';
+import SeaIndexCon from '@strinf/ts/mvc/model/sea/SeaIndexCon';
 
 const LIMIT = 20;
 

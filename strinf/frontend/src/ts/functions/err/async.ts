@@ -5,7 +5,7 @@ function isFunction(func: unknown): func is CallableFunction {
 function onPrError(err: unknown): void {
     const onErrF = window.onerror;
     if (isFunction(onErrF)) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        // eslint-disable-next-line ts/no-unsafe-call
         onErrF('', undefined, undefined, undefined, err);
     }
 }

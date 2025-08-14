@@ -1,6 +1,6 @@
+import type ErrType from '@strinf/ts/constants/type/ErrT';
 import type LoadT from '@strinf/ts/constants/type/LoadT';
 import type { InValInt } from '@strinf/ts/interfaces/dom/inp';
-import type ErrType from '@strinf/ts/constants/type/ErrT';
 import type { ToolTipHookInt } from '@strinf/ts/interfaces/dom/tooltip';
 
 interface ErrStCon {
@@ -89,22 +89,22 @@ interface DataCon<T> {
 }
 
 export type {
-    DataCon,
-    GlStInt,
-    ErrStCon,
-    LoadSet,
-    LoadStMInt,
-    LoadFS,
-    BreadCrumbsS,
     BreadCrumbsG,
-    BreadSetFS,
+    BreadCrumbsS,
     BreadFS,
-    WrapperInt,
+    BreadSetFS,
+    CookieFS,
     CookieG,
     CookieS,
-    CookieFS,
     CookieSetFS,
-    TTHookS,
-    TTHookG,
+    DataCon,
+    ErrStCon,
     GlobVersionGet,
+    GlStInt,
+    LoadFS,
+    LoadSet,
+    LoadStMInt,
+    TTHookG,
+    TTHookS,
+    WrapperInt,
 };

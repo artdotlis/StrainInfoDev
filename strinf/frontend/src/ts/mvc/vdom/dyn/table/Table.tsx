@@ -1,3 +1,5 @@
+import type { JSX } from 'preact';
+import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
 import {
     Align,
     ClHtml,
@@ -8,11 +10,9 @@ import {
     Pad,
     Wid,
 } from '@strinf/ts/constants/style/ClHtml';
-import { Component } from 'preact';
-import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
 import onPrError from '@strinf/ts/functions/err/async';
-import type { JSX } from 'preact';
 import { isSlimScreen } from '@strinf/ts/functions/misc/screen';
+import { Component } from 'preact';
 
 interface TableProps<T> {
     res: T[];
@@ -34,7 +34,7 @@ interface PageProps {
 }
 
 function getPagArray(sel: number, cnt: number): (number | string)[] {
-    const pagination: number[] = [...Array(5).keys()]
+    const pagination: number[] = [...Array.from({ length: 5 }).keys()]
         .map((val) => sel + val - 2)
         .filter((val: number) => {
             if (val <= 1 || val >= cnt) {
@@ -192,7 +192,7 @@ abstract class TableCon<T, E extends TableProps<T>> extends Component<E, TableSt
         this.filterState = { previous: [], next: [] };
         this.filterBuffer = [];
         this.tableCl = `${ClHtml.tab} ${ClHtml.sm} ${ClHtml.hov}`;
-        if (tableCl !== undefined && tableCl != '') {
+        if (tableCl !== undefined && tableCl !== '') {
             this.tableCl = tableCl;
         }
     }
@@ -310,7 +310,7 @@ abstract class TableCon<T, E extends TableProps<T>> extends Component<E, TableSt
         const toEmpty =
             this.filterBuffer.length === 0 || this.filterState.next.length === 0 || toFil;
         this.filterState.previous = this.filterState.next;
-        let limit = toEmpty ? [...this.data.keys()] : this.filterBuffer;
+        const limit = toEmpty ? [...this.data.keys()] : this.filterBuffer;
         if (toFil) {
             const indPkg = packageView(limit);
             const resF: Promise<number[]>[] = [];
@@ -483,7 +483,7 @@ abstract class TableCon<T, E extends TableProps<T>> extends Component<E, TableSt
                     onChange={(val) => {
                         let limit = this.data.length;
                         if (val.currentTarget.value !== 'Show all') {
-                            limit = parseInt(val.currentTarget.value);
+                            limit = Number.parseInt(val.currentTarget.value);
                         }
                         this.setState({
                             page: 1,
@@ -556,7 +556,12 @@ abstract class TableCon<T, E extends TableProps<T>> extends Component<E, TableSt
             return null;
         }
         if (view.length <= window) {
-            return <div className={Pad.lN10}>Showing {view.length}</div>;
+            return (
+                <div className={Pad.lN10}>
+                    Showing
+                    {view.length}
+                </div>
+            );
         }
         const start = (page - 1) * window + 1;
         let end = start + window - 1;
@@ -569,7 +574,7 @@ abstract class TableCon<T, E extends TableProps<T>> extends Component<E, TableSt
             </div>
         );
     }
-    // eslint-disable-next-line @typescript-eslint/class-methods-use-this
+
     protected renderFilter(): JSX.Element | null {
         return null;
     }

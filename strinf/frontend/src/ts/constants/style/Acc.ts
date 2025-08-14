@@ -30,4 +30,4 @@ enum FormNames {
     con = 'accessibility[contrast]',
 }
 
-export { IDC, Cookie, CookieValue, FormNames };
+export { Cookie, CookieValue, FormNames, IDC };

@@ -1,17 +1,18 @@
-import { ClHtml, Dis, Hei, Mar, Wid } from '@strinf/ts/constants/style/ClHtml';
-import Known500Error from '@strinf/ts/errors/known/500';
+import type { ToolTipHookInt, TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
+import type { JSX } from 'preact';
+import conSty from '@strinf/css/mods/container.module.css';
 import icoSty from '@strinf/css/mods/icon.module.css';
+import { StrainStatus } from '@strinf/ts/constants/api/data';
+
+import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
+import { ClHtml, Dis, Hei, Mar, Wid } from '@strinf/ts/constants/style/ClHtml';
+import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
+
+import Known500Error from '@strinf/ts/errors/known/500';
 import { createBoolIcon } from '@strinf/ts/mvc/vdom/fun/tab/misc';
+import { TooltipWrapper } from '@strinf/ts/mvc/vdom/fun/tab/pass';
 import { useRef } from 'preact/hooks';
 
-import { TooltipWrapper } from '@strinf/ts/mvc/vdom/fun/tab/pass';
-import conSty from '@strinf/css/mods/container.module.css';
-import type { TT_GL_TYPE, ToolTipHookInt } from '@strinf/ts/interfaces/dom/tooltip';
-
-import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
-import { StrainStatus } from '@strinf/ts/constants/api/data';
-import type { JSX } from 'preact';
-import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
 interface TTProps {
     hook: ToolTipHookInt<TT_GL_TYPE>;
     id: StrainStatus;

@@ -1,5 +1,5 @@
-import QApiCon from '@strinf/ts/constants/api/q_api';
 import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
+import QApiCon from '@strinf/ts/constants/api/q_api';
 import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
 import UIArgCon from '@strinf/ts/constants/api/ui_arg';
 
@@ -23,4 +23,4 @@ function createStrainCultureCall(
     return `${UIApiCon.strain}${str_id}?${IdAcrTagCon.depId}${cul_id}`;
 }
 
-export { createPassCall, createStrainCall, createStrainCultureCall, createApiStrainCall };
+export { createApiStrainCall, createPassCall, createStrainCall, createStrainCultureCall };

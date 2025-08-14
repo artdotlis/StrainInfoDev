@@ -1,26 +1,25 @@
-import type { JSX } from 'preact';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
-import QApiCon from '@strinf/ts/constants/api/q_api';
-import { Component } from 'preact';
+import type { SeaR } from '@strinf/ts/interfaces/api/mapped';
 import type {
     GlobVersionGet,
-    LoadFS,
     LoadSet,
     LoadStMInt,
     TTHookG,
 } from '@strinf/ts/interfaces/dom/global';
-import PassAncId from '@strinf/ts/constants/page/pass';
-import type AncT from '@strinf/ts/interfaces/misc/anchor';
-import type { SeaR } from '@strinf/ts/interfaces/api/mapped';
-import { TT_ID_SIM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
 import type { TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
-import LoadT from '@strinf/ts/constants/type/LoadT';
-import { SeaTable } from '@strinf/ts/mvc/vdom/dyn/search/SeaTVD';
-import { getSeaResTuple } from '@strinf/ts/functions/api/map';
+import type AncT from '@strinf/ts/interfaces/misc/anchor';
+import type { JSX } from 'preact';
+import QApiCon from '@strinf/ts/constants/api/q_api';
+import PassAncId from '@strinf/ts/constants/page/pass';
 import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
 import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
+import LoadT from '@strinf/ts/constants/type/LoadT';
+import { getSeaResTuple } from '@strinf/ts/functions/api/map';
 import SeaSimpleCtrl from '@strinf/ts/mvc/ctrl/SeaSimpleCtrl';
+import { SeaTable } from '@strinf/ts/mvc/vdom/dyn/search/SeaTVD';
+import { TT_ID_SIM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
+import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import SeaSimpleSt from '@strinf/ts/mvc/vdom/state/SeaSimpleSt';
+import { Component } from 'preact';
 
 interface NamNavProps {
     strId: number[];
@@ -86,9 +85,9 @@ class RelStrainsVD extends Component<NamNavProps, IdState> {
     }
 
     public override componentWillUnmount(): void {
-        this.hooks.load.map((ele: LoadFS) => {
+        for (const ele of this.hooks.load) {
             ele(LoadT.INI);
-        });
+        }
         this.state.results.splice(0, this.state.results.length);
     }
 
@@ -99,7 +98,7 @@ class RelStrainsVD extends Component<NamNavProps, IdState> {
         this.initCtrl(ctx, taxN);
         const ttHook = ctx?.getTTHook(TT_ID_SIM);
         const { results } = this.state;
-        if (ttHook == undefined || this.load !== LoadT.FIN || results.length === 0) {
+        if (ttHook === undefined || this.load !== LoadT.FIN || results.length === 0) {
             return null;
         }
         return (

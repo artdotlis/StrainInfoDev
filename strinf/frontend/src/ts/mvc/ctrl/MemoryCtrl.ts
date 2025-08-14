@@ -1,7 +1,7 @@
+import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
 import Known500Error from '@strinf/ts/errors/known/500';
 import getServerStatus from '@strinf/ts/functions/api/status';
 import onPrError from '@strinf/ts/functions/err/async';
-import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
 
 const LIMIT = 200;
 interface Chan<T> {

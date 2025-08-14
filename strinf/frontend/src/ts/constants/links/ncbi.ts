@@ -18,4 +18,4 @@ function ncbi_nucleotide(acc: string): string {
     return createUrlStr(NCBI_L, `nuccore/${acc}`);
 }
 export default NCBI_L;
-export { ncbi_taxon_id, ncbi_genome, ncbi_nucleotide };
+export { ncbi_genome, ncbi_nucleotide, ncbi_taxon_id };

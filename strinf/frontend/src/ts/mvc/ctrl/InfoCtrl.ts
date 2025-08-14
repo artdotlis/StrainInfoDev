@@ -1,10 +1,10 @@
-import type ViewChanInt from '@strinf/ts/interfaces/chan/info';
-import InfoCon from '@strinf/ts/mvc/model/info/InfoCon';
-import ApiChan from '@strinf/ts/mvc/ctrl/chan/ApiChan';
+import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
 import type { InfoR, InfoS } from '@strinf/ts/interfaces/api/mapped';
+import type ViewChanInt from '@strinf/ts/interfaces/chan/info';
+import ApiChan from '@strinf/ts/mvc/ctrl/chan/ApiChan';
 import Controller from '@strinf/ts/mvc/ctrl/Controller';
 import MemoryCtrl from '@strinf/ts/mvc/ctrl/MemoryCtrl';
-import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
+import InfoCon from '@strinf/ts/mvc/model/info/InfoCon';
 
 class InfoCtrl<T extends InfoS | InfoR> extends Controller<ViewChanInt<T>, [number[]]> {
     private readonly memory: MemoryCtrl<T>;

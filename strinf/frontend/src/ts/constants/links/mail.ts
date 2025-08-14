@@ -6,4 +6,4 @@ function dsmz_mail(): string {
     return ['contact', 'dsmz.de'].join('@');
 }
 
-export { strain_info_mail, dsmz_mail };
+export { dsmz_mail, strain_info_mail };

@@ -1,7 +1,7 @@
-import onPrError from '@strinf/ts/functions/err/async';
 import type { ApiChanInt } from '@strinf/ts/interfaces/api/mapped';
 import type DisChartT from '@strinf/ts/interfaces/chan/model';
 import type { DiaCon, DiaF } from '@strinf/ts/interfaces/dom/dia';
+import onPrError from '@strinf/ts/functions/err/async';
 
 class DisCon {
     private readonly apiCall: ApiChanInt;

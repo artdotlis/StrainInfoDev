@@ -1,3 +1,6 @@
+import type { SerSeaAllJT } from '@strinf/ts/interfaces/api/data';
+import type { ApiChanInt, SeaR } from '@strinf/ts/interfaces/api/mapped';
+import type ViewChanInt from '@strinf/ts/interfaces/chan/sea';
 import QApiCon from '@strinf/ts/constants/api/q_api';
 import LEAD_TRAIL_COMMA from '@strinf/ts/constants/regexp/sep';
 import LoadT from '@strinf/ts/constants/type/LoadT';
@@ -13,17 +16,13 @@ import {
 } from '@strinf/ts/functions/api/map';
 import onPrError from '@strinf/ts/functions/err/async';
 import { checkRespArr, checkRespObjOk, fetchRetry } from '@strinf/ts/functions/http/http';
-import type { SerSeaAllJT } from '@strinf/ts/interfaces/api/data';
-import type { ApiChanInt, SeaR } from '@strinf/ts/interfaces/api/mapped';
-import type ViewChanInt from '@strinf/ts/interfaces/chan/sea';
-import type { LoadFS } from '@strinf/ts/interfaces/dom/global';
 
 const REG_NUM = /\d+/;
 
 function isOneStrain(data: SeaR[]): boolean {
     const index = new Set();
     for (const [strId] of data) {
-        if (index.size > 1 && !index.has(strId)) {
+        if (index.size >= 1 && !index.has(strId)) {
             return false;
         }
         index.add(strId);
@@ -142,9 +141,9 @@ class SeaTable {
                         })
                             .then(async (resp) => {
                                 if (ind === 0) {
-                                    cha.load.map((ele: LoadFS) => {
+                                    for (const ele of cha.load) {
                                         ele(LoadT.FET);
-                                    });
+                                    }
                                     cha.prog(0);
                                     this.fetchedCnt = 0;
                                 }
@@ -218,9 +217,9 @@ class SeaTable {
     }
 
     private static onStop(cha: ViewChanInt): void {
-        cha.load.map((ele: LoadFS) => {
+        for (const ele of cha.load) {
             ele(LoadT.FIN);
-        });
+        }
         cha.prog(0);
     }
 
@@ -241,7 +240,7 @@ class SeaTable {
             cha.toPass(strain, '');
         } else {
             this.runSearchApiComb(cha, reqApi, args, (lCha, lIds) => {
-                SeaTable.checkCulIds(lCha, lIds, strain);
+                SeaTable.checkDepIds(lCha, lIds, strain);
             });
         }
     }
@@ -268,9 +267,9 @@ class SeaTable {
         api: string
     ): void {
         this.foundCnt = jId.length;
-        cha.load.map((ele: LoadFS) => {
+        for (const ele of cha.load) {
             ele(LoadT.FET);
-        });
+        }
         switch (this.foundCnt) {
             case 0:
                 throw new Known404Error(getApiToStr(api), args);
@@ -296,7 +295,7 @@ class SeaTable {
         return '';
     }
 
-    private static checkCulIds(cha: ViewChanInt, jId: number[], strain: string): void {
+    private static checkDepIds(cha: ViewChanInt, jId: number[], strain: string): void {
         SeaTable.onStop(cha);
         if (jId.length === 1) {
             cha.toPass(strain, `${jId[0] ?? ''}`);
@@ -377,9 +376,9 @@ class SeaTable {
             QApiCon.seaStrAll,
         ];
         if (cApi === QApiCon.seaStrAll) {
-            cha.load.map((ele: LoadFS) => {
+            for (const ele of cha.load) {
                 ele(LoadT.STA);
-            });
+            }
             const res_con: SeaR[] = [];
             this.runSearchAll(cha, api, 0, [], res_con);
         } else if (cApi === QApiCon.seaCulStrId) {
@@ -388,9 +387,9 @@ class SeaTable {
             allowedApis.includes(cApi) ||
             csApi.every((elApi) => allowedComb.has(elApi))
         ) {
-            cha.load.map((ele: LoadFS) => {
+            for (const ele of cha.load) {
                 ele(LoadT.STA);
-            });
+            }
             this.runSearchApiComb(cha, api, args, (lCha, lIds, lArg, lApi) => {
                 this.checkStrIds(lCha, lIds, lArg, lApi);
             });

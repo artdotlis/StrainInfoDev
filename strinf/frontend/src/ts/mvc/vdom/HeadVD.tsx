@@ -1,27 +1,27 @@
 import type { JSX } from 'preact';
 
-import { ClHtml, Dis, Mar, Wid } from '@strinf/ts/constants/style/ClHtml';
-import SeaInVD from '@strinf/ts/mvc/vdom/main/input/SeaInVD';
-import FirInfVD from '@strinf/ts/mvc/vdom/static/misc/FirInfVD';
-import PagPosT from '@strinf/ts/constants/type/PagPosT';
-import AccVD from '@strinf/ts/mvc/vdom/static/misc/AccVd';
-import MainNavVD from '@strinf/ts/mvc/vdom/dyn/misc/MainNavVD';
-import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
-import LogoStrainInfoVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoStrainInfoVD';
-import { useRef } from 'preact/hooks';
-import SideNavVD from '@strinf/ts/mvc/vdom/dyn/misc/SideNavVD';
-import { SIDE_ID, toggleSideBar } from '@strinf/ts/functions/libs/style';
-import TTSimVD from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
-import { createUrlStr } from '@strinf/ts/functions/http/http';
-import HUB_L from '@strinf/ts/constants/links/hub_dsmz';
-import LogoHubDsmzVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoHubDsmzVD';
 import linkSty from '@strinf/css/mods/link.module.css';
-import ToolTipInfoVD from '@strinf/ts/mvc/vdom/dyn/tooltip/TTInfoVD';
-import { TT_ID_DEP, ToolTipDepCM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTDepVD';
-import { ToolTipStrCM, TT_ID_STR } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTStrVD';
-import InfoCtrl from '@strinf/ts/mvc/ctrl/InfoCtrl';
-import { toArrInfoDepRes, toArrInfoStrRes } from '@strinf/ts/functions/api/map';
 import QApiCon from '@strinf/ts/constants/api/q_api';
+import HUB_L from '@strinf/ts/constants/links/hub_dsmz';
+import { ClHtml, Dis, Mar, Wid } from '@strinf/ts/constants/style/ClHtml';
+import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
+import PagPosT from '@strinf/ts/constants/type/PagPosT';
+import { toArrInfoDepRes, toArrInfoStrRes } from '@strinf/ts/functions/api/map';
+import { createUrlStr } from '@strinf/ts/functions/http/http';
+import { SIDE_ID, toggleSideBar } from '@strinf/ts/functions/libs/style';
+import InfoCtrl from '@strinf/ts/mvc/ctrl/InfoCtrl';
+import MainNavVD from '@strinf/ts/mvc/vdom/dyn/misc/MainNavVD';
+import SideNavVD from '@strinf/ts/mvc/vdom/dyn/misc/SideNavVD';
+import { ToolTipDepCM, TT_ID_DEP } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTDepVD';
+import ToolTipInfoVD from '@strinf/ts/mvc/vdom/dyn/tooltip/TTInfoVD';
+import TTSimVD from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
+import { ToolTipStrCM, TT_ID_STR } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTStrVD';
+import SeaInVD from '@strinf/ts/mvc/vdom/main/input/SeaInVD';
+import LogoHubDsmzVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoHubDsmzVD';
+import LogoStrainInfoVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoStrainInfoVD';
+import AccVD from '@strinf/ts/mvc/vdom/static/misc/AccVd';
+import FirInfVD from '@strinf/ts/mvc/vdom/static/misc/FirInfVD';
+import { useRef } from 'preact/hooks';
 
 function Logos(): JSX.Element {
     const dsmCl = `${ClHtml.navBbr} ${Mar.lNAT} ${Dis.dNone} ${Dis.dBS}`;
