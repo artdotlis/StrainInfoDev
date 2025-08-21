@@ -44,17 +44,14 @@ function initMat(mat: StatsT): void {
 function setMatomoInterval(callback: () => void, onfail: () => void): void {
     let cnt = 0;
     const interval = setInterval(() => {
-        switch (true) {
-            case typeof window.Matomo === 'object':
-                clearInterval(interval);
-                callback();
-                break;
-            case window.matomoLoaded === false || cnt > 3:
-                clearInterval(interval);
-                onfail();
-                break;
-            default:
-                cnt += 1;
+        if (typeof window.Matomo === 'object') {
+            clearInterval(interval);
+            callback();
+        } else if (window.matomoLoaded === false || cnt > 3) {
+            clearInterval(interval);
+            onfail();
+        } else {
+            cnt += 1;
         }
     }, 300);
 }

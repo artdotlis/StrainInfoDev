@@ -80,20 +80,17 @@ function createCultureRow(
 
 function CultureView({ resCnt, culOv, culDet }: CulVProps): JSX.Element {
     let colCl: [string, string] = [Col.lN3, Col.lN9];
-    switch (true) {
-        case resCnt <= 36:
-            return createCultureRow(culOv, culDet, colCl);
-        case resCnt <= 54:
-            colCl = [Col.lN4, Col.lN8];
-            return createCultureRow(culOv, culDet, colCl);
-        default:
-            return (
-                <>
-                    {culOv}
-                    {culDet}
-                </>
-            );
+    if (resCnt <= 36) return createCultureRow(culOv, culDet, colCl);
+    if (resCnt <= 54) {
+        colCl = [Col.lN4, Col.lN8];
+        return createCultureRow(culOv, culDet, colCl);
     }
+    return (
+        <>
+            {culOv}
+            {culDet}
+        </>
+    );
 }
 
 function selectCul(culId: number, rel: RelT[]): [number, string] {

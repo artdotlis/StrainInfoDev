@@ -18,20 +18,13 @@ const YEAR_DATE: Intl.DateTimeFormatOptions = {
 const BETWEEN_R = /^(\d{4})(?:-\d{1,2}){0,2}\/(\d{4}(?:-\d{1,2}){0,2})$/;
 
 function createDate(date: string): string {
-    switch (true) {
-        case FULL_DATE_R.test(date): {
-            return new Date(date).toLocaleDateString('en-GB', FULL_DATE);
-        }
-        case MONTH_DATE_R.test(date): {
-            return new Date(date).toLocaleDateString('en-GB', MONTH_DATE);
-        }
-        case YEAR_DATE_R.test(date): {
-            return new Date(date).toLocaleDateString('en-GB', YEAR_DATE);
-        }
-        default: {
-            return date;
-        }
-    }
+    if (FULL_DATE_R.test(date))
+        return new Date(date).toLocaleDateString('en-GB', FULL_DATE);
+    if (MONTH_DATE_R.test(date))
+        return new Date(date).toLocaleDateString('en-GB', MONTH_DATE);
+    if (YEAR_DATE_R.test(date))
+        return new Date(date).toLocaleDateString('en-GB', YEAR_DATE);
+    return date;
 }
 
 // TODO still very simple

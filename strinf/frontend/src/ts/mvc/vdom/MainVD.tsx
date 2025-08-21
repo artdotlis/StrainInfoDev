@@ -91,16 +91,13 @@ class MainVD extends Component<
         getServerStatus(
             (status) => {
                 this.glStateCon.errSSet(error.message, error.message);
-                switch (true) {
-                    case status.maintenance.status:
-                        this.setMaintenance(status.maintenance);
-                        break;
-                    case error instanceof KnownError:
-                        this.setServerError(error.message, error);
-                        break;
-                    default:
-                        this.glStateCon.errTSet(ErrType.E500);
-                        this.errCr = true;
+                if (status.maintenance.status) {
+                    this.setMaintenance(status.maintenance);
+                } else if (error instanceof KnownError) {
+                    this.setServerError(error.message, error);
+                } else {
+                    this.glStateCon.errTSet(ErrType.E500);
+                    this.errCr = true;
                 }
                 this.onError();
             },

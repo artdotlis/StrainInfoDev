@@ -71,25 +71,14 @@ function modName(
     if (name !== '') {
         const taxInd = filH.indexOf(HEAD[2] ?? '');
         const link = [];
-        switch (true) {
-            case lpsnId !== undefined:
-                link.push({ type: LinkType.LPSN, path: String(lpsnId) });
-                filD.splice(
-                    taxInd,
-                    1,
-                    <TaxLinkVD name={name} links={link} infCl={taxCl} />
-                );
-                break;
-            case ncbiId !== undefined:
-                link.push({ type: LinkType.NCBI, path: String(ncbiId) });
-                filD.splice(
-                    taxInd,
-                    1,
-                    <TaxLinkVD name={name} links={link} infCl={taxCl} />
-                );
-                break;
-            default:
-                filD.splice(taxInd, 1, <span>{name}</span>);
+        if (lpsnId !== undefined) {
+            link.push({ type: LinkType.LPSN, path: String(lpsnId) });
+            filD.splice(taxInd, 1, <TaxLinkVD name={name} links={link} infCl={taxCl} />);
+        } else if (ncbiId !== undefined) {
+            link.push({ type: LinkType.NCBI, path: String(ncbiId) });
+            filD.splice(taxInd, 1, <TaxLinkVD name={name} links={link} infCl={taxCl} />);
+        } else {
+            filD.splice(taxInd, 1, <span>{name}</span>);
         }
     }
 }

@@ -213,16 +213,13 @@ abstract class TableCon<T, E extends TableProps<T>> extends Component<E, TableSt
         this.data = res;
         this.head = head;
         const filterChanged = this.toSearch() || this.toFilter();
-        switch (true) {
-            case baseChanged:
-                this.searchState = { previous: '', next: '' };
-                this.setState({ page: 1, view: [...this.data.keys()] });
-                break;
-            case filterChanged:
-                this.runFilter();
-                break;
-            default:
-                this.ready = true;
+        if (baseChanged) {
+            this.searchState = { previous: '', next: '' };
+            this.setState({ page: 1, view: [...this.data.keys()] });
+        } else if (filterChanged) {
+            this.runFilter();
+        } else {
+            this.ready = true;
         }
     }
 
