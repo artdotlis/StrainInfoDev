@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\view\routes\ctrl;
 
-use Nyholm\Psr7\Factory\Psr17Factory;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Log\LoggerInterface;
-use Slim\Exception\HttpForbiddenException;
-use Slim\Exception\HttpMethodNotAllowedException;
-use Slim\Exception\HttpNotFoundException;
-use Slim\Handlers\ErrorHandler;
-use function straininfo\server\exceptions\create_error_json;
-use function straininfo\server\shared\mvvm\view\add_default_headers;
-
 use straininfo\server\shared\mvvm\view\HeadArgs;
+use function straininfo\server\shared\mvvm\view\add_default_headers;
+use function straininfo\server\exceptions\create_error_json;
 use Throwable;
+use Slim\Handlers\ErrorHandler;
+use Slim\Exception\HttpNotFoundException;
+use Slim\Exception\HttpMethodNotAllowedException;
+use Slim\Exception\HttpForbiddenException;
+use Psr\Log\LoggerInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
+use Psr\Http\Message\ResponseInterface;
+use Nyholm\Psr7\Factory\Psr17Factory;
 
 final class CusErrHand extends ErrorHandler
 {
@@ -62,12 +62,11 @@ final class CusErrHand extends ErrorHandler
             $error_code = 500;
         }
         $response = $this->psr17Factory->createResponse();
-        $message = 'unknown';
-        match (true) {
-            $exception instanceof HttpMethodNotAllowedException => $message = $this->err405,
-            $exception instanceof HttpNotFoundException => $message = $this->err404,
-            $exception instanceof HttpForbiddenException => $message = $this->err403,
-            default => $message = $this->err500
+        $message = match (get_class($exception)) {
+            HttpMethodNotAllowedException::class => $this->err405,
+            HttpNotFoundException::class => $this->err404,
+            HttpForbiddenException::class => $this->err403,
+            default => $this->err500,
         };
         $response = $response->withHeader(
             'Content-Type',

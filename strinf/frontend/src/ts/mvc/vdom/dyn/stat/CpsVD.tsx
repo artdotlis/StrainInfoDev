@@ -39,7 +39,7 @@ const H_IN = HEIGHT - M_BOTTOM;
 
 function createXScale(ticks: string[] | number[]): d3.ScaleBand<string> {
     return scaleBand()
-        .domain(ticks.map((tick) => tick.toString()))
+        .domain(ticks.map(tick => tick.toString()))
         .range([M_LEFT, W_IN]);
 }
 
@@ -51,7 +51,7 @@ function createTitle(): JSX.Element {
             fontSize="1.4rem"
             style={{
                 'text-anchor': 'middle',
-                fill: '#404040',
+                'fill': '#404040',
             }}
         >
             Deposits per strain distribution
@@ -67,7 +67,7 @@ function createXLabel(label: string): JSX.Element {
             fontSize="1.2rem"
             style={{
                 'text-anchor': 'middle',
-                fill: 'grey',
+                'fill': 'grey',
             }}
         >
             {label}
@@ -84,7 +84,7 @@ function createYLabel(label: string): JSX.Element {
             transform="rotate(-90)"
             style={{
                 'text-anchor': 'middle',
-                fill: 'grey',
+                'fill': 'grey',
             }}
         >
             {label}
@@ -166,14 +166,16 @@ function RectDia({ scX, scY, val, index, yDa, ttH }: RectDiaT): JSX.Element {
                     <p>
                         <b>
                             Strains with
-                            {wrCulText(val)}:
-                        </b>{' '}
+                            {wrCulText(val)}
+                            :
+                        </b>
+                        {' '}
                         {yDa[index]}
-                    </p>
+                    </p>,
                 );
             }
         },
-        [50, 50]
+        [50, 50],
     );
     return (
         <rect
@@ -188,7 +190,7 @@ function RectDia({ scX, scY, val, index, yDa, ttH }: RectDiaT): JSX.Element {
             className={svgSty.hover}
             style={{
                 'stroke-width': 0.5,
-                stroke: 'gray',
+                'stroke': 'gray',
                 'fill-opacity': 0.9,
             }}
         />

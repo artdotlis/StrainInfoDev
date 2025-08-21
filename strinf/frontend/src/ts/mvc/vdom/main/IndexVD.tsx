@@ -29,9 +29,9 @@ function Hero(): JSX.Element {
                 'background-size': 'cover',
                 'background-position': 'center',
                 'background-image':
-                    'linear-gradient(to right,rgba(27, 27, 27, 1) 20%,' +
-                    'rgba(27, 27, 27, 0)), ' +
-                    `url(${selectBannerImage()})`,
+                    'linear-gradient(to right,rgba(27, 27, 27, 1) 20%,'
+                    + 'rgba(27, 27, 27, 0)), '
+                    + `url(${selectBannerImage()})`,
             }}
         >
             <div>
@@ -61,7 +61,8 @@ class IndexVD extends Component<unknown, object> {
             if (this.iCtrl === undefined) {
                 this.iCtrl = new IndCtrl(ctx.version);
                 this.iCtrl.init(this.hooks);
-            } else {
+            }
+            else {
                 this.iCtrl.init(this.hooks);
             }
         }

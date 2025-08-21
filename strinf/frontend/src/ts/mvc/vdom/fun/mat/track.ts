@@ -24,7 +24,7 @@ function trackSearch(
     seaV: string,
     cnt: number,
     paV: boolean,
-    time: number
+    time: number,
 ): void {
     if (paV) {
         trackPageRootV(time);

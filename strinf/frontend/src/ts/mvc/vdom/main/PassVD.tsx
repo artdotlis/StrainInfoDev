@@ -76,7 +76,7 @@ class PassVD extends Component<PassProps, PassState> {
                 `${tab.overview[0]}`,
                 1,
                 this.pView,
-                Date.now() - this.time
+                Date.now() - this.time,
             );
         });
         this.time = Date.now();

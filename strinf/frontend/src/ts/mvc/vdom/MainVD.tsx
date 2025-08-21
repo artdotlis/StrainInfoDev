@@ -66,8 +66,8 @@ class MainVD extends Component<
 
     public onError(): void {
         if (
-            this.glStateCon.errT !== undefined &&
-            [ErrType.INWARN, ErrType.FEWARN, ErrType.E404].includes(this.glStateCon.errT)
+            this.glStateCon.errT !== undefined
+            && [ErrType.INWARN, ErrType.FEWARN, ErrType.E404].includes(this.glStateCon.errT)
         ) {
             crAlert(this.glStateCon.errT, this.glStateCon.errS[1]);
         }
@@ -93,9 +93,11 @@ class MainVD extends Component<
                 this.glStateCon.errSSet(error.message, error.message);
                 if (status.maintenance.status) {
                     this.setMaintenance(status.maintenance);
-                } else if (error instanceof KnownError) {
+                }
+                else if (error instanceof KnownError) {
                     this.setServerError(error.message, error);
-                } else {
+                }
+                else {
                     this.glStateCon.errTSet(ErrType.E500);
                     this.errCr = true;
                 }
@@ -107,7 +109,7 @@ class MainVD extends Component<
                     this.setState({ panic: true });
                 }
             },
-            { signal: AbortSignal.timeout(60000) }
+            { signal: AbortSignal.timeout(60000) },
         );
     }
 
@@ -117,7 +119,7 @@ class MainVD extends Component<
         const msg = Known503Error.formateMsg(
             'Under maintenance!',
             maintenance.duration,
-            maintenance.zone
+            maintenance.zone,
         );
         this.glStateCon.errSSet(msg, msg);
     }

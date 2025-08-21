@@ -13,7 +13,7 @@ function actSearch(eve: JSX.TargetedKeyboardEvent<HTMLInputElement>): boolean {
 
 function clickEvent(
     value: string,
-    eve?: JSX.TargetedKeyboardEvent<HTMLInputElement>
+    eve?: JSX.TargetedKeyboardEvent<HTMLInputElement>,
 ): void {
     if (eve === undefined || actSearch(eve)) {
         window.location.href = hub_dsmz_search(value);

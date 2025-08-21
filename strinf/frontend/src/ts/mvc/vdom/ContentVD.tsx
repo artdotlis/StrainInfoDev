@@ -45,7 +45,7 @@ function PassWrVD({ id }: { id: string }): JSX.Element {
 const ABOUT_PVD = lazy(async () => import('@strinf/ts/mvc/vdom/static/AboutMainVD'));
 const TEAM_VD = lazy(async () => import('@strinf/ts/mvc/vdom/static/TeamVD'));
 const STR_REG_VD = lazy(
-    async () => import('@strinf/ts/mvc/vdom/static/StrainRegistryVD')
+    async () => import('@strinf/ts/mvc/vdom/static/StrainRegistryVD'),
 );
 const NEWS_VD = lazy(async () => import('@strinf/ts/mvc/vdom/static/NewsVD'));
 const IMP_VD = lazy(async () => import('@strinf/ts/mvc/vdom/static/ImprintVD'));

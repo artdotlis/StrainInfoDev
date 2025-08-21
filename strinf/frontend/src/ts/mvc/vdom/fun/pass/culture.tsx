@@ -11,7 +11,7 @@ function formatCultureTT(
     cultures: [string, number][],
     [hookCul, hookInf]: [HOOK, HOOK],
     ctx: InValStInt,
-    tooltip: [(eve: Events) => void, Events]
+    tooltip: [(eve: Events) => void, Events],
 ): JSX.Element {
     const rowCh = cultures
         .slice(0, 2)

@@ -22,7 +22,10 @@ function EmptyVD({ path }: EmptyProps): JSX.Element {
             <div className={ClHtml.con}>
                 <div className={errSty.err}>
                     <h1>404</h1>
-                    <h2>Route not found -{path}</h2>
+                    <h2>
+                        Route not found -
+                        {path}
+                    </h2>
                 </div>
             </div>
         </section>

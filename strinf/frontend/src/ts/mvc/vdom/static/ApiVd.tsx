@@ -46,7 +46,7 @@ async function awaitYaml(resp: Response): Promise<unknown> {
 async function getSpec(
     priv: boolean | undefined,
     api: ConfLinkT,
-    ver: ApiVer
+    ver: ApiVer,
 ): Promise<[unknown, string]> {
     if (priv === undefined || !priv) {
         const spec = fetchRetry(`/api/${ver}/strinf_ex.yaml`).then(async (resp) => {
@@ -72,7 +72,7 @@ function loadApiSpec(
     ctx: BreadCrumbsG | undefined,
     setSpec: Dispatch<StateUpdater<[unknown, string] | undefined>>,
     update: boolean,
-    ver: ApiVer
+    ver: ApiVer,
 ): void {
     const crit = new Known500Error('Internal server error!');
     if (ctx?.bread !== undefined) {
@@ -84,7 +84,7 @@ function loadApiSpec(
                 throw new Known503Error(
                     'Under maintenance!',
                     res.maintenance.duration,
-                    res.maintenance.zone
+                    res.maintenance.zone,
                 );
             }
             if (update) {
@@ -122,8 +122,8 @@ function amendShadow(rap: HTMLElement): void {
                     `#api-info { margin-left: 0 !important;}
                     .${ANCHOR_API} {
                         scroll-margin-top: calc(var(--navbar-bottom-height) + 6rem);
-                    }`
-                )
+                    }`,
+                ),
             );
             shRoot.insertBefore(newStyle, styleElem);
         }
@@ -191,11 +191,11 @@ function addStyle(eve: Event): void {
 
 function isRequest(eve: Event): eve is Event & { detail: { request: { url: string } } } {
     if (
-        'detail' in eve &&
-        typeof eve.detail === 'object' &&
-        eve.detail !== null &&
-        'request' in eve.detail &&
-        typeof eve.detail.request === 'object'
+        'detail' in eve
+        && typeof eve.detail === 'object'
+        && eve.detail !== null
+        && 'request' in eve.detail
+        && typeof eve.detail.request === 'object'
     ) {
         const req = eve.detail.request;
         return req !== null && 'url' in req && typeof req.url === 'string';
@@ -208,9 +208,9 @@ function beforeTry(eve: Event): void {
         const req = eve.detail.request;
         const tmpUrl = req.url;
         if (
-            tmpUrl.includes('/all/') ||
-            tmpUrl.includes('/brc/') ||
-            tmpUrl.includes('/cc/')
+            tmpUrl.includes('/all/')
+            || tmpUrl.includes('/brc/')
+            || tmpUrl.includes('/cc/')
         ) {
             req.url = `${tmpUrl}${tmpUrl.includes('?') ? '&' : '?'}short`;
         }
@@ -347,13 +347,14 @@ function RapDoc({
                         <i
                             className={`${ClHtmlI.caretDB} ${Mar.lN5}`}
                             aria-hidden="true"
-                        ></i>
+                        >
+                        </i>
                     </button>
                     <div
                         className={`${ClHtml.drDM} ${ClHtml.drDC} ${Pad.N0}`}
                         aria-labelledby="API version"
                         style={{
-                            width: '10.8rem',
+                            'width': '10.8rem',
                             'min-width': '10.8rem',
                         }}
                     >

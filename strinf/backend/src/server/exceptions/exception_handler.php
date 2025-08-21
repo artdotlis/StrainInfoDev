@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace straininfo\server\exceptions;
 
-use Psr\Log\LoggerInterface;
-use function Safe\error_log;
-use straininfo\server\interfaces\global\Stoppable;
-use straininfo\server\shared\exc\KEAct;
-
 use straininfo\server\shared\logger\LogLevE;
+use straininfo\server\shared\exc\KEAct;
+use straininfo\server\interfaces\global\Stoppable;
+use function Safe\error_log;
+
+use Psr\Log\LoggerInterface;
 
 function get_err_handler_boot_fun(): callable
 {
@@ -117,10 +117,11 @@ function create_err_msg(
     \Throwable $exc,
     Stoppable $to_stop
 ): void {
-    match (true) {
-        $exc instanceof KnownExc => known_err($logger, $exc, $to_stop),
-        default => unknown_err($logger, $exc, false, $to_stop)
-    };
+    if ( $exc instanceof KnownExc) {
+        known_err($logger, $exc, $to_stop);
+    } else {
+        unknown_err($logger, $exc, false, $to_stop);
+    }
 }
 
 function create_err_msg_slim(LoggerInterface $logger, \Throwable $exc): void

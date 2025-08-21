@@ -13,7 +13,7 @@ function MetaH({
         const metaCl = 'meta_head_main';
         document.head.querySelector(`.${metaCl}`)?.remove();
         if (desc) {
-            document.head.querySelector("meta[name='description']")?.remove();
+            document.head.querySelector('meta[name=\'description\']')?.remove();
             const meDesc = document.createElement('meta');
             meDesc.setAttribute('name', 'description');
             meDesc.setAttribute('content', desc);
@@ -28,7 +28,7 @@ function MetaH({
             document.head.appendChild(meTitle);
         }
         if (index !== undefined) {
-            document.head.querySelector("meta[name='robots']")?.remove();
+            document.head.querySelector('meta[name=\'robots\']')?.remove();
             const meDesc = document.createElement('meta');
             meDesc.setAttribute('name', 'robots');
             meDesc.setAttribute('content', 'noindex');

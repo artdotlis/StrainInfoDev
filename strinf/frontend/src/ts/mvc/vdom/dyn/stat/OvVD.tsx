@@ -10,7 +10,9 @@ import { useState } from 'preact/hooks';
 function mapStats(sta: DataCon<number>): JSX.Element {
     return (
         <p key={sta.id} className={`${Mar.lN15} ${Mar.yN5}`}>
-            {sta.id}:{sta.data}
+            {sta.id}
+            :
+            {sta.data}
         </p>
     );
 }
@@ -44,9 +46,9 @@ const STY = {
     'background-size': 'cover',
     'background-position': 'left',
     'background-image':
-        'linear-gradient(to right,rgba(27, 27, 27, 0.8),' +
-        'rgba(27, 27, 27, 0.8)), ' +
-        `url(${selectBannerImage()})`,
+        'linear-gradient(to right,rgba(27, 27, 27, 0.8),'
+        + 'rgba(27, 27, 27, 0.8)), '
+        + `url(${selectBannerImage()})`,
 };
 
 function OvVD({ dia, sta }: OvProps): JSX.Element {

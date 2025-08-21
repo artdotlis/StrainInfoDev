@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace straininfo\server\configs;
 
 use Safe\Exceptions\FilesystemException;
-use function Safe\file_get_contents;
-use function Safe\json_decode;
 use straininfo\server\exceptions\init_phase\KnownConfExc;
-
 use straininfo\server\shared\exc\KEAct;
 use straininfo\server\shared\logger\LogLevE;
+
+use function Safe\file_get_contents;
+use function Safe\json_decode;
 
 /**
  * @template T
@@ -51,16 +51,20 @@ function check_conf_values(
 
 function check_conf_main(mixed $a_el): string|bool|int
 {
-    return match (true) {
-        is_string($a_el) => (string) $a_el,
-        is_int($a_el) => (int) $a_el,
-        is_bool($a_el) => (bool) $a_el,
-        default => throw new KnownConfExc(
-            'Wrong conf type given - ' . gettype($a_el),
-            LogLevE::CRITICAL,
-            KEAct::TERM
-        )
-    };
+    if (is_string($a_el)) {
+        return (string) $a_el;
+    }
+    if (is_int($a_el)) {
+        return (int) $a_el;
+    }
+    if (is_bool($a_el)) {
+        return (bool) $a_el;
+    }
+    throw new KnownConfExc(
+        'Wrong conf type given - ' . gettype($a_el),
+        LogLevE::CRITICAL,
+        KEAct::TERM
+    );
 }
 /**
  * @template T
@@ -81,18 +85,22 @@ function is_array_str(array $arr): bool
  */
 function check_conf_array_str(mixed $a_el): string|bool|int|array
 {
-    return match (true) {
-        is_string($a_el) => (string) $a_el,
-        is_int($a_el) => (int) $a_el,
-        is_bool($a_el) => (bool) $a_el,
-        is_array($a_el) && is_array_str($a_el) => (static function () use ($a_el) {
-            /** @var array<string> $a_el */
-            return $a_el;
-        })(),
-        default => throw new KnownConfExc(
-            'Wrong conf type given - ' . gettype($a_el),
-            LogLevE::CRITICAL,
-            KEAct::TERM
-        )
-    };
+    if (is_string($a_el)) {
+        return (string) $a_el;
+    }
+    if (is_int($a_el)) {
+        return (int) $a_el;
+    }
+    if (is_bool($a_el)) {
+        return (bool) $a_el;
+    }
+    if (is_array($a_el) && is_array_str($a_el)) {
+        /** @var array<string> $a_el */
+        return $a_el;
+    }
+    throw new KnownConfExc(
+        'Wrong conf type given - ' . gettype($a_el),
+        LogLevE::CRITICAL,
+        KEAct::TERM
+    );
 }
