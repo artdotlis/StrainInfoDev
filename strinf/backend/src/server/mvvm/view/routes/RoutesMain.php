@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm\view\routes;
 
-use Psr\Log\LoggerInterface;
-use Slim\App;
-use straininfo\server\interfaces\mvvm\view\ToViewIntV;
-use straininfo\server\mvvm\view\const\ConCtrl;
-use straininfo\server\mvvm\view\routes\ctrl\CusErrHand;
-use straininfo\server\mvvm\view\routes\ctrl\MaintainCtrl;
-use straininfo\server\shared\mvvm\view\StatArgs;
-use straininfo\server\shared\mvvm\view\WebArgsBE;
 use straininfo\server\shared\mvvm\view\WebArgsFE;
-
+use straininfo\server\shared\mvvm\view\WebArgsBE;
+use straininfo\server\shared\mvvm\view\StatArgs;
+use straininfo\server\mvvm\view\routes\ctrl\ShortCtrl;
+use straininfo\server\mvvm\view\routes\ctrl\MaintainCtrl;
+use straininfo\server\mvvm\view\routes\ctrl\CusErrCtrl;
+use straininfo\server\mvvm\view\const\ConCtrl;
+use straininfo\server\interfaces\mvvm\view\ToViewIntV;
 use function straininfo\server\shared\text\createDomain;
+use Slim\App;
+
+use Psr\Log\LoggerInterface;
 
 final class RoutesMain
 {
@@ -25,6 +26,8 @@ final class RoutesMain
     private readonly string $version;
 
     private ?MaintainCtrl $m_ctrl;
+    private ?ShortCtrl $s_ctrl;
+
 
     // mutable
     private ConCtrl $ctrl_con;
@@ -40,6 +43,8 @@ final class RoutesMain
         $this->stat_args = $stat_args;
         $this->version = $version;
         $this->m_ctrl = null;
+        $this->s_ctrl = null;
+
     }
 
     /**
@@ -81,7 +86,7 @@ final class RoutesMain
     public function addErrorMW(App $app, LoggerInterface $logger): void
     {
         $err_mid = $app->addErrorMiddleware(false, true, true);
-        $cus_err = new CusErrHand(
+        $cus_err = new CusErrCtrl(
             $this->wbe_args->getCharSet(),
             [
                 ...$this->wbe_args->getCORS(),
@@ -99,6 +104,15 @@ final class RoutesMain
             $app->add($this->getMaintainCtrl());
         }
     }
+
+    /** @param array<\Slim\Interfaces\RouteInterface> $apps */
+    public function addShortMW(array $apps): void
+    {
+        foreach ($apps as $app) {
+            $app->add($this->getShortCtrl());
+        }
+    }
+
 
     public function getWebArgs(): WebArgsBE
     {
@@ -144,6 +158,13 @@ final class RoutesMain
         );
         return $this->m_ctrl;
     }
+
+    private function getShortCtrl(): ShortCtrl
+    {
+        $this->s_ctrl ??= new ShortCtrl();
+        return $this->s_ctrl;
+    }
+
 
     /** @param App<\Psr\Container\ContainerInterface|null> $app */
     private function initMain(App $app): void

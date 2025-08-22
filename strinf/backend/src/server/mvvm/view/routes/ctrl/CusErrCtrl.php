@@ -18,7 +18,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Nyholm\Psr7\Factory\Psr17Factory;
 
-final class CusErrHand extends ErrorHandler
+final class CusErrCtrl extends ErrorHandler
 {
     private readonly string $charset;
 
