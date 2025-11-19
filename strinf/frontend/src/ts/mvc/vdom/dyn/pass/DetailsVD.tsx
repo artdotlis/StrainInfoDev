@@ -509,6 +509,7 @@ function Details({ ctx, data, cid, rel, hookCul, hookInf, ccno }: ResProps): JSX
             <h3 className={ClHtml.titSec}>
                 {TIT}
                 :
+                <wbr />
                 <span
                     className={Tex.w}
                     style={{
@@ -519,6 +520,7 @@ function Details({ ctx, data, cid, rel, hookCul, hookInf, ccno }: ResProps): JSX
                         paddingTop: '2px',
                         paddingBottom: '2px',
                         marginLeft: '8px',
+                        whiteSpace: 'nowrap',
                     }}
                 >
                     {ccno}
