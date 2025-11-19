@@ -345,7 +345,7 @@ function createBuild(): UserConfig {
             write: true,
             outDir: `../../../${ENV.APP_FRONTEND}`,
             assetsDir: './assets',
-            assetsInlineLimit: 16384,
+            assetsInlineLimit: 4096,
             cssCodeSplit: true,
             emptyOutDir: false,
             sourcemap: false,
