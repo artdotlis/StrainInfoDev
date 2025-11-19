@@ -1,5 +1,5 @@
 const GREP_GEN = /\/([^/]+)\.[^/.]+$/;
-const GREP_WEBP = /^.*\/([^/]+)\.(webp|jpeg|jpg|png)+$/;
+const GREP_WEBP = /^.*\/([^/]+)\.(webp|jpg|png|avif)+$/;
 const GREP_ID = /^[^@]*@([^@]+)@.*$/;
 
 const RESOURCES_PATH: Record<string, (path: string) => string> = {

@@ -1,5 +1,5 @@
 import type { JSX } from 'preact';
-import src from '@extra/straininfo/logos/doi.webp';
+import logoI from '@extra/straininfo/logos/doi.avif';
 
 interface LogoProps {
     height: string;
@@ -7,7 +7,7 @@ interface LogoProps {
 }
 
 function LogoDoiVD({ height, cla }: LogoProps): JSX.Element {
-    return <img loading="lazy" className={cla} height={height} src={src} alt="DOI" />;
+    return <img loading="lazy" className={cla} height={height} src={logoI} alt="DOI" />;
 }
 
 export default LogoDoiVD;

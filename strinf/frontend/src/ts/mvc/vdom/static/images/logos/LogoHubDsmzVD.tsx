@@ -1,6 +1,6 @@
 import type { JSX } from 'preact';
-import src from '@extra/straininfo/logos/d3_hub.webp';
-import srcFull from '@extra/straininfo/logos/d3_hub_full.webp';
+import logoI from '@extra/straininfo/logos/d3_hub.avif';
+import logoIFull from '@extra/straininfo/logos/d3_hub_full.avif';
 
 function LogoHubDsmzVD({
     full,
@@ -9,7 +9,7 @@ function LogoHubDsmzVD({
     full: boolean;
     height?: string;
 }): JSX.Element {
-    const srcI = full ? srcFull : src;
+    const srcI = full ? logoIFull : logoI;
     return (
         <img
             fetchPriority="high"

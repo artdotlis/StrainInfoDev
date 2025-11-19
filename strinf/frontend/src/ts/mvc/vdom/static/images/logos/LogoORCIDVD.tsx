@@ -1,5 +1,5 @@
 import type { JSX } from 'preact';
-import src from '@extra/straininfo/logos/orcid.webp';
+import logoI from '@extra/straininfo/logos/orcid.avif';
 import linkSty from '@strinf/css/mods/link.module.css';
 
 function LogoORCIDVD({ height }: { height?: string }): JSX.Element {
@@ -8,7 +8,7 @@ function LogoORCIDVD({ height }: { height?: string }): JSX.Element {
         <img
             loading="lazy"
             className={linkSty.logo}
-            src={src}
+            src={logoI}
             alt="ORCID"
             width={heightI}
             height={heightI}

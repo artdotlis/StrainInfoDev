@@ -1,4 +1,4 @@
-declare module '*.webp';
+declare module '*.avif';
 
 // types/mdx.d.ts
 declare module '*.mdx' {

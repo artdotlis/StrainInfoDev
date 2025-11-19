@@ -1,5 +1,5 @@
 import type { JSX } from 'preact';
-import src from '@extra/straininfo/logos/bacdive.webp';
+import logoI from '@extra/straininfo/logos/bacdive.avif';
 import linkSty from '@strinf/css/mods/link.module.css';
 
 function LogoBacDiveVD(): JSX.Element {
@@ -7,7 +7,7 @@ function LogoBacDiveVD(): JSX.Element {
         <img
             loading="lazy"
             className={linkSty.logoleft}
-            src={src}
+            src={logoI}
             height="22"
             alt="BacDive"
         />

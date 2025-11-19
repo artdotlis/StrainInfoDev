@@ -1,8 +1,8 @@
 import { useEffect } from 'preact/hooks';
 
-type IMG = 'image/webp' | 'image/png' | 'image/jpg';
+type IMG = 'image/webp' | 'image/png' | 'image/jpg' | 'image/avif';
 function getAs(type: IMG): string {
-    if (['image/webp', 'image/png', 'image/jpg'].includes(type)) {
+    if (['image/webp', 'image/png', 'image/jpg', 'image/avif'].includes(type)) {
         return 'image';
     }
     return 'fetch';

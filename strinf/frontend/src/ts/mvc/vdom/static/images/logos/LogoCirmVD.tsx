@@ -1,8 +1,8 @@
 import type { JSX } from 'preact';
-import src from '@extra/straininfo/logos/cirm.webp';
+import logoI from '@extra/straininfo/logos/cirm.avif';
 
 function LogoCirmVD(): JSX.Element {
-    return <img loading="lazy" height="68" src={src} alt="CIRM-CFBP and CIRM-CF" />;
+    return <img loading="lazy" height="68" src={logoI} alt="CIRM-CFBP and CIRM-CF" />;
 }
 
 export default LogoCirmVD;

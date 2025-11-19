@@ -1,6 +1,5 @@
 import type { JSX } from 'preact';
-
-const logoI = new URL('@assets/logo/streg.webp', import.meta.url).pathname;
+import logoI from '@assets/logo/streg.avif';
 
 function LogoStrainRegistryVD(): JSX.Element {
     return (

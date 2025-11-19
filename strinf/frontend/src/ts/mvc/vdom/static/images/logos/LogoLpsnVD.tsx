@@ -1,5 +1,5 @@
 import type { JSX } from 'preact';
-import src from '@extra/straininfo/logos/lpsn.webp';
+import logoI from '@extra/straininfo/logos/lpsn.avif';
 
 import linkSty from '@strinf/css/mods/link.module.css';
 
@@ -10,7 +10,7 @@ function LogoLpsnVD({ height }: { height?: string }): JSX.Element {
         <img
             loading="lazy"
             className={linkSty.logo}
-            src={src}
+            src={logoI}
             alt="LPSN"
             width={`${width}`}
             height={heightI}

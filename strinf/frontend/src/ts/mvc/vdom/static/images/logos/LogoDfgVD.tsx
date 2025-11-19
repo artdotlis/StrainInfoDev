@@ -1,8 +1,8 @@
 import type { JSX } from 'preact';
-import src from '@extra/straininfo/logos/dfg.webp';
+import logoI from '@extra/straininfo/logos/dfg.avif';
 
 function LogoDfgVD(): JSX.Element {
-    return <img loading="lazy" width="260" src={src} alt="DFG" />;
+    return <img loading="lazy" width="260" src={logoI} alt="DFG" />;
 }
 
 export default LogoDfgVD;

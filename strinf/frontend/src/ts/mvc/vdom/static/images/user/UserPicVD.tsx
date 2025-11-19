@@ -19,7 +19,7 @@ function DefaultImage(): JSX.Element {
 }
 
 const USER_PICS: [string, unknown][] = Object.entries(
-    import.meta.glob('@extra/straininfo/users/*.webp', {
+    import.meta.glob('@extra/straininfo/users/*.avif', {
         eager: true,
         query: '?url',
         import: 'default',
@@ -35,13 +35,13 @@ function setPictureSrc(picName: string, setPicP: (src: string) => void): void {
 
             fetch(pUrl)
                 .then((res): void => {
-                    if (res.ok && res.headers.get('content-type') === 'image/webp') {
+                    if (res.ok && res.headers.get('content-type') === 'image/avif') {
                         setPicP(pUrl);
                     }
                 })
                 .catch((err: unknown) => `${err}`);
         }
-        else if (srcL.startsWith('data:image/webp')) {
+        else if (srcL.startsWith('data:image/avif')) {
             setPicP(srcL);
         }
     }

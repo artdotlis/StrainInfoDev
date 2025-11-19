@@ -1,8 +1,8 @@
 import type { JSX } from 'preact';
-import src from '@extra/straininfo/logos/uamh.webp';
+import logoI from '@extra/straininfo/logos/uamh.avif';
 
 function LogoUamhVD(): JSX.Element {
-    return <img loading="lazy" height="68" src={src} alt="UAMH" />;
+    return <img loading="lazy" height="68" src={logoI} alt="UAMH" />;
 }
 
 export default LogoUamhVD;

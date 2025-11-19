@@ -11,7 +11,7 @@ import {
     createStrainCall,
 } from '@strinf/ts/functions/links/create_pass';
 
-const logoI = new URL('@assets/logo/strinf.webp', import.meta.url).pathname;
+const logoI = new URL('@assets/logo/strinf.avif', import.meta.url).pathname;
 
 interface ID_T {
     '@type': string;
