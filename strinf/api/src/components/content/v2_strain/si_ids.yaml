@@ -2,7 +2,7 @@ type: object
 required:
     - siID
     - doi
-    - online
+    - doi_online
     - typeStrain
 properties:
     siID:
