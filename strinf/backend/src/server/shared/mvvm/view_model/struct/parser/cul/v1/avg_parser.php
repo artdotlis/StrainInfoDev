@@ -4,34 +4,34 @@ declare(strict_types=1);
 
 namespace straininfo\server\shared\mvvm\view_model\struct\parser\cul\v1;
 
-use function straininfo\server\shared\arr\check_kt_arr_id;
-use function straininfo\server\shared\arr\check_kt_bool;
-use function straininfo\server\shared\arr\check_kt_f_arr_id;
-use function straininfo\server\shared\arr\check_kt_f_arr_str;
-use function straininfo\server\shared\arr\check_kt_f_str;
-use function straininfo\server\shared\arr\check_kt_false_bool;
-use function straininfo\server\shared\arr\check_kt_int;
-use function straininfo\server\shared\arr\check_kt_str;
-use function straininfo\server\shared\arr\check_kt_true;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructBrcE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructCulE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructDepE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructDesE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructIsoE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructSubE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructSupE;
-
-use straininfo\server\shared\mvvm\model\struct\DataCon;
-use straininfo\server\shared\mvvm\view_model\struct\json\v1\StBrcE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v1\StCulE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v1\StDepE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v1\StIsoE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v1\StRegE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v1\StRelDesE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v1\StSamE;
 use straininfo\server\shared\mvvm\view_model\struct\json\v1\StStrE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v1\StSamE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v1\StRelDesE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v1\StRegE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v1\StIsoE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v1\StDepE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v1\StCulE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v1\StBrcE;
+use straininfo\server\shared\mvvm\model\struct\DataCon;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructSupE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructSubE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructIsoE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructDesE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructDepE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructCulE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructBrcE;
+
 use function straininfo\server\shared\text\encode_url;
+use function straininfo\server\shared\arr\check_kt_true;
+use function straininfo\server\shared\arr\check_kt_str;
+use function straininfo\server\shared\arr\check_kt_int;
+use function straininfo\server\shared\arr\check_kt_false_bool;
+use function straininfo\server\shared\arr\check_kt_f_str;
+use function straininfo\server\shared\arr\check_kt_f_arr_str;
+use function straininfo\server\shared\arr\check_kt_f_arr_id;
+use function straininfo\server\shared\arr\check_kt_bool;
+use function straininfo\server\shared\arr\check_kt_arr_id;
 
 /**
  * @template TV
@@ -308,6 +308,7 @@ function get_cul_avg_arr_str(array $val): array
         StStrE::CON->value => [
             StStrE::STR_ID->value => check_kt_int($val, $db::STRAIN_ID->value),
             StStrE::STR_DOI->value => check_kt_f_str($val, $db::STRAIN_DOI->value),
+            StStrE::STR_DOI_ON->value => check_kt_bool($val, $db::STRAIN_DOI_ON->value),
             StStrE::TYP_CUL->value => check_kt_int($val, $db::TYP_CUL->value),
             StStrE::TYP_STR->value => check_kt_bool($val, $db::TYP_STR->value),
             StStrE::MERGE_CON->value => check_kt_arr_id(

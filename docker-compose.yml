@@ -46,7 +46,7 @@ services:
             - MARIADB_PASSWORD=password2
             - MARIADB_DATABASE=straininfo
         ports:
-            - 3909:3306
+            - 3113:3306
         networks:
             - straininfo
         volumes:

@@ -28,7 +28,7 @@ function bacDiveID(pass: PassR): string[] {
 }
 
 function doiAsID(pass: PassR): ID_T[] {
-    if (pass.overview[4] === '') {
+    if (pass.overview[4][0] === '') {
         return [];
     }
     return [
@@ -36,7 +36,7 @@ function doiAsID(pass: PassR): ID_T[] {
             '@type': 'PropertyValue',
             'name': 'DOI',
             'propertyID': DOI_P,
-            'value': pass.overview[4],
+            'value': pass.overview[4][0],
         },
     ];
 }

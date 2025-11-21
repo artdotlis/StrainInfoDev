@@ -9,6 +9,7 @@ enum DBStructStrE: string
     // avg
     case STRAIN_ID = 'strain_id';
     case STRAIN_DOI = 'strain_doi';
+    case STRAIN_DOI_ON = 'strain_doi_on';
     case TYP_CUL = 's_type_culture';
     case STR_STA_ON = 's_status_on';
     case STR_STA_ERR = 's_status_err';

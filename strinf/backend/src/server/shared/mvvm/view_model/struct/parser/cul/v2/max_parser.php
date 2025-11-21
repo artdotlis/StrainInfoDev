@@ -4,28 +4,28 @@ declare(strict_types=1);
 
 namespace straininfo\server\shared\mvvm\view_model\struct\parser\cul\v2;
 
-use function straininfo\server\shared\arr\check_kt_arr_id;
-use function straininfo\server\shared\arr\check_kt_bool;
-use function straininfo\server\shared\arr\check_kt_f_str;
-use function straininfo\server\shared\arr\check_kt_int;
-use function straininfo\server\shared\arr\check_kt_str;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructArcE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructPubE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructRelCulE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructSeqE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructTaxE;
-use straininfo\server\shared\mvvm\model\struct\DataCon;
-use straininfo\server\shared\mvvm\model\struct\StrainStatus;
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StArcE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StDepositE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StPubE;
-
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StRelDepositE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StRelDesE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StSeqE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StStrE;
 use straininfo\server\shared\mvvm\view_model\struct\json\v2\StTaxE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StStrE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StSeqE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StRelDesE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StRelDepositE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StPubE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StDepositE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StArcE;
+use straininfo\server\shared\mvvm\model\struct\StrainStatus;
+use straininfo\server\shared\mvvm\model\struct\DataCon;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructTaxE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructSeqE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructRelCulE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructPubE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructArcE;
+
+use function straininfo\server\shared\arr\check_kt_str;
+use function straininfo\server\shared\arr\check_kt_int;
+use function straininfo\server\shared\arr\check_kt_f_str;
+use function straininfo\server\shared\arr\check_kt_bool;
+use function straininfo\server\shared\arr\check_kt_arr_id;
 
 function get_strain_status(?int $type_cul, ?int $cul_on, int $cul_cnt, ?int $cul_err): StrainStatus
 {
@@ -58,6 +58,7 @@ function get_max_arr_str(array $val, int $cul_cnt): array
         StStrE::CON->value => [
             StStrE::SI_ID->value => check_kt_int($val, $db::STRAIN_ID->value),
             StStrE::STR_DOI->value => check_kt_f_str($val, $db::STRAIN_DOI->value),
+            StStrE::STR_DOI_ON->value => check_kt_bool($val, $db::STRAIN_DOI_ON->value),
             StStrE::STA->value => get_strain_status($type_cul, $cul_on, $cul_cnt, $cul_err),
             StStrE::TYP_STR->value => check_kt_bool($val, $db::TYP_STR->value),
             StStrE::MERGE_CON->value => check_kt_arr_id(
@@ -214,6 +215,7 @@ function get_max_arr_arc(array $val): array
             }
             $res[] = [
                 StArcE::DOI->value => check_kt_f_str($con, $db::DOI->value), // @phpstan-ignore argument.type
+                StArcE::DOI_ONLINE->value => check_kt_bool($con, $db::DOI_ONLINE->value), // @phpstan-ignore argument.type
                 StArcE::DATE->value => check_kt_f_str($con, $db::DATE->value), // @phpstan-ignore argument.type
                 StArcE::TIT->value => check_kt_f_str($con, $db::TIT->value), // @phpstan-ignore argument.type
             ];

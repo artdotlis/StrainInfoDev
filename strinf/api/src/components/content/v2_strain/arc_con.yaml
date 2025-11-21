@@ -9,6 +9,7 @@ properties:
             type: object
             required:
                 - doi
+                - online
                 - date
                 - title
             properties:
@@ -17,6 +18,9 @@ properties:
                     description: The strain DOI
                     examples: [10.60712/SI-ID1.1]
                     pattern: '^10\.\d{4,}(?:\.\d+)*/SI-ID\d+\.\d+$'
+                online:
+                    type: boolean
+                    examples: [true]
                 date:
                     type: string
                     examples: ['2023-02-03']

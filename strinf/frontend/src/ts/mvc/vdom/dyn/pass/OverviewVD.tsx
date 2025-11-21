@@ -47,6 +47,7 @@ function modArchive(
     filH: (string | JSX.Element)[],
     filD: EleT[],
     doi: string,
+    online: boolean,
     hook: ToolTipHookInt<TT_GL_TYPE>,
 ): void {
     const hid = filH.indexOf(HEAD[0] ?? '');
@@ -55,7 +56,7 @@ function modArchive(
         1,
         <span style={{ 'white-space': 'nowrap' }}>
             {' '}
-            <ArcLinkVD doi={doi} hook={hook} />
+            <ArcLinkVD doi={doi} hook={hook} online={online} />
             {' '}
         </span>,
     );
@@ -143,7 +144,7 @@ function OverviewVD({ res, dCtrl, rel }: ResProps): JSX.Element | null {
     const filD = filterArrStr(HEAD, dataF);
     modName(filD[0], filD[1], res[2]);
     modBacDive(filD[0], filD[1], res[3]);
-    modArchive(filD[0], filD[1], res[4], ttHook);
+    modArchive(filD[0], filD[1], res[4][0], res[4][1], ttHook);
     const extraCl: string[] = Array.from({ length: filD[1].length }).fill('') as string[];
     if (res[3] !== undefined) {
         extraCl.splice(filD[1].length - 1, 1, `${Mar.lNAT} ${Dis.dNone} ${Dis.dBM}`);

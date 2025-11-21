@@ -187,7 +187,7 @@ function createOVCon(data: PassJT): OvT {
         data.strain.typeStrain,
         [data.strain.taxon?.name ?? '', data.strain.taxon?.lpsn, data.strain.taxon?.ncbi],
         data.strain.bdID,
-        data.strain.doi,
+        [data.strain.doi, data.strain.doi_online],
     ];
 }
 
@@ -200,7 +200,7 @@ function createAltStrIds(data: PassJT): number[] {
 }
 
 function getOVTuple(): string[] {
-    return ['Persistent link - DOI', 'Type strain', 'Taxonomy', 'More about this strain'];
+    return ['Persistent link', 'Type strain', 'Taxonomy', 'More about this strain'];
 }
 
 function detConMain(data: DetailsJT): DetMT {
@@ -468,7 +468,7 @@ function getArcTuple(): string[] {
 function createArcCon(data: PassJT): ArcT[] {
     const res: ArcT[] = [];
     for (const pubEl of data.strain.archive) {
-        const toPush: ArcT = [pubEl.doi, pubEl.title, pubEl.date];
+        const toPush: ArcT = [pubEl.doi, pubEl.title, pubEl.date, pubEl.online];
         res.push(toPush);
     }
     return res;

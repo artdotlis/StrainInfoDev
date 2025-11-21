@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace straininfo\server\shared\mvvm\view_model\struct\parser\str\v1;
 
-use straininfo\server\exceptions\mvvm\view_model\KnownViewModelExc;
-use function straininfo\server\shared\arr\check_kt_arr_id;
-use function straininfo\server\shared\arr\check_kt_bool;
-use function straininfo\server\shared\arr\check_kt_f_str;
-use function straininfo\server\shared\arr\check_kt_int;
-use straininfo\server\shared\exc\KEAct;
-use straininfo\server\shared\logger\LogLevE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructTaxE;
-
-use straininfo\server\shared\mvvm\model\struct\DataCon;
-use straininfo\server\shared\mvvm\view_model\struct\json\v1\StRelCulE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v1\StStrE;
 use straininfo\server\shared\mvvm\view_model\struct\json\v1\StTaxE;
-use function straininfo\server\shared\mvvm\view_model\struct\parser\cul\v1\get_max_arr_rel_cul;
+use straininfo\server\shared\mvvm\view_model\struct\json\v1\StStrE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v1\StRelCulE;
+use straininfo\server\shared\mvvm\model\struct\DataCon;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructTaxE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
+use straininfo\server\shared\logger\LogLevE;
+use straininfo\server\shared\exc\KEAct;
+use straininfo\server\exceptions\mvvm\view_model\KnownViewModelExc;
+
 use function straininfo\server\shared\mvvm\view_model\struct\parser\cul\v1\get_strain_status;
+use function straininfo\server\shared\mvvm\view_model\struct\parser\cul\v1\get_max_arr_rel_cul;
+use function straininfo\server\shared\arr\check_kt_int;
+use function straininfo\server\shared\arr\check_kt_f_str;
+use function straininfo\server\shared\arr\check_kt_bool;
+use function straininfo\server\shared\arr\check_kt_arr_id;
 
 /**
  * @template TV
@@ -94,6 +94,7 @@ function get_min_arr_str(array $val, array $strain): array
         StStrE::CON->value => [
             StStrE::STR_ID->value => check_kt_int($val, $db::STRAIN_ID->value),
             StStrE::STR_DOI->value => check_kt_f_str($val, $db::STRAIN_DOI->value),
+            StStrE::STR_DOI_ON->value => check_kt_bool($val, $db::STRAIN_DOI_ON->value),
             StStrE::TYP_CUL->value => $type_cul,
             StStrE::TYP_STR->value => check_kt_bool($val, $db::TYP_STR->value),
             StStrE::BAC_DIVE->value => check_kt_int($val, $db::BAC_DIVE->value),

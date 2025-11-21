@@ -4,24 +4,32 @@ declare(strict_types=1);
 
 namespace straininfo\server\shared\mvvm\model\sia\sql\str;
 
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructDesE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructRelCulE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
 use straininfo\server\shared\mvvm\model\sia\fields\DBStructTaxE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructRelCulE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructDesE;
 
 function get_sql_base_select_str(): string
 {
     $tst = DBStructStrE::TYP_STR->value;
     $doi = DBStructStrE::STRAIN_DOI->value;
+    $doi_on = DBStructStrE::STRAIN_DOI_ON->value;
     return get_sql_select_str() . <<<EOF
         , strain.type_strain as {$tst}
         , (
-            SELECT strain_archive.doi
-            FROM strain_archive
-            WHERE strain_archive.str_id=strain.id
-            ORDER BY strain_archive.doi DESC
+            SELECT s2.doi
+            FROM strain_archive as s2
+            WHERE s2.str_id=strain.id
+            ORDER BY s2.doi DESC
             LIMIT 1
         ) as {$doi}
+        , (
+            SELECT s3.online
+            FROM strain_archive as s3
+            WHERE s3.str_id=strain.id
+            ORDER BY s3.doi DESC
+            LIMIT 1
+        ) as {$doi_on}
     EOF;
 }
 

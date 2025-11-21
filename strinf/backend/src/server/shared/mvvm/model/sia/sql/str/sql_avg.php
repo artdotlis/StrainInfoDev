@@ -45,13 +45,15 @@ function get_sql_strain_err(): string
 function get_sql_arc(): string
 {
     $doi = DBStructArcE::DOI->value;
+    $doi_online = DBStructArcE::DOI_ONLINE->value;
     $arc = DBStructArcE::DATE->value;
     $tit = DBStructArcE::TIT->value;
     return <<<EOF
     SELECT DISTINCT 
         strain_archive.doi as {$doi},
         strain_archive.archived as {$arc},
-        strain_archive.title as {$tit}
+        strain_archive.title as {$tit},
+        strain_archive.online as {$doi_online}
     FROM strain_archive
     EOF;
 }

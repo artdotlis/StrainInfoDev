@@ -1,4 +1,5 @@
 import type { ArcT } from '@strinf/ts/interfaces/api/mapped';
+import type { ToolTipHookInt, TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
 import type AncT from '@strinf/ts/interfaces/misc/anchor';
 import type { TableProps } from '@strinf/ts/mvc/vdom/dyn/table/Table';
 import type { JSX } from 'preact';
@@ -15,6 +16,7 @@ import { memo } from 'preact/compat';
 
 interface ResProps {
     res: ArcT[];
+    hook: ToolTipHookInt<TT_GL_TYPE>;
 }
 
 const TIT = 'Archive';
@@ -27,23 +29,31 @@ function getAnchorA(ord: number, rel: ArcT[]): AncT {
     return {};
 }
 
-function crDoi(row: ArcT | undefined) {
+function crDoi(row: ArcT | undefined, hook: ToolTipHookInt<TT_GL_TYPE>) {
     if (row === undefined) {
         return null;
     }
+    const [doi, , , online] = row;
     return (
         <span className={Font.norm}>
             <span id={ID} />
-            <DoiDownloadGrid doi={row[0]} />
+            <DoiDownloadGrid doi={doi} online={online} hook={hook} />
         </span>
     );
 }
-
+const TIF = `
+The DOI is currently not online, but will be published at a future date.
+`;
 function crTitle(row: ArcT | undefined): JSX.Element | null {
     if (row === undefined) {
         return null;
     }
-    return <span className={Font.norm}>{row[1]}</span>;
+    const [, title, , online] = row;
+    let buf = title;
+    if (!online) {
+        buf += ` - ${TIF}`;
+    }
+    return <span className={Font.norm}>{buf}</span>;
 }
 
 function crDate(row: ArcT | undefined): JSX.Element | null {
@@ -53,11 +63,15 @@ function crDate(row: ArcT | undefined): JSX.Element | null {
     return <span className={Font.norm}>{row[2]}</span>;
 }
 
-class ArcTable extends TableCon<ArcT, TableProps<ArcT>> {
+interface ArcProps extends TableProps<ArcT> {
+    hook: ToolTipHookInt<TT_GL_TYPE>;
+}
+
+class ArcTable extends TableCon<ArcT, ArcProps> {
     protected override sort(index: number, sort: number): number[] {
         const { view } = this.state;
         const getV = (datPos: number): string => {
-            return this.data[datPos]?.[index] ?? '';
+            return String(this.data[datPos]?.[index] ?? '');
         };
         const sDate = (fir: number, sec: number): number =>
             sortDate(sort, getV(fir), getV(sec));
@@ -93,12 +107,13 @@ class ArcTable extends TableCon<ArcT, TableProps<ArcT>> {
     }
 
     protected override renderTableBody(): JSX.Element {
+        const { hook } = this.props;
         return (
             <tbody>
                 {this.body.map((val: ArcT | undefined, index) => {
                     return (
                         <tr key={index}>
-                            <th>{crDoi(val)}</th>
+                            <th>{crDoi(val, hook)}</th>
                             <th>{crTitle(val)}</th>
                             <th>{crDate(val)}</th>
                         </tr>
@@ -132,11 +147,13 @@ class ArcTable extends TableCon<ArcT, TableProps<ArcT>> {
 
 ArcTable.contextType = MainConGl;
 
-function modDate(arc: [string, string, string][]): [string, string, string][] {
-    return arc.map(([doi, tit, dat]) => [doi, tit, createDate(dat)]);
+function modDate(
+    arc: [string, string, string, boolean][],
+): [string, string, string, boolean][] {
+    return arc.map(([doi, tit, dat, online]) => [doi, tit, createDate(dat), online]);
 }
 
-function ArcVD({ res }: ResProps): JSX.Element | null {
+function ArcVD({ res, hook }: ResProps): JSX.Element | null {
     if (res.length === 0) {
         return null;
     }
@@ -153,6 +170,7 @@ function ArcVD({ res }: ResProps): JSX.Element | null {
                     window={15}
                     head={getArcTuple().map((val, index) => [index, val, true])}
                     tableCl={`${ClHtml.tab}  ${ClHtml.hov}`}
+                    hook={hook}
                 />
             </section>
         </div>

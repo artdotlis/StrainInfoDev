@@ -111,6 +111,7 @@ const IsoCon = strictObject({
 
 const ArcCon = strictObject({
     doi: string().check(minLength(1)),
+    online: boolean(),
     date: string().check(checkDateCtx),
     title: string().check(minLength(1)),
 });
@@ -215,6 +216,7 @@ const DepositAvg = strictObject({
 const DepositStrainMin = strictObject({
     siID: number().check(minimum(1)),
     doi: string().check(minLength(1)),
+    doi_online: boolean(),
     merged: optional(array(number().check(minimum(1))).check(minLength(1))),
     typeStrain: boolean(),
 });
@@ -222,6 +224,7 @@ const DepositStrainMin = strictObject({
 const StrainMin = strictObject({
     siID: number().check(minimum(1)),
     doi: string().check(minLength(1)),
+    doi_online: boolean(),
     merged: optional(array(number().check(minimum(1))).check(minLength(1))),
     typeStrain: boolean(),
     status: z_enum(StrainStatus),

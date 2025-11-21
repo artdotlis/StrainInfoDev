@@ -180,7 +180,7 @@ function MainContainer({
                 detAnc={getAnc4Det()}
                 res={res.publications}
             />
-            <ArcVD res={res.archive} />
+            <ArcVD res={res.archive} hook={hookInf} />
         </div>
     );
 }

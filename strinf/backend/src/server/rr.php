@@ -8,14 +8,14 @@ require_once dirname(__FILE__, 2) . '/vendor/autoload.php';
 
 use Nyholm\Psr7\Factory\Psr17Factory;
 use RuntimeException;
-use Spiral\RoadRunner;
-use Spiral\RoadRunner\Environment;
-use Spiral\RoadRunner\Environment\Mode;
-use Spiral\RoadRunner\Jobs\Consumer;
-
 use function Safe\curl_exec;
 use function Safe\curl_init;
 use function Safe\json_encode;
+use Spiral\RoadRunner;
+
+use Spiral\RoadRunner\Environment;
+use Spiral\RoadRunner\Environment\Mode;
+use Spiral\RoadRunner\Jobs\Consumer;
 use function straininfo\server\shared\state\reboot;
 
 $env = Environment::fromGlobals();

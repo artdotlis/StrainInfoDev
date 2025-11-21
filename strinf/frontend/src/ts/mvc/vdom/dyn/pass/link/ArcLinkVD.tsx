@@ -3,6 +3,7 @@ import type { JSX } from 'preact';
 import conSty from '@strinf/css/mods/container.module.css';
 import linkSty from '@strinf/css/mods/link.module.css';
 import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
+import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
 import DOI_L from '@strinf/ts/constants/links/doi';
 import { Align, Dis, Tex } from '@strinf/ts/constants/style/ClHtml';
 import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
@@ -17,18 +18,19 @@ import { useRef } from 'preact/hooks';
 interface ArcLink {
     doi: string;
     hook: ToolTipHookInt<TT_GL_TYPE>;
+    online: boolean;
 }
 
 const DOI_R = new RegExp(`^(.+)(${IdAcrTagCon.strId}.+)(\\.\\d+)$`);
 
-function splitDoi(doi: string): JSX.Element {
+function splitDoi(doi: string, online: boolean): JSX.Element {
     const splDoi = DOI_R.exec(doi);
     if (splDoi === null) {
         return <span>{doi}</span>;
     }
     return (
         <span>
-            {splDoi[1]}
+            {online ? splDoi[1] : ''}
             <strong
                 className={Tex.w}
                 style={{
@@ -48,7 +50,7 @@ function splitDoi(doi: string): JSX.Element {
 }
 
 function ArcLinkVD(props: ArcLink): JSX.Element | null {
-    const { doi, hook } = props;
+    const { doi, hook, online } = props;
     const claD = `${Dis.dIFlex} ${conSty.fbundle}`;
     const claB = `${linkSty.cleanbutton} ${Dis.dIFlex} ${Align.jc}`;
     const ref = useRef<HTMLButtonElement>(null);
@@ -57,7 +59,26 @@ function ArcLinkVD(props: ArcLink): JSX.Element | null {
         hook,
         () => {
             if (hook.data !== undefined) {
-                hook.data(<p>Click on the icon to copy the DOI URL</p>);
+                hook.data(
+                    online
+                        ? (
+                                <p>Click on the icon to copy the DOI URL</p>
+                            )
+                        : (
+                                <>
+                                    <h6>Click on the icon to copy the DOI URL</h6>
+                                    <p>
+                                        <b>The DOI is currently not online</b>
+                                        ,
+                                        <br />
+                                        but it serves as a stable reference for the strain and
+                                        will be published at a future date. Entries will not be
+                                        removed from the archive, but new CCNos may be added and
+                                        strain information may be updated over time.
+                                    </p>
+                                </>
+                            ),
+                );
             }
         },
         [50, 50],
@@ -83,9 +104,20 @@ function ArcLinkVD(props: ArcLink): JSX.Element | null {
                     }
                 }}
             >
-                <LogoDoiVD height="22" cla="" />
+                {online
+                    ? (
+                            <LogoDoiVD height="22" cla="" />
+                        )
+                    : (
+                            <i
+                                className={`${ClHtmlI.wrenchF} ${Tex.f}`}
+                                style={{
+                                    fontSize: '22px',
+                                }}
+                            />
+                        )}
             </button>
-            {splitDoi(doi)}
+            {splitDoi(doi, online)}
         </span>
     );
 }

@@ -60,7 +60,7 @@ type OvT = [
     boolean,
     [string, number | undefined, number | undefined],
     number | undefined,
-    string,
+    [string, boolean],
 ];
 type PubT = [string, string, [string, number][], string, string, number | undefined];
 type SeqT = [
@@ -97,7 +97,7 @@ type DetET = [
     boolean,
 ];
 type DetT = [...DetMT, ...DetET];
-type ArcT = [string, string, string];
+type ArcT = [string, string, string, boolean];
 
 interface PassR {
     overview: OvT;

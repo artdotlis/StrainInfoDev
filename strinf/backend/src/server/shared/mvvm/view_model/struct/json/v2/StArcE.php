@@ -8,6 +8,7 @@ enum StArcE: string
 {
     case ARC_CON = 'archive';
     case DOI = 'doi';
+    case DOI_ONLINE = 'online';
     case DATE = 'date';
     case TIT = 'title';
 }

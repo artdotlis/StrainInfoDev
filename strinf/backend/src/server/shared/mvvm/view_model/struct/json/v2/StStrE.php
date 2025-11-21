@@ -16,6 +16,7 @@ enum StStrE: string
     // info
     case SI_ID = 'siID';
     case STR_DOI = 'doi';
+    case STR_DOI_ON = 'doi_online';
     // pass
     case TYP_STR = 'typeStrain';
     case BAC_DIVE = 'bdID';

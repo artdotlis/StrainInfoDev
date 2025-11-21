@@ -2,6 +2,7 @@ type: object
 required:
     - siID
     - doi
+    - online
     - typeStrain
 properties:
     siID:
@@ -14,6 +15,9 @@ properties:
         description: The strain DOI
         examples: [10.60712/SI-ID1.1]
         pattern: '^10\.\d{4,}(?:\.\d+)*/SI-ID\d+\.\d+$'
+    doi_online:
+        type: boolean
+        examples: [true]
     merged:
         type: array
         items:
