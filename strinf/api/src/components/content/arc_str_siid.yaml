@@ -2,8 +2,12 @@ type: array
 minItems: 1
 items:
     type: object
-    required: [strain, deposits]
+    required: [strain, deposits, schemaVersion]
     properties:
+        schemaVersion:
+            type: integer
+            examples: [2]
+            minimum: 1
         strain:
             type: object
             required: ['siID', 'typeStrain', 'designations']
@@ -101,6 +105,16 @@ items:
                     designation:
                         type: string
                         minLength: 1
+                    status:
+                        type: string
+                        description: Status of a culture strain. Optional; defaults to "unknown" if not provided.
+                        examples: [available]
+                        enum:
+                            - private
+                            - dead
+                            - unknown
+                            - available
+                            - erroneous data
                     typeStrain:
                         type: boolean
                     history:
