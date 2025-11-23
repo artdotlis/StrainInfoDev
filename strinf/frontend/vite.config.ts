@@ -282,12 +282,28 @@ function createSiteMapWeb(uiApi: ConfLinkT, sitemap: string): void {
 }
 
 function copyToOut(): void {
+    console.log('update configs');
+    changeServerVersion();
     console.log('copy files');
     copyFromTargets();
     console.log('copy public conf');
     const [uiApi, sitemap] = crFEConfEnv();
     console.log('create sitemap web');
     createSiteMapWeb(uiApi, sitemap);
+}
+
+function changeServerVersion(): void {
+    const confP = Path.resolve(ROOT, ENV_GL.CONFIG_STRINF);
+    const currentDate = new Date();
+    const glConf = CSS.parse(JSON.parse(fs.readFileSync(confP).toString()));
+
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+
+    glConf.global.service.version = `${year}.${month}.${day}`;
+
+    fs.writeFileSync(confP, JSON.stringify(glConf));
 }
 
 function addCspHeaders(): OutgoingHttpHeaders {
