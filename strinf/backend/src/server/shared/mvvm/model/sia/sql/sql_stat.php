@@ -27,7 +27,8 @@ function get_archive_cnt(): string
 {
     return <<<EOF
     SELECT COUNT(DISTINCT strain_archive.id)
-    FROM strain_archive;
+    FROM strain_archive
+    WHERE strain_archive.online=1;
     EOF;
 }
 
