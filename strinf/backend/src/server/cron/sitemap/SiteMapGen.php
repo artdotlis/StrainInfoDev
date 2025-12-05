@@ -4,27 +4,27 @@ declare(strict_types=1);
 
 namespace straininfo\server\cron\sitemap;
 
-use Psr\Log\LoggerInterface;
-use function Safe\chmod;
-use function Safe\fclose;
-use function Safe\filesize;
-
-use function Safe\fopen;
-use function Safe\fread;
-use function Safe\fwrite;
-use function Safe\ini_get;
-use function Safe\ini_set;
-use function Safe\mkdir;
-use function Safe\preg_replace;
-use function Safe\touch;
-use straininfo\server\configs\ConfigsCont;
-use function straininfo\server\exceptions\get_err_handler_slim_fun;
-use function straininfo\server\logger\create_logger;
-use straininfo\server\mvvm\model\dbs\ChMainDB;
-use function straininfo\server\shared\dbs\tryToConnect;
-use function straininfo\server\shared\path\get_public_root;
 use straininfo\server\shared\path\QUIMap;
+use straininfo\server\mvvm\model\dbs\ChMainDB;
+use straininfo\server\configs\ConfigsCont;
 use function straininfo\server\shared\text\create_url;
+
+use function straininfo\server\shared\path\get_public_root;
+use function straininfo\server\shared\dbs\tryToConnect;
+use function straininfo\server\logger\create_logger;
+use function straininfo\server\exceptions\get_err_handler_slim_fun;
+use function Safe\touch;
+use function Safe\preg_replace;
+use function Safe\mkdir;
+use function Safe\ini_set;
+use function Safe\ini_get;
+use function Safe\fwrite;
+use function Safe\fread;
+use function Safe\fopen;
+use function Safe\filesize;
+use function Safe\fclose;
+use function Safe\chmod;
+use Psr\Log\LoggerInterface;
 
 final class SiteMapGen
 {
@@ -53,7 +53,7 @@ final class SiteMapGen
             $mem = ini_get('memory_limit');
             $new_mem = '512M';
             printf('START - ' . $mem . ' -> ' . $new_mem . "\n");
-            ini_set('memory_limit', '512M');
+            ini_set('memory_limit', $new_mem);
             $all_con = $this->getDataDB()->getQDBAll();
             $all_strains = $all_con->getAllStrIdsWDate();
             $site_maps_cnt = (int) ceil(count($all_strains) / 30_000);

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace straininfo\server\mvvm;
 
-use Psr\Log\LoggerInterface;
-use straininfo\server\configs\ConfigsCont;
-use straininfo\server\interfaces\mvvm\controller\CtrlIntBoot;
-use straininfo\server\mvvm\controller\MainCtrl;
-use straininfo\server\mvvm\model\MainModel;
-use straininfo\server\mvvm\view\MainView;
 use straininfo\server\mvvm\view_model\MainViewModel;
+use straininfo\server\mvvm\view\MainView;
+use straininfo\server\mvvm\model\MainModel;
+use straininfo\server\mvvm\controller\MainCtrl;
+use straininfo\server\interfaces\mvvm\controller\CtrlIntBoot;
+use straininfo\server\configs\ConfigsCont;
+use Psr\Log\LoggerInterface;
 
 function create_mvvm(LoggerInterface $logger, ConfigsCont $conf): CtrlIntBoot
 {

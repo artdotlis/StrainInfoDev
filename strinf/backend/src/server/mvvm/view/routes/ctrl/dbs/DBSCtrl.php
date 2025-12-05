@@ -8,19 +8,19 @@ use MatomoTracker;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
+use function Safe\parse_url;
 use Slim\Exception\HttpForbiddenException;
 use Slim\Exception\HttpInternalServerErrorException;
 use Spiral\Goridge\RPC\RPC;
 use Spiral\RoadRunner\Jobs\Jobs;
 use Spiral\RoadRunner\Jobs\QueueInterface;
-use straininfo\server\shared\mvvm\view\HeadArgs;
-use straininfo\server\shared\mvvm\view\StatArgs;
-
-use function Safe\parse_url;
 use function straininfo\server\exceptions\create_error_json;
+
 use function straininfo\server\shared\mvvm\view\add_default_headers;
 use function straininfo\server\shared\mvvm\view\api\get_do_not_track_arg;
 use function straininfo\server\shared\mvvm\view\domain_overlap;
+use straininfo\server\shared\mvvm\view\HeadArgs;
+use straininfo\server\shared\mvvm\view\StatArgs;
 
 abstract class DBSCtrl
 {

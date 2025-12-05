@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace straininfo\server\cron\index;
 
-use Psr\Log\LoggerInterface;
-use function Safe\ini_get;
-use function Safe\ini_set;
-use function Safe\preg_split;
-use straininfo\server\configs\ConfigsCont;
-
-use function straininfo\server\exceptions\get_err_handler_slim_fun;
-use function straininfo\server\logger\create_logger;
-use straininfo\server\mvvm\model\dbs\ChIndEntDB;
-use straininfo\server\mvvm\model\dbs\ChIndWrDB;
-use function straininfo\server\shared\dbs\tryToConnect;
 use straininfo\server\shared\mvvm\view\api\IndexEntity;
+use straininfo\server\mvvm\model\dbs\ChIndWrDB;
+use straininfo\server\mvvm\model\dbs\ChIndEntDB;
+use straininfo\server\configs\ConfigsCont;
 use function straininfo\server\shared\text\rm_taxon_name_ranks;
+
+use function straininfo\server\shared\dbs\tryToConnect;
+use function straininfo\server\logger\create_logger;
+use function straininfo\server\exceptions\get_err_handler_slim_fun;
+use function Safe\preg_split;
+use function Safe\ini_set;
+use function Safe\ini_get;
+use Psr\Log\LoggerInterface;
 
 final class SmartSearch
 {
@@ -43,7 +43,7 @@ final class SmartSearch
             $mem = ini_get('memory_limit');
             $new_mem = '512M';
             printf('START - ' . $mem . ' -> ' . $new_mem . "\n");
-            ini_set('memory_limit', '512M');
+            ini_set('memory_limit', $new_mem);
             $no_spl = SmartSearch::noSplit(...);
             $tax_spl = SmartSearch::splitTaxa(...);
             $ent_con = $this->getDataDB()->getQDBEnt();
