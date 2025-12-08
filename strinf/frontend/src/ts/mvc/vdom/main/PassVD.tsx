@@ -54,7 +54,7 @@ function buildStrainDesc(
         lines.push(`Identifier: ${IdAcrTagCon.strId} ${sid}.`);
     }
 
-    if (tax !== undefined) {
+    if (tax !== undefined && tax !== '') {
         lines.push(`Taxon name: ${tax}.`);
     }
 
@@ -70,7 +70,10 @@ function buildStrainDesc(
 
 function createTitle(tab: PassR | undefined): string {
     const sid = `${IdAcrTagCon.strId} ${String(tab?.overview[0] ?? 'unknown')}`;
-    const tax = tab?.overview[2][0] ?? 'StrainInfo';
+    let tax = tab?.overview[2][0];
+    if (tax === undefined || tax === '') {
+        tax = 'StrainInfo';
+    }
     const title = `${tax} - ${sid}${tab?.overview[1] ? ' - TypeStrain' : ''}`;
     return title;
 }
