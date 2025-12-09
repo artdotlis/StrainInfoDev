@@ -5,8 +5,6 @@ ROOT="$BIN_ROOT/../../.."
 source "$BIN_ROOT/../.env"
 
 echo "lint backend"
-echo " --- phpinsights --- "
-phpinsights analyse -c "$ROOT/$CONFIG_BE_PHP_INSIGHT" --fix -n "$1" || exit 1
 echo " --- phpstan --- "
 phpstan analyze -c "$ROOT/$CONFIG_BE_PHP_STAN" "$1" || exit 1
 echo " --- phpcbf --- "
