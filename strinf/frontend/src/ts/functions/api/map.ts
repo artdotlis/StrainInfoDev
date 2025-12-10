@@ -206,9 +206,7 @@ function getOVTuple(): string[] {
 function detConMain(data: DetailsJT): DetMT {
     let cat_url = '';
     if (data.deposit.catalogue?.online === true) {
-        cat_url = cat_url = decodeURIComponent(
-            data.deposit.catalogue.url.replace(/\+/g, ' '),
-        );
+        cat_url = data.deposit.catalogue.url;
     }
     let brc_home = '';
     if (data.deposit.cultureCollection?.homepage?.online === true) {

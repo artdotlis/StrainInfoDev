@@ -4,15 +4,6 @@ declare(strict_types=1);
 
 namespace straininfo\server\shared\mvvm\view_model\struct\parser\cul\v1;
 
-use function straininfo\server\shared\arr\check_kt_arr_id;
-use function straininfo\server\shared\arr\check_kt_bool;
-use function straininfo\server\shared\arr\check_kt_f_arr_id;
-use function straininfo\server\shared\arr\check_kt_f_arr_str;
-use function straininfo\server\shared\arr\check_kt_f_str;
-use function straininfo\server\shared\arr\check_kt_false_bool;
-use function straininfo\server\shared\arr\check_kt_int;
-use function straininfo\server\shared\arr\check_kt_str;
-use function straininfo\server\shared\arr\check_kt_true;
 use straininfo\server\shared\mvvm\model\sia\fields\DBStructBrcE;
 use straininfo\server\shared\mvvm\model\sia\fields\DBStructCulE;
 use straininfo\server\shared\mvvm\model\sia\fields\DBStructDepE;
@@ -21,7 +12,6 @@ use straininfo\server\shared\mvvm\model\sia\fields\DBStructIsoE;
 use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
 use straininfo\server\shared\mvvm\model\sia\fields\DBStructSubE;
 use straininfo\server\shared\mvvm\model\sia\fields\DBStructSupE;
-
 use straininfo\server\shared\mvvm\model\struct\DataCon;
 use straininfo\server\shared\mvvm\view_model\struct\json\v1\StBrcE;
 use straininfo\server\shared\mvvm\view_model\struct\json\v1\StCulE;
@@ -31,7 +21,16 @@ use straininfo\server\shared\mvvm\view_model\struct\json\v1\StRegE;
 use straininfo\server\shared\mvvm\view_model\struct\json\v1\StRelDesE;
 use straininfo\server\shared\mvvm\view_model\struct\json\v1\StSamE;
 use straininfo\server\shared\mvvm\view_model\struct\json\v1\StStrE;
-use function straininfo\server\shared\text\encode_url;
+
+use function straininfo\server\shared\arr\check_kt_arr_id;
+use function straininfo\server\shared\arr\check_kt_bool;
+use function straininfo\server\shared\arr\check_kt_f_arr_id;
+use function straininfo\server\shared\arr\check_kt_f_arr_str;
+use function straininfo\server\shared\arr\check_kt_f_str;
+use function straininfo\server\shared\arr\check_kt_false_bool;
+use function straininfo\server\shared\arr\check_kt_int;
+use function straininfo\server\shared\arr\check_kt_str;
+use function straininfo\server\shared\arr\check_kt_true;
 
 /**
  * @template TV
@@ -217,7 +216,7 @@ function get_avg_arr_brc(array $val): array
     $url = check_kt_f_str($val, $db::B_HOME->value);
     if (!is_null($url)) {
         $home = [
-            StBrcE::BRC_URL->value => encode_url($url),
+            StBrcE::BRC_URL->value => $url,
             StBrcE::BRC_ON->value => check_kt_bool($val, $db::B_ON->value),
         ];
     }
@@ -254,7 +253,7 @@ function get_avg_arr_cul(array $val): array
     $url = check_kt_f_str($val, $db::CAT->value);
     if (!is_null($url)) {
         $cat = [
-            StCulE::CAT_URL->value => encode_url($url),
+            StCulE::CAT_URL->value => $url,
             StCulE::CAT_ON->value => check_kt_bool($val, $db::CAT_ON->value),
         ];
     }

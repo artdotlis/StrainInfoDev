@@ -4,24 +4,23 @@ declare(strict_types=1);
 
 namespace straininfo\server\shared\mvvm\view_model\struct\parser\cul\v2;
 
-use function straininfo\server\shared\arr\check_kt_bool;
-use function straininfo\server\shared\arr\check_kt_f_arr_str;
-use function straininfo\server\shared\arr\check_kt_f_str;
-use function straininfo\server\shared\arr\check_kt_false_bool;
-use function straininfo\server\shared\arr\check_kt_int;
-use function straininfo\server\shared\arr\check_kt_str;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructBrcE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructCulE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructSubE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructSupE;
-
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructTaxE;
-use straininfo\server\shared\mvvm\model\struct\DataCon;
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StCcE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StDepositE;
-use straininfo\server\shared\mvvm\view_model\struct\json\v2\StRegE;
 use straininfo\server\shared\mvvm\view_model\struct\json\v2\StTaxE;
-use function straininfo\server\shared\text\encode_url;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StRegE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StDepositE;
+use straininfo\server\shared\mvvm\view_model\struct\json\v2\StCcE;
+use straininfo\server\shared\mvvm\model\struct\DataCon;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructTaxE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructSupE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructSubE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructCulE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructBrcE;
+
+use function straininfo\server\shared\arr\check_kt_str;
+use function straininfo\server\shared\arr\check_kt_int;
+use function straininfo\server\shared\arr\check_kt_false_bool;
+use function straininfo\server\shared\arr\check_kt_f_str;
+use function straininfo\server\shared\arr\check_kt_f_arr_str;
+use function straininfo\server\shared\arr\check_kt_bool;
 
 function get_cul_source(?string $src, ?int $ccno_id): ?string
 {
@@ -49,7 +48,7 @@ function get_min_arr_cul_base(array $val): array
     $url = check_kt_f_str($val, $db::CAT->value);
     if (!is_null($url)) {
         $cat = [
-            StDepositE::CAT_URL->value => encode_url($url),
+            StDepositE::CAT_URL->value => $url,
             StDepositE::CAT_ON->value => check_kt_bool($val, $db::CAT_ON->value),
         ];
     }
