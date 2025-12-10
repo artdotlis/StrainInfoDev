@@ -3,15 +3,14 @@ export default {
     project: ['**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx,mdx,md}'],
     ignore: ['configs/**', 'assets/**', 'src/**/worker*.ts'],
     ignoreDependencies: [
-        'sharp',
-        'svgo',
         '@mdx-js/mdx',
         /^typescript-plugin.+/,
         /^@?eslint.*/,
         '@antfu/eslint-config',
         '@typescript-eslint/parser',
+        '@extra/straininfo',
     ],
-    ignoreBinaries: ['knip', 'eslint', 'tsc', 'vite'],
+    ignoreBinaries: ['tsc'],
     compilers: {
         css: (text: string) => [...text.matchAll(/(?<=@)import[^;]+/g)].join('\n'),
         yaml: (text: string) => [...text.matchAll(/(?<=@)import[^;]+/g)].join('\n'),

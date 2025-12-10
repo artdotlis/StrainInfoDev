@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace straininfo\server\shared\mvvm\model\sia\sql\cul;
 
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructBrcE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructCulE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructDepE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructDesE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructIsoE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
-use straininfo\server\shared\mvvm\model\sia\fields\DBStructSubE;
 use straininfo\server\shared\mvvm\model\sia\fields\DBStructSupE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructSubE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructStrE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructIsoE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructDesE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructDepE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructCulE;
+use straininfo\server\shared\mvvm\model\sia\fields\DBStructBrcE;
 
 /**
  * @param class-string<DBStructSupE|DBStructSubE> $type
@@ -146,6 +146,7 @@ function get_sql_select_cul_avg(): string
     $dde = DBStructDepE::DES->value;
     $ddo = DBStructDepE::ORI_CUL->value;
     $dye = DBStructDepE::YEAR->value;
+    $iye = DBStructIsoE::YEAR->value;
     $sas = DBStructIsoE::SAM_SRC->value;
     $scc = DBStructIsoE::SAM_CC->value;
     $sda = DBStructIsoE::SAM_DATE->value;
@@ -170,6 +171,7 @@ function get_sql_select_cul_avg(): string
     , deposition.designation as {$dde}
     , culture_collection_number.dep_cul_id as {$ddo}
     , culture_collection_number.dep_year as {$dye}
+    , culture.iso_year as {$iye}
     , culture.sam_date as {$sda}
     , sample.source as {$sas}
     , sample_loc.country_code as {$scc}

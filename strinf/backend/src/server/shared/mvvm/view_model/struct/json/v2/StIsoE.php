@@ -9,6 +9,8 @@ enum StIsoE: string
     // con
     case ISO_CON = 'isolation';
     case ISO_ENT_CON = 'isolator';
+    // isolation
+    case YEAR = 'year';
     // isolator
     case I_NAME = 'name';
     case I_INST = 'institute';

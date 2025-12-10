@@ -11,6 +11,8 @@ enum DBStructIsoE: string
     case SAM_CC = 'sam_cc';
     case SAM_DATE = 'sam_date';
     case SAM_PLA = 'sam_place';
+    // isolation
+    case YEAR = 'iso_year';
     //isolator
     case NAME = 'iso_name';
     case INST = 'iso_institute';

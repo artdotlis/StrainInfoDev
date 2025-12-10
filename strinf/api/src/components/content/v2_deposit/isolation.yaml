@@ -3,6 +3,11 @@ properties:
     isolation:
         type: object
         properties:
+            year:
+                type: integer
+                minimum: 1000
+                maximum: 9999
+                examples: [2024]
             sample:
                 type: object
                 allOf:

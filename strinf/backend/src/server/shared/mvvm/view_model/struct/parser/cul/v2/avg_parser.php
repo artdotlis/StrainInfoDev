@@ -194,6 +194,7 @@ function get_avg_arr_iso(array $val): array
                     ),
                 ],
                 StIsoE::ISO_ENT_CON->value => $reg,
+                StIsoE::YEAR->value => check_kt_int($val, DBStructIsoE::YEAR->value),
             ],
         ],
     ];
