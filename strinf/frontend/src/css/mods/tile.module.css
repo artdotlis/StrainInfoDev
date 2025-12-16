@@ -44,6 +44,6 @@ span.title:focus {
 }
 
 .tilesmark {
-    border-left-width: 5px;
-    border-left-color: var(--danger-color);
+    border-left-width: 5px !important;
+    border-left-color: var(--danger-color) !important;
 }
