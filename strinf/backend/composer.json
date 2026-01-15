@@ -9,21 +9,21 @@
     "minimum-stability": "stable",
     "require": {
         "php": "^8.4",
-        "monolog/monolog": "3.9.0",
+        "monolog/monolog": "3.10.0",
         "slim/slim": "4.15.1",
         "nyholm/psr7": "1.8.2",
         "nyholm/psr7-server": "1.1.0",
         "thecodingmachine/safe": "3.3.0",
-        "matomo/matomo-php-tracker": "3.3.2",
+        "matomo/matomo-php-tracker": "3.4.0",
         "spiral/roadrunner-http": "3.6.0",
         "spiral/roadrunner-jobs": "4.7.0",
         "spiral/roadrunner-worker": "3.6.2"
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "1.2.0",
-        "friendsofphp/php-cs-fixer": "3.91.3",
+        "friendsofphp/php-cs-fixer": "3.92.5",
         "phpstan/phpstan": "2.1.33",
-        "slevomat/coding-standard": "8.25.1",
+        "slevomat/coding-standard": "8.26.0",
         "squizlabs/php_codesniffer": "4.0.1",
         "thecodingmachine/phpstan-safe-rule": "1.4.3",
         "phpmetrics/phpmetrics": "3.0.0rc8"
