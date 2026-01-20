@@ -47,7 +47,7 @@
         "dev": "bash $BIN_TRAP_SH 'bash $BIN_BACKEND_RUN_DEV' 'bun run dev:frontend'",
         "profile:backend": "bash $BIN_BACKEND_RUN_PROFILE",
         "profile": "bun run profile:backend",
-        "lint": "lint-staged",
+        "lint": "lint-staged --concurrent false",
         "lint:api": "cd $STRINF_API && $BUN run lint",
         "lint:dev": "bash $BIN_RUN_ENV_LINT",
         "lint:backend": "cd $STRINF_BACKEND && bash ../../$BIN_BACKEND_LINT",
@@ -62,9 +62,6 @@
         "**/frontend/**/*.{ts,tsx}": [
             "/bin/bash -c 'cd $STRINF_FRONTEND && bun run lint:eslint --fix \"$@\"' _"
         ],
-        "*.{js,jsx,ts,tsx,html,css,md,json,yml,yaml}": [
-            "/bin/bash -c 'prettier --config $CONFIG_PRETTIER --ignore-path $CONFIG_PRETTIER_IGNORE --write \"$@\"' _"
-        ],
         "**/frontend/**/*.{md,mdx}": [
             "/bin/bash -c 'cd $STRINF_FRONTEND && bun run lint:eslint $CONFIG_ESLINT_MDX --fix \"$@\"' _"
         ],
@@ -73,6 +70,9 @@
         ],
         "**/backend/**src/**/*.php": [
             "/bin/bash -c 'cd $STRINF_BACKEND && bash ../../$BIN_BACKEND_LINT_STAGED \"$@\"' _"
+        ],
+        "*.{js,jsx,ts,tsx,html,css,md,mdx,json,yml,yaml}": [
+            "/bin/bash -c 'prettier --config $CONFIG_PRETTIER --ignore-path $CONFIG_PRETTIER_IGNORE --write \"$@\"' _"
         ]
     },
     "config": {

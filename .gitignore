@@ -6,6 +6,7 @@
 **/configs/**/*.local.*
 
 .uv
+.venv
 .profile/
 .cache/
 .hypothesis
