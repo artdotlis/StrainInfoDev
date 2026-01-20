@@ -58,7 +58,7 @@ To download all assets and external styles use **bin/deploy/fix.sh\*** (DSMZ onl
 To install StrainInfo run the following command:
 
 ```shell
-PURGE_CSS="true" make runBuild
+NONCE_WEB="NONCE_IF_NEEDED" PURGE_CSS="true" make runBuild
 ```
 
 For development run the following commands:
