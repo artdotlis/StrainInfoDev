@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import Known500Error from '@strinf/ts/errors/known/500';
 import onPrError from '@strinf/ts/functions/err/async';
 import { fetchRetry } from '@strinf/ts/functions/http/http';

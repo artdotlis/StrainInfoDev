@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 abstract class Controller<T, E extends [...unknown[]]> {
     private initVersion: string;
 
@@ -17,8 +21,7 @@ abstract class Controller<T, E extends [...unknown[]]> {
     protected reloadWindowOrCb(version: string, callback: () => void): void {
         if (this.initVersion !== '' && version !== this.initVersion) {
             window.location.reload();
-        }
-        else {
+        } else {
             this.initVersion = version;
             callback();
         }

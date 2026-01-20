@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { DetailsR, OvT, RelT } from '@strinf/ts/interfaces/api/mapped';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/details';
 import type { TTHookG } from '@strinf/ts/interfaces/dom/global';
@@ -35,7 +39,7 @@ type EleT = number | boolean | string | string[] | JSX.Element;
 function modBacDive(
     filH: (string | JSX.Element)[],
     filD: EleT[],
-    bacDive: number | undefined,
+    bacDive: number | undefined
 ): void {
     const hid = filH.indexOf(HEAD[3] ?? '');
     if (bacDive !== undefined) {
@@ -48,7 +52,7 @@ function modArchive(
     filD: EleT[],
     doi: string,
     online: boolean,
-    hook: ToolTipHookInt<TT_GL_TYPE>,
+    hook: ToolTipHookInt<TT_GL_TYPE>
 ): void {
     const hid = filH.indexOf(HEAD[0] ?? '');
     filD.splice(
@@ -56,9 +60,8 @@ function modArchive(
         1,
         <span style={{ 'white-space': 'nowrap' }}>
             {' '}
-            <ArcLinkVD doi={doi} hook={hook} online={online} />
-            {' '}
-        </span>,
+            <ArcLinkVD doi={doi} hook={hook} online={online} />{' '}
+        </span>
     );
     filH.splice(hid, 1, <span>{HEAD[0]}</span>);
 }
@@ -66,7 +69,7 @@ function modArchive(
 function modName(
     filH: (string | JSX.Element)[],
     filD: EleT[],
-    taxon: [string, number | undefined, number | undefined],
+    taxon: [string, number | undefined, number | undefined]
 ): void {
     const [name, lpsnId, ncbiId] = taxon;
     const taxCl = Dis.dIFlex;
@@ -76,12 +79,10 @@ function modName(
         if (lpsnId !== undefined) {
             link.push({ type: LinkType.LPSN, path: String(lpsnId) });
             filD.splice(taxInd, 1, <TaxLinkVD name={name} links={link} infCl={taxCl} />);
-        }
-        else if (ncbiId !== undefined) {
+        } else if (ncbiId !== undefined) {
             link.push({ type: LinkType.NCBI, path: String(ncbiId) });
             filD.splice(taxInd, 1, <TaxLinkVD name={name} links={link} infCl={taxCl} />);
-        }
-        else {
+        } else {
             filD.splice(taxInd, 1, <span>{name}</span>);
         }
     }
@@ -89,7 +90,7 @@ function modName(
 
 function crUpdater(
     setDat: (res: Map<number, [boolean, boolean, boolean]>) => void,
-    allIds: number,
+    allIds: number
 ): ViewChanInt {
     const resCon = new Map<number, [boolean, boolean, boolean]>();
     const setter = setDat;
@@ -109,7 +110,7 @@ function crUpdater(
 
 function StrainStatus({ rel, dCtrl, ttHook }: StatusProps): JSX.Element | null {
     const [dat, setDat] = useState<Map<number, [boolean, boolean, boolean]>>(
-        () => new Map(),
+        () => new Map()
     );
     if (rel === undefined || dCtrl === undefined) {
         return null;
@@ -121,7 +122,7 @@ function StrainStatus({ rel, dCtrl, ttHook }: StatusProps): JSX.Element | null {
         }, rel.length);
         dCtrl.init(
             upd,
-            rel.map(([culID, ,]) => culID),
+            rel.map(([culID, ,]) => culID)
         );
     }
     return (

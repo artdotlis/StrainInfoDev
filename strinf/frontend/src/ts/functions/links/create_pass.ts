@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
 import QApiCon from '@strinf/ts/constants/api/q_api';
 import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
@@ -18,7 +22,7 @@ function createApiStrainCall(str_id: string | number): string {
 
 function createStrainCultureCall(
     str_id: string | number,
-    cul_id: number | string,
+    cul_id: number | string
 ): string {
     return `${UIApiCon.strain}${str_id}?${IdAcrTagCon.depId}${cul_id}`;
 }

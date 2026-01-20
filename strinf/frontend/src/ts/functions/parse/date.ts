@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 const FULL_DATE_R = /^\d{4}-\d{2}-\d{1,2}$/;
 const FULL_DATE: Intl.DateTimeFormatOptions = {
     day: '2-digit',

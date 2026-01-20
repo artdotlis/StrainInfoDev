@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 function scrambleMail(mail: string): string {
     return mail.replace(/\./, ' [dot] ').replace(/@|;-;/, ' [at] ');
 }

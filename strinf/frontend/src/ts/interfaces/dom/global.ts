@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type ErrType from '@strinf/ts/constants/type/ErrT';
 import type LoadT from '@strinf/ts/constants/type/LoadT';
 import type { InValInt } from '@strinf/ts/interfaces/dom/inp';
@@ -68,20 +72,20 @@ interface CookieG {
     get cookieActive(): CookieFS[];
 }
 
-type GlStInt<T> = ErrSet
-    & ErrStCon
-    & LoadSet
-    & LoadStMInt
-    & CookieS
-    & CookieG
-    & InValInt
-    & BreadCrumbsS
-    & BreadCrumbsG
-    & TTHookG<T>
-    & TTHookS<T>
-    & WrapperInt
-    & GlobVersionGet
-    & GlobVersionSet;
+type GlStInt<T> = ErrSet &
+    ErrStCon &
+    LoadSet &
+    LoadStMInt &
+    CookieS &
+    CookieG &
+    InValInt &
+    BreadCrumbsS &
+    BreadCrumbsG &
+    TTHookG<T> &
+    TTHookS<T> &
+    WrapperInt &
+    GlobVersionGet &
+    GlobVersionSet;
 
 interface DataCon<T> {
     id: string | number;

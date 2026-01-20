@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { BreadCrumbsG } from '@strinf/ts/interfaces/dom/global';
 import type { JSX } from 'preact';
 import StrainRegistry from '@strinf/md/registry/strain_registry.mdx';
@@ -22,8 +26,7 @@ function StrRegM(): JSX.Element {
         <>
             <MetaH title="StrainRegistry" desc="StrainRegistry" />
             <CanonH href={getCurFullPath()} />
-            <StrainRegistry />
-            {' '}
+            <StrainRegistry />{' '}
         </>
     );
 }

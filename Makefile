@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+#
+# SPDX-License-Identifier: MIT
+
 ifeq ($(CONTAINER),container)
 $(info Makefile enabled, proceeding ...)
 else	
@@ -75,6 +79,7 @@ runAct:
 	bash
 
 runChecks: dev
+	$(BUN) run lint:licenses
 	$(BUN) run lint
 	$(BUN) run lint:api
 	$(BUN) run lint:dev

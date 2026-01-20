@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { BreadCrumbsG } from '@strinf/ts/interfaces/dom/global';
 import type AncT from '@strinf/ts/interfaces/misc/anchor';
 import type { JSX } from 'preact';
@@ -95,10 +99,7 @@ const ID_LIST: [number, string, () => JSX.Element][] = [
 
 function AboutPP(): JSX.Element {
     return (
-        <>
-            {' '}
-            {ID_LIST.map(val => wrapSectionGen(genAnchor(val[0]), val[1], val[2]()))}
-        </>
+        <> {ID_LIST.map((val) => wrapSectionGen(genAnchor(val[0]), val[1], val[2]()))}</>
     );
 }
 

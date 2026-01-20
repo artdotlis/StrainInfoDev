@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 function recSelect(prefix: string, stack: string[], resCon: string[]): void {
     if (stack.length > 0) {
         stack.forEach((val, ind) => {
@@ -9,8 +13,7 @@ function recSelect(prefix: string, stack: string[], resCon: string[]): void {
             }
             recSelect(newPre, arrCop, resCon);
         });
-    }
-    else {
+    } else {
         resCon.push(prefix);
     }
 }
@@ -19,7 +22,7 @@ function createComb(cont: string[], desc: string): [string, string][] {
     return cont.flatMap((_ele, _ind, arr): [string, string][] => {
         const resCon: string[] = [];
         recSelect('', arr, resCon);
-        return resCon.map(comb => [comb, desc]);
+        return resCon.map((comb) => [comb, desc]);
     });
 }
 

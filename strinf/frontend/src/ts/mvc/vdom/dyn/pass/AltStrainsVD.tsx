@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
 import type {
     DatIdTVInt,
@@ -32,7 +36,7 @@ function createTiles(
     tiles: [JSX.Element, number][],
     hook: TTSrcTVInt & DatIdTVInt<TT_GL_TYPE>,
     addInd: number,
-    oriDes: string[],
+    oriDes: string[]
 ): JSX.Element[] {
     return tiles.map((til, ind: number) => (
         <TooltipWrapper
@@ -59,7 +63,7 @@ function AltStrains({ strH, alt, oriDes }: TProps): JSX.Element | null {
     const tilesStr = createRStrTiles(
         alt,
         (dat: number) => [dat, `${IdAcrTagCon.strId} ${dat}`],
-        ctx,
+        ctx
     );
     if (tilesStr.length === 0) {
         return null;

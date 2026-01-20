@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type AncT from '@strinf/ts/interfaces/misc/anchor';
 import type { JSX } from 'preact';
 import { ClHtml, Col, Dis, Pad, ZInd } from '@strinf/ts/constants/style/ClHtml';
@@ -46,13 +50,13 @@ function createNavLinks(anc: AncT | undefined): JSX.Element[] {
     const res: JSX.Element[] = [];
     for (const key of Object.keys(anc)
         .sort()
-        .map(ele => Number(ele))) {
+        .map((ele) => Number(ele))) {
         const val = anc[key];
         if (val !== undefined) {
             res.push(
                 <a key={val[0]} href={`#${val[0]}`}>
                     {val[1]}
-                </a>,
+                </a>
             );
         }
     }

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { ApiChanInt, InfoR, InfoS } from '@strinf/ts/interfaces/api/mapped';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/info';
 import QApiCon from '@strinf/ts/constants/api/q_api';
@@ -20,12 +24,11 @@ class InfoCon<T extends InfoR | InfoS> {
         cha: ViewChanInt<T>,
         json: T[],
         args: number[],
-        api: string,
+        api: string
     ): void {
         if (json.length > 0) {
             cha.res(json);
-        }
-        else {
+        } else {
             throw new Known404Error(getApiToStr(api), `${args}`);
         }
     }
@@ -33,7 +36,7 @@ class InfoCon<T extends InfoR | InfoS> {
     private runInfoApi(cha: ViewChanInt<T>, api: string, args: number[]): void {
         const call = this.apiCall.createApiCall(`${api}${args}`);
         fetchRetry(call)
-            .then(async resp => checkRespArr<T>(resp, this.parser))
+            .then(async (resp) => checkRespArr<T>(resp, this.parser))
             .then((json: T[]) => {
                 InfoCon.checkInfo(cha, json, args, api);
             })
@@ -46,8 +49,7 @@ class InfoCon<T extends InfoR | InfoS> {
         const cApi = api as unknown as QApiCon;
         if (QApiCon.culMin === cApi || QApiCon.strMin === cApi) {
             this.runInfoApi(cha, api, args);
-        }
-        else {
+        } else {
             onPrError(new Known500Error(`Unknown arguments detected: ${cApi}`));
         }
     }

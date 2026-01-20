@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { JSX } from 'preact';
 import staSty from '@strinf/css/mods/status.module.css';
 import FiEn from '@strinf/md/popup/info.mdx';
@@ -25,7 +29,7 @@ function crBtn(setAgreed: (val: boolean) => void): JSX.Element {
 
 function createInfo(
     agreed: boolean,
-    setAgreed: (val: boolean) => void,
+    setAgreed: (val: boolean) => void
 ): JSX.Element | null {
     if (checkFirstCookie() || agreed) {
         return null;

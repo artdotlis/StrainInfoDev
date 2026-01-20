@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+#
+# SPDX-License-Identifier: MIT
+
 ROOT="$(dirname "$(realpath "$0")")/../.."
 source "$ROOT/.env"
 source "$ROOT/$STRINF_API_ENV"

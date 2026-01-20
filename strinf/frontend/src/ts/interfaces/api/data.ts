@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { infer as z_infer } from 'zod/mini';
 import type { ParsePayload } from 'zod/v4/core';
 import {
@@ -49,15 +53,12 @@ function checkDateRKMSCtx(ctx: ParsePayload<string>): void {
     const btw = BETWEEN_R.exec(date);
     if (date.startsWith('/')) {
         checkDate(ctx, date.slice(1));
-    }
-    else if (date.endsWith('/')) {
+    } else if (date.endsWith('/')) {
         checkDate(ctx, date.slice(0, -1));
-    }
-    else if (btw?.[1] !== undefined && btw[2] !== undefined) {
+    } else if (btw?.[1] !== undefined && btw[2] !== undefined) {
         checkDate(ctx, btw[1]);
         checkDate(ctx, btw[2]);
-    }
-    else {
+    } else {
         checkDate(ctx, date);
     }
 }

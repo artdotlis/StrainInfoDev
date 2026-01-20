@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { JSX } from 'preact';
 import timeSty from '@strinf/css/mods/timeline.module.css';
 import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
@@ -30,24 +34,24 @@ const ROAD_MAP: [string, (string | JSX.Element)[]][] = [
     [
         '2015',
         [
-            'Development and maintenance of StrainInfo.net '
-            + 'ceases due to lack of continued funding',
+            'Development and maintenance of StrainInfo.net ' +
+                'ceases due to lack of continued funding',
         ],
     ],
     ['2019', ['StrainInfo.net goes offline']],
     [
         '2021',
         [
-            'The StrainInfo.net data is moved to DSMZ, '
-            + 'where development of a new StrainInfo website/database begins '
-            + 'within the NFDI4Microbiota consortium, funded by DFG',
+            'The StrainInfo.net data is moved to DSMZ, ' +
+                'where development of a new StrainInfo website/database begins ' +
+                'within the NFDI4Microbiota consortium, funded by DFG',
         ],
     ],
     [
         '2022',
         [
-            'Prototypes for the web UI and web API of the new StrainInfo go online, '
-            + 'showing archive data',
+            'Prototypes for the web UI and web API of the new StrainInfo go online, ' +
+                'showing archive data',
         ],
     ],
     [
@@ -55,10 +59,8 @@ const ROAD_MAP: [string, (string | JSX.Element)[]][] = [
         [
             'Release of the new StrainInfo web services. ',
             <p key="2023">
-                Read more about the progress of StrainInfo in our
-                {' '}
-                <a href={UIApiCon.news}>latest news</a>
-                .
+                Read more about the progress of StrainInfo in our{' '}
+                <a href={UIApiCon.news}>latest news</a>.
             </p>,
         ],
     ],

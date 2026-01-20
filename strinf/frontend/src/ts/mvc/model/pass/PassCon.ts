@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { ApiChanInt, PassR } from '@strinf/ts/interfaces/api/mapped';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/pass';
 import QApiCon from '@strinf/ts/constants/api/q_api';
@@ -19,7 +23,7 @@ class PassCon {
         cha: ViewChanInt,
         json: PassR[],
         args: string,
-        api: string,
+        api: string
     ): void {
         switch (json.length) {
             case 0:
@@ -29,7 +33,7 @@ class PassCon {
                 break;
             default:
                 throw new Known500Error(
-                    `found ${json.length} results but expected only one`,
+                    `found ${json.length} results but expected only one`
                 );
         }
     }
@@ -50,7 +54,7 @@ class PassCon {
         }
         const call = this.apiCall.createApiCall(`${api}${args}`);
         fetchRetry(call)
-            .then(async resp => checkRespArr<PassR>(resp, toArrPassRes))
+            .then(async (resp) => checkRespArr<PassR>(resp, toArrPassRes))
             .then((json: PassR[]) => {
                 PassCon.checkPass(cha, json, args, api);
             })
@@ -65,8 +69,7 @@ class PassCon {
     public initPass(cha: ViewChanInt, strainId: number): void {
         if (strainId > 0) {
             this.runPassApi(cha, QApiCon.strAvg, `${strainId}`);
-        }
-        else {
+        } else {
             onPrError(new Known500Error(`Negative strain id detected: ${strainId}`));
         }
     }

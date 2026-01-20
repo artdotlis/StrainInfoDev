@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import { SIDE_HIDDEN } from '@strinf/ts/constants/style/AtHtml';
 import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
 
@@ -13,11 +17,10 @@ function customToggleSideBar(enable: boolean): void {
     if (window.innerWidth > 992) {
         active = Boolean(
             Math.abs(
-                Number(!document.body.classList.contains(ClHtml.sideSM)) - Number(enable),
-            ),
+                Number(!document.body.classList.contains(ClHtml.sideSM)) - Number(enable)
+            )
         );
-    }
-    else {
+    } else {
         const [pgWr] = document.getElementsByClassName(ClHtml.pgWr);
         active = !(pgWr?.hasAttribute(SIDE_HIDDEN[0]) ?? false);
     }

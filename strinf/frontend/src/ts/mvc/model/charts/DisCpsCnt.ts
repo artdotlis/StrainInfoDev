@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { ChartData } from '@strinf/ts/interfaces/api/mapped';
 import type DisChartT from '@strinf/ts/interfaces/chan/model';
 import type { DiaCon } from '@strinf/ts/interfaces/dom/dia';
@@ -52,8 +56,7 @@ class DisCpsCnt implements DisChartT {
                 if (sortedX.length < 6) {
                     sortedY.push(yData[valInd] ?? -1);
                     sortedX.push(String(xData[valInd] ?? -1));
-                }
-                else {
+                } else {
                     sortedY[5] = (sortedY[5] ?? 0) + (yData[valInd] ?? 0);
                     sortedX[5] = `>${sortedX[4]}`;
                 }
@@ -67,11 +70,11 @@ class DisCpsCnt implements DisChartT {
 
     public async config(call: string): Promise<DiaCon> {
         const res: Promise<DiaCon> = fetchRetry(call)
-            .then(async resp =>
+            .then(async (resp) =>
                 checkRespObjOk<ChartData<number[]>[]>(
                     resp,
-                    (obj): obj is ChartData<number[]>[] => DisCpsCnt.checkDis(obj),
-                ),
+                    (obj): obj is ChartData<number[]>[] => DisCpsCnt.checkDis(obj)
+                )
             )
             .then((jsonCon: ChartData<number[]>[]): DiaCon => {
                 const [data] = jsonCon;

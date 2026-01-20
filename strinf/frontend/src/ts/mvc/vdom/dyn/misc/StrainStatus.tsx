@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { ToolTipHookInt, TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
 import type { JSX } from 'preact';
 import conSty from '@strinf/css/mods/container.module.css';
@@ -20,7 +24,7 @@ interface TTProps {
 }
 
 function getAvailability(
-    dat: Map<number, [boolean, boolean, boolean]>,
+    dat: Map<number, [boolean, boolean, boolean]>
 ): [boolean, boolean, boolean] {
     let deposited = false;
     let available = false;
@@ -51,7 +55,7 @@ function crClaSel(
     id: StrainStatus,
     deposited: boolean,
     available: boolean,
-    error: boolean,
+    error: boolean
 ): string {
     switch (id) {
         case StrainStatus.pubOn:
@@ -184,11 +188,11 @@ function TooltipVD({ hook, id, cla }: TTProps): JSX.Element {
         <div className={cla}>
             <TooltipWrapper
                 key={lKey}
-                chi={(
+                chi={
                     <div ref={lightR} className={Wid.N25}>
                         {crStatusIcon(id)}
                     </div>
-                )}
+                }
                 srcH={localH}
                 upD={() => {
                     if (localH.data !== undefined) {

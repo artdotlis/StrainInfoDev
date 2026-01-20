@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type {
     DatIdF,
     DatIdSetF,
@@ -28,7 +32,7 @@ class ToolTipHook implements ToolTipHookInt<TT_GL_TYPE> {
     }
 
     public setTTSrc(
-        srcRef: [RefObject<HTMLDivElement>, RefObject<HTMLDivElement>],
+        srcRef: [RefObject<HTMLDivElement>, RefObject<HTMLDivElement>]
     ): void {
         this.ttSrcH = srcRef;
     }

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+#
+# SPDX-License-Identifier: MIT
+
 description: Placeholder for a culture collection number
 name: cc_no
 in: path

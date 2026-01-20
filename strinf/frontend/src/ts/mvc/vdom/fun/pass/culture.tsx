@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { InValStInt } from '@strinf/ts/interfaces/dom/inp';
 import type { ToolTipHookInt, TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
 import type { JSX } from 'preact';
@@ -12,7 +16,7 @@ function formatCultureTT(
     cultures: [string, number][],
     [hookCul, hookInf]: [HOOK, HOOK],
     ctx: InValStInt,
-    tooltip: [(eve: Events) => void, Events],
+    tooltip: [(eve: Events) => void, Events]
 ): JSX.Element {
     const rowCh = cultures
         .slice(0, 2)
@@ -22,7 +26,7 @@ function formatCultureTT(
                 [cde[1].toString(), cde[0]],
                 ctx,
                 `${window.location.pathname}?${IdAcrTagCon.depId}${cde[1]}`,
-                anc,
+                anc
             ),
         ]);
 

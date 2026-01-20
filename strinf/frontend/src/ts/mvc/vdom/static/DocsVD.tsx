@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { BreadCrumbsG } from '@strinf/ts/interfaces/dom/global';
 import type AncT from '@strinf/ts/interfaces/misc/anchor';
 import type { JSX } from 'preact';
@@ -63,7 +67,7 @@ function correctCode(eleBuf: HTMLSpanElement, api: string): void {
     if (REPL_DES.test(eleBuf.textContent)) {
         eleBuf.textContent = eleBuf.textContent.replaceAll(
             REPL_DES,
-            QApiCon.seaCulStrDes,
+            QApiCon.seaCulStrDes
         );
     }
     if (REPL_DEP_M.test(eleBuf.textContent)) {
@@ -116,7 +120,7 @@ const ID_LIST: [number, string, (api?: string) => JSX.Element][] = [
     [IDS.term, 'Terminology', TerminologyE],
     [IDS.strain, 'Strains and deposits?', StrainHierE],
     [IDS.status, 'Strain statuses', StrainStatusesE],
-    [IDS.webSerPy, 'API requests in Python', api => <WebSerPyE api={api} />],
+    [IDS.webSerPy, 'API requests in Python', (api) => <WebSerPyE api={api} />],
     [IDS.votStrId, 'Voting on Strain Identity', VotingStrIdentityE],
 ];
 
@@ -125,7 +129,7 @@ function DocsPP(props: DocsPPT): JSX.Element {
     return (
         <>
             {' '}
-            {ID_LIST.map(val => wrapSectionGen(genAnchor(val[0]), val[1], val[2](api)))}
+            {ID_LIST.map((val) => wrapSectionGen(genAnchor(val[0]), val[1], val[2](api)))}
         </>
     );
 }

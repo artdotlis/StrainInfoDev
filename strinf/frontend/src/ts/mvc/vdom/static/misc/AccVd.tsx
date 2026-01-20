@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { DefAttr } from '@strinf/ts/constants/style/AtHtml';
 import type { CookieG, WrapperInt } from '@strinf/ts/interfaces/dom/global';
 import type { JSX, RefObject, TargetedEvent } from 'preact';
@@ -33,7 +37,7 @@ function crFormGr(
     explain: string,
     gId: string,
     InAttr: DefAttr,
-    labAttr: DefAttr,
+    labAttr: DefAttr
 ): JSX.Element {
     return (
         <div className={`${ClHtml.cCh} ${Pad.bN5}`}>
@@ -49,7 +53,7 @@ function applyAccChanges(
     event: TargetedEvent<HTMLFormElement>,
     container: RefObject<HTMLDivElement>,
     domain: string,
-    ctx: WrapperInt & CookieG,
+    ctx: WrapperInt & CookieG
 ): void {
     event.preventDefault();
     if (container.current !== null) {

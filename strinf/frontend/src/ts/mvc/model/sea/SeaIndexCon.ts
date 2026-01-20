@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { SeaIndJT } from '@strinf/ts/interfaces/api/data';
 import type { ApiChanInt } from '@strinf/ts/interfaces/api/mapped';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/sea_ind';
@@ -27,9 +31,10 @@ class SeaIndexCon {
         setTimeout(
             () =>
                 void fetchRetry(call)
-                    .then(async resp =>
+                    .then(async (resp) =>
                         checkRespTyp<SeaIndJT>(resp, toArrIndSeaIndRes, () =>
-                            toArrIndSeaIndRes({ match: [], exact: [] })),
+                            toArrIndSeaIndRes({ match: [], exact: [] })
+                        )
                     )
                     .then((json: SeaIndJT): void => {
                         cha.tab(json);
@@ -45,7 +50,7 @@ class SeaIndexCon {
                             onPrError(err);
                         }
                     }),
-            200,
+            200
         );
     }
 

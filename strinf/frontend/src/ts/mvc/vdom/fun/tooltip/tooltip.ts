@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { TTSrcTVInt } from '@strinf/ts/interfaces/dom/tooltip';
 import type { RefObject } from 'preact';
 import { arrow, autoPlacement, computePosition, offset, shift } from '@floating-ui/dom';
@@ -47,7 +51,7 @@ function hideEv(
     too: HTMLElement,
     hid: string,
     timerSh: number[],
-    timerGl: number[],
+    timerGl: number[]
 ): () => void {
     const event = () => {
         for (const ele of [...timerGl, ...timerSh]) {
@@ -64,7 +68,7 @@ function addEvents(
     too: HTMLElement,
     aro: HTMLElement,
     upSel: () => void,
-    [timPre, timSho]: [number, number],
+    [timPre, timSho]: [number, number]
 ): [() => void, string][] {
     const [showEvents, hideEvents] = [
         ['mouseenter', 'focus'],
@@ -81,9 +85,9 @@ function addEvents(
                     timerSh.push(
                         setTimeout(() => {
                             ttShow(tarC, too, aro);
-                        }, timSho),
+                        }, timSho)
                     );
-                }, timPre),
+                }, timPre)
             );
         };
         tarC.addEventListener(sho, event);
@@ -100,15 +104,15 @@ function assignToolTip<T extends Element>(
     upSel: () => void,
     upEve: (eve: [() => void, string, Element][]) => void,
     failCnt: number,
-    timeout: [number, number],
+    timeout: [number, number]
 ): void {
     const [tar, src] = tar_con;
     const tarC = tar.current;
     if (
-        tarC !== null
-        && src.ttSrc !== undefined
-        && src.ttSrc[0].current !== null
-        && src.ttSrc[1].current !== null
+        tarC !== null &&
+        src.ttSrc !== undefined &&
+        src.ttSrc[0].current !== null &&
+        src.ttSrc[1].current !== null
     ) {
         const srcC = src.ttSrc[0].current;
         const arrowC = src.ttSrc[1].current;
@@ -118,8 +122,7 @@ function assignToolTip<T extends Element>(
             events.push([...eve, tarC]);
         }
         upEve(events);
-    }
-    else if (failCnt < 10) {
+    } else if (failCnt < 10) {
         setTimeout(() => {
             crToolTip(tar_con, upSel, upEve, failCnt + 1, timeout);
         }, timeout[0]);
@@ -131,7 +134,7 @@ function crToolTip<T extends Element>(
     upSel: () => void,
     upEve: (eve: [() => void, string, Element][]) => void,
     failCnt = 0,
-    timeout: [number, number] = [500, 300],
+    timeout: [number, number] = [500, 300]
 ): void {
     if (!isSmallScreen()) {
         assignToolTip(tar_con, upSel, upEve, failCnt, timeout);

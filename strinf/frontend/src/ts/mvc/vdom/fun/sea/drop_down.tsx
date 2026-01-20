@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { SeaIndConT } from '@strinf/ts/interfaces/api/data';
 import type { JSX } from 'preact';
 import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
@@ -26,7 +30,7 @@ const MOBILE: [string, string][] = [
 function createValue(
     index: number,
     values: [string, string][],
-    ita = false,
+    ita = false
 ): JSX.Element | string {
     const [, valueMapped] = values[index] ?? [];
     if (valueMapped === undefined) {
@@ -48,13 +52,13 @@ function getDDExp(): MAP_TYP[] {
                     MOBILE[ind]?.[0] ?? '',
                     createValue(ind, MOBILE),
                     val[1],
-                ],
+                ]
             ),
         ];
     }
     return [
         ...FULL.map(
-            (val, ind): MAP_TYP => [val[0], createValue(ind, FULL, true), val[1]],
+            (val, ind): MAP_TYP => [val[0], createValue(ind, FULL, true), val[1]]
         ),
     ];
 }
@@ -76,7 +80,7 @@ function getDDRes(data: SeaIndConT[], len: number): [string, string, string, str
             }
             return [getApiToStr(val.path), val.fullKey, val.fullKey, val.path, true];
         })
-        .filter(val => val[4])
+        .filter((val) => val[4])
         .map((val): [string, string, string, string] => [val[0], val[1], val[2], val[3]])
         .slice(0, len);
 }

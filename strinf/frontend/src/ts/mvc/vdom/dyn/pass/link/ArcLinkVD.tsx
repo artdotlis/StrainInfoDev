@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { ToolTipHookInt, TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
 import type { JSX } from 'preact';
 import conSty from '@strinf/css/mods/container.module.css';
@@ -60,28 +64,26 @@ function ArcLinkVD(props: ArcLink): JSX.Element | null {
         () => {
             if (hook.data !== undefined) {
                 hook.data(
-                    online
-                        ? (
-                                <p>Click on the icon to copy the DOI URL</p>
-                            )
-                        : (
-                                <>
-                                    <h6>Click on the icon to copy the DOI URL</h6>
-                                    <p>
-                                        <b>The DOI is currently not online</b>
-                                        ,
-                                        <br />
-                                        but it serves as a stable reference for the strain and
-                                        will be published at a future date. Entries will not be
-                                        removed from the archive, but new CCNos may be added and
-                                        strain information may be updated over time.
-                                    </p>
-                                </>
-                            ),
+                    online ? (
+                        <p>Click on the icon to copy the DOI URL</p>
+                    ) : (
+                        <>
+                            <h6>Click on the icon to copy the DOI URL</h6>
+                            <p>
+                                <b>The DOI is currently not online</b>
+                                ,
+                                <br />
+                                but it serves as a stable reference for the strain and
+                                will be published at a future date. Entries will not be
+                                removed from the archive, but new CCNos may be added and
+                                strain information may be updated over time.
+                            </p>
+                        </>
+                    )
                 );
             }
         },
-        [50, 50],
+        [50, 50]
     );
     return (
         <span className={claD} id={IdHtmlTour.doiHead}>
@@ -98,24 +100,21 @@ function ArcLinkVD(props: ArcLink): JSX.Element | null {
                                 crAlert(null, 'DOI copied to your clipboard');
                             })
                             .catch(onPrError);
-                    }
-                    catch {
+                    } catch {
                         crAlert(ErrType.FEWARN, 'Clipboard not defined!');
                     }
                 }}
             >
-                {online
-                    ? (
-                            <LogoDoiVD height="22" cla="" />
-                        )
-                    : (
-                            <i
-                                className={`${ClHtmlI.wrenchF} ${Tex.f}`}
-                                style={{
-                                    fontSize: '22px',
-                                }}
-                            />
-                        )}
+                {online ? (
+                    <LogoDoiVD height="22" cla="" />
+                ) : (
+                    <i
+                        className={`${ClHtmlI.wrenchF} ${Tex.f}`}
+                        style={{
+                            fontSize: '22px',
+                        }}
+                    />
+                )}
             </button>
             {splitDoi(doi, online)}
         </span>

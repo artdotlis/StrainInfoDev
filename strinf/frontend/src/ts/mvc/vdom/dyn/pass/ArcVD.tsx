@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { ArcT } from '@strinf/ts/interfaces/api/mapped';
 import type { ToolTipHookInt, TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
 import type AncT from '@strinf/ts/interfaces/misc/anchor';
@@ -96,9 +100,9 @@ class ArcTable extends TableCon<ArcT, ArcProps> {
             }
             const [doi, title, date] = val;
             if (
-                doi.toLocaleLowerCase().includes(prepFilter)
-                || date.toLocaleLowerCase().includes(prepFilter)
-                || title.toLocaleLowerCase().includes(prepFilter)
+                doi.toLocaleLowerCase().includes(prepFilter) ||
+                date.toLocaleLowerCase().includes(prepFilter) ||
+                title.toLocaleLowerCase().includes(prepFilter)
             ) {
                 return true;
             }
@@ -148,7 +152,7 @@ class ArcTable extends TableCon<ArcT, ArcProps> {
 ArcTable.contextType = MainConGl;
 
 function modDate(
-    arc: [string, string, string, boolean][],
+    arc: [string, string, string, boolean][]
 ): [string, string, string, boolean][] {
     return arc.map(([doi, tit, dat, online]) => [doi, tit, createDate(dat), online]);
 }

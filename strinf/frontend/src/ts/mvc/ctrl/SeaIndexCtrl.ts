@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { SeaIndJT, ServerStatusJT } from '@strinf/ts/interfaces/api/data';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/sea_ind';
 import Known500Error from '@strinf/ts/errors/known/500';
@@ -44,8 +48,7 @@ class SeaIndexCtrl extends Controller<ViewChanInt, [string]> {
         const cache = this.memory.get(cacheKey);
         if (cache !== undefined) {
             cha.tab(cache);
-        }
-        else {
+        } else {
             const errC = new Known500Error('Internal server error!');
             const dataReq = (status: ServerStatusJT): void => {
                 this.reloadWindowOrCb(status.version, () => {

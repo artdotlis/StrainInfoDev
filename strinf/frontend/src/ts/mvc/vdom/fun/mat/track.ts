@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import { matomoCallback } from '@strinf/ts/mvc/vdom/fun/mat/init';
 
 type Matomo = [string, string[] | boolean] | string[] | (string | number)[];
@@ -15,7 +19,7 @@ function trackSearch(
     seaV: string,
     cnt: number,
     paV: boolean,
-    time: number,
+    time: number
 ): void {
     const sea = `${seaC} - ${seaV}`;
     const loc = window.location;
@@ -42,7 +46,7 @@ function trackDownload(url: string, bytes: number): void {
         window._paq.push(
             ['appendToTrackingUrl', `bw_bytes=${bytes}`],
             ['trackLink', url, 'download'],
-            ['appendToTrackingUrl', ''],
+            ['appendToTrackingUrl', '']
         );
     });
 }

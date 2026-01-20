@@ -1,10 +1,14 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 type ELE_RO = Omit<Element, 'id'> & {
     readonly id: string;
 };
 
 function getShadowRootEle(
     selector: () => HTMLCollectionOf<Element>,
-    validate: (ele: ELE_RO) => boolean,
+    validate: (ele: ELE_RO) => boolean
 ): Element | null {
     for (const chi of selector()[0]?.shadowRoot?.children ?? []) {
         if (validate(chi)) {
@@ -21,7 +25,7 @@ function mainSelector(): HTMLCollectionOf<Element> {
 function getEndPoint(): HTMLElement | null {
     const root = getShadowRootEle(
         mainSelector,
-        (chi: ELE_RO) => chi.id === 'the-main-body',
+        (chi: ELE_RO) => chi.id === 'the-main-body'
     );
     const endP = root?.getElementsByClassName('section-tag')[0];
     if (endP instanceof HTMLElement) {
@@ -48,7 +52,7 @@ function getEndPointPath(): HTMLElement | null {
 function getApiReqShadowRoot(): HTMLCollectionOf<Element> | null {
     const root = getShadowRootEle(
         mainSelector,
-        (chi: ELE_RO) => chi.id === 'the-main-body',
+        (chi: ELE_RO) => chi.id === 'the-main-body'
     );
     if (root != null) {
         return root.getElementsByTagName('api-request');
@@ -60,7 +64,7 @@ function getApiShadowClass(clName: string): HTMLElement | null {
     if (apiReq != null) {
         const shCl = getShadowRootEle(
             () => apiReq,
-            (chi: ELE_RO) => chi.getElementsByClassName(clName).length > 0,
+            (chi: ELE_RO) => chi.getElementsByClassName(clName).length > 0
         )?.getElementsByClassName(clName)[0];
         if (shCl instanceof HTMLElement) {
             return shCl;

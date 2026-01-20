@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import { convertStrainStatusToEnum, getSeaResTuple } from '@strinf/ts/functions/api/map';
 import parseCountryCode from '@strinf/ts/functions/parse/country';
 
@@ -45,8 +49,7 @@ function createBuffer(data: MOD_SEA_T[]): void {
 onmessage = (eve: MessageEvent<Init | Request>) => {
     if (eve.data.type === 'init') {
         createBuffer(eve.data.data);
-    }
-    else {
+    } else {
         const csv = createCSV(eve.data.data);
         postMessage(csv);
     }

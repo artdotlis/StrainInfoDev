@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/sea_sim';
 import Known500Error from '@strinf/ts/errors/known/500';
@@ -19,7 +23,7 @@ class SeaSimpleCtrl extends Controller<ViewChanInt, [string, string, number[]]> 
         cha: ViewChanInt,
         args: string,
         api: string,
-        omitIds: number[],
+        omitIds: number[]
     ): void {
         const errC = new Known500Error('Internal server error!');
         const dataReq = (status: ServerStatusJT): void => {

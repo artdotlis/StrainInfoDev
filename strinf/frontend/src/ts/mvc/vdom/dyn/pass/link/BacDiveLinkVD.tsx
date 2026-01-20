@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { JSX } from 'preact';
 import { bac_dive_id } from '@strinf/ts/constants/links/bacdive';
 import LogoBacDiveVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoBacDiveVD';

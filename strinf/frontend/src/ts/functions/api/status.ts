@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
 import CONFIG from '@strinf/ts/configs/config';
 import { isServerStatus } from '@strinf/ts/functions/api/map';
@@ -13,10 +17,10 @@ const CACHE: {
 function fetchStatus(
     callback: (json: ServerStatusJT) => void,
     panic: () => void,
-    fetchInit?: RequestInit,
+    fetchInit?: RequestInit
 ) {
     fetchRetry(createUrlStr(CONFIG.backend, '/'), fetchInit, 2)
-        .then(async resp => checkRespObjOk<ServerStatusJT>(resp, isServerStatus))
+        .then(async (resp) => checkRespObjOk<ServerStatusJT>(resp, isServerStatus))
         .then((results: ServerStatusJT): void => {
             CACHE.time = new Date().getTime();
             CACHE.status = results;
@@ -28,13 +32,12 @@ function fetchStatus(
 function getServerStatus(
     callback: (json: ServerStatusJT) => void,
     panic: () => void,
-    fetchInit?: RequestInit,
+    fetchInit?: RequestInit
 ): void {
     const [timeCur, timeLast] = [new Date().getTime(), CACHE.time];
     if ((timeCur - timeLast) / 1000 > 10 || CACHE.status === undefined) {
         fetchStatus(callback, panic, fetchInit);
-    }
-    else {
+    } else {
         callback(CACHE.status);
     }
 }

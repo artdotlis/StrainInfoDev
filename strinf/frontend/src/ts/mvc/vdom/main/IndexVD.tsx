@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { BreadCrumbsG, GlobVersionGet } from '@strinf/ts/interfaces/dom/global';
 import type { JSX } from 'preact';
 import phSty from '@strinf/css/mods/icon.module.css';
@@ -58,8 +62,7 @@ class IndexVD extends Component<unknown, object> {
             if (this.iCtrl === undefined) {
                 this.iCtrl = new IndCtrl(ctx.version);
                 this.iCtrl.init(this.hooks);
-            }
-            else {
+            } else {
                 this.iCtrl.init(this.hooks);
             }
         }

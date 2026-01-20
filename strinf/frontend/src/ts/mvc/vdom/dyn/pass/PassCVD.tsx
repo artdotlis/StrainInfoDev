@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { DetailsR, PassR, RelT } from '@strinf/ts/interfaces/api/mapped';
 import type ViewChanInt from '@strinf/ts/interfaces/chan/details';
 import type { TTHookG } from '@strinf/ts/interfaces/dom/global';
@@ -68,7 +72,7 @@ const ARC_ORD = 8 as const;
 function createCultureRow(
     culOv: JSX.Element,
     culDet: JSX.Element,
-    colCl: [string, string],
+    colCl: [string, string]
 ): JSX.Element {
     return (
         <div className={ClHtml.row}>
@@ -80,8 +84,7 @@ function createCultureRow(
 
 function CultureView({ resCnt, culOv, culDet }: CulVProps): JSX.Element {
     let colCl: [string, string] = [Col.lN3, Col.lN9];
-    if (resCnt <= 36)
-        return createCultureRow(culOv, culDet, colCl);
+    if (resCnt <= 36) return createCultureRow(culOv, culDet, colCl);
     if (resCnt <= 54) {
         colCl = [Col.lN4, Col.lN8];
         return createCultureRow(culOv, culDet, colCl);
@@ -123,7 +126,7 @@ function MainContainer({
 }): JSX.Element {
     const [selId, selDes] = selectCul(
         culId === '' ? 0 : Number.parseInt(culId, 10),
-        res.relations,
+        res.relations
     );
     const culOv = (
         <RelationsVD
@@ -230,7 +233,7 @@ interface DataSetProps {
 
 function crUpdater(
     setDat: (con: Map<number, string>) => void,
-    allIds: number,
+    allIds: number
 ): ViewChanInt {
     const resCon = new Map<number, string>();
     const setter = setDat;
@@ -257,7 +260,7 @@ function DataSet({ res, dCtrl }: DataSetProps): JSX.Element | null {
         }, relations.length);
         dCtrl.init(
             upd,
-            relations.map(([culID, ,]) => culID),
+            relations.map(([culID, ,]) => culID)
         );
         return null;
     }
@@ -280,10 +283,10 @@ class PassCVD extends Component<PassRProps, object> {
         const hookInf = ctx?.getTTHook(TT_ID_SIM);
         const verified = this.props;
         if (
-            hookStr !== undefined
-            && hookDep !== undefined
-            && hookInf !== undefined
-            && checkUndefined(verified)
+            hookStr !== undefined &&
+            hookDep !== undefined &&
+            hookInf !== undefined &&
+            checkUndefined(verified)
         ) {
             const { res, culId, dCtrl } = verified;
             return (

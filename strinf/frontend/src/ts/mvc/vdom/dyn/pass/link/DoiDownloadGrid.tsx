@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { ToolTipHookInt, TT_GL_TYPE } from '@strinf/ts/interfaces/dom/tooltip';
 import type { JSX } from 'preact';
 import conSty from '@strinf/css/mods/container.module.css';
@@ -57,11 +61,11 @@ function DoiTemp({ doi, online, hook }: DownloadT): JSX.Element {
                         published at a future date. Entries will not be removed from the
                         archive, but new CCNos may be added and strain information may be
                         updated over time.
-                    </p>,
+                    </p>
                 );
             }
         },
-        [50, 50],
+        [50, 50]
     );
     if (online) {
         return <>{doi}</>;
@@ -118,8 +122,7 @@ function DoiDownloadGrid(props: DownloadT): JSX.Element {
                                     crAlert(null, 'DOI copied to your clipboard');
                                 })
                                 .catch(onPrError);
-                        }
-                        catch {
+                        } catch {
                             crAlert(ErrType.FEWARN, 'Clipboard not defined!');
                         }
                     }}

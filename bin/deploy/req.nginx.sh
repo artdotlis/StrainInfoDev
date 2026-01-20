@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+#
+# SPDX-License-Identifier: MIT
+
 echo "installing nginx dep"
 apk --no-cache add php84 \
     php84-opcache php84-zip php84-intl \

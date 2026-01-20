@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import LEAD_TRAIL_COMMA from '@strinf/ts/constants/regexp/sep';
 import ErrType from '@strinf/ts/constants/type/ErrT';
 import KnownError from '@strinf/ts/errors/known/main';

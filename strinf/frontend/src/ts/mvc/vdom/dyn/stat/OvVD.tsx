@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { DiaSetF } from '@strinf/ts/interfaces/dom/dia';
 import type { DataCon } from '@strinf/ts/interfaces/dom/global';
 import type { StaSetF } from '@strinf/ts/interfaces/dom/ind';
@@ -10,9 +14,7 @@ import { useState } from 'preact/hooks';
 function mapStats(sta: DataCon<number>): JSX.Element {
     return (
         <p key={sta.id} className={`${Mar.lN15} ${Mar.yN5}`}>
-            {sta.id}
-            :
-            {sta.data}
+            {sta.id}:{sta.data}
         </p>
     );
 }

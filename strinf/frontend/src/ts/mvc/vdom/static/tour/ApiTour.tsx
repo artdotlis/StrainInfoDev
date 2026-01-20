@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { Driver, DriveStep, PopoverDOM } from 'driver.js';
 import type { JSX } from 'preact';
 import type { LocationHook } from 'preact-iso';
@@ -195,16 +199,14 @@ function YouTubeB(): JSX.Element {
     return (
         <div>
             <p>
-                Watch our tutorial on
-                {' '}
+                Watch our tutorial on{' '}
                 <a
                     href="https://www.youtube.com/watch?v=utcq5G9xtbk&t=1s"
                     target="_blank"
                     rel="noopener noreferrer"
                 >
                     YouTube
-                </a>
-                {' '}
+                </a>{' '}
                 or click on the YouTube button below to load the video here.
             </p>
             <p>Note: YouTube has a different privacy policy.</p>

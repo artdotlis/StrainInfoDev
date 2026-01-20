@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import BD_L from '@strinf/ts/constants/links/bacdive';
 import DSMZ_L from '@strinf/ts/constants/links/dsmz';
 import LPSN_L from '@strinf/ts/constants/links/lpsn';
@@ -9,8 +13,8 @@ const N4M = 'https://nfdi4microbiota.de';
 const DFG = 'https://www.dfg.de/';
 
 // collections
-const CIP
-    = 'https://www.pasteur.fr/en/public-health/biobanks-and-collections/collection-institut-pasteur-cip';
+const CIP =
+    'https://www.pasteur.fr/en/public-health/biobanks-and-collections/collection-institut-pasteur-cip';
 
 const BCCM_LMG = 'https://bccm.belspo.be/about-us/bccm-lmg';
 const BCCM = 'https://bccm.belspo.be/';
@@ -19,8 +23,8 @@ const CCUG = 'https://www.ccug.se/';
 
 const CIRM = 'https://eng-reseau-cirm.hub.inrae.fr/brc-collection-and-catalogue';
 
-const ICMP
-    = 'https://www.landcareresearch.co.nz/tools-and-resources/collections/icmp-culture-collection/';
+const ICMP =
+    'https://www.landcareresearch.co.nz/tools-and-resources/collections/icmp-culture-collection/';
 
 const RCC = 'https://www.roscoff-culture-collection.org/';
 

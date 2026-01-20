@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { SeaR } from '@strinf/ts/interfaces/api/mapped';
 import type {
     GlobVersionGet,
@@ -59,7 +63,7 @@ class RelStrainsVD extends Component<NamNavProps, IdState> {
             if (results.length === 0) {
                 emptyCall();
             }
-            this.setState(prevSt => ({ ...prevSt, results }));
+            this.setState((prevSt) => ({ ...prevSt, results }));
         });
         this.memory = '';
         this.load = LoadT.INI;
@@ -118,10 +122,10 @@ class RelStrainsVD extends Component<NamNavProps, IdState> {
                         head={getSeaResTuple(false).map((val, index) => [
                             index,
                             val,
-                            index !== 1
-                            && index !== 3
-                            && index !== 4
-                            && (index !== 2 || results.length <= 400000),
+                            index !== 1 &&
+                                index !== 3 &&
+                                index !== 4 &&
+                                (index !== 2 || results.length <= 400000),
                         ])}
                     />
                 </div>

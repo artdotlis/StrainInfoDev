@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { ServerStatusJT } from '@strinf/ts/interfaces/api/data';
 import Known500Error from '@strinf/ts/errors/known/500';
 import getServerStatus from '@strinf/ts/functions/api/status';
@@ -13,8 +17,7 @@ function awaitResults<T>(cha: Chan<T>, key: number, mem: Map<number, T>): void {
     let cache = lMem.get(key);
     if (cache !== undefined) {
         cha.res([cache]);
-    }
-    else {
+    } else {
         let counter = 0;
         const awaitInterval = setInterval(() => {
             cache = mem.get(key);
@@ -22,8 +25,7 @@ function awaitResults<T>(cha: Chan<T>, key: number, mem: Map<number, T>): void {
             if (cache !== undefined) {
                 cha.res([cache]);
                 clearInterval(awaitInterval);
-            }
-            else if (counter > 3000) {
+            } else if (counter > 3000) {
                 clearInterval(awaitInterval);
             }
         }, 100);
@@ -33,7 +35,7 @@ function awaitResults<T>(cha: Chan<T>, key: number, mem: Map<number, T>): void {
 function* crPackage<T>(
     keys: number[],
     mem: Map<number, T>,
-    tasks: Set<number>,
+    tasks: Set<number>
 ): Generator<[number, boolean]> {
     let cnt = 0;
     let nextVal = keys.pop();
@@ -59,12 +61,12 @@ class MemoryCtrl<T> {
     private readonly dataReq: (
         status: ServerStatusJT,
         cha: Chan<T>,
-        ids: number[],
+        ids: number[]
     ) => void;
 
     constructor(
         getId: (val: T) => number,
-        dataReq: (status: ServerStatusJT, cha: Chan<T>, ids: number[]) => void,
+        dataReq: (status: ServerStatusJT, cha: Chan<T>, ids: number[]) => void
     ) {
         this.memory = new Map<number, T>();
         this.tasks = new Set<number>();
@@ -123,8 +125,7 @@ class MemoryCtrl<T> {
             for (const [cid, awa] of [...packager]) {
                 if (awa) {
                     toAwait.push(cid);
-                }
-                else {
+                } else {
                     toRequest.push(cid);
                 }
             }

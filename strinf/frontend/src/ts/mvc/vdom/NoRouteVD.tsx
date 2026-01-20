@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { BreadCrumbsG } from '@strinf/ts/interfaces/dom/global';
 import type { JSX } from 'preact';
 import errSty from '@strinf/css/mods/error.module.css';
@@ -22,10 +26,7 @@ function NoRouteVD({ path }: EmptyProps): JSX.Element {
             <div className={ClHtml.con}>
                 <div className={errSty.err}>
                     <h1>404</h1>
-                    <h2>
-                        Route not found -
-                        {path}
-                    </h2>
+                    <h2>Route not found -{path}</h2>
                 </div>
             </div>
         </section>

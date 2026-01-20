@@ -48,6 +48,7 @@
         "profile:backend": "bash $BIN_BACKEND_RUN_PROFILE",
         "profile": "bun run profile:backend",
         "lint": "lint-staged --concurrent false",
+        "lint:licenses": "bash $BIN_RUN_LICENSE_LINT",
         "lint:api": "cd $STRINF_API && $BUN run lint",
         "lint:dev": "bash $BIN_RUN_ENV_LINT",
         "lint:backend": "cd $STRINF_BACKEND && bash ../../$BIN_BACKEND_LINT",
@@ -59,6 +60,9 @@
         "prepare": "husky"
     },
     "lint-staged": {
+        "*": [
+            "/bin/bash -c 'bash $BIN_RUN_LICENSE_LINT'"
+        ],
         "**/frontend/**/*.{ts,tsx}": [
             "/bin/bash -c 'cd $STRINF_FRONTEND && bun run lint:eslint --fix \"$@\"' _"
         ],

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 const SEQ_ACC = [
     // Nucleotide
     '[A-Z]\\d{5}|[A-Z]{2}\\d{6}|[A-Z]{2}\\d{8}',

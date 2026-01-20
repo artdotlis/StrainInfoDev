@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { BreadCrumbsG } from '@strinf/ts/interfaces/dom/global';
 import type { ConfLinkT } from '@strinf/ts/interfaces/misc/configs';
 import type { JSX } from 'preact';
@@ -42,7 +46,7 @@ function MainCon(): JSX.Element {
         </button>
     );
     const WR = Imprint as (
-        props: Record<'mailSI' | 'privacy', JSX.Element>,
+        props: Record<'mailSI' | 'privacy', JSX.Element>
     ) => JSX.Element;
     return (
         <WR

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 function sortDate(sort: number, first: string, second: string): number {
     let dif = 0;
     let firD = new Date(first).getTime();

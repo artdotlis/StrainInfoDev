@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { LocationHook } from 'preact-iso';
 import Known500Error from '@strinf/ts/errors/known/500';
 import { routeUri } from '@strinf/ts/functions/http/http';
@@ -10,13 +14,13 @@ function callPass(
     strain: string,
     culture: string,
     replace: string,
-    location: LocationHook,
+    location: LocationHook
 ): void {
     if (strain === '') {
         throw new Known500Error(`empty strain detected ${strain}`);
     }
-    const routeS
-        = culture === ''
+    const routeS =
+        culture === ''
             ? createStrainCall(strain)
             : createStrainCultureCall(strain, culture);
     routeUri(routeS, replace, location);

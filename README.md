@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+
+SPDX-License-Identifier: MIT
+-->
+
 # StrainInfo
 
 [![release: 2025.10.9](https://img.shields.io/badge/rel-2025.10.9-blue.svg?style=flat-square)](https://github.com/LeibnizDSMZ/StrainInfo)
@@ -27,7 +33,7 @@ their relations, and deposition data.
 
 - GNU/Linux
 - PHP: ~8.4
-- TS: ~5.8
+- TS: ~5.9
 - NODEJS: ~22
 
 ### Dev Container

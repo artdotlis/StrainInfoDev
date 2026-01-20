@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { PassR } from '@strinf/ts/interfaces/api/mapped';
 import type {
     BreadCrumbsG,
@@ -43,7 +47,7 @@ function buildStrainDesc(
     sid: number | undefined,
     tax: string | undefined,
     ccno: string[],
-    type_strain: boolean,
+    type_strain: boolean
 ): string {
     const lines: string[] = [
         'A strain passport from the microbial strain database StrainInfo,',
@@ -107,7 +111,7 @@ class PassVD extends Component<PassProps, PassState> {
                 `${tab.overview[0]}`,
                 1,
                 this.pView,
-                Date.now() - this.time,
+                Date.now() - this.time
             );
         });
         this.time = Date.now();
@@ -156,8 +160,8 @@ class PassVD extends Component<PassProps, PassState> {
                     desc={buildStrainDesc(
                         tab?.overview[0],
                         tab?.overview[2][0],
-                        tab?.relations.map(val => val[1]) ?? [],
-                        tab?.overview[1] ?? false,
+                        tab?.relations.map((val) => val[1]) ?? [],
+                        tab?.overview[1] ?? false
                     )}
                     title={title}
                 />

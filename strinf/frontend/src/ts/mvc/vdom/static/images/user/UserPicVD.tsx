@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { JSX } from 'preact/jsx-runtime';
 import hubSty from '@strinf/css/mods/hub.module.css';
 import ClHtmlI from '@strinf/ts/constants/icon/ClHtml';
@@ -23,7 +27,7 @@ const USER_PICS: [string, unknown][] = Object.entries(
         eager: true,
         query: '?url',
         import: 'default',
-    }),
+    })
 );
 
 function setPictureSrc(picName: string, setPicP: (src: string) => void): void {
@@ -40,8 +44,7 @@ function setPictureSrc(picName: string, setPicP: (src: string) => void): void {
                     }
                 })
                 .catch((err: unknown) => `${err}`);
-        }
-        else if (srcL.startsWith('data:image/avif')) {
+        } else if (srcL.startsWith('data:image/avif')) {
             setPicP(srcL);
         }
     }

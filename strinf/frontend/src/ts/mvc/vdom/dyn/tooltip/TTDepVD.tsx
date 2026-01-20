@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { InfoR } from '@strinf/ts/interfaces/api/mapped';
 import type { JSX } from 'preact';
 import IdAcrTagCon from '@strinf/ts/constants/acr/id_acr';
@@ -39,7 +43,7 @@ function ToolTipC({ res, loading, info }: ToolTipProps): JSX.Element {
         ...filteredTT,
         (val: EleT | JSX.Element) => {
             return parseVal2Html(val);
-        },
+        }
     );
     if (resDiv[1] === 1 || loading) {
         resDiv[0] = <div key={0}>Loading ...</div>;
@@ -48,7 +52,7 @@ function ToolTipC({ res, loading, info }: ToolTipProps): JSX.Element {
         <>
             {resDiv[0]}
             {info ?? null}
-        </>,
+        </>
     );
 }
 

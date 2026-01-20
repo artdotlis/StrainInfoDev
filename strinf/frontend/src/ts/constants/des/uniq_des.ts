@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import {
     CL_CORE,
     SINGLE_WORD_CHAR,
@@ -9,8 +13,7 @@ function cleanPre(pre: string): string {
     let last_char = '';
     const output = Array.from(pre).map((char: string) => {
         last_char = char;
-        if (SINGLE_WORD_CHAR.exec(char) !== null)
-            return char.toUpperCase();
+        if (SINGLE_WORD_CHAR.exec(char) !== null) return char.toUpperCase();
         if (last_char === STR_DEFINED_SEP) {
             return '';
         }

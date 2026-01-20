@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { ConfLinkT } from '@strinf/ts/interfaces/misc/configs';
 import type { LocationHook } from 'preact-iso';
 import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
@@ -18,14 +22,14 @@ function scrollToId(aId: string): void {
 
 async function checkRespArr<E>(
     response: Response,
-    mapFun: (data: unknown) => E,
+    mapFun: (data: unknown) => E
 ): Promise<E[]> {
     const isJson = response.headers.get('content-type')?.includes('application/json');
     if (isJson === true) {
         if (response.ok) {
             const res = await response.json();
             if (Array.isArray(res)) {
-                return res.map(val => mapFun(val));
+                return res.map((val) => mapFun(val));
             }
         }
         if (response.status === 404) {
@@ -33,13 +37,13 @@ async function checkRespArr<E>(
         }
     }
     throw new Known500Error(
-        `RESP JSON: ${response.status}, ${response.headers.get('content-type')}`,
+        `RESP JSON: ${response.status}, ${response.headers.get('content-type')}`
     );
 }
 
 async function checkRespObjOk<E>(
     response: Response,
-    checkFun: (data: unknown) => data is E,
+    checkFun: (data: unknown) => data is E
 ): Promise<E> {
     const isJson = response.headers.get('content-type')?.includes('application/json');
     if (isJson === true && response.ok) {
@@ -49,14 +53,14 @@ async function checkRespObjOk<E>(
         }
     }
     throw new Known500Error(
-        `RESP OBJ: ${response.status}, ${response.headers.get('content-type')}`,
+        `RESP OBJ: ${response.status}, ${response.headers.get('content-type')}`
     );
 }
 
 async function checkRespTyp<E>(
     response: Response,
     mapFun: (data: unknown) => E,
-    map404: () => E,
+    map404: () => E
 ): Promise<E> {
     const isJson = response.headers.get('content-type')?.includes('application/json');
     if (isJson === true) {
@@ -69,20 +73,20 @@ async function checkRespTyp<E>(
         }
     }
     throw new Known500Error(
-        `RESP OBJ: ${response.status}, ${response.headers.get('content-type')}`,
+        `RESP OBJ: ${response.status}, ${response.headers.get('content-type')}`
     );
 }
 
 const MAX_RETIRES = 5;
 
 async function delay(retries: number): Promise<void> {
-    await new Promise(reso => setTimeout(reso, 500 * (MAX_RETIRES + 1 - retries)));
+    await new Promise((reso) => setTimeout(reso, 500 * (MAX_RETIRES + 1 - retries)));
 }
 
 async function fetchRetry(
     url: string,
     fetchInit: RequestInit | undefined = undefined,
-    retries: number = MAX_RETIRES,
+    retries: number = MAX_RETIRES
 ): Promise<Response> {
     if (retries > MAX_RETIRES) {
         retries = MAX_RETIRES;
@@ -92,17 +96,14 @@ async function fetchRetry(
         if (!resp.ok && resp.status !== 404 && retries > 0) {
             await delay(retries);
             return await fetchRetry(url, fetchInit, retries - 1);
-        }
-        else {
+        } else {
             return resp;
         }
-    }
-    catch (err: unknown) {
+    } catch (err: unknown) {
         if (retries > 1) {
             await delay(retries);
             return fetchRetry(url, fetchInit, retries - 1);
-        }
-        else {
+        } else {
             throw err;
         }
     }
@@ -133,8 +134,8 @@ function createUrlStr(conf: ConfLinkT, urlPath: string): string {
 
 function hidePrivateInfo(): void {
     if (
-        window.location.pathname === UIApiCon.contact
-        && window.location.search.length > 0
+        window.location.pathname === UIApiCon.contact &&
+        window.location.search.length > 0
     ) {
         window.history.replaceState(null, '', UIApiCon.contact);
     }

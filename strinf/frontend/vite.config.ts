@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { OutgoingHttpHeaders } from 'node:http';
 import type { PreviewOptions, ServerOptions, UserConfig } from 'vite';
 import fs from 'node:fs';

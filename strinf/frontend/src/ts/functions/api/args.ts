@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import QApiCon from '@strinf/ts/constants/api/q_api';
 
 function getArgs(regex: RegExp, uri = ''): string {

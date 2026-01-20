@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { SeaR } from '@strinf/ts/interfaces/api/mapped';
 import type {
     BreadCrumbsG,
@@ -95,8 +99,7 @@ class SearchVD<T extends SEA_PROP> extends Component<T, SearchState> {
         for (const actF of ctx.bread) {
             if (newSea[1] === QApiCon.seaStrAll) {
                 actF(HeadT.STRDB);
-            }
-            else {
+            } else {
                 actF(HeadT.SEARCH);
             }
         }
@@ -133,8 +136,7 @@ class SearchVD<T extends SEA_PROP> extends Component<T, SearchState> {
         if (reqApi === '') {
             try {
                 reqApi = checkSeaTags(reqVal).qApi;
-            }
-            catch {
+            } catch {
                 reqApi = QApiCon.seaStrAll;
             }
         }
@@ -147,15 +149,15 @@ class SearchVD<T extends SEA_PROP> extends Component<T, SearchState> {
         const { toPassStr, toPassCul } = this.state;
         const [, nextContext] = args;
         if (
-            (toPassStr !== nextContext.toPassStr
-                || toPassCul !== nextContext.toPassCul)
-            && nextContext.toPassStr !== ''
+            (toPassStr !== nextContext.toPassStr ||
+                toPassCul !== nextContext.toPassCul) &&
+            nextContext.toPassStr !== ''
         ) {
             callPass(
                 nextContext.toPassStr,
                 nextContext.toPassCul,
                 UIApiCon.index,
-                this.location,
+                this.location
             );
             return false;
         }
@@ -215,7 +217,7 @@ class SearchVD<T extends SEA_PROP> extends Component<T, SearchState> {
             decodeURIComponent(this.sea[0]),
             res,
             page_view,
-            Date.now() - this.time,
+            Date.now() - this.time
         );
     }
 

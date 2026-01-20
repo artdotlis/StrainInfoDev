@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 const GREP_GEN = /\/([^/]+)\.[^/.]+$/;
 const GREP_WEBP = /^.*\/([^/]+)\.(webp|jpg|png|avif)+$/;
 const GREP_ID = /^[^@]*@([^@]+)@.*$/;

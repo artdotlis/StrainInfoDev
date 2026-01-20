@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+//
+// SPDX-License-Identifier: MIT
+
 import type { JSX } from 'preact/jsx-runtime';
 
 type EleT = number | boolean | string | string[] | JSX.Element;
@@ -25,7 +29,7 @@ function containsArrNoEmptyStr(val: unknown[], chI: number[]): boolean {
 function filterArrStr(
     head: string[],
     vals: (EleT | undefined)[],
-    repl_str?: string,
+    repl_str?: string
 ): [string[], EleT[]] {
     const resH = [];
     const resV = [];
@@ -47,15 +51,15 @@ function filterArrRowStr<T>(vals: T[], chI: number[]): T[] {
     return vals
         .slice()
         .filter(
-            elV =>
-                elV !== undefined && Array.isArray(elV) && containsArrNoEmptyStr(elV, chI),
+            (elV) =>
+                elV !== undefined && Array.isArray(elV) && containsArrNoEmptyStr(elV, chI)
         );
 }
 
 function filterRowStr<T>(vals: T[]): T[] {
     return vals
         .slice()
-        .filter(elV => elV !== undefined && typeof elV === 'string' && elV.length > 0);
+        .filter((elV) => elV !== undefined && typeof elV === 'string' && elV.length > 0);
 }
 
 export { filterArrRowStr, filterArrStr, filterRowStr };
