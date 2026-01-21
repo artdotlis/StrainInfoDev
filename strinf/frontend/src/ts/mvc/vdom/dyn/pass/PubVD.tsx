@@ -119,7 +119,7 @@ class PubTable extends TableCon<MOD_PUB_T, PubProps> {
             return this.data[datPos]?.[index] ?? '';
         };
         switch (index) {
-            case 4:
+            case 5:
                 view.sort((st1, st2) => strNumSort(sort, getV(st1), getV(st2)));
                 break;
             default:
@@ -203,7 +203,7 @@ function prepareHeader(cul: boolean): [number, string, boolean][] {
         index !== 1,
     ]);
     if (!cul) {
-        return head.filter((_val, index) => index !== 2);
+        return head.filter((_val, index) => index !== 1);
     }
     return head;
 }
