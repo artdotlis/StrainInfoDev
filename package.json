@@ -49,6 +49,7 @@
         "profile": "bun run profile:backend",
         "lint": "lint-staged --concurrent false",
         "lint:licenses": "bash $BIN_RUN_LICENSE_LINT",
+        "lint:lfs": "bash $BIN_RUN_LFS_LINT",
         "lint:api": "cd $STRINF_API && $BUN run lint",
         "lint:dev": "bash $BIN_RUN_ENV_LINT",
         "lint:backend": "cd $STRINF_BACKEND && bash ../../$BIN_BACKEND_LINT",
@@ -61,7 +62,8 @@
     },
     "lint-staged": {
         "*": [
-            "/bin/bash -c 'bash $BIN_RUN_LICENSE_LINT'"
+            "/bin/bash -c 'bash $BIN_RUN_LICENSE_LINT \"$@\"' _",
+            "/bin/bash -c 'bash $BIN_RUN_LFS_LINT \"$@\"' _"
         ],
         "**/frontend/**/*.{ts,tsx}": [
             "/bin/bash -c 'cd $STRINF_FRONTEND && bun run lint:eslint --fix \"$@\"' _"

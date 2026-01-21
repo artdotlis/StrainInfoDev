@@ -80,7 +80,7 @@ runAct:
 
 runChecks: dev
 	$(BUN) run lint:licenses
-	$(BUN) run lint
+	$(BUN) run lint:lfs
 	$(BUN) run lint:api
 	$(BUN) run lint:dev
 	$(BUN) run lint:frontend
