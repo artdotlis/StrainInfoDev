@@ -1,6 +1,8 @@
-#!/bin/bash
+#!/bin/sh
+
 COMMIT_MSG_FILE="$1"
 
-if [[ "$2" == "" ]]; then
-    exec </dev/tty && make COMMIT_MSG_FILE="$COMMIT_MSG_FILE" runMessage
+if [ -z "$2" ]; then
+    exec </dev/tty
+    make COMMIT_MSG_FILE="$COMMIT_MSG_FILE" runMessage
 fi
