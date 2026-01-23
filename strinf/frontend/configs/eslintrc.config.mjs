@@ -64,5 +64,12 @@ export default antfu(
             'ts/no-unsafe-type-assertion': 'off',
             'no-console': 'warn',
         },
+    },
+    {
+        files: ['vite.config.ts'],
+        rules: {
+            'no-console': 'off',
+            'unicorn/prefer-node-protocol': 'off',
+        },
     }
 );

@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { OutgoingHttpHeaders } from 'node:http';
+import type { OutgoingHttpHeaders } from 'http';
 import type { PreviewOptions, ServerOptions, UserConfig } from 'vite';
-import fs from 'node:fs';
-import Path from 'node:path';
-import process from 'node:process';
+import fs from 'fs';
+import Path from 'path';
+import process from 'process';
 import mdx from '@mdx-js/rollup';
 import preact from '@preact/preset-vite';
 import browserslist from 'browserslist';
