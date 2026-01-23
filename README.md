@@ -91,3 +91,9 @@ This will package the project into the **public/straininfo** folder, which can b
 ## Info:
 
 Don't use StrainInfo docker implementation in production. All Dockerfiles should only be used in local environments, e.g. your computer or inside local intranet, for development or staging only.
+
+## Citation
+
+When using StrainInfo for research, please cite the database paper:
+
+Artur Lissin, Isabel Schober, Julius F Witte, Helko Lüken, Adam Podstawka, Julia Koblitz, Boyke Bunk, Peter Dawyndt, Peter Vandamme, Paul de Vos, Jörg Overmann, Lorenz C Reimer, StrainInfo—the central database for linked microbial strain identifiers, Database, Volume 2025, 2025, baaf059, https://doi.org/10.1093/database/baaf059
