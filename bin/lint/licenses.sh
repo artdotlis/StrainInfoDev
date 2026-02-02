@@ -4,10 +4,18 @@
 #
 # SPDX-License-Identifier: MIT
 
-set -e 
-
+set -euo pipefail
 ROOT="$(dirname "$(realpath "$0")")/../.."
 source "$ROOT/.env"
+
+find "$ROOT" -type f -name "*.license" | while read -r license; do
+  original="${license%.license}"
+
+  if [[ ! -e "$original" ]]; then
+    echo "Removing orphan license: $license"
+    rm "$license"
+  fi
+done
 
 SOFTWARE_LIC="MIT"
 DATA_LIC="CC-BY-4.0"

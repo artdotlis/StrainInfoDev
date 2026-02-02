@@ -54,12 +54,12 @@ function SideEl({ act, key, ele, tId }: SideTProps): JSX.Element {
     }, [eleThree]);
     return (
         <a
-            {...(tId == null ? {} : { id: tId })}
             key={key}
             className={`${actCl} ${ele[2]}`}
             ref={hrefRef}
             href="/"
             aria-label={ele[0]}
+            {...(tId == null ? {} : { id: tId })}
         >
             {' '}
             <i className={ele[1]} />
