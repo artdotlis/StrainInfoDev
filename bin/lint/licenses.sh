@@ -161,6 +161,6 @@ fi
 if ! git diff --quiet || [ -n "$(git ls-files --other --exclude-standard)" ]; then
     echo "There are uncommitted changes or untracked files in the repository."
     git ls-files --other --exclude-standard
-    git diff
+    git --no-pager diff
     exit 1
 fi
