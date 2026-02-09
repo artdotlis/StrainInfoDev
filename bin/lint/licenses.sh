@@ -17,6 +17,7 @@ find "$ROOT" -type f -name "*.license" | while read -r license; do
   fi
 done
 
+
 SOFTWARE_LIC="MIT"
 DATA_LIC="CC-BY-4.0"
 PUB_LIC="CC0-1.0"
@@ -56,11 +57,15 @@ if ! grep -q "$SOFTWARE_LIC" "$ROOT/package.json"; then
     exit 1
 fi
 
-UVX="$UV_INSTALL_DIR/uvx"
-
+UV="$UV_INSTALL_DIR/uv"
+uv_run() {
+    "$UV_INSTALL_DIR/uv" run "$@"
+}
 echo "INSTALLING UV"
 /bin/bash "$ROOT/bin/install/uv.sh"
 echo "UV INSTALLED"
+
+"$UV" pip install --require-hashes -r "$CONFIG_PY_LINT"
 
 FILES=()
 
@@ -82,9 +87,10 @@ else
     filter_and_collect < <(git ls-files)
 fi
 
-SOFTWARE=("sql" "toml" "Dockerfile" "conf" "template" "js" "jsx" "ts" "tsx" "html" "css" "md" "mdx" "json" "yml" "yaml" "sh" "cjs" "mjs" "txt" "php" "neon" "xml")
-IMAGES=("jpg" "png" "jpeg" "ico" "webp" "avif")
-CC0_FILES=(".gitignore" ".gitattributes" ".env" "bun.lock" ".dockerignore" "composer.lock")
+
+SOFTWARE=("sql" "toml" "Dockerfile" "conf" "template" "js" "jsx" "ts" "tsx" "html" "css" "md" "mdx" "json" "yml" "yaml" "vue" "sh" "cjs" "mjs" "txt")
+IMAGES=("jpg" "png" "ico" "webp" "avif")
+CC0_FILES=(".gitignore" ".gitattributes" ".env" "bun.lock" ".dockerignore")
 MIT_FILES=("Makefile" "prettierignore" "shellcheckrc")
 MIT_FOLDERS=(".husky")
 
@@ -134,26 +140,26 @@ done
 
 if [ ${#mit_to_annotate[@]} -gt 0 ]; then
     echo "annotating MIT"
-    "$UVX" reuse annotate -c "$COPYRIGHT" -l "$SOFTWARE_LIC" -y "$YEAR" --merge-copyrights --fallback-dot-license "${mit_to_annotate[@]}"
+    uv_run reuse annotate -c "$COPYRIGHT" -l "$SOFTWARE_LIC" -y "$YEAR" --merge-copyrights --fallback-dot-license "${mit_to_annotate[@]}"
 else
     echo "No MIT files to annotate"
 fi
 
 if [ ${#ccby_to_annotate[@]} -gt 0 ]; then
     echo "annotating CC-BY"
-    "$UVX" reuse annotate -c "$COPYRIGHT" -l "$DATA_LIC" -y "$YEAR" --merge-copyrights --fallback-dot-license "${ccby_to_annotate[@]}"
+    uv_run reuse annotate -c "$COPYRIGHT" -l "$DATA_LIC" -y "$YEAR" --merge-copyrights --fallback-dot-license "${ccby_to_annotate[@]}"
 else
     echo "No CC-BY files to annotate"
 fi
 
 if [ ${#cc0_to_annotate[@]} -gt 0 ]; then
     echo "annotating CC0"
-    "$UVX" reuse annotate -c "$COPYRIGHT" -l "$PUB_LIC" -y "$YEAR" --merge-copyrights --fallback-dot-license "${cc0_to_annotate[@]}"
+    uv_run reuse annotate -c "$COPYRIGHT" -l "$PUB_LIC" -y "$YEAR" --merge-copyrights --fallback-dot-license "${cc0_to_annotate[@]}"
 else
     echo "No CC0 files to annotate"
 fi
 
-if ! "$UVX" reuse lint; then
+if ! uv_run reuse lint; then
     echo "Linting failed!"
     exit 1
 fi
