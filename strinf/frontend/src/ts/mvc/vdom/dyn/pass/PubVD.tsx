@@ -16,7 +16,7 @@ import { defaultSort, strNumSort } from '@strinf/ts/functions/arr/sort';
 import TableCon, { SearchWr } from '@strinf/ts/mvc/vdom/dyn/table/Table';
 import formatCultureTT from '@strinf/ts/mvc/vdom/fun/pass/culture';
 import { createDoiLink } from '@strinf/ts/mvc/vdom/fun/tab/misc';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import { Component } from 'preact';
 
 const TIT = 'Publications';
@@ -194,7 +194,7 @@ class PubTable extends TableCon<MOD_PUB_T, PubProps> {
     }
 }
 
-PubTable.contextType = MainConGl;
+PubTable.contextType = MainConContext;
 
 function prepareHeader(cul: boolean): [number, string, boolean][] {
     const head: [number, string, boolean][] = getPubTuple().map((val, index) => [
@@ -247,7 +247,7 @@ class PubVD extends Component<TProps, object> {
     }
 }
 
-PubVD.contextType = MainConGl;
+PubVD.contextType = MainConContext;
 
 function PubSimVD({ res }: TMinProps): JSX.Element | null {
     if (res.length === 0) {

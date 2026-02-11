@@ -14,7 +14,7 @@ import DiaT from '@strinf/ts/constants/type/DiaT';
 import Known500Error from '@strinf/ts/errors/known/500';
 import { TT_ID_SIM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
 import { useTooltipForRef } from '@strinf/ts/mvc/vdom/fun/tab/pass';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import { axisBottom, axisLeft, scaleBand, scaleLinear, select } from 'd3';
 import { useContext as use, useRef, useState } from 'preact/hooks';
 
@@ -218,7 +218,7 @@ function Dia({ data, scX, scY, ttH }: DataT): JSX.Element | null {
 
 function CpsDia({ dia }: { dia: DiaCon }): JSX.Element {
     const cps = dia[DiaT.CPS];
-    const ctx: TTHookG<TT_GL_TYPE> | undefined = use(MainConGl);
+    const ctx: TTHookG<TT_GL_TYPE> | undefined = use(MainConContext);
     const ttH = ctx?.getTTHook(TT_ID_SIM);
     if (cps === undefined) {
         throw new Known500Error('canvas has no 2d context or cps dia was not defined');

@@ -12,7 +12,7 @@ import PagPosT from '@strinf/ts/constants/type/PagPosT';
 import IndCtrl from '@strinf/ts/mvc/ctrl/IndCtrl';
 import OvVD from '@strinf/ts/mvc/vdom/dyn/stat/OvVD';
 import SeaInVD from '@strinf/ts/mvc/vdom/main/input/SeaInVD';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import IndSt from '@strinf/ts/mvc/vdom/state/IndSt';
 import AboutIVD from '@strinf/ts/mvc/vdom/static/AboutHomeVD';
 import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
@@ -93,6 +93,6 @@ class IndexVD extends Component<unknown, object> {
     }
 }
 
-IndexVD.contextType = MainConGl;
+IndexVD.contextType = MainConContext;
 
 export default IndexVD;

@@ -13,7 +13,7 @@ import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
 import { callSearch } from '@strinf/ts/functions/http/sea';
 import SeaIndexCtrl from '@strinf/ts/mvc/ctrl/SeaIndexCtrl';
 import DropSeaVD from '@strinf/ts/mvc/vdom/dyn/misc/DropSeaVD';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import IndSeaSt from '@strinf/ts/mvc/vdom/state/IndSeaSt';
 import { Component } from 'preact';
 import { useLocation } from 'preact-iso';
@@ -185,5 +185,5 @@ class InputVD extends Component<InProps, InState> {
     }
 }
 
-InputVD.contextType = MainConGl;
+InputVD.contextType = MainConContext;
 export default InputVD;

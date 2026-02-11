@@ -17,7 +17,7 @@ import BacDiveLinkVD from '@strinf/ts/mvc/vdom/dyn/pass/link/BacDiveLinkVD';
 import TaxLinkVD, { LinkType } from '@strinf/ts/mvc/vdom/dyn/pass/link/TaxLinkVD';
 import { TT_ID_SIM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
 import { createStrainTitleBar } from '@strinf/ts/mvc/vdom/fun/tab/pass';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import { memo } from 'preact/compat';
 import { useContext as use, useState } from 'preact/hooks';
 
@@ -136,7 +136,7 @@ function StrainStatus({ rel, dCtrl, ttHook }: StatusProps): JSX.Element | null {
 const StrainStatusVD = memo(StrainStatus);
 
 function OverviewVD({ res, dCtrl, rel }: ResProps): JSX.Element | null {
-    const ctx: TTHookG<TT_GL_TYPE> | undefined = use(MainConGl);
+    const ctx: TTHookG<TT_GL_TYPE> | undefined = use(MainConContext);
     const ttHook = ctx?.getTTHook(TT_ID_SIM);
     if (res === undefined || ttHook === undefined) {
         return null;

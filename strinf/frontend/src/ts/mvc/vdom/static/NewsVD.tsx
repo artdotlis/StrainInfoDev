@@ -11,14 +11,14 @@ import HeadT from '@strinf/ts/constants/type/HeadT';
 
 import { getCurFullPath } from '@strinf/ts/functions/http/http';
 import { factoryNewsDateWr, TableWr, UListWr } from '@strinf/ts/functions/md/wrapper';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
 import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
 import { memo } from 'preact/compat';
 import { useContext as use } from 'preact/hooks';
 
 function NewsM(): JSX.Element {
-    const ctx: BreadCrumbsG | undefined = use(MainConGl);
+    const ctx: BreadCrumbsG | undefined = use(MainConContext);
     if (ctx?.bread !== undefined) {
         for (const actF of ctx.bread) {
             actF(HeadT.NEWS);

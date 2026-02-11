@@ -9,7 +9,7 @@ import Team from '@strinf/md/team/team.mdx';
 import HeadT from '@strinf/ts/constants/type/HeadT';
 import { PersonWr, TableWr, TeamWr } from '@strinf/ts/functions/md/wrapper';
 
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
 import { memo } from 'preact/compat';
 import { useContext as use } from 'preact/hooks';
@@ -19,7 +19,7 @@ interface TeamProps {
 }
 
 function TeamM(): JSX.Element {
-    const ctx: BreadCrumbsG | undefined = use(MainConGl);
+    const ctx: BreadCrumbsG | undefined = use(MainConContext);
     if (ctx?.bread !== undefined) {
         for (const actF of ctx.bread) {
             actF(HeadT.TEAM);

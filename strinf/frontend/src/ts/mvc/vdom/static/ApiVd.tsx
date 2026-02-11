@@ -29,7 +29,7 @@ import { createUrlStr, fetchRetry, getCurFullPath } from '@strinf/ts/functions/h
 import { deactivateAllDropdownToggles } from '@strinf/ts/functions/libs/style';
 import { hasProp } from '@strinf/ts/functions/types/arr';
 import OnPageNavVD, { createNavLinks } from '@strinf/ts/mvc/vdom/dyn/misc/OnPageNav';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
 import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
 import Loading from '@strinf/ts/mvc/vdom/static/misc/LoadVD';
@@ -420,7 +420,7 @@ function ApiVD(): JSX.Element {
             dys: isDyslexiaSet(),
         };
     });
-    const ctx: (BreadCrumbsG & CookieS) | undefined = use(MainConGl);
+    const ctx: (BreadCrumbsG & CookieS) | undefined = use(MainConContext);
     loadApiSpec(ctx, apiS, setApiS);
     const { spec } = apiS;
     if (spec === undefined) {

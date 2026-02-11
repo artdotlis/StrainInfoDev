@@ -15,7 +15,7 @@ import { defaultSort, sortDate } from '@strinf/ts/functions/arr/sort';
 import { createDate } from '@strinf/ts/functions/parse/date';
 import DoiDownloadGrid from '@strinf/ts/mvc/vdom/dyn/pass/link/DoiDownloadGrid';
 import TableCon, { SearchWr } from '@strinf/ts/mvc/vdom/dyn/table/Table';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import { memo } from 'preact/compat';
 
 interface ResProps {
@@ -149,7 +149,7 @@ class ArcTable extends TableCon<ArcT, ArcProps> {
     }
 }
 
-ArcTable.contextType = MainConGl;
+ArcTable.contextType = MainConContext;
 
 function modDate(
     arc: [string, string, string, boolean][]

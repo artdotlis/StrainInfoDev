@@ -138,7 +138,7 @@ class GlobSt implements GlStInt<TT_GL_TYPE> {
     }
 }
 
-const MainConGl = createContext<GlStInt<TT_GL_TYPE> | undefined>(undefined);
+const MainConContext = createContext<GlStInt<TT_GL_TYPE> | undefined>(undefined);
 
 export default GlobSt;
-export { MainConGl };
+export { MainConContext };

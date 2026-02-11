@@ -9,7 +9,7 @@ import { UIApiCon } from '@strinf/ts/constants/api/ui_api';
 import { ClHtml, Mar } from '@strinf/ts/constants/style/ClHtml';
 import HeadT from '@strinf/ts/constants/type/HeadT';
 import Known500Error from '@strinf/ts/errors/known/500';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import { memo } from 'preact/compat';
 import { useContext as use, useState } from 'preact/hooks';
 
@@ -66,7 +66,7 @@ function mapLink(nav: string): string {
 }
 
 function MainNavVD(): JSX.Element {
-    const conf: BreadCrumbsS | undefined = use(MainConGl);
+    const conf: BreadCrumbsS | undefined = use(MainConContext);
     const [act, setAct] = useState<HeadT>(0);
     conf?.breadSet('HEAD_BREAD_CRUMBS')((actI: HeadT) => {
         setAct(actI);

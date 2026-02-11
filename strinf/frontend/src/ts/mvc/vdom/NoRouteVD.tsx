@@ -7,7 +7,7 @@ import type { JSX } from 'preact';
 import errSty from '@strinf/css/mods/error.module.css';
 import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
 import HeadT from '@strinf/ts/constants/type/HeadT';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import { useContext as use } from 'preact/hooks';
 
 interface EmptyProps {
@@ -15,7 +15,7 @@ interface EmptyProps {
 }
 
 function NoRouteVD({ path }: EmptyProps): JSX.Element {
-    const ctx: BreadCrumbsG | undefined = use(MainConGl);
+    const ctx: BreadCrumbsG | undefined = use(MainConContext);
     if (ctx?.bread !== undefined) {
         for (const actF of ctx.bread) {
             actF(HeadT.HOME);

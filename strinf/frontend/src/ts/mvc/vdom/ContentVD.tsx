@@ -11,7 +11,7 @@ import FootVD from '@strinf/ts/mvc/vdom/FootVD';
 import { trackPageV } from '@strinf/ts/mvc/vdom/fun/mat/track';
 import defaultRouteBeh from '@strinf/ts/mvc/vdom/fun/route/default';
 import Redirect from '@strinf/ts/mvc/vdom/fun/route/Redirect';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import { LID } from '@strinf/ts/mvc/vdom/static/misc/LoadVD';
 import { lazy, Route, Router, useLocation } from 'preact-iso';
 import { useContext as use, useEffect, useState } from 'preact/hooks';
@@ -154,7 +154,7 @@ function ContentVD({
 }: {
     panic: boolean;
 } & ERR_PROP): JSX.Element | null {
-    const ctx: (BreadCrumbsG & ErrStCon) | undefined = use(MainConGl);
+    const ctx: (BreadCrumbsG & ErrStCon) | undefined = use(MainConContext);
     const { errorB, errorP } = onError(panic, isError, ctx?.errT);
     const [errC, setErrC] = useState(0);
     useEffect(() => {

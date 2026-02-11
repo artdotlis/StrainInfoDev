@@ -11,7 +11,7 @@ import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
 import SideT from '@strinf/ts/constants/type/HeadT';
 import Known500Error from '@strinf/ts/errors/known/500';
 import onPrError from '@strinf/ts/functions/err/async';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import { memo } from 'preact/compat';
 import { useContext as use, useEffect, useRef, useState } from 'preact/hooks';
 
@@ -187,7 +187,7 @@ function mapSide(val: SideT, ind: number, act: number): JSX.Element | null {
 }
 
 function SideNavVD(): JSX.Element {
-    const conf: BreadCrumbsS | undefined = use(MainConGl);
+    const conf: BreadCrumbsS | undefined = use(MainConContext);
     const [act, setAct] = useState<SideT>(0);
     conf?.breadSet('SIDE_BAR_NAV')((actI: number) => {
         setAct(actI);

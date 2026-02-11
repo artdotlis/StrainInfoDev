@@ -20,7 +20,7 @@ import { getInfoDesTuple } from '@strinf/ts/functions/api/map';
 import { filterArrRowStr, filterRowStr } from '@strinf/ts/functions/arr/parse';
 import { createSimpleTiles } from '@strinf/ts/mvc/vdom/fun/tab/misc';
 import { createRDepTiles, TooltipWrapper } from '@strinf/ts/mvc/vdom/fun/tab/pass';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import { PureComponent } from 'preact/compat';
 import { useContext as use } from 'preact/hooks';
 
@@ -97,7 +97,7 @@ function createTilesDes(
 }
 
 function Table({ detAnc, curId, culH, desH, des, rel }: TProps): JSX.Element | null {
-    const ctx: InValStInt | undefined = use(MainConGl);
+    const ctx: InValStInt | undefined = use(MainConContext);
     const tilesCul = createRDepTiles(
         rel,
         (dat: RelT) => [dat[0], dat[1], dat[3] === undefined, dat[4]],
@@ -179,6 +179,6 @@ class RelationsVD extends PureComponent<ResProps, RelState> {
         );
     }
 }
-RelationsVD.contextType = MainConGl;
+RelationsVD.contextType = MainConContext;
 export default RelationsVD;
 export { getAnc4Det, getAnchorR };

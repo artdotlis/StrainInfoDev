@@ -47,7 +47,7 @@ import {
     useTooltipForRef,
 } from '@strinf/ts/mvc/vdom/fun/tab/pass';
 import DetSt from '@strinf/ts/mvc/vdom/state/DetSt';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import LogoORCIDVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoORCIDVD';
 import LogoRORVD from '@strinf/ts/mvc/vdom/static/images/logos/LogoRORVD';
 import { Component } from 'preact';
@@ -692,6 +692,6 @@ class DetailsVD extends Component<DetailsProps, DetailsState> {
         return null;
     }
 }
-DetailsVD.contextType = MainConGl;
+DetailsVD.contextType = MainConContext;
 export default DetailsVD;
 export { getAnchorD };

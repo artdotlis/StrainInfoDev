@@ -15,7 +15,7 @@ import { AnchorWr, TableWr } from '@strinf/ts/functions/md/wrapper';
 
 import OnPageNavVD, { createNavLinks } from '@strinf/ts/mvc/vdom/dyn/misc/OnPageNav';
 import { Container, wrapSectionGen } from '@strinf/ts/mvc/vdom/fun/content/content';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import PublicationsVD from '@strinf/ts/mvc/vdom/static/about/PublicationsVD';
 import RoadMapVD from '@strinf/ts/mvc/vdom/static/about/RoadMapVD';
 import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
@@ -112,7 +112,7 @@ function crAnc(): AncT {
 }
 
 function AboutP(): JSX.Element {
-    const ctx: BreadCrumbsG | undefined = use(MainConGl);
+    const ctx: BreadCrumbsG | undefined = use(MainConContext);
     if (ctx?.bread !== undefined) {
         for (const actF of ctx.bread) {
             actF(HeadT.ABOUT);

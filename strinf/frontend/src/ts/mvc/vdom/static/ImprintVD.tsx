@@ -13,7 +13,7 @@ import { strain_info_mail } from '@strinf/ts/constants/links/mail';
 import HeadT from '@strinf/ts/constants/type/HeadT';
 import { getCurFullPath } from '@strinf/ts/functions/http/http';
 import { openMailClient, scrambleMail } from '@strinf/ts/functions/links/mail';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 
 import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
 import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
@@ -57,7 +57,7 @@ function MainCon(): JSX.Element {
 }
 
 function ImprintAll(): JSX.Element {
-    const ctx: BreadCrumbsG | undefined = use(MainConGl);
+    const ctx: BreadCrumbsG | undefined = use(MainConContext);
     if (ctx?.bread !== undefined) {
         for (const actF of ctx.bread) {
             actF(HeadT.IMPRINT);

@@ -28,7 +28,7 @@ import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
 import updateAnc from '@strinf/ts/functions/links/update_anc';
 import updateHrefVal from '@strinf/ts/functions/links/update_href';
 import { useTooltipForRef } from '@strinf/ts/mvc/vdom/fun/tab/pass';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import * as d3Sankey from 'd3-sankey';
 import { useContext as use, useEffect, useRef, useState } from 'preact/hooks';
 
@@ -491,7 +491,7 @@ function HistoryVD({
 }: RelProps): JSX.Element | null {
     const data = formatData(rel);
     const [selSiCu, setSelSiCu] = useState<number>(selCuId);
-    const ctx: (InValStInt & InValInt) | undefined = use(MainConGl);
+    const ctx: (InValStInt & InValInt) | undefined = use(MainConContext);
     if (detectRec(data)) {
         hisRec();
         return null;

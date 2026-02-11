@@ -15,7 +15,7 @@ import HeadT from '@strinf/ts/constants/type/HeadT';
 import { getCurFullPath } from '@strinf/ts/functions/http/http';
 import { openMailClient, scrambleMail } from '@strinf/ts/functions/links/mail';
 import { getFormSelValue } from '@strinf/ts/functions/types/html';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
 import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
 import { memo } from 'preact/compat';
@@ -111,7 +111,7 @@ function ContactWr({ children }: WrProps): JSX.Element {
 }
 
 function Contact(): JSX.Element | null {
-    const ctx: BreadCrumbsG | undefined = use(MainConGl);
+    const ctx: BreadCrumbsG | undefined = use(MainConContext);
     if (ctx?.bread !== undefined) {
         for (const actF of ctx.bread) {
             actF(HeadT.CONTACT);

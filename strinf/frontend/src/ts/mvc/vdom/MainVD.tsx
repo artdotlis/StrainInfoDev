@@ -17,7 +17,7 @@ import { reInitCStyle } from '@strinf/ts/functions/libs/style';
 import ContentVD from '@strinf/ts/mvc/vdom/ContentVD';
 import crAlert from '@strinf/ts/mvc/vdom/fun/alert/alert';
 import HeadVD from '@strinf/ts/mvc/vdom/HeadVD';
-import GlState, { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import GlState, { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import { Component, createRef } from 'preact';
 
 type OnErrorArg = [
@@ -166,7 +166,7 @@ class MainVD extends Component<
         const { panic } = this.state;
         return (
             <>
-                <MainConGl value={this.initGlState()}>
+                <MainConContext value={this.initGlState()}>
                     <div
                         ref={this.wrapper}
                         className={`${ClHtml.pgWr} ${getActiveWrapperCookies().join(' ')}`}
@@ -178,7 +178,7 @@ class MainVD extends Component<
                             disableError={() => (this.errCr = false)}
                         />
                     </div>
-                </MainConGl>
+                </MainConContext>
             </>
         );
     }

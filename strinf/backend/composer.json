@@ -21,9 +21,9 @@
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "1.2.0",
-        "friendsofphp/php-cs-fixer": "3.92.5",
-        "phpstan/phpstan": "2.1.33",
-        "slevomat/coding-standard": "8.26.0",
+        "friendsofphp/php-cs-fixer": "3.93.1",
+        "phpstan/phpstan": "2.1.38",
+        "slevomat/coding-standard": "8.27.1",
         "squizlabs/php_codesniffer": "4.0.1",
         "thecodingmachine/phpstan-safe-rule": "1.4.3",
         "phpmetrics/phpmetrics": "3.0.0rc8"

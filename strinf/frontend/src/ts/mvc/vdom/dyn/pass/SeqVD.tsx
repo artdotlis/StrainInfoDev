@@ -31,7 +31,7 @@ import { isSlimScreen } from '@strinf/ts/functions/misc/screen';
 import TableCon from '@strinf/ts/mvc/vdom/dyn/table/Table';
 import formatCultureTT from '@strinf/ts/mvc/vdom/fun/pass/culture';
 import { createSeqAccLink, createSimpleTiles } from '@strinf/ts/mvc/vdom/fun/tab/misc';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import { Component } from 'preact';
 import { memo } from 'preact/compat';
 
@@ -274,7 +274,7 @@ class SeqTable extends TableCon<MOD_SEQ_T, SeqProps> {
     }
 }
 
-SeqTable.contextType = MainConGl;
+SeqTable.contextType = MainConContext;
 
 interface SeqTFilProps {
     active: SeqType;
@@ -418,7 +418,7 @@ class TableSeq extends Component<TProps, object> {
     }
 }
 
-TableSeq.contextType = MainConGl;
+TableSeq.contextType = MainConContext;
 
 function getAnchorS(ord: number, rel: SeqT[]): AncT {
     if (rel.length > 0) {

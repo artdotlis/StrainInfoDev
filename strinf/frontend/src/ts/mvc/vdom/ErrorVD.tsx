@@ -11,7 +11,7 @@ import ErrType, { ERR_MARK } from '@strinf/ts/constants/type/ErrT';
 import Known404Error from '@strinf/ts/errors/known/404';
 import Known503Error from '@strinf/ts/errors/known/503';
 import { trackSearch } from '@strinf/ts/mvc/vdom/fun/mat/track';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import { useContext as use } from 'preact/hooks';
 
 interface ErrorWrProps {
@@ -106,7 +106,7 @@ function ErrorWr({ errM, errFM, errT, ctx }: ErrorWrProps): JSX.Element | null {
 }
 
 function ErrorVD({ blocked }: { blocked: boolean }): JSX.Element | null {
-    const ctx: (ErrStCon & InValStInt) | undefined = use(MainConGl);
+    const ctx: (ErrStCon & InValStInt) | undefined = use(MainConContext);
     if (ctx === undefined) {
         return null;
     }

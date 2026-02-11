@@ -114,12 +114,12 @@ type EventsSt = [() => void, string, Element][];
 function TooltipWrapper(props: TTWrProps): JSX.Element {
     const { srcH, upD, chi } = props;
     const tarRef = useRef<HTMLDivElement>(null);
-    const events = useRef<EventsSt>([]);
+    const eventsRef = useRef<EventsSt>([]);
     const storeEv = (eve: EventsSt) => {
-        events.current.splice(0, events.current.length);
-        events.current.push(...eve);
+        eventsRef.current.splice(0, eventsRef.current.length);
+        eventsRef.current.push(...eve);
     };
-    for (const eve of events.current) {
+    for (const eve of eventsRef.current) {
         if (eve[1] === 'blur') {
             eve[0]();
         }
@@ -139,12 +139,12 @@ function useTooltipForRef<T extends Element>(
     upD: () => void,
     timeout: [number, number]
 ): void {
-    const events = useRef<EventsSt>([]);
+    const eventsRef = useRef<EventsSt>([]);
     const storeEv = (eve: EventsSt) => {
-        events.current.splice(0, events.current.length);
-        events.current.push(...eve);
+        eventsRef.current.splice(0, eventsRef.current.length);
+        eventsRef.current.push(...eve);
     };
-    for (const eve of events.current) {
+    for (const eve of eventsRef.current) {
         if (eve[1] === 'blur') {
             eve[0]();
         }

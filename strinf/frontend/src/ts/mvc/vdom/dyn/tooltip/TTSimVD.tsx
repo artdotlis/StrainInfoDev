@@ -9,7 +9,7 @@ import tooSty from '@strinf/css/mods/tooltip.module.css';
 import { HIDE_ATTR, TT_ARR, TT_SRC } from '@strinf/ts/constants/style/AtHtml';
 import { ClHtml } from '@strinf/ts/constants/style/ClHtml';
 import Known500Error from '@strinf/ts/errors/known/500';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import ToolTipHook from '@strinf/ts/mvc/vdom/state/InfoHk';
 import { createRef, isValidElement } from 'preact';
 import { memo, PureComponent } from 'preact/compat';
@@ -83,6 +83,6 @@ class TTSimVD extends PureComponent<object, ToolState> {
     }
 }
 
-TTSimVD.contextType = MainConGl;
+TTSimVD.contextType = MainConContext;
 export default TTSimVD;
 export { TT_ID_SIM };

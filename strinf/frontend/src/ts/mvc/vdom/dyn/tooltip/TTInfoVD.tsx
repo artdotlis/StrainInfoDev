@@ -10,7 +10,7 @@ import type { JSX, RefObject } from 'preact';
 import tooSty from '@strinf/css/mods/tooltip.module.css';
 import { HIDE_ATTR, TT_ARR, TT_SRC } from '@strinf/ts/constants/style/AtHtml';
 import Known500Error from '@strinf/ts/errors/known/500';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import ToolTipHook from '@strinf/ts/mvc/vdom/state/InfoHk';
 import InfoSt from '@strinf/ts/mvc/vdom/state/InfoSt';
 import { Component, createRef } from 'preact';
@@ -146,6 +146,6 @@ class ToolTipInfoVD<I extends InfoS | InfoR> extends Component<
     }
 }
 
-ToolTipInfoVD.contextType = MainConGl;
+ToolTipInfoVD.contextType = MainConContext;
 
 export default ToolTipInfoVD;

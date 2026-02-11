@@ -25,7 +25,7 @@ import {
 } from '@strinf/ts/functions/md/wrapper';
 import OnPageNavVD, { createNavLinks } from '@strinf/ts/mvc/vdom/dyn/misc/OnPageNav';
 import { Container, wrapSectionGen } from '@strinf/ts/mvc/vdom/fun/content/content';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
 import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
 import ApiTourVD from '@strinf/ts/mvc/vdom/static/tour/ApiTour';
@@ -77,21 +77,21 @@ function correctCode(eleBuf: HTMLSpanElement, api: string): void {
 
 function WebSerPyE(props: DocsPPT): JSX.Element {
     const { api } = props;
-    const refCode = useRef<HTMLDivElement>(null);
+    const codeRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
-        if (refCode.current !== null && api !== undefined) {
+        if (codeRef.current !== null && api !== undefined) {
             let clApi = api;
             if (clApi.endsWith('/')) {
                 clApi = clApi.slice(0, -1);
             }
-            Array.from(refCode.current.getElementsByTagName('span')).forEach((ele) => {
+            Array.from(codeRef.current.getElementsByTagName('span')).forEach((ele) => {
                 const eleBuf = ele;
                 correctCode(eleBuf, clApi);
             });
         }
-    }, [refCode, api]);
+    }, [codeRef, api]);
     return (
-        <div ref={refCode}>
+        <div ref={codeRef}>
             <WebSerPy key={IDS.webSerPy} />
         </div>
     );
@@ -156,7 +156,7 @@ function DocCon(props: { children: JSX.Element }): JSX.Element {
 }
 
 function Docs(): JSX.Element {
-    const ctx: BreadCrumbsG | undefined = use(MainConGl);
+    const ctx: BreadCrumbsG | undefined = use(MainConContext);
     if (ctx?.bread !== undefined) {
         for (const actF of ctx.bread) {
             actF(HeadT.MANUAL);

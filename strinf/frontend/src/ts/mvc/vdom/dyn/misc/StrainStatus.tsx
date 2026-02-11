@@ -180,7 +180,7 @@ function crStatusIcon(id: StrainStatus): JSX.Element {
 }
 
 function TooltipVD({ hook, id, cla }: TTProps): JSX.Element {
-    const lightR = useRef<HTMLDivElement>(null);
+    const lightRef = useRef<HTMLDivElement>(null);
     const lKey = `lights_${id}`;
     const lID = id;
     const localH = hook;
@@ -189,7 +189,7 @@ function TooltipVD({ hook, id, cla }: TTProps): JSX.Element {
             <TooltipWrapper
                 key={lKey}
                 chi={
-                    <div ref={lightR} className={Wid.N25}>
+                    <div ref={lightRef} className={Wid.N25}>
                         {crStatusIcon(id)}
                     </div>
                 }

@@ -40,7 +40,7 @@ import {
     createPassLinkStrain,
     DotTT,
 } from '@strinf/ts/mvc/vdom/fun/tab/misc';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import { DefaultGradientVD } from '@strinf/ts/mvc/vdom/static/images/background/DefaultVD';
 import { useState } from 'preact/hooks';
 
@@ -751,7 +751,7 @@ class SeaTable extends TableCon<MOD_SEA_T, SeaTableProps> {
     }
 }
 
-SeaTable.contextType = MainConGl;
+SeaTable.contextType = MainConContext;
 
 function SeaTVD({ res, sea, hook }: SeaTProps): JSX.Element | null {
     if (res.length === 0) {

@@ -28,7 +28,7 @@ import {
     setTransition,
 } from '@strinf/ts/functions/cookie/acc';
 import { getFormInputCheckValue } from '@strinf/ts/functions/types/html';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import { memo } from 'preact/compat';
 import { useContext as use, useRef } from 'preact/hooks';
 
@@ -76,7 +76,7 @@ function applyAccChanges(
 }
 
 function AccForm(props: { cont: RefObject<HTMLDivElement> }): JSX.Element | null {
-    const ctx: (WrapperInt & CookieG) | undefined = use(MainConGl);
+    const ctx: (WrapperInt & CookieG) | undefined = use(MainConContext);
 
     if (ctx === undefined) {
         return null;

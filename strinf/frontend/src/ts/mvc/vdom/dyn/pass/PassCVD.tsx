@@ -28,7 +28,7 @@ import { TT_ID_DEP } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTDepVD';
 import { TT_ID_SIM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
 import { TT_ID_STR } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTStrVD';
 import createCVSchema from '@strinf/ts/mvc/vdom/fun/schema/pass';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import SchemaMainH from '@strinf/ts/mvc/vdom/static/helmet/SchemaH';
 import { Component } from 'preact';
 import { memo, useCallback, useState } from 'preact/compat';
@@ -309,6 +309,6 @@ class PassCVD extends Component<PassRProps, object> {
     }
 }
 
-PassCVD.contextType = MainConGl;
+PassCVD.contextType = MainConContext;
 
 export default PassCVD;

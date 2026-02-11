@@ -9,7 +9,7 @@ import type { JSX, RefObject } from 'preact';
 import { ERR_MARK } from '@strinf/ts/constants/type/ErrT';
 import markErr from '@strinf/ts/mvc/vdom/fun/sea/input';
 import InputVD from '@strinf/ts/mvc/vdom/main/input/InputVD';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import { Component, createRef } from 'preact';
 
 interface SeaInProps {
@@ -71,6 +71,6 @@ class SeaInVD extends Component<SeaInProps, SeaInState> {
 SeaInVD.defaultProps = {
     tId: undefined,
 };
-SeaInVD.contextType = MainConGl;
+SeaInVD.contextType = MainConContext;
 
 export default SeaInVD;

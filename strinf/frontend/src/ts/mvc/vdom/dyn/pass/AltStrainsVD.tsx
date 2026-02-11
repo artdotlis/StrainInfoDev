@@ -16,7 +16,7 @@ import PassAncId from '@strinf/ts/constants/page/pass';
 import { ClHtml, Col } from '@strinf/ts/constants/style/ClHtml';
 import IdHtmlTour from '@strinf/ts/constants/tour/IdHtml';
 import { createRStrTiles, TooltipWrapper } from '@strinf/ts/mvc/vdom/fun/tab/pass';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import { useContext as use } from 'preact/hooks';
 
 const ID = PassAncId.alt_str;
@@ -59,7 +59,7 @@ interface TProps {
 }
 
 function AltStrains({ strH, alt, oriDes }: TProps): JSX.Element | null {
-    const ctx: InValStInt | undefined = use(MainConGl);
+    const ctx: InValStInt | undefined = use(MainConContext);
     const tilesStr = createRStrTiles(
         alt,
         (dat: number) => [dat, `${IdAcrTagCon.strId} ${dat}`],

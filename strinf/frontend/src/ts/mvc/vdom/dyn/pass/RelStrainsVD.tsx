@@ -21,7 +21,7 @@ import { getSeaResTuple } from '@strinf/ts/functions/api/map';
 import SeaSimpleCtrl from '@strinf/ts/mvc/ctrl/SeaSimpleCtrl';
 import { SeaTable } from '@strinf/ts/mvc/vdom/dyn/search/SeaTVD';
 import { TT_ID_SIM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import SeaSimpleSt from '@strinf/ts/mvc/vdom/state/SeaSimpleSt';
 import { Component } from 'preact';
 
@@ -134,7 +134,7 @@ class RelStrainsVD extends Component<NamNavProps, IdState> {
     }
 }
 
-RelStrainsVD.contextType = MainConGl;
+RelStrainsVD.contextType = MainConContext;
 
 export default RelStrainsVD;
 export { getAnchorRS };

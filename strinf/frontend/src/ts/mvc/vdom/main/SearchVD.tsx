@@ -28,7 +28,7 @@ import ProgVD from '@strinf/ts/mvc/vdom/dyn/misc/ProgVD';
 import SeaTVD from '@strinf/ts/mvc/vdom/dyn/search/SeaTVD';
 import { TT_ID_SIM } from '@strinf/ts/mvc/vdom/dyn/tooltip/TTSimVD';
 import { trackSearch } from '@strinf/ts/mvc/vdom/fun/mat/track';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import SeaSt from '@strinf/ts/mvc/vdom/state/SeaSt';
 import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
 import HubSeaVD from '@strinf/ts/mvc/vdom/static/HubSeaVD';
@@ -226,6 +226,6 @@ class SearchVD<T extends SEA_PROP> extends Component<T, SearchState> {
     }
 }
 
-SearchVD.contextType = MainConGl;
+SearchVD.contextType = MainConContext;
 
 export default SearchVD;

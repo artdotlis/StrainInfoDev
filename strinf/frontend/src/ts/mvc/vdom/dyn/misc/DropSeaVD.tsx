@@ -15,7 +15,7 @@ import { createKnownSeaCall } from '@strinf/ts/functions/links/create_sea';
 import updateHrefVal from '@strinf/ts/functions/links/update_href';
 import getDDExp, { getDDRes } from '@strinf/ts/mvc/vdom/fun/sea/drop_down';
 import { addTagToInput } from '@strinf/ts/mvc/vdom/fun/sea/input';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import { useLocation } from 'preact-iso';
 import { useContext as use } from 'preact/hooks';
 
@@ -74,7 +74,7 @@ function MainDropWr({ children, height }: WrapProps): JSX.Element {
 }
 
 function DropSeaVD({ results, input }: DropProps): JSX.Element | null {
-    const ctx: InValStInt | undefined = use(MainConGl);
+    const ctx: InValStInt | undefined = use(MainConContext);
     const drHei = (getDDExp().length + 1) * 3.2;
     const height = `height: ${drHei}rem;`;
     let tit = 'Search examples';

@@ -23,7 +23,7 @@ import PassCtrl from '@strinf/ts/mvc/ctrl/PassCtrl';
 import OverviewVD from '@strinf/ts/mvc/vdom/dyn/pass/OverviewVD';
 import PassCVD from '@strinf/ts/mvc/vdom/dyn/pass/PassCVD';
 import { trackSearch } from '@strinf/ts/mvc/vdom/fun/mat/track';
-import { MainConGl } from '@strinf/ts/mvc/vdom/state/GlobSt';
+import { MainConContext } from '@strinf/ts/mvc/vdom/state/GlobSt';
 import PassSt from '@strinf/ts/mvc/vdom/state/PassSt';
 import CanonH from '@strinf/ts/mvc/vdom/static/helmet/CanonH';
 import MetaH from '@strinf/ts/mvc/vdom/static/helmet/MetaH';
@@ -213,7 +213,7 @@ class PassVD extends Component<PassProps, PassState> {
     }
 }
 
-PassVD.contextType = MainConGl;
+PassVD.contextType = MainConContext;
 PassVD.defaultProps = {
     id: '0',
 };
