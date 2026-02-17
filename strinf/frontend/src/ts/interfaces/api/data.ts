@@ -77,6 +77,11 @@ const EntityCon = strictObject({
     orcid: optional(string().check(minLength(1))),
 });
 
+const EntityFullCon = strictObject({
+    ...EntityCon.shape,
+    contributor: optional(boolean()),
+});
+
 const RegConMin = strictObject({
     date: string().check(checkDateCtx),
     submitter: optional(EntityCon),
@@ -91,7 +96,7 @@ const DepCon = strictObject({
     designation: optional(string().check(minLength(1))),
     origin: optional(number().check(minimum(1))),
     year: optional(number().check(minimum(1700))),
-    depositor: optional(array(EntityCon)),
+    depositor: optional(array(EntityFullCon)),
 });
 
 const SamSlimCon = strictObject({
@@ -107,7 +112,8 @@ const SamCon = strictObject({
 
 const IsoCon = strictObject({
     sample: optional(SamCon),
-    isolator: optional(array(EntityCon)),
+    isolator: optional(array(EntityFullCon)),
+    year: optional(number().check(minimum(1700))),
 });
 
 const ArcCon = strictObject({

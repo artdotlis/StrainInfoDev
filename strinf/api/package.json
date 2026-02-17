@@ -3,7 +3,7 @@
     "private": true,
     "version": "2.2.0",
     "devDependencies": {
-        "@redocly/cli": "2.17.0"
+        "@redocly/cli": "2.18.2"
     },
     "scripts": {
         "build": "bash ../../$BIN_API_BUNDLE",

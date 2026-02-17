@@ -28,9 +28,8 @@ async function checkRespArr<E>(
     if (isJson === true) {
         if (response.ok) {
             const res = await response.json();
-            if (Array.isArray(res)) {
-                return res.map((val) => mapFun(val));
-            }
+            if (response.status === 404) return [];
+            if (Array.isArray(res)) return res.map((val) => mapFun(val));
         }
         if (response.status === 404) {
             return [];
@@ -64,12 +63,12 @@ async function checkRespTyp<E>(
 ): Promise<E> {
     const isJson = response.headers.get('content-type')?.includes('application/json');
     if (isJson === true) {
+        if (response.status === 404) {
+            return map404();
+        }
         if (response.ok) {
             const res = await response.json();
             return mapFun(res);
-        }
-        if (response.status === 404) {
-            return map404();
         }
     }
     throw new Known500Error(
