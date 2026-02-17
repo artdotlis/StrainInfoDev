@@ -86,6 +86,7 @@ const SEARCH_PATH_MAP: [string, string][] = [
     [QApiCon.seaStrBrc, 'collection'],
     [QApiCon.seaStrCCNo, 'ccno'],
     [QApiCon.seaStrStrDes, 'designation'],
+    [QApiCon.seaStrCulId, 'deposit'],
     ...createComb([QApiCon.seaStrBrc, QApiCon.seaStrTaxName], 'taxonomy_collection'),
     ...createComb([QApiCon.seaStrStrDes, QApiCon.seaStrTaxName], 'taxonomy_designation'),
 ] as const;
