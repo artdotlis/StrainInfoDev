@@ -6,7 +6,7 @@ SPDX-License-Identifier: MIT
 
 # StrainInfo
 
-[![release: 2025.10.9](https://img.shields.io/badge/rel-2025.10.9-blue.svg?style=flat-square)](https://github.com/LeibnizDSMZ/StrainInfo)
+[![release: 2026.02.0](https://img.shields.io/badge/rel-2026.02.0-blue.svg?style=flat-square)](https://github.com/LeibnizDSMZ/StrainInfo)
 [![MIT LICENSE](https://img.shields.io/badge/License-MIT-brightgreen.svg?style=flat-square)](https://choosealicense.com/licenses/mit/)
 [![Husky](https://img.shields.io/badge/Husky-enabled-brightgreen?style=flat-square)](https://github.com/typicode/husky)
 [![PHPStan Enabled](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat-square)](https://github.com/phpstan/phpstan)
