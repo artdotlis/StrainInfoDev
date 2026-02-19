@@ -3,8 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 enum UIApiAnc {
-    privacy = 'imp_privacy',
-    license = 'imp_license',
+    privacy = 'privacy',
+    license = 'license',
+    cite = 'cite',
 }
 
 enum UIApiCon {
@@ -24,9 +25,11 @@ enum UIApiCon {
 
     imprint = '/imprint',
 
-    impPrivacy = '/imprint/#imp_privacy',
+    impPrivacy = '/imprint/#privacy',
 
-    impLicense = '/imprint/#imp_license',
+    impLicense = '/imprint/#license',
+
+    impCite = '/imprint/#cite',
 
     team = '/team',
 

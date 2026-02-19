@@ -63,6 +63,7 @@ function RowHelp(): JSX.Element {
     return (
         <div className={`${Col.col} ${Mar.xN5}`}>
             <h3>Help</h3>
+            <a href={UIApiCon.impCite}>How to cite</a>
             <a href={UIApiCon.manual}>Manual</a>
             <a href={UIApiCon.contact}>Contact</a>
         </div>
