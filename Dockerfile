@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: MIT
 
-FROM docker.io/almalinux:9 AS appbuilder
+FROM docker.io/almalinux:10 AS appbuilder
 
 ARG BIN_DEPLOY
 ARG FIX_CONFIG

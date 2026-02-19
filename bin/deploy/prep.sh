@@ -9,13 +9,11 @@ source "$CUR_DIR/../../.env"
 
 echo "prep setup"
 dnf clean all && rm -rf /var/cache/dnf
-update-ca-trust enable
-update-ca-trust
+update-ca-trust extract
 dnf upgrade -y
 dnf -y install epel-release
-dnf config-manager --set-enabled crb
-crb enable
 dnf -y install dnf-plugins-core
+dnf config-manager --set-enabled crb
 dnf upgrade --refresh -y
 echo -e "copy health"
 cp "$CUR_DIR/health.sh" / && chmod +x /health.sh
