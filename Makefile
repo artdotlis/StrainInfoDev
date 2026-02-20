@@ -42,8 +42,6 @@ build: setupNode setupComposer postInstall
 	$(BUN) install --frozen-lockfile
 
 setupGit:
-	git config diff.lockb.textconv bun
-	git config diff.lockb.binary true
 	git config core.editor vim
 	git lfs install --force
 
