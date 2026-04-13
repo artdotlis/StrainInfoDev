@@ -4,19 +4,17 @@
 #
 # SPDX-License-Identifier: MIT
 
-set -euo pipefail
 ROOT="$(dirname "$(realpath "$0")")/../.."
 source "$ROOT/.env"
 
-find "$ROOT" -type f -name "*.license" | while read -r license; do
+while IFS= read -r -d '' license; do
   original="${license%.license}"
 
   if [[ ! -e "$original" ]]; then
     echo "Removing orphan license: $license"
     rm "$license"
   fi
-done
-
+done < <(find "$ROOT" -type f -name "*.license" -print0)
 
 SOFTWARE_LIC="MIT"
 DATA_LIC="CC-BY-4.0"
@@ -31,18 +29,18 @@ if [[ -n "$COPYRIGHT" ]]; then
     for license_file in "${LICENSE_FILES[@]}"; do
         if [[ ! -f "$license_file" ]]; then
             echo "License file $license_file does not exist"
-            exit 1 
-        fi
-        if ! grep -q "$YEAR" "$license_file"; then
-            echo "License file $license_file does not exist or COPYRIGHT not found"
-            exit 1 
-        fi
-        if ! grep -q "$YEAR" "$license_file"; then
-            echo "Current year ($YEAR) not be found in $license_file"
             exit 1
         fi
-        if ! grep -q "$SOFTWARE_LIC" "$license_file"; then
-            echo "License ($SOFTWARE_LIC) not be found in $license_file"
+        if ! grep -q "$COPYRIGHT" "$license_file"; then
+            echo "License file $license_file does not exist or COPYRIGHT not found"
+            exit 1
+        fi
+        if ! grep -q "$YEAR" "$license_file"; then
+            echo "Current year ($YEAR) could not be found in $license_file"
+            exit 1
+        fi
+        if ! grep -q -e "$SOFTWARE_LIC" -e "$DATA_LIC" "$license_file"; then
+            echo "Neither license ($SOFTWARE_LIC) nor ($DATA_LIC) found in $license_file"
             exit 1
         fi
     done
@@ -87,52 +85,82 @@ else
     filter_and_collect < <(git ls-files)
 fi
 
+SOFTWARE=(
+    '\.html$'
+    '\.sh$'
+    '\.css$'
+    '\.sql$'
+    'Dockerfile$'
+    '\.conf$'
+    '\.template$'
+    '\.(jsx?|tsx?)$'
+    '\.mdx?$'
+    '\.(cjs|mjs)$'
+)
 
-SOFTWARE=("sql" "toml" "Dockerfile" "conf" "template" "js" "jsx" "ts" "tsx" "html" "css" "md" "mdx" "json" "yml" "yaml" "vue" "sh" "cjs" "mjs" "txt")
-IMAGES=("jpg" "png" "ico" "webp" "avif")
-CC0_FILES=(".gitignore" ".gitattributes" ".env" "bun.lock" ".dockerignore")
-MIT_FILES=("Makefile" "prettierignore" "shellcheckrc")
-MIT_FOLDERS=(".husky")
+CC_BY_FILES=(
+    '\.(jpg|png|ico|webp|avif)$'
+)
+
+CC0_FILES=(
+    'shellcheckrc$'
+    'prettierignore$'
+    '\.gitignore$'
+    '\.nuxtignore$'
+    '\.gitattributes$'
+    '\.env$'
+    'package\.env$'
+    'bun\.lock$'
+    '\.dockerignore$'
+    '\.(txt|yaml|yml|json|toml)$'
+)
+
+MIT_FILES=(
+    'Makefile$'
+)
+
+MIT_FOLDERS=(
+    ".husky"
+    "strinf/api/src"
+)
 
 mit_to_annotate=()
 ccby_to_annotate=()
 cc0_to_annotate=()
 
-check_folder_in_array() {
-    local search="$1"
+matches_pattern() {
+    local value="$1"
     shift
-    local -a container=("$@")
+    local -a patterns=("$@")
 
-    for ele in "${container[@]}"; do
-        if [[ "$search" == *"$ele"* ]]; then
-            return 0 
+    for pattern in "${patterns[@]}"; do
+        if [[ "$value" =~ $pattern ]]; then
+            return 0
         fi
     done
-
-    return 1  
+    return 1
 }
 
 for file in "${FILES[@]}"; do
-    extension="${file##*.}"    
-    file_name=$(basename "$file")
-    file_dir=$(dirname "$file")
-    if check_folder_in_array "$file_dir" "${MIT_FOLDERS[@]}"; then
+    file_name="${file##*/}"
+    file_dir="${file%/*}"
+    if matches_pattern "$file_dir" "${MIT_FOLDERS[@]}"; then
         mit_to_annotate+=("$file")
         continue
     fi
-    if check_folder_in_array "$extension" "${SOFTWARE[@]}"; then
+    if matches_pattern "$file_name" "${SOFTWARE[@]}"; then
         mit_to_annotate+=("$file")
         continue
     fi
-    if check_folder_in_array "$extension" "${IMAGES[@]}"; then
+    if matches_pattern "$file_name" "${CC_BY_FILES[@]}"; then
         ccby_to_annotate+=("$file")
         continue
     fi
-    if check_folder_in_array "$file_name" "${MIT_FILES[@]}"; then
+    if matches_pattern "$file_name" "${MIT_FILES[@]}"; then
         mit_to_annotate+=("$file")
         continue
     fi
-    if check_folder_in_array " ${file_name}" "${CC0_FILES[@]}"; then
+    if matches_pattern "$file_name" "${CC0_FILES[@]}"; then
         cc0_to_annotate+=("$file")
         continue
     fi
@@ -159,14 +187,9 @@ else
     echo "No CC0 files to annotate"
 fi
 
+git add .
+
 if ! uv_run reuse lint; then
     echo "Linting failed!"
-    exit 1
-fi
-
-if ! git diff --quiet || [ -n "$(git ls-files --other --exclude-standard)" ]; then
-    echo "There are uncommitted changes or untracked files in the repository."
-    git ls-files --other --exclude-standard
-    git --no-pager diff
     exit 1
 fi
