@@ -8,7 +8,7 @@
     },
     "minimum-stability": "stable",
     "require": {
-        "php": "^8.4",
+        "php": "^8.5",
         "monolog/monolog": "3.10.0",
         "slim/slim": "4.15.1",
         "nyholm/psr7": "1.8.2",
