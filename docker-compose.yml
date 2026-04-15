@@ -6,7 +6,7 @@ services:
     redis:
         build:
             context: .
-            dockerfile: ./assets/docker/redis.Dockerfile
+            dockerfile: ./configs/docker/redis.Dockerfile
             args:
                 USER_GID: 1000
         restart: always
@@ -25,7 +25,7 @@ services:
     mdb:
         build:
             context: .
-            dockerfile: ./assets/docker/mariadb.Dockerfile
+            dockerfile: ./configs/docker/mariadb.Dockerfile
             args:
                 USER_GID: 1000
         restart: always
@@ -61,6 +61,8 @@ services:
         build:
             context: .
             dockerfile: ./Dockerfile
+            secrets:
+                - env_file
             args:
                 BIN_DEPLOY: ${BIN_DEPLOY}
                 BIN_DEPLOY_REQ_NGINX: ${BIN_DEPLOY_REQ_NGINX}
@@ -95,3 +97,7 @@ networks:
 volumes:
     mariadb-sock:
     redis-sock:
+
+secrets:
+    env_file:
+        file: ./.env

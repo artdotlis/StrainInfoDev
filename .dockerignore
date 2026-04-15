@@ -9,13 +9,13 @@
 !/bin
 !/configs
 !/extra
-!/assets
 
 !Makefile
 
 !README.md
 !LICENSE
+!LICENSES
 
-!.env
+!package.env
 !package.json
 !bun.lock

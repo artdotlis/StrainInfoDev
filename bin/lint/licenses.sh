@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: MIT
 
 ROOT="$(dirname "$(realpath "$0")")/../.."
-source "$ROOT/.env"
+source "$ROOT/package.env"
 
 while IFS= read -r -d '' license; do
   original="${license%.license}"
@@ -24,7 +24,7 @@ YEAR=$(date +%Y)
 if [[ -n "$COPYRIGHT" ]]; then
     echo "COPYRIGHT is set: $COPYRIGHT"
 
-    LICENSE_FILES=("$ROOT/LICENSE" "$ROOT/LICENSES/$SOFTWARE_LIC.txt")
+    LICENSE_FILES=("$ROOT/LICENSE" "$ROOT/LICENSES/$SOFTWARE_LIC.txt" "$ROOT/configs/REUSE.toml")
 
     for license_file in "${LICENSE_FILES[@]}"; do
         if [[ ! -f "$license_file" ]]; then
@@ -103,15 +103,14 @@ CC_BY_FILES=(
 )
 
 CC0_FILES=(
-    'shellcheckrc$'
-    'prettierignore$'
     '\.gitignore$'
-    '\.nuxtignore$'
     '\.gitattributes$'
     '\.env$'
     'package\.env$'
     'bun\.lock$'
     '\.dockerignore$'
+    'shellcheckrc$'
+    'prettierignore$'
     '\.(txt|yaml|yml|json|toml)$'
 )
 
@@ -123,6 +122,20 @@ MIT_FOLDERS=(
     ".husky"
     "strinf/api/src"
 )
+
+IGNORE=(
+    "^configs/prompt/.+$"
+)
+
+should_ignore() {
+    local name="$1"
+    for pattern in "${IGNORE[@]}"; do
+        if [[ "$name" =~ $pattern ]]; then
+            return 0
+        fi
+    done
+    return 1
+}
 
 mit_to_annotate=()
 ccby_to_annotate=()
@@ -144,6 +157,9 @@ matches_pattern() {
 for file in "${FILES[@]}"; do
     file_name="${file##*/}"
     file_dir="${file%/*}"
+    if should_ignore "$file"; then
+        continue
+    fi
     if matches_pattern "$file_dir" "${MIT_FOLDERS[@]}"; then
         mit_to_annotate+=("$file")
         continue

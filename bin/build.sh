@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: MIT
 
 ROOT=$(dirname "$(realpath "$0")")
-source "$ROOT/../.env"
+source "$ROOT/../package.env"
 
 echo "prepare step"
 /bin/bash "$ROOT/deploy/prep.sh"

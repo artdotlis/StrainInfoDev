@@ -14,7 +14,16 @@ COPY . /tmp/app
 WORKDIR /tmp/app
 
 RUN dnf install -y bash gettext-devel intltool
-RUN mkdir -p "${HOME}/.local/bin" && CGO_ENABLED=0 bash "./${BIN_DEPLOY}"
+
+RUN --mount=type=secret,id=env_file,target=/run/secrets/env_file \
+    bash -c "\
+        while IFS='=' read -r key value; do \
+            if [[ ! \${key} =~ ^# && -n \${key} ]]; then \
+                export \${key}=\${value}; \
+            fi; \
+        done < /run/secrets/env_file && \
+        mkdir -p ${HOME}/.local/bin && CGO_ENABLED=0 bash ./${BIN_DEPLOY} \
+    "
 
 FROM ghcr.io/roadrunner-server/roadrunner:2025 AS roadrunner
 FROM docker.io/alpine:3.22

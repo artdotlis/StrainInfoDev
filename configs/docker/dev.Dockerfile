@@ -1,7 +1,7 @@
 FROM ghcr.io/roadrunner-server/roadrunner:2025 AS roadrunner
 FROM docker.io/almalinux:10
 
-ARG USERNAME=vscode
+ARG USERNAME=devu
 ARG USER_UID=1000
 ARG USER_GID=${USER_UID}
 ARG WORK_DIR=/workspace

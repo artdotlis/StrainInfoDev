@@ -32,7 +32,7 @@ their relations, and deposition data.
 ### Default
 
 - GNU/Linux
-- PHP: ~8.4
+- PHP: ~8.5
 - TS: ~5.9
 - NODEJS: ~22
 
@@ -48,7 +48,7 @@ as root to install all web server dependencies (web-server: nginx).
 
 ### Configuration
 
-Create configuration files for the fullstack inside **configs/** and **strinf/backend/src/configs/** use **assets/templates** as an example.
+Create configuration files for the fullstack inside **configs/** and **strinf/backend/src/configs/** use **configs/templates** as an example.
 
 - configs/deploy.local.yaml
 - strinf/backend/src/configs/config.local.json

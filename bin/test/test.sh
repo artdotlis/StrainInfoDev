@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: MIT
 
 ROOT="$(dirname "$(realpath "$0")")/../.."
-source "$ROOT/.env"
+source "$ROOT/package.env"
 source "$ROOT/$STRINF_API_ENV"
 
 ARGS=(

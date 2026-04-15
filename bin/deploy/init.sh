@@ -6,7 +6,7 @@
 
 BIN_DIR="$(dirname "$(realpath "$0")")"
 ROOT="$BIN_DIR/../.."
-source "$ROOT/.env"
+source "$ROOT/package.env"
 source "$ROOT/$STRINF_BACKEND_ENV"
 
 echo "install project"

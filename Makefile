@@ -8,27 +8,22 @@ else
 $(error Error: Makefile disabled, exiting ...)
 endif
 
+SHELL := /bin/bash
 ROOT_MAKEFILE:=$(abspath $(patsubst %/, %, $(dir $(abspath $(lastword $(MAKEFILE_LIST))))))
 
-include $(ROOT_MAKEFILE)/.env
+$(shell $(ROOT_MAKEFILE)/bin/install/env.sh $(ROOT_MAKEFILE)/package.env > .env.mk)
+-include .env.mk
 
 export
-
-include $(ROOT_MAKEFILE)/$(STRINF_BACKEND_ENV)
-include $(ROOT_MAKEFILE)/$(STRINF_FRONTEND_ENV)
-include $(ROOT_MAKEFILE)/$(STRINF_API_ENV)
-
-export
-
-BUN_DIR=$(HOME)/.bun
-BUN_BIN=$(BUN_DIR)/bin
+BUN_DIR=$(HOME)/$(BUN_DIR_R)
+BUN_BIN=$(HOME)/$(BUN_BIN_R)
 BUN=$(BUN_BIN)/bun
 
 COM_BIN=$(HOME)/.local/bin/composer
 COMPOSER_BE=COMPOSER=$(ROOT_MAKEFILE)/$(CONFIG_COMPOSER_BE) $(COM_BIN)
 
 export PATH:=$(PATH):$(ROOT_MAKEFILE)/$(PHP_VENDOR_BE)/bin:$(BUN_BIN)
-OLLAMA_MODEL?=gpt-oss:20b
+OLLAMA_MODEL?=gemma4:26b
 
 dev: NODE_ENV = development
 dev: setupGit setupNode setupComposer postInstall	
@@ -127,36 +122,13 @@ runTests: STAGE = true
 runTests: build createBuild		
 	$(BUN) run test || $(shell echo "FAILED" && exit 1)
 
-PROMPT=Generate a commit message in the Conventional Commits 1.0.0 format based on the following git diff. The commit message must: \n\
-- Follow this structure: \n\
-1. Commit type (e.g., feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert) \n\
-2. Optional scope in parentheses (e.g., feat(auth):) \n\
-3. A brief, lowercase description in present tense on the first line \n\
-4. Optional body with detailed explanation (can use uppercase) \n\
-5. Optional footer(s) with breaking changes, issue references (e.g., Closes \#123), or co-authors (e.g., Co-authored-by: Name) \n\
-- Formatting rules: \n\
-1. The first line must be entirely lowercase \n\
-2. Body and footer may use uppercase letters \n\
-3. Follow Conventional Commits 1.0.0 strictly \n\
-4. Return only the commit message as plain text (no extra formatting, no markdown) \n\
-5. Do NOT mention - no breaking changes \n\
-6. Body lines must not be longer than 100 characters \n\
-- Example: \n\
-feat(auth): add user login API\n\
-\n\
-Added support for user login via OAuth2. This allows users to authenticate\n\
-using their Google account.\n\
-\n\
-Closes \#42\n\
-
-
 message:
 	@if [ -z "$(COMMIT_MSG_FILE)" ]; then \
 		echo "Error: COMMIT_MSG_FILE is not set"; \
 		exit 1; \
 	fi
 	git diff --staged -- . ':(exclude)*bun.lock' ':(exclude)*composer.lock'| \
-		jq -Rs --arg prompt "$(PROMPT)" '{"stream": false, "model": "$(OLLAMA_MODEL)", "prompt": (" <GIT_DIFF> " + . + " </GIT_DIFF> " + $$prompt)}' | \
+		jq -Rs --rawfile prompt configs/prompt/commit.md '{"stream": false, "model": "$(OLLAMA_MODEL)", "prompt": ($$prompt + " <GIT_DIFF> " + . + " </GIT_DIFF> ")}' | \
 		curl -s -X POST http://ollama:11434/api/generate \
 			-H "Content-Type: application/json" \
 			-d @- | \

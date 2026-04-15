@@ -6,16 +6,16 @@
 
 ROOT="$(dirname "$(realpath "$0")")/../.."
 
-# SHOULD ALWAYS BE CHANGED depending on the project: currently StrainInfo
-
-ROOT_ENV="$ROOT/.env"
-API_ENV="$ROOT/strinf/api/.env"
-BE_ENV="$ROOT/strinf/backend/.env"
-FE_ENV="$ROOT/strinf/frontend/.env"
-ENV_FILES=("$ROOT_ENV" "$API_ENV" "$BE_ENV" "$FE_ENV")
+ROOT_ENV="$ROOT/package.env"
+ENV_FILES=("$ROOT_ENV" "$STRINF_API_ENV" "$STRINF_BACKEND_ENV" "$STRINF_FRONTEND_ENV")
 
 ALL_ENV=("MAKEFILE_LIST" "HOME" "PATH" "STAGE" "NONCE_WEB" "PURGE_CSS" "FIX_CONFIG" "COMMIT_MSG_FILE" "MAKE")
-IGNORE_ENV=("COPY_FE_.*" "CSP")
+IGNORE_ENV=(
+    "COPY_FE_.*"
+    "CSP"
+    "^UV_.*$"
+    "^UV$"
+)
 
 should_ignore() {
     local name="$1"

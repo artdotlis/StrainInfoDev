@@ -4,12 +4,18 @@
 
 services:
     app_dev:
-        user: vscode
+        user: devu
+        env_file:
+            - .env
+        environment:
+            HISTFILE: /dev/null
+            HISTSIZE: 0
+            HISTFILESIZE: 0
         build:
             context: .
-            dockerfile: ./assets/docker/dev.Dockerfile
+            dockerfile: ./configs/docker/dev.Dockerfile
             args:
-                USERNAME: vscode
+                USERNAME: devu
                 USER_UID: 1000
                 USER_GID: 1000
                 WORK_DIR: /workspace

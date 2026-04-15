@@ -15,14 +15,14 @@ jobs:
             fail-fast: false
         runs-on: ubuntu-latest
         steps:
-            - name: Set up Node 22
+            - name: Set up Node 24
               uses: actions/setup-node@v4
               with:
-                  node-version: '22'
+                  node-version: '24'
             - name: Setup PHP with PECL extension
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.4'
+                  php-version: '8.5'
             - name: Checkout
               uses: actions/checkout@v4
               with:

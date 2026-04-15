@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: MIT
 
 ROOT="$(dirname "$(realpath "$0")")/../.."
-source "$ROOT/.env"
+source "$ROOT/package.env"
 
 echo "prepare for packaging"
 
@@ -48,7 +48,7 @@ if [ ! "$(ls -A "$ROOT/$EXTRA_STYLE")" ] &&
 fi
 echo "{\"name\": \"digidive\",\"private\": true,\"author\": \"Julia Koblitz\",\"license\": \"MIT\",\"version\": \"$VERSION_EX_STYLE\",\"main\": \"js/digidive.js\"}" >"$ROOT/$EXTRA_STYLE/package.json"
 mkdir -p "$ROOT/$EXTRA_STYLE/js"
-cp "$ROOT/assets/patch/style.d.ts" "$ROOT/$EXTRA_STYLE/js/digidive.d.ts"
+cp "$ROOT/strinf/patch/style.d.ts" "$ROOT/$EXTRA_STYLE/js/digidive.d.ts"
 
 echo "fetching logos"
 mkdir -p "$ROOT/$EXTRA_ASSETS"

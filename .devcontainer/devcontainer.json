@@ -2,7 +2,6 @@
     "customizations": {
         "vscode": {
             "extensions": [
-                "Continue.continue",
                 "streetsidesoftware.code-spell-checker",
                 "oderwat.indent-rainbow",
                 "yzhang.markdown-all-in-one",
@@ -20,11 +19,12 @@
     },
     "dockerComposeFile": ["../docker-compose.yml", "dev.docker-compose.yml"],
     "name": "straininfo",
+    "initializeCommand": "if [ ! -f .env ]; then cat package.env > .env; fi",
     "postAttachCommand": "make dev",
     "runServices": ["redis", "app_dev", "mdb"],
     "service": "app_dev",
     "shutdownAction": "stopCompose",
     "updateRemoteUserUID": true,
-    "remoteUser": "vscode",
+    "remoteUser": "devu",
     "workspaceFolder": "/workspace"
 }

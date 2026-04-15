@@ -23,6 +23,11 @@ schemathesis-report
 package-lock.json
 yarn.lock
 
+# local env and makefile cache
+/.env
+/.env.mk
+/.secrets
+
 # ---> Composer
 composer.phar*
 vendor/
