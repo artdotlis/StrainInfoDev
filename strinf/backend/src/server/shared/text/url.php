@@ -9,8 +9,7 @@ declare(strict_types=1);
 namespace straininfo\server\shared\text;
 
 use straininfo\server\interfaces\global\Url;
-
-use function Safe\parse_url;
+use Uri\Rfc3986\Uri;
 
 function create_url(Url $url, string $path): string
 {
@@ -42,9 +41,10 @@ function extract_valid_domains(array $urls): array
 {
     $validDomains = [];
     foreach ($urls as $url) {
-        $parsedUrl = parse_url($url);
-        if (isset($parsedUrl['host']) && $parsedUrl['host'] !== '') {
-            $validDomains[] = $parsedUrl['host'];
+        $parsedUrl = new Uri($url);
+        $host = $parsedUrl->getHost();
+        if ($host!==null && $host !== '') {
+            $validDomains[] = $host;
         }
     }
 

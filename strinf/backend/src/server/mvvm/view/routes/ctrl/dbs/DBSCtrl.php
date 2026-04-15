@@ -12,19 +12,19 @@ use MatomoTracker;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
-use function Safe\parse_url;
 use Slim\Exception\HttpForbiddenException;
 use Slim\Exception\HttpInternalServerErrorException;
 use Spiral\Goridge\RPC\RPC;
 use Spiral\RoadRunner\Jobs\Jobs;
 use Spiral\RoadRunner\Jobs\QueueInterface;
-use function straininfo\server\exceptions\create_error_json;
+use straininfo\server\shared\mvvm\view\HeadArgs;
+use straininfo\server\shared\mvvm\view\StatArgs;
+use Uri\Rfc3986\Uri;
 
+use function straininfo\server\exceptions\create_error_json;
 use function straininfo\server\shared\mvvm\view\add_default_headers;
 use function straininfo\server\shared\mvvm\view\api\get_do_not_track_arg;
 use function straininfo\server\shared\mvvm\view\domain_overlap;
-use straininfo\server\shared\mvvm\view\HeadArgs;
-use straininfo\server\shared\mvvm\view\StatArgs;
 
 abstract class DBSCtrl
 {
@@ -120,17 +120,18 @@ abstract class DBSCtrl
         string $lang,
         string $cip
     ): void {
-        $parsedUrl = parse_url($url);
-        parse_str($parsedUrl['query'] ?? '', $queryParams);
+        $parsedUrl = new Uri($url);
+        $queryParams = [];
+        parse_str($parsedUrl->getQuery() ?? '', $queryParams);
         if ($this->stat_args->getToken() !== '') {
             $queryParams['token_auth'] = $this->stat_args->getToken();
         }
         $queryParams['cip'] = $cip;
         $queryString = http_build_query($queryParams);
-
-        $fullUrl = (isset($parsedUrl['scheme']) ? $parsedUrl['scheme'] . '://' : '')
-            . ($parsedUrl['host'] ?? '')
-            . ($parsedUrl['path'] ?? '')
+        $scheme = $parsedUrl->getScheme();
+        $fullUrl = ($scheme !== null ? $scheme . '://' : '')
+            . ($parsedUrl->getHost() ?? '')
+            . $parsedUrl->getPath()
             . '?' . $queryString;
 
         $payload = json_encode([

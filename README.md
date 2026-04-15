@@ -33,8 +33,8 @@ their relations, and deposition data.
 
 - GNU/Linux
 - PHP: ~8.5
-- TS: ~5.9
-- NODEJS: ~22
+- TS: ~6.0
+- NODEJS: ~24
 
 ### Dev Container
 
