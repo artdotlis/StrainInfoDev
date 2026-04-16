@@ -11,13 +11,13 @@ namespace straininfo\server\shared\mvvm\view_model\data;
 /** @template T of string|int */
 final class QDConSea
 {
-    /** @var array<T>*/
+    /** @var array<T> */
     private readonly array $missing_sea_id;
 
-    /** @var array<T, string>*/
+    /** @var array<T, string> */
     private readonly array $buf_sea;
 
-    /** @var array<T, array<int>>*/
+    /** @var array<T, array<int>> */
     private array $to_buf_sea;
 
     /**
@@ -57,20 +57,21 @@ final class QDConSea
 
     public function getRes(): string
     {
-        if (count($this->getToBuf()) === 0 && count($this->getBuf()) === 1) {
-            return current($this->getBuf());
-        }
         $res = [];
         foreach ($this->getBuf() as $val_str) {
             foreach (explode(',', $val_str) as $val) {
-                $res[$val] = true;
+                if ($val !== "") {
+                    $res[$val] = true; 
+                }
             }
         }
         foreach ($this->getToBuf() as $val_arr) {
             foreach ($val_arr as $val) {
-                $res[(string) $val] = true;
+                if ($val !== "") {
+                    $res[(string) $val] = true;
+                }
             }
         }
-        return implode(',', \array_keys($res));
+        return implode(',', array_keys($res));
     }
 }
