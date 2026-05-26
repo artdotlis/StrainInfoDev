@@ -24,6 +24,7 @@ enum DataSource {
     edb = 'external database',
     reg = 'registration',
     str_a = 'straininfo archive',
+    mir = 'mirri database'
 }
 
 enum SeqType {
