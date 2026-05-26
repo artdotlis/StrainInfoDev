@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: MIT
 
 type: object
+required:
+    - status
 properties:
     sample:
         $ref: '../v2_str_dep/sam_min.yaml'
