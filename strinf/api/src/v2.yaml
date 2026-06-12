@@ -30,10 +30,20 @@ info:
         # Terms of use
 
         All information provided by this web service is carefully checked for accuracy 
-        and is continuously up-dated. However, we cannot guarantee the completeness,
+        and is continuously updated. However, we cannot guarantee the completeness,
         the correctness and the topicality. Liability claims regarding damage
         caused by the use of any information provided, including any 
         kind of information which is incomplete or incorrect, will therefore be rejected.
+
+        The data accessed through this database may be subject to benefit-sharing 
+        obligations from the use of Digital Sequence Information (DSI) arising 
+        from the UN Convention on Biological Diversity (CBD)'s multilateral mechanism, 
+        including monetary contributions to the Cali Fund from commercial users. 
+        Further information is available here https://www.cbd.int/califund/guides/guide%20for%20database.pdf
+
+        This database is consistent with internationally recognized open access data 
+        standards, including the FAIR principles, the TRUST principles and the 
+        UNESCO Recommendation on Open Science.
 
         According to the verdict passed by the District Court in Hamburg the owner 
         of a website is responsible for the contents which appear in the links. 
