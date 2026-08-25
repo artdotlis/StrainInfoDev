@@ -11,7 +11,7 @@ services:
                 USER_GID: 1000
         restart: always
         healthcheck:
-            test: ['CMD', 'redis-cli', 'ping']
+            test: ['CMD', 'redis-cli', '-p', '6379', 'ping']
             interval: 6s
             timeout: 6s
             retries: 10
@@ -29,6 +29,8 @@ services:
             args:
                 USER_GID: 1000
         restart: always
+        secrets:
+            - config
         healthcheck:
             test:
                 [
@@ -36,25 +38,18 @@ services:
                     'mariadb-admin',
                     'ping',
                     '-h',
-                    'localhost',
-                    '-u',
-                    'root',
-                    '-ppassword1',
+                    'localhost'
                 ]
             interval: 6s
             timeout: 6s
             retries: 10
         environment:
-            - MARIADB_ROOT_PASSWORD=password1
-            - MARIADB_USER=strinf
-            - MARIADB_PASSWORD=password2
-            - MARIADB_DATABASE=straininfo
+            - CONFIG_STRINF=/run/secrets/config
         ports:
             - 3113:3306
         networks:
             - straininfo
         volumes:
-            - ./bin/db/dev.init.sql:/docker-entrypoint-initdb.d/init.sql:ro
             - mariadb-sock:/run/mysqld
 
     app:
@@ -63,6 +58,7 @@ services:
             dockerfile: ./Dockerfile
             secrets:
                 - env_file
+                - config
             args:
                 BIN_DEPLOY: ${BIN_DEPLOY}
                 BIN_DEPLOY_REQ_NGINX: ${BIN_DEPLOY_REQ_NGINX}
@@ -101,3 +97,5 @@ volumes:
 secrets:
     env_file:
         file: ./.env
+    config:
+        file: ./$CONFIG_STRINF

@@ -5,8 +5,8 @@
     "scripts": {
         "build": "tsc -p ../../$CONFIG_FE_TSC && vite build --config ../../$CONFIG_FE_VITE",
         "serve": "vite preview --config ../../$CONFIG_FE_VITE",
-        "dev": "bunx --bun vite --config ../../$CONFIG_FE_VITE",
-        "lint": "bun run lint:prune && bun run lint:eslint ../../$STRINF_FRONTEND && bun run lint:es-mdx ../../$STRINF_FRONTEND --fix",
+        "dev": "vite --config ../../$CONFIG_FE_VITE",
+        "lint": "deno run lint:prune && deno run lint:eslint ../../$STRINF_FRONTEND && deno run lint:es-mdx ../../$STRINF_FRONTEND --fix",
         "lint:prune": "knip --tsConfig ../../$CONFIG_FE_TSC_APP --config ../../$CONFIG_FE_KNIP",
         "lint:eslint": "eslint --fix -c ../../$CONFIG_FE_ESLINT",
         "lint:es-mdx": "eslint --fix -c ../../$CONFIG_FE_ESLINT_MDX"

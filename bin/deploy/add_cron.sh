@@ -4,6 +4,8 @@
 #
 # SPDX-License-Identifier: MIT
 
+set -euo pipefail
+
 source "$DOCKER_ENV_BE"
 
 echo "adding cron"

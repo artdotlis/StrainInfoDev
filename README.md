@@ -33,7 +33,7 @@ their relations, and deposition data.
 
 - GNU/Linux
 - PHP: ~8.5
-- TS: ~6.0
+- TS: ~7.0
 - NODEJS: ~24
 
 ### Dev Container
@@ -97,3 +97,9 @@ Don't use StrainInfo docker implementation in production. All Dockerfiles should
 When using StrainInfo for research, please cite the database paper:
 
 Artur Lissin, Isabel Schober, Julius F Witte, Helko Lüken, Adam Podstawka, Julia Koblitz, Boyke Bunk, Peter Dawyndt, Peter Vandamme, Paul de Vos, Jörg Overmann, Lorenz C Reimer, StrainInfo—the central database for linked microbial strain identifiers, Database, Volume 2025, 2025, baaf059, https://doi.org/10.1093/database/baaf059
+
+-----
+
+> ✏️ **Note**:
+> This project uses AI tools for code generation, review, and documentation.
+> All AI-generated content is human-reviewed.

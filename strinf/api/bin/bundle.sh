@@ -4,6 +4,8 @@
 #
 # SPDX-License-Identifier: MIT
 
+set -euo pipefail
+
 BIN_ROOT="$(dirname "$(realpath "$0")")"
 ROOT="$BIN_ROOT/../../.."
 source "$BIN_ROOT/../.env"

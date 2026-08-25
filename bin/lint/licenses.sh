@@ -1,78 +1,106 @@
 #!/bin/bash
 
-# SPDX-FileCopyrightText: 2026 Artur Lissin, Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
+# SPDX-FileCopyrightText: 2026 Leibniz Institute DSMZ-German Collection of Microorganisms and Cell Cultures GmbH
 #
 # SPDX-License-Identifier: MIT
 
+set -euo pipefail
 ROOT="$(dirname "$(realpath "$0")")/../.."
-source "$ROOT/package.env"
+source "$ROOT/package.env" || { echo "Error: Failed to source $ROOT/package.env"; exit 1; }
 
-while IFS= read -r -d '' license; do
+while IFS= read -r -d '' license || [[ -n "${license:-}" ]]; do
   original="${license%.license}"
-
   if [[ ! -e "$original" ]]; then
     echo "Removing orphan license: $license"
-    rm "$license"
+    rm -f "$license" || true
   fi
-done < <(find "$ROOT" -type f -name "*.license" -print0)
+done < <(find "$ROOT" -type f -name "*.license" -print0 2>/dev/null || true)
 
 SOFTWARE_LIC="MIT"
 DATA_LIC="CC-BY-4.0"
 PUB_LIC="CC0-1.0"
 YEAR=$(date +%Y)
 
-if [[ -n "$COPYRIGHT" ]]; then
-    echo "COPYRIGHT is set: $COPYRIGHT"
-
-    LICENSE_FILES=("$ROOT/LICENSE" "$ROOT/LICENSES/$SOFTWARE_LIC.txt" "$ROOT/configs/REUSE.toml")
-
-    for license_file in "${LICENSE_FILES[@]}"; do
-        if [[ ! -f "$license_file" ]]; then
-            echo "License file $license_file does not exist"
-            exit 1
-        fi
-        if ! grep -q "$COPYRIGHT" "$license_file"; then
-            echo "License file $license_file does not exist or COPYRIGHT not found"
-            exit 1
-        fi
-        if ! grep -q "$YEAR" "$license_file"; then
-            echo "Current year ($YEAR) could not be found in $license_file"
-            exit 1
-        fi
-        if ! grep -q -e "$SOFTWARE_LIC" -e "$DATA_LIC" "$license_file"; then
-            echo "Neither license ($SOFTWARE_LIC) nor ($DATA_LIC) found in $license_file"
-            exit 1
-        fi
-    done
-else
+if [[ -z "${COPYRIGHT:-}" ]]; then
     echo "COPYRIGHT is not set or is empty"
     exit 1
 fi
+echo "COPYRIGHT is set: $COPYRIGHT"
 
-# For javascript projects
-if ! grep -q "$SOFTWARE_LIC" "$ROOT/package.json"; then
-    echo "License ($SOFTWARE_LIC) not be found in package.json"
-    exit 1
-fi
+LICENSE_FILES=(
+    "$ROOT/LICENSE"
+    "$ROOT/LICENSES/$SOFTWARE_LIC.txt"
+    "$ROOT/configs/REUSE.toml"
+)
 
-UV="$UV_INSTALL_DIR/uv"
-uv_run() {
-    "$UV_INSTALL_DIR/uv" run "$@"
-}
-echo "INSTALLING UV"
-/bin/bash "$ROOT/bin/install/uv.sh"
-echo "UV INSTALLED"
+for license_file in "${LICENSE_FILES[@]}"; do
+    if [[ ! -f "$license_file" ]]; then
+        echo "License file $license_file does not exist"
+        exit 1
+    fi
+    if ! grep -Pv '^[^sS]+\s*SPDX-' "$license_file" 2>/dev/null | grep -q "$COPYRIGHT" 2>/dev/null; then
+        echo "License file $license_file does not contain COPYRIGHT"
+        exit 1
+    fi
+    if ! grep -Pv '^[^sS]+\s*SPDX-' "$license_file" 2>/dev/null | grep -q "$YEAR" 2>/dev/null; then
+        echo "Current year ($YEAR) could not be found in $license_file"
+        exit 1
+    fi
+    if ! grep -Pv '^[^sS]+\s*SPDX-' "$license_file" 2>/dev/null | grep -q -e "$SOFTWARE_LIC" -e "$DATA_LIC" -e "$PUB_LIC" 2>/dev/null; then
+        echo "Neither license ($SOFTWARE_LIC) nor ($DATA_LIC) nor ($PUB_LIC) found in $license_file"
+        exit 1
+    fi
+done
 
-"$UV" pip install --require-hashes -r "$CONFIG_PY_LINT"
+LICENSE_SHORT_FILES=(
+    "$ROOT/pyproject.toml"
+)
+
+for file_path in "${LICENSE_SHORT_FILES[@]}"; do
+    if [ ! -f "$file_path" ]; then
+        echo "File not found: $file_path"
+        exit 1
+    fi
+    if ! grep -q "$SOFTWARE_LIC" "$file_path" 2>/dev/null; then
+        echo "License ($SOFTWARE_LIC) not found in $file_path"
+        exit 1
+    fi
+done
 
 FILES=()
 
+IGNORE=(
+    '^bin/lint/licenses\.sh$'
+    '^bin/install/wrap\.sh$'
+    '^bin/install/trap\.sh$'
+    '^LICENSES/'
+    '^configs/prompt/'
+    '^configs/REUSE\.toml$'
+    '^strinf/backend/src/vendor/'
+    '^strinf/frontend/assets/bg/main_[^/]\.avif$'
+    '^strinf/frontend/assets/REUSE\.toml$'
+    'uv\.lock$'
+    'deno\.lock$'
+    'composer\.lock$'
+)
+
+should_ignore() {
+    local name="$1"
+    for pattern in "${IGNORE[@]}"; do
+        if [[ "$name" =~ $pattern ]]; then
+            return 0
+        fi
+    done
+    return 1
+}
+
 filter_and_collect() {
     local input_file
-    while IFS= read -r input_file; do
+    while IFS= read -r input_file || [[ -n "${input_file:-}" ]]; do
         [[ -z "$input_file" ]] && continue
-        [[ "$input_file" == LICENSES/* ]] && continue
-        [[ "$input_file" == "bin/lint/licenses.sh" ]] && continue
+        if should_ignore "$input_file"; then
+            continue
+        fi
         if [[ -e "$input_file" ]]; then
             FILES+=("$input_file")
         fi
@@ -82,7 +110,7 @@ filter_and_collect() {
 if [ "$#" -gt 0 ]; then
     filter_and_collect < <(printf "%s\n" "$@")
 else
-    filter_and_collect < <(git ls-files)
+    filter_and_collect < <(git ls-files 2>/dev/null || true)
 fi
 
 SOFTWARE=(
@@ -94,7 +122,7 @@ SOFTWARE=(
     '\.conf$'
     '\.template$'
     '\.(jsx?|tsx?)$'
-    '\.mdx?$'
+    '\.mdx$'
     '\.(cjs|mjs)$'
 )
 
@@ -107,35 +135,20 @@ CC0_FILES=(
     '\.gitattributes$'
     '\.env$'
     'package\.env$'
-    'bun\.lock$'
     '\.dockerignore$'
     'shellcheckrc$'
     'prettierignore$'
-    '\.(txt|yaml|yml|json|toml)$'
+    '\.(md|txt|yaml|yml|json|toml|conf)$'
 )
 
 MIT_FILES=(
     'Makefile$'
+    'Dockerfile$'
 )
 
 MIT_FOLDERS=(
-    ".husky"
     "strinf/api/src"
 )
-
-IGNORE=(
-    "^configs/prompt/.+$"
-)
-
-should_ignore() {
-    local name="$1"
-    for pattern in "${IGNORE[@]}"; do
-        if [[ "$name" =~ $pattern ]]; then
-            return 0
-        fi
-    done
-    return 1
-}
 
 mit_to_annotate=()
 ccby_to_annotate=()
@@ -157,14 +170,11 @@ matches_pattern() {
 for file in "${FILES[@]}"; do
     file_name="${file##*/}"
     file_dir="${file%/*}"
-    if should_ignore "$file"; then
-        continue
-    fi
-    if matches_pattern "$file_dir" "${MIT_FOLDERS[@]}"; then
+    if matches_pattern "$file_name" "${SOFTWARE[@]}"; then
         mit_to_annotate+=("$file")
         continue
     fi
-    if matches_pattern "$file_name" "${SOFTWARE[@]}"; then
+    if matches_pattern "$file_name" "${MIT_FILES[@]}"; then
         mit_to_annotate+=("$file")
         continue
     fi
@@ -172,7 +182,7 @@ for file in "${FILES[@]}"; do
         ccby_to_annotate+=("$file")
         continue
     fi
-    if matches_pattern "$file_name" "${MIT_FILES[@]}"; then
+    if matches_pattern "$file_dir" "${MIT_FOLDERS[@]}"; then
         mit_to_annotate+=("$file")
         continue
     fi
@@ -184,28 +194,35 @@ done
 
 if [ ${#mit_to_annotate[@]} -gt 0 ]; then
     echo "annotating MIT"
-    uv_run reuse annotate -c "$COPYRIGHT" -l "$SOFTWARE_LIC" -y "$YEAR" --merge-copyrights --fallback-dot-license "${mit_to_annotate[@]}"
+    reuse annotate -c "$COPYRIGHT" -l "$SOFTWARE_LIC" -y "$YEAR" --merge-copyrights --fallback-dot-license "${mit_to_annotate[@]}" || {
+        echo "Error: Failed to annotate MIT files"
+        exit 1
+    }
 else
     echo "No MIT files to annotate"
 fi
 
 if [ ${#ccby_to_annotate[@]} -gt 0 ]; then
     echo "annotating CC-BY"
-    uv_run reuse annotate -c "$COPYRIGHT" -l "$DATA_LIC" -y "$YEAR" --merge-copyrights --fallback-dot-license "${ccby_to_annotate[@]}"
+    reuse annotate -c "$COPYRIGHT" -l "$DATA_LIC" -y "$YEAR" --merge-copyrights --fallback-dot-license "${ccby_to_annotate[@]}" || {
+        echo "Error: Failed to annotate CC-BY files"
+        exit 1
+    }
 else
     echo "No CC-BY files to annotate"
 fi
 
 if [ ${#cc0_to_annotate[@]} -gt 0 ]; then
     echo "annotating CC0"
-    uv_run reuse annotate -c "$COPYRIGHT" -l "$PUB_LIC" -y "$YEAR" --merge-copyrights --fallback-dot-license "${cc0_to_annotate[@]}"
+    reuse annotate -c "$COPYRIGHT" -l "$PUB_LIC" -y "$YEAR" --merge-copyrights --fallback-dot-license "${cc0_to_annotate[@]}" || {
+        echo "Error: Failed to annotate CC0 files"
+        exit 1
+    }
 else
     echo "No CC0 files to annotate"
 fi
 
-git add .
-
-if ! uv_run reuse lint; then
+if ! reuse lint; then
     echo "Linting failed!"
     exit 1
 fi

@@ -4,6 +4,8 @@
 #
 # SPDX-License-Identifier: MIT
 
+set -euo pipefail
+
 echo "installing nginx dep"
 apk --no-cache add php85 \
     php85-opcache php85-zip php85-intl \

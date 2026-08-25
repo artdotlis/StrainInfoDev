@@ -1,0 +1,14 @@
+{
+    "install": {
+        "exact": true,
+        "frozenLockfile": true,
+        "minimumReleaseAge": 172800
+    },
+    "lock": {
+        "save": true
+    },
+    "workspaces": [
+        "strinf/frontend",
+        "strinf/api"
+    ]
+}

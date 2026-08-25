@@ -23,10 +23,10 @@
         "fullstack"
     ],
     "dependencies": {
-        "typescript": "6.0.2"
+        "typescript": "7.0.2"
     },
     "devDependencies": {
-        "@types/bun": "1.3.12",
+        "@types/deno": "2.7.0",
         "@types/node": "24.12.2",
         "commitizen": "4.3.1",
         "@commitlint/cli": "20.4.1",
@@ -37,23 +37,23 @@
         "prettier": "3.8.1"
     },
     "scripts": {
-        "build:api": "cd $STRINF_API && $BUN run build",
+        "build:api": "cd $STRINF_API && $DENO run build",
         "build:backend": "bash $BIN_BACKEND_BUNDLE",
-        "build:frontend": "cd $STRINF_FRONTEND && bun run build",
-        "build": "bun run build:frontend && bun run build:api && bun run build:backend",
-        "serve:frontend": "cd $STRINF_FRONTEND && bun run serve",
-        "serve": "bash $BIN_TRAP_SH 'bash $BIN_BACKEND_RUN_STAGE' 'bun run serve:frontend'",
-        "dev:frontend": "cd $STRINF_FRONTEND && bun run dev",
-        "dev": "bash $BIN_TRAP_SH 'bash $BIN_BACKEND_RUN_DEV' 'bun run dev:frontend'",
+        "build:frontend": "cd $STRINF_FRONTEND && deno run build",
+        "build": "deno run build:frontend && deno run build:api && deno run build:backend",
+        "serve:frontend": "cd $STRINF_FRONTEND && deno run serve",
+        "serve": "bash $BIN_TRAP_SH 'bash $BIN_BACKEND_RUN_STAGE' 'deno run serve:frontend'",
+        "dev:frontend": "cd $STRINF_FRONTEND && deno run dev",
+        "dev": "bash $BIN_TRAP_SH 'bash $BIN_BACKEND_RUN_DEV' 'deno run dev:frontend'",
         "profile:backend": "bash $BIN_BACKEND_RUN_PROFILE",
-        "profile": "bun run profile:backend",
+        "profile": "deno run profile:backend",
         "lint": "lint-staged --concurrent false",
         "lint:licenses": "bash $BIN_RUN_LICENSE_LINT",
         "lint:lfs": "bash $BIN_RUN_LFS_LINT",
-        "lint:api": "cd $STRINF_API && $BUN run lint",
+        "lint:api": "cd $STRINF_API && $DENO run lint",
         "lint:dev": "bash $BIN_RUN_ENV_LINT",
         "lint:backend": "cd $STRINF_BACKEND && bash ../../$BIN_BACKEND_LINT",
-        "lint:frontend": "cd $STRINF_FRONTEND && bun run lint",
+        "lint:frontend": "cd $STRINF_FRONTEND && deno run lint",
         "lint:shell": "shellcheck --rcfile=$CONFIG_SHELL $BIN_DIR/**/*.sh $STRINF/**/bin/*.sh",
         "lint:prettier": "prettier --config $CONFIG_PRETTIER --ignore-path $CONFIG_PRETTIER_IGNORE -c $STRINF/ --write",
         "test": "bash $BIN_TRAP_SH 'bash $BIN_BACKEND_RUN_STAGE' 'bash $BIN_RUN_TESTS'",
@@ -66,11 +66,11 @@
             "/bin/bash -c 'bash $BIN_RUN_LFS_LINT \"$@\"' _"
         ],
         "**/frontend/**/*.{ts,tsx}": [
-            "/bin/bash -c 'cd $STRINF_FRONTEND && bun run lint:eslint --fix \"$@\"' _",
+            "/bin/bash -c 'cd $STRINF_FRONTEND && deno run lint:eslint --fix \"$@\"' _",
             "/bin/bash -c 'prettier --config $CONFIG_PRETTIER --ignore-path $CONFIG_PRETTIER_IGNORE --write \"$@\"' _"
         ],
         "**/frontend/**/*.{md,mdx}": [
-            "/bin/bash -c 'cd $STRINF_FRONTEND && bun run lint:eslint $CONFIG_ESLINT_MDX --fix \"$@\"' _",
+            "/bin/bash -c 'cd $STRINF_FRONTEND && deno run lint:eslint $CONFIG_ESLINT_MDX --fix \"$@\"' _",
             "/bin/bash -c 'prettier --config $CONFIG_PRETTIER --ignore-path $CONFIG_PRETTIER_IGNORE --write \"$@\"' _"
         ],
         "*.sh": [

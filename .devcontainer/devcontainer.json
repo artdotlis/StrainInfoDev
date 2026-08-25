@@ -17,11 +17,18 @@
             ]
         }
     },
-    "dockerComposeFile": ["../docker-compose.yml", "dev.docker-compose.yml"],
+    "dockerComposeFile": [
+        "../docker-compose.yml",
+        "dev.docker-compose.yml"
+    ],
     "name": "straininfo",
-    "initializeCommand": "if [ ! -f .env ]; then cat package.env > .env; fi",
+    "initializeCommand": "[ -f .env ] || cat package.env > .env && [ -f \"$ROOT/$CONFIG_STRINF\" ] || cat \"./$TEMPLATE_CONFIG_STRINF\" > \"./$CONFIG_STRINF\"",
     "postAttachCommand": "make dev",
-    "runServices": ["redis", "app_dev", "mdb"],
+    "runServices": [
+        "redis",
+        "app_dev",
+        "mdb"
+    ],
     "service": "app_dev",
     "shutdownAction": "stopCompose",
     "updateRemoteUserUID": true,

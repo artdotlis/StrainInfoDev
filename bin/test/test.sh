@@ -4,9 +4,9 @@
 #
 # SPDX-License-Identifier: MIT
 
+set -euo pipefail
+
 ROOT="$(dirname "$(realpath "$0")")/../.."
-source "$ROOT/package.env"
-source "$ROOT/$STRINF_API_ENV"
 
 ARGS=(
     "--url=http://localhost:$BACKEND_STAGE_PORT" --output-sanitize true
@@ -15,15 +15,10 @@ ARGS=(
     "--request-timeout=300" "--max-response-time=300"
 )
 
-echo "INSTALLING UV"
-/bin/bash "$ROOT/bin/install/uv.sh"
-echo "UV INSTALLED"
-
 UV="$UV_INSTALL_DIR/uv"
 uv_run() {
     "$UV_INSTALL_DIR/uv" run "$@"
 }
-"$UV" pip install --require-hashes -r "$CONFIG_PY_TEST"
 
 until wget -q --spider http://localhost:"$BACKEND_STAGE_PORT"; do
     echo "waiting for backend ..."

@@ -15,33 +15,55 @@ $(shell $(ROOT_MAKEFILE)/bin/install/env.sh $(ROOT_MAKEFILE)/package.env > .env.
 -include .env.mk
 
 export
-BUN_DIR=$(HOME)/$(BUN_DIR_R)
-BUN_BIN=$(HOME)/$(BUN_BIN_R)
-BUN=$(BUN_BIN)/bun
 
-COM_BIN=$(HOME)/.local/bin/composer
-COMPOSER_BE=COMPOSER=$(ROOT_MAKEFILE)/$(CONFIG_COMPOSER_BE) $(COM_BIN)
+DENO_DIR=$(HOME)/$(DENO_DIR_R)
+DENO_CACHE=$(HOME)/$(DENO_CA_R)
 
-export PATH:=$(PATH):$(ROOT_MAKEFILE)/$(PHP_VENDOR_BE)/bin:$(BUN_BIN)
-OLLAMA_MODEL?=gemma4:26b
+export PATH := $(PATH):$(ROOT_MAKEFILE)/$(UV_INSTALL_DIR)/:$(HOME)/$(DENO_BIN_R):$(ROOT_MAKEFILE)/$(PHP_VENDOR_BE)/bin:$(HOME)/.local/bin
+OLLAMA_MODEL?=qwen3.6:27b-q4_K_M
+
+$(eval UVEL := $(shell which uv && echo "true" || echo ""))
+$(eval DENOEL := $(shell which deno && echo "true" || echo ""))
+$(eval COMPOSEREL := $(shell which composer && echo "true" || echo ""))
+
+UVE = $(if $(UVEL),uv,$(ROOT_MAKEFILE)/$(UV_INSTALL_DIR)/uv)
+DENOE = $(if $(DENOEL),deno,$(ROOT_MAKEFILE)/$(DENO_BIN_R)/deno)
+COMPOSERE = $(if $(COMPOSEREL),composer,$(HOME)/.local/bin/composer)
+
+COMPOSER_BE=cd $(ROOT_MAKEFILE)/$(STRINF_BACKEND) && $(COMPOSERE)
+DENO_FE=cd $(ROOT_MAKEFILE)/$(STRINF_FRONTEND) && $(DENOE)
+DENO_API=cd $(ROOT_MAKEFILE)/$(STRINF_API) && $(DENOE)
 
 dev: NODE_ENV = development
-dev: setupGit setupNode setupComposer postInstall	
+dev: setupDeno setupComposer setupUv postInstall	
 	$(COMPOSER_BE) install -d $(ROOT_MAKEFILE)/$(STRINF_BACKEND_SRC)
-	$(BUN) install --frozen-lockfile
-	$(BUN) run hook
+	$(DENOE) install --frozen-lockfile
+	$(UVE) sync --frozen --all-groups
+	find .git/hooks -name "*.old" -delete
+	$(UVE) run lefthook uninstall 2>&1 || echo "not installed"
+	$(UVE) run lefthook install
+	@HOOK_FILE=.git/hooks/pre-push; \
+	if ! grep -q "git lfs pre-push" $$HOOK_FILE; then \
+		echo "command -v git-lfs >/dev/null && git lfs pre-push \"\$$@\"" >> $$HOOK_FILE; \
+		echo "added 'git lfs pre-push' to pre-push hook."; \
+	fi
 
 build: NODE_ENV = production
-build: setupNode setupComposer postInstall 
+build: setupDeno setupComposer setupUv postInstall 
+	$(UVE) sync --frozen
 	$(COMPOSER_BE) install -d $(ROOT_MAKEFILE)/$(STRINF_BACKEND_SRC) --no-dev
-	$(BUN) install --frozen-lockfile
+	$(DENOE) install --frozen-lockfile
 
-setupGit:
-	git config core.editor vim
-	git lfs install --force
+tests: setupDeno setupComposer setupUv postInstall 
+	$(COMPOSER_BE) install -d $(ROOT_MAKEFILE)/$(STRINF_BACKEND_SRC)
+	$(DENOE) install --frozen-lockfile
+	$(UVE) sync --frozen --group test
 
-setupNode:	
-	bash $(ROOT_MAKEFILE)/$(BIN_INSTALL_BUN)	
+setupDeno:	
+	bash $(ROOT_MAKEFILE)/$(BIN_INSTALL_DENO)	
+
+setupUv:
+	bash $(ROOT_MAKEFILE)/$(BIN_INSTALL_UV)
 
 setupComposer:
 	bash $(ROOT_MAKEFILE)/$(BIN_INSTALL_COMPOSER)
@@ -54,100 +76,128 @@ cleanBuild:
 	rm -rf $(ROOT_MAKEFILE)/$(APP)
 
 clean: cleanBuild
-	rm -rf $(ROOT_MAKEFILE)/node_modules
-	rm -rf $(ROOT_MAKEFILE)/$(STRINF_API)/node_modules
-	rm -rf $(ROOT_MAKEFILE)/$(STRINF_FRONTEND)/node_modules
-	rm -rf $(ROOT_MAKEFILE)/$(PHP_VENDOR_BE)
-	rm -rf $(ROOT_MAKEFILE)/$(CACHE_DIR)
-	rm -rf $(ROOT_MAKEFILE)/$(EXTRA_STYLE)
-	rm -rf $(ROOT_MAKEFILE)/$(EXTRA_ASSETS)
+	rm -rf $(ROOT_MAKEFILE)/node_modules || echo "empty"
+	rm -rf $(ROOT_MAKEFILE)/$(STRINF_API)/node_modules || echo "empty"
+	rm -rf $(ROOT_MAKEFILE)/$(STRINF_FRONTEND)/node_modules || echo "empty"
+	rm -rf $(ROOT_MAKEFILE)/$(PHP_VENDOR_BE) || echo "empty"
+	rm -rf $(ROOT_MAKEFILE)/$(CACHE_DIR) || echo "empty"
+	rm -rf $(ROOT_MAKEFILE)/$(EXTRA_STYLE) || echo "empty"
+	rm -rf $(ROOT_MAKEFILE)/$(EXTRA_ASSETS) || echo "empty"
+	rm -rf $(HOME)/$(DENO_CA_R) || echo "empty"
+	rm -rf $(ROOT_MAKEFILE)/$(UV_CACHE_DIR) || echo "empty"
 
 uninstall: clean
-	[ -f "$(BUN)" ] && $(BUN) pm cache rm || echo "not installed"
-	rm -rf $(BUN_DIR)
-	rm -f $(COM_BIN)
+	rm -rf $(HOME)/$(DENO_DIR_R) || echo "not installed"
+	rm -f $(COM_BIN) || echo "not installed"
+	rm -rf $(ROOT_MAKEFILE)/$(UV_DIR) || echo "not installed"
 
-runAct: 
-	echo "exporting environment"
-	bash
+unstaged:
+	@if ! git diff --quiet --exit-code; then \
+		echo "ERROR: Unstaged changes found!"; \
+		git diff; \
+		exit 1; \
+	fi
+	@echo "No unstaged changes. Proceeding..."
+
+setupLicense: unstaged
+	bash $(BIN_RUN_LICENSE_LINT)
+	git add .
+
+RAN := $(shell awk 'BEGIN{srand();printf("%d", 65536*rand())}')
+
+runAct:
+	@echo "source .venv/bin/activate; rm /tmp/$(RAN)" > /tmp/$(RAN)
+	bash --init-file /tmp/$(RAN)
 
 runChecks: dev
-	$(BUN) run lint:licenses
-	$(BUN) run lint:lfs
-	$(BUN) run lint:api
-	$(BUN) run lint:dev
-	$(BUN) run lint:frontend
-	$(BUN) run lint:backend
-	$(BUN) run lint:shell
-	$(BUN) run lint:prettier
+	$(UVE) run lefthook run pre-commit --all-files -f
 
 createBuild: NODE_ENV = production
 createBuild: cleanBuild
+	# Prepare
+	[ -d $(ROOT_MAKEFILE)/$(EXTRA_STYLE) ]	|| $(shell echo "FAILED" && exit 1)
 	[ 'true' = "$(STAGE)" ] && bash $(ROOT_MAKEFILE)/$(BIN_BACKEND_CHANGE_PORT) "stage" || echo "NOT STAGE"
 	mkdir -p $(ROOT_MAKEFILE)/$(APP_STRINF)
-	[ -d $(ROOT_MAKEFILE)/$(EXTRA_STYLE) ] && $(BUN) run build || $(shell echo "FAILED" && exit 1)
+	# Build
+	$(DENO_API) run build 
+	bash $(BIN_BACKEND_BUNDLE)
+	$(DENO_FE) run build 
+	# Compress
 	@find $(ROOT_MAKEFILE)/$(APP_STRINF_PUB) -type f -not -name "*.gz" -not -name "index.html" -size +1k -exec gzip -9 -k {} \; -exec bash -c 'for file in "$$@"; do original_size=$$(stat -c %s "$$file"); gzipped_size=$$(stat -c %s "$$file.gz"); threshold=$$((original_size * 95 / 100)); if [ "$$gzipped_size" -ge "$$threshold" ]; then rm "$$file.gz"; fi; done' bash {} +
 
 runBuild: build createBuild	
 
 runStage: STAGE = true
 runStage: build createBuild		
-	[ -d $(ROOT_MAKEFILE)/$(EXTRA_STYLE) ] && $(BUN) run serve || $(shell echo "FAILED" && exit 1)
+	bash $(BIN_TRAP_SH) 'bash $(BIN_BACKEND_RUN_STAGE)' '$(DENO_FE) run serve'
 
 runDev: dev
+	[ -d $(ROOT_MAKEFILE)/$(EXTRA_STYLE) ] || $(shell echo "FAILED" && exit 1)
 	bash $(ROOT_MAKEFILE)/$(BIN_BACKEND_CHANGE_PORT) "dev"
-	$(BUN) run build:api
-	[ -d $(ROOT_MAKEFILE)/$(EXTRA_STYLE) ] && $(BUN) run dev || $(shell echo "FAILED" && exit 1)
+	$(DENO_API) run build
+	bash $(BIN_TRAP_SH) 'bash $(BIN_BACKEND_RUN_DEV)' '$(DENO_FE) run dev'
 
 runProfile: BENCHMARK = true
 runProfile: dev createBuild
-	[ -d $(ROOT_MAKEFILE)/$(EXTRA_STYLE) ] && $(BUN) run profile || $(shell echo "FAILED" && exit 1)
+	bash $(BIN_BACKEND_RUN_PROFILE)
 
-runUpdate: %: export_% dev
+runBump: unstaged
+	$(UVE) run cz bump --files-only --yes --changelog
+	git add .
+	$(UVE) run cz version --project | xargs -i git commit -am "bump: release {}"
+
+runLock runUpdate: %: export_% dev
+
+export_runLock:
+	$(UVE) lock
+	$(DENOE) install --lockfile-only --exact --no-cache
+	$(COMPOSER_BE) install
+	$(MAKE) clean
 
 export_runUpdate:
-	echo "UPDATE NODE -> $(NODE_ENV)"
-	rm -rf bun.lock
-	$(BUN) install --lockfile-only --exact --no-cache
-	$(BUN) update
-	$(BUN) pm cache rm
-	echo "UPDATE COMPOSER"
+	$(UVE) lock -U
 	$(COMPOSER_BE) update -d $(ROOT_MAKEFILE)/$(STRINF_BACKEND_SRC) 
+	$(DENOE) cache --lock-write --reload
 	$(MAKE) clean
 
 runCron: dev
 	bash $(ROOT_MAKEFILE)/$(BIN_BACKEND_RUN_CRON)
 
 runTests: STAGE = true
-runTests: build createBuild		
-	$(BUN) run test || $(shell echo "FAILED" && exit 1)
+runTests: build createBuild	
+	bash $(BIN_TRAP_SH) 'bash $(BIN_BACKEND_RUN_STAGE)' 'bash $(BIN_RUN_TESTS)'
+
+com commit:
+	@echo "" > .commit_msg
+	@if curl -sf http://ollama:11434; then \
+		$(MAKE) message || exit 1; \
+	else \
+		$(UVE) run cz commit || exit 1; \
+	fi
+	@echo "" > .commit_msg
+
+recom recommit:
+	@if curl -sf http://ollama:11434; then \
+		[ -s .commit_msg ] || (echo "Missing commit message!" && exit 1); \
+		git commit -F .commit_msg || exit 1; \
+	else\
+		$(UVE) run cz commit --retry || exit 1; \
+	fi
+	@echo "" > .commit_msg
 
 message:
-	@if [ -z "$(COMMIT_MSG_FILE)" ]; then \
-		echo "Error: COMMIT_MSG_FILE is not set"; \
-		exit 1; \
-	fi
-	git diff --staged -- . ':(exclude)*bun.lock' ':(exclude)*composer.lock'| \
-		jq -Rs --rawfile prompt configs/prompt/commit.md '{"stream": false, "model": "$(OLLAMA_MODEL)", "prompt": ($$prompt + " <GIT_DIFF> " + . + " </GIT_DIFF> ")}' | \
+	git diff --staged -U0 --no-prefix -- . ':(exclude)uv.lock' ':(exclude)*deno.lock' ':(exclude)*composer.lock' | \
+		sed 's/  */ /g' | \
+		jq -Rs --rawfile prompt configs/prompt/commit.md \
+			'{"stream": false, "model": "$(OLLAMA_MODEL)", "prompt": ("<GIT_DIFF>" + . + "</GIT_DIFF>" + $$prompt)}' | \
 		curl -s -X POST http://ollama:11434/api/generate \
 			-H "Content-Type: application/json" \
 			-d @- | \
-		jq -r 'select(.done == true) | .response' > $(COMMIT_MSG_FILE)
-	vim $(COMMIT_MSG_FILE)
-	sed -i 's/^[ \t]*//; s/[ \t]*$$//' $(COMMIT_MSG_FILE)
-	@if [ -s $(COMMIT_MSG_FILE) ]; then \
-		$(BUN) run commitlint -e $(COMMIT_MSG_FILE); \
-	else \
-		echo "$(COMMIT_MSG_FILE) is empty, aborting."; \
+		jq -r 'select(.done == true) | .response' > .commit_msg
+	vim .commit_msg
+	@if ! $(UVE) run cz check --commit-msg-file .commit_msg; then \
+		echo "Commit message failed cz check. Aborting."; \
+		echo "" > .commit_msg; \
 		exit 1; \
 	fi
-
-runMessage: dev
-	@if curl -sf http://ollama:11434; then \
-		$(MAKE) message; \
-	else \
-		$(BUN) run cz --hook; \
-	fi
-
-runPreCommit: dev createBuild	
-	$(BUN) run lint
+	git commit -F .commit_msg

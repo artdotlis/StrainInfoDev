@@ -4,10 +4,10 @@
 #
 # SPDX-License-Identifier: MIT
 
+set -euo pipefail
+
 BIN_DIR="$(dirname "$(realpath "$0")")"
 ROOT="$BIN_DIR/../.."
-source "$ROOT/package.env"
-source "$ROOT/$STRINF_BACKEND_ENV"
 
 echo "install project"
 NONCE_L="$(mktemp -u XXXXXXXXXX)"

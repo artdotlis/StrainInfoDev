@@ -4,6 +4,8 @@
 #
 # SPDX-License-Identifier: MIT
 
+set -euo pipefail
+
 eval "$1" > /dev/null 2>&1 &
 PID=$!
 trap 'echo killing first command - "$PID"; kill -15 "$PID"; exit' SIGINT

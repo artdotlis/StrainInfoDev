@@ -4,6 +4,8 @@
 #
 # SPDX-License-Identifier: MIT
 
+set -euo pipefail
+
 echo "[PHP] current PID $$"
 
 BIN_ROOT="$(dirname "$(realpath "$0")")"

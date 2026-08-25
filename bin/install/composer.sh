@@ -4,6 +4,8 @@
 #
 # SPDX-License-Identifier: MIT
 
+set -euo pipefail
+
 echo "installing composer -> $COM_BIN"
 if [ ! -f "$COM_BIN" ]; then
     echo "installing composer"

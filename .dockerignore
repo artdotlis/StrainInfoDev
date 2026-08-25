@@ -17,5 +17,5 @@
 !LICENSES
 
 !package.env
-!package.json
-!bun.lock
+!pyproject.toml
+!uv.lock

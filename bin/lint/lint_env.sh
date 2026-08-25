@@ -4,12 +4,18 @@
 #
 # SPDX-License-Identifier: MIT
 
+set -euo pipefail
+
 ROOT="$(dirname "$(realpath "$0")")/../.."
 
 ROOT_ENV="$ROOT/package.env"
 ENV_FILES=("$ROOT_ENV" "$STRINF_API_ENV" "$STRINF_BACKEND_ENV" "$STRINF_FRONTEND_ENV")
 
-ALL_ENV=("MAKEFILE_LIST" "HOME" "PATH" "STAGE" "NONCE_WEB" "PURGE_CSS" "FIX_CONFIG" "COMMIT_MSG_FILE" "MAKE")
+ALL_ENV=(
+    "MAKEFILE_LIST" "HOME" "PATH"
+    "STAGE" "NONCE_WEB" "PURGE_CSS" "FIX_CONFIG"
+    "COMMIT_MSG_FILE" "MAKE"
+)
 IGNORE_ENV=(
     "COPY_FE_.*"
     "CSP"

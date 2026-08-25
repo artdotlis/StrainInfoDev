@@ -4,8 +4,9 @@
 #
 # SPDX-License-Identifier: MIT
 
+set -euo pipefail
+
 CUR_DIR=$(dirname "$(realpath "$0")")
-source "$CUR_DIR/../../package.env"
 
 echo "prep setup"
 dnf clean all && rm -rf /var/cache/dnf

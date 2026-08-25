@@ -4,8 +4,9 @@
 #
 # SPDX-License-Identifier: MIT
 
+set -euo pipefail
+
 ROOT=$(dirname "$(realpath "$0")")
-source "$ROOT/../package.env"
 
 echo "prepare step"
 /bin/bash "$ROOT/deploy/prep.sh"

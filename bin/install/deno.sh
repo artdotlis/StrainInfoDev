@@ -6,5 +6,8 @@
 
 set -euo pipefail
 
-echo "add entrypoint script"
-sleep infinity
+echo "installing deno -> $DENO_DIR"
+if [ ! -d "$DENO_DIR" ]; then
+    echo "installing deno"
+    curl -fsSL https://deno.land/install.sh | sh -s -- -y --no-modify-path "$DENO_VER"
+fi

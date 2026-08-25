@@ -14,9 +14,16 @@ jobs:
         strategy:
             fail-fast: false
         runs-on: ubuntu-latest
+        env:
+            PY_DIR: uv
+            CU_HOME: /home/custom
         steps:
+            - name: Set up Python 3.13
+              uses: actions/setup-python@v6
+              with:
+                  python-version: '3.13'
             - name: Set up Node 24
-              uses: actions/setup-node@v4
+              uses: actions/setup-node@v6
               with:
                   node-version: '24'
             - name: Setup PHP with PECL extension
@@ -24,19 +31,16 @@ jobs:
               with:
                   php-version: '8.5'
             - name: Checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
               with:
                   fetch-depth: 0
             - name: Install dependencies
               run: |
-                  sudo mkdir -p $HOME
-                  sudo mkdir -p $HOME/.local/bin
-                  sudo chown runner -R $HOME
-                  sudo apt install -y curl git-lfs wget tar gzip
-                  scversion="stable"
-                  wget -qO- "https://github.com/koalaman/shellcheck/releases/download/${scversion?}/shellcheck-${scversion?}.linux.x86_64.tar.xz" | tar -xJv
-                  cp "shellcheck-${scversion}/shellcheck" $HOME/.local/bin/
-                  shellcheck --version
+                sudo mkdir -p $CU_HOME && sudo chown runner -R $CU_HOME
+                sudo apt install -y libedit-dev curl make git-lfs
+                curl -LsSf https://astral.sh/uv/install.sh | UV_INSTALL_DIR=$CU_HOME/$PY_DIR sh
+                echo "$CU_HOME/$PY_DIR/bin" >> $GITHUB_PATH
+                echo "$CU_HOME/$PY_DIR/shims" >> $GITHUB_PATH
             - name: lint and test
               run: |
                   export CONTAINER="container"

@@ -4,8 +4,9 @@
 #
 # SPDX-License-Identifier: MIT
 
+set -euo pipefail
+
 ROOT="$(dirname "$(realpath "$0")")/../.."
-source "$ROOT/package.env"
 
 echo "update"
 dnf -y update
@@ -26,12 +27,18 @@ echo "php installed"
 alternatives --install /usr/bin/php php /usr/bin/php85 84
 alternatives --set php /usr/bin/php85
 # for woff2
-mkdir /woff_parser && cd /woff_parser || exit
+mkdir /woff_parser && cd /woff_parser || exit 1
 git clone --recursive https://github.com/google/woff2.git
-cd woff2 || exit
+cd woff2 || exit 1
 make clean all
 ln -s /woff_parser/woff2/woff2_compress /bin/woff2_compress
 # increase memory size
 sed -i -E "s/memory_limit\\s*=\\s*[0-9]+.*$/memory_limit=1024M/g" "/etc/opt/remi/php85/php.ini"
 # for shellcheck
 dnf -y install ShellCheck
+# for deno, nodejs
+curl -o- https://fnm.vercel.app/install | bash
+PATH="/home/devu/.local/share/fnm:$PATH"
+dnf -y install libatomic
+fnm install "$NODE_VER"
+fnm default "$NODE_VER"

@@ -1,8 +1,0 @@
-#!/bin/sh
-
-COMMIT_MSG_FILE="$1"
-
-if [ -z "$2" ]; then
-    exec </dev/tty
-    make COMMIT_MSG_FILE="$COMMIT_MSG_FILE" runMessage
-fi
