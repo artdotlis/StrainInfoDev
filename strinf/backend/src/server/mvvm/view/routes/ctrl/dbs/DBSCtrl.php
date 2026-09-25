@@ -24,6 +24,7 @@ use Uri\Rfc3986\Uri;
 use function straininfo\server\exceptions\create_error_json;
 use function straininfo\server\shared\mvvm\view\add_default_headers;
 use function straininfo\server\shared\mvvm\view\api\get_do_not_track_arg;
+use function straininfo\server\shared\mvvm\view\api\get_track_arg;
 use function straininfo\server\shared\mvvm\view\domain_overlap;
 
 abstract class DBSCtrl
@@ -118,7 +119,8 @@ abstract class DBSCtrl
         string $url,
         string $agent,
         string $lang,
-        string $cip
+        string $cip,
+        bool $track
     ): void {
         $parsedUrl = new Uri($url);
         $queryParams = [];
@@ -127,6 +129,9 @@ abstract class DBSCtrl
             $queryParams['token_auth'] = $this->stat_args->getToken();
         }
         $queryParams['cip'] = $cip;
+        if ($track) {
+            $queryParams['bots'] = 1;
+        }
         $queryString = http_build_query($queryParams);
         $scheme = $parsedUrl->getScheme();
         $fullUrl = ($scheme !== null ? $scheme . '://' : '')
@@ -144,7 +149,7 @@ abstract class DBSCtrl
         $this->queue->dispatch($task);
     }
 
-    private function runMatomoTrack(ServerRequestInterface $request): void
+    private function runMatomoTrack(ServerRequestInterface $request, bool $track): void
     {
         $buf_stat = new MatomoTracker(
             (int) $this->stat_args->getId(),
@@ -177,7 +182,7 @@ abstract class DBSCtrl
             $buf_stat->getUrlTrackPageView('API'),
             $request->getHeader('User-Agent')[0] ?? 'Unknown',
             $request->getHeaderLine('Accept-Language') ?: '',
-            $cip
+            $cip, $track
         );
     }
 
@@ -192,6 +197,7 @@ abstract class DBSCtrl
     ): void {
         $toCheck = count($origin) > 0 || count($referer) > 0;
         $track = $this->trackCli($request);
+        $bot = $this->trackReq($request);
         if ($toCheck) {
             $track = $track && !domain_overlap(
                 array_merge($origin, $referer),
@@ -200,7 +206,7 @@ abstract class DBSCtrl
         }
         try {
             if ($track) {
-                $this->runMatomoTrack($request);
+                $this->runMatomoTrack($request, $bot);
             }
         } catch (\Throwable $exp) {
             $this->logger->warning('Could not track (' . $exp->getMessage() . ')');
@@ -211,6 +217,14 @@ abstract class DBSCtrl
     {
         return $this->stat_args->getEnabled() && !array_key_exists(
             get_do_not_track_arg(),
+            $request->getQueryParams()
+        );
+    }
+
+    private function trackReq(ServerRequestInterface $request): bool
+    {
+        return array_key_exists(
+            get_track_arg(),
             $request->getQueryParams()
         );
     }

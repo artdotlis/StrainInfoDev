@@ -136,6 +136,12 @@ function get_do_not_track_arg(): string
     return 'do_not_track';
 }
 
+function get_track_arg(): string
+{
+    return 'track';
+}
+
+
 function get_short_arg(): string
 {
     return 'short';
