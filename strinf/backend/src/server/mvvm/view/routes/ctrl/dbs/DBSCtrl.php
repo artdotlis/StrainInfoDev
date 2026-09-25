@@ -120,7 +120,7 @@ abstract class DBSCtrl
         string $agent,
         string $lang,
         string $cip,
-        bool $track
+        bool $trackBots
     ): void {
         $parsedUrl = new Uri($url);
         $queryParams = [];
@@ -129,7 +129,7 @@ abstract class DBSCtrl
             $queryParams['token_auth'] = $this->stat_args->getToken();
         }
         $queryParams['cip'] = $cip;
-        if ($track) {
+        if ($trackBots) {
             $queryParams['bots'] = 1;
         }
         $queryString = http_build_query($queryParams);
@@ -149,7 +149,7 @@ abstract class DBSCtrl
         $this->queue->dispatch($task);
     }
 
-    private function runMatomoTrack(ServerRequestInterface $request, bool $track): void
+    private function runMatomoTrack(ServerRequestInterface $request, bool $trackBots): void
     {
         $buf_stat = new MatomoTracker(
             (int) $this->stat_args->getId(),
@@ -182,7 +182,7 @@ abstract class DBSCtrl
             $buf_stat->getUrlTrackPageView('API'),
             $request->getHeader('User-Agent')[0] ?? 'Unknown',
             $request->getHeaderLine('Accept-Language') ?: '',
-            $cip, $track
+            $cip, $trackBots
         );
     }
 
@@ -196,17 +196,17 @@ abstract class DBSCtrl
         array $referer
     ): void {
         $toCheck = count($origin) > 0 || count($referer) > 0;
-        $track = $this->trackCli($request);
-        $bot = $this->trackReq($request);
+        $shouldTrack = $this->trackCli($request);
+        $trackBots = $this->trackReq($request);
         if ($toCheck) {
-            $track = $track && !domain_overlap(
+            $shouldTrack = $shouldTrack && !domain_overlap(
                 array_merge($origin, $referer),
                 $this->stat_args->getIgnore()
             );
         }
         try {
-            if ($track) {
-                $this->runMatomoTrack($request, $bot);
+            if ($shouldTrack) {
+                $this->runMatomoTrack($request, $trackBots);
             }
         } catch (\Throwable $exp) {
             $this->logger->warning('Could not track (' . $exp->getMessage() . ')');
